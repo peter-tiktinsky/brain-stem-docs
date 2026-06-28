@@ -67,8 +67,8 @@
   window.BS_GROUPS = groups;
   const here = (location.pathname.split('/').pop() || 'index.html');
   let html = '<a class="brand" href="index.html">'
-    + '<span class="mark">brain-stem</span>'
-    + '<span class="sub">documentation</span></a>';
+    + '<span class="mark">brain-stem</span></a>'
+    + '<a class="brand-repo" href="https://github.com/peter-tiktinsky/brain-stem" target="_blank" rel="noopener">GitHub repo ↗</a>';
   let lastBand = null, lastSub = null;
   for (const g of groups) {
     if (g.band && g.band !== lastBand) { html += '<p class="nav-band">' + g.band + '</p>'; }

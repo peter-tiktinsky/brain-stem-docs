@@ -738,3 +738,10 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
   .vx-tree { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); max-height: 340px; }
   .vx-detail { padding: 18px 18px 22px; }
 }
+
+/* sidebar GitHub repo link (replaces the documentation sub-label) */
+.brand-repo { display: block; font-size: 12.5px; color: var(--muted); margin: 2px 0 4px; letter-spacing: .3px; text-decoration: none; }
+.brand-repo:hover { color: var(--clay); }
+
+/* getting-started — set the background paragraph (para 2) apart from the what-is lede (para 1) */
+.lede-context { font-size: 16px; color: var(--muted); border-left: 2px solid var(--line-strong); padding-left: 16px; margin-top: 18px; }
