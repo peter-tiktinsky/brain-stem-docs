@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why: session management · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Session management · design rationale</p>
+    <h1>Why these choices — session management</h1>
+    <p class="lede">
+      The reasoning behind every load-bearing session-management decision: why checkpoints work the way
+      they do, why coordination stays local, why context pressure escalates to a hard gate, and why the
+      decision-quality protocol is structured as a nudge rather than a block.
+    </p>
+    <p class="page-meta">
+      Decision tables moved here from the central research rationale. Citations link back to the full
+      citation register at <a href="research-rationale.html#citations">research-rationale.html</a>.
+    </p>
+
+    <div class="callout note">
+      <div class="label">How to read these tables</div>
+      <p>Each row records what brain-stem chose, what it chose it over, why, and the ground the
+      decision rests on. <span class="pill">constraint</span> means the platform forces the shape;
+      <span class="pill ok">convergence</span> means unrelated fields independently arrived at the
+      same answer; <span class="pill muted">design judgment</span> means neither applies — the choice
+      is a reasoned bet, not a necessity. The strongest signal is a row that earns both the constraint and convergence labels at once.</p>
+    </div>
+
+    <!-- ============ SESSIONS PILLAR ============ -->
+    <p class="pillar-band">Sessions</p>
+    <h2 id="sessions">Sessions</h2>
+    <p>
+      A session is one continuous conversation, and its working memory is perishable: when a long session
+      fills the assistant's fixed window, the platform <strong>compacts</strong> it — replaces the verbatim
+      history with a summary and discards the originals
+      <a class="cite" href="research-rationale.html#cite-cc-context">CC context-window</a>.
+      The Sessions pillar wraps a session so this loss never costs your place. It is the most
+      <strong>constraint</strong>-forced pillar in the system — the constraints did most of the
+      designing — with only two narrow convergence echoes.
+    </p>
+    <table>
+      <thead>
+        <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Save the checkpoint before compaction, restore it at the next start (two hooks)</td>
+          <td>Handing the saved state back at the compaction moment itself</td>
+          <td>The platform allows context injection at session start and message-submit, but <em>not</em> at the pre-compaction moment
+            <a class="cite" href="research-rationale.html#cite-cc-hooks">CC hooks</a> — so the restore necessarily lands at the next start.
+            This is also the classic checkpoint-then-resume shape
+            <a class="cite" href="research-rationale.html#cite-aries">ARIES</a>
+            <a class="cite" href="research-rationale.html#cite-langgraph">LangGraph</a>.</td>
+          <td><span class="pill">constraint</span> <span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>Coordinate concurrent sessions through a machine-local registry</td>
+          <td>Keeping the coordination file in the synced vault "for cross-machine safety"</td>
+          <td>That guarantee is a phantom: liveness checks and the write lock are physically local to one machine and mean nothing on another
+            <a class="cite" href="research-rationale.html#cite-kleppmann">Kleppmann</a>; a hot synced file also invites conflict-copies.
+            So coordination stays local, written atomically, serialized with a lock
+            <a class="cite" href="research-rationale.html#cite-lockf">lockf</a>.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>No checkpoint schema and no parser — re-inject the block as plain text</td>
+          <td>A strict schema plus a parser for the checkpoint</td>
+          <td>The only consumer re-injects the block as text, with no parser in the loop. A formal schema would create a second source of truth that could drift, for zero practical benefit; a light count-the-structure heuristic is the deliberate substitute.</td>
+          <td><span class="pill muted">design judgment</span></td>
+        </tr>
+        <tr>
+          <td>A context-pressure ladder that escalates to a hard stop-gate</td>
+          <td>Relying on the person to remember to save</td>
+          <td>A long session fills its window silently — there is no felt warning at the moment detail is about to be trimmed. The ladder (silent autosave &rarr; nudge &rarr; mandate &rarr; stop-gate) forces a rich save before the detail is lost
+            <a class="cite" href="research-rationale.html#cite-cc-hooks">CC hooks</a>.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>Fix the stop-gate's band boundaries in code, not settings</td>
+          <td>Making the hard boundary user-tunable</td>
+          <td>Making the hard safety boundary tunable would let an adopter weaken the very gate that prevents losing state. Only the two gentle nudge thresholds are settings-driven.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>Three checkpoint writers, one freshest-richest-wins precedence on one shared per-session file</td>
+          <td>Multiple writers writing multiple files, or no precedence at all</td>
+          <td>Targeting one shared per-session file makes the precedence a real contest rather than three files in three places — and guarantees two concurrent conversations can never overwrite each other's place. The pre-compaction fallback is no-AI-cost because that hook runs under a tight timeout.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>Session-close as an advisory <code>/librarian</code> capability that always exits clean</td>
+          <td>A blocking close, or every session running the global shared sweep</td>
+          <td>A blocking close can wedge a session; deferring the shared sweep to whoever closes last stops two closers trampling each other or double-running cleanup. Scope is auto-detected (solo / scoped / reconciler); a failed chore is logged and the flow continues.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>Write the close receipt unconditionally, relocated out of the indexed vault</td>
+          <td>A receipt in <code>vault/Logs/</code>, or a conditional emit surfaced by a banner</td>
+          <td>A vault receipt leaks into search and the graph; a conditional emit surfaced by a banner is unimplementable on the shipped surface and would collide with the one-file-per-session contract. So the receipt is written unconditionally, under the XDG state home
+            <a class="cite" href="research-rationale.html#cite-xdg">XDG</a>.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>Capture the end-of-session episode as a thin, no-LLM row</td>
+          <td>A CoALA-STAR narrative body
+            <a class="cite" href="research-rationale.html#cite-coala">CoALA</a></td>
+          <td>A per-session STAR narrative would be four static sentences with almost nothing interpolated — boilerplate with no retrieval value. Capture is harvested, not authored — the row-now / enrich-later split
+            <a class="cite" href="research-rationale.html#cite-zep">Zep</a>
+            <a class="cite" href="research-rationale.html#cite-langmem">LangMem</a> endorse — and the 5-second no-LLM hook can't tokenize, so the rich summary is deferred to session-close.</td>
+          <td><span class="pill">constraint</span> <span class="pill ok">convergence</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ============ DECISION QUALITY (FRESH) ============ -->
+    <p class="pillar-band">Decision quality</p>
+    <h2 id="decision-quality">The decision-quality protocol</h2>
+
+    <p>
+      The decision-quality protocol addresses a failure mode distinct from the session-continuity problems
+      above. When Claude Code presents options — scope, approach, design, sequencing — the default
+      behavior is to rationalize the first option set the model surfaces rather than expand the space.
+      This is not a context-window problem; it is a deliberate-reasoning problem. The protocol adds a
+      structured research pass before options are published to the user.
+    </p>
+
+    <h3>What shipped</h3>
+    <p>
+      Phase 1 shipped as a <strong>PreToolUse hook on <code>AskUserQuestion</code></strong>
+      (the <code>pre-asq-guard</code>). When the hook detects a substantive option set — the substance
+      heuristic keys on whether the message presents numbered alternatives or a fork-in-the-road framing
+      — it injects the 4-element protocol into the turn as <code>additionalContext</code>, nudging the
+      model to run the research pass before publishing the options. It fires as an advisory: the options
+      are never blocked, only preceded by a nudge to run the pass first.
+    </p>
+
+    <p>The 4-element pass the nudge asks for:</p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="ph"><span class="pn">1</span><h3>Re-read the project goals</h3></div>
+        <p class="keeps">Read the active plan's spec, manifest, and recent handoff before surfacing options. The right answer is often constrained by criteria already documented.</p>
+      </div>
+      <div class="pillar">
+        <div class="ph"><span class="pn">2</span><h3>Check inter-project dependencies</h3></div>
+        <p class="keeps">Scan adjacent plans for conflicts, synergies, or shared infrastructure that changes the decision shape. An option that looks clean in isolation may block a parallel plan.</p>
+      </div>
+      <div class="pillar">
+        <div class="ph"><span class="pn">3</span><h3>Read the live vault state</h3></div>
+        <p class="keeps">Read current files; do not trust memory. Memories are point-in-time observations; the code on disk is authoritative. Many "debates" dissolve when someone reads the file.</p>
+      </div>
+      <div class="pillar">
+        <div class="ph"><span class="pn">4</span><h3>Generate one unconsidered option</h3></div>
+        <p class="keeps">Produce one option <em>not</em> already on the table. This is the load-bearing step — it expands the option space rather than rationalizing the existing list. Without it, the protocol collapses into performative deliberation.</p>
+      </div>
+    </div>
+
+    <h3>Why this shape</h3>
+    <table>
+      <thead>
+        <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>A substance heuristic on <code>AskUserQuestion</code> that fires before options are published</td>
+          <td>A standing instruction in CLAUDE.md to "always research options first"</td>
+          <td>Standing prose instructions degrade over a handful of sessions and get rationalized away under pressure. A hook fires regardless of whether the model is cooperating — the same constraint that drives the governance engine's write-time interception.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>Inject as <code>additionalContext</code> — advisory, never blocking</td>
+          <td>A hard block that refuses to surface options until the pass is complete</td>
+          <td>The goal is a better option set, not a gate that trains users to work around it. The nudge is enough: empirically, a "research each option thoroughly" prompt overrides the model's first-presented options in nearly every session — the advisory produces the behavior without the friction of a block.</td>
+          <td><span class="pill muted">design judgment</span></td>
+        </tr>
+        <tr>
+          <td>The +1 unconsidered-option step as the mandatory fourth element</td>
+          <td>A simpler "re-read goals + read files" two-step</td>
+          <td>Re-reading existing material rationalizes; generating one new option expands. Tree-of-Thought and Reflexion research demonstrate that deliberate divergence from the initial hypothesis is the mechanism that produces better answers — not reviewing the same set more carefully. The step is structural, not stylistic.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>Skip-conditions that exclude trivial prompts (yes/no, color choice, clarifications)</td>
+          <td>Firing the protocol on every <code>AskUserQuestion</code> call</td>
+          <td>Alert fatigue from a protocol that fires on "do you want to use tabs or spaces?" would train users to dismiss every nudge. The skip-conditions are a deliberate scope gate — the same data-gated principle that governs how governance rules earn the right to get strict.</td>
+          <td><span class="pill muted">design judgment</span></td>
+        </tr>
+        <tr>
+          <td>Phase 1 advisory shipped; Phase 2 blocking opt-in gated to post-release telemetry</td>
+          <td>Shipping the blocking version first, or deferring the entire protocol</td>
+          <td>An advisory that ships is more valuable than a block that waits. Phase 2 (hook promotes from nudge to block for substantive option sets) is deferred until Phase 1 telemetry confirms the nudge fires on the right cases and the false-positive rate is low enough to block on.</td>
+          <td><span class="pill muted">design judgment</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">brain-stem · documentation · Why: session management.</div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

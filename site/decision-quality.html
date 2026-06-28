@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The decision-quality protocol · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Sessions · deciding well</p>
+    <h1>The decision-quality protocol</h1>
+    <p class="lede">
+      Some moments in a session are forks in the road — a real choice between substantive paths. Left
+      alone, the assistant tends to present the first options it thinks of, and you pick from a list it
+      never pressure-tested. The decision-quality protocol catches those moments and insists the research
+      happens <strong>before</strong> the question is asked.
+    </p>
+    <p class="page-meta">A decision-time check on the moment the assistant poses a choice — advisory today, with a stricter mode held in reserve.</p>
+
+    <h2>The problem it solves</h2>
+    <p>
+      It targets a specific failure mode: <strong>good intentions don't survive</strong>. A standing
+      instruction like "always research the alternatives before recommending" degrades over a handful of
+      sessions — the assistant means to, then drifts. Empirically, when the options are presented first,
+      they tend to stick, even when a proper research pass would have produced a better path. The fix has to
+      fire <em>at the decision point</em>, not live in a rule that rots.
+    </p>
+
+    <h2>How it functions in a session</h2>
+    <p>
+      The check rides on the one tool the assistant uses to ask you a structured question. When that tool
+      fires, a guard inspects the question's shape:
+    </p>
+    <div class="flow">
+      <div class="fstep"><b>A choice is posed</b><small>the assistant goes to ask you a structured question</small></div>
+      <div class="farr">›</div>
+      <div class="fstep gate"><b>Is it substantive?</b><small>option-shaped — multiple real options, or decision keywords like "approach / which path / should we"</small></div>
+      <div class="farr">›</div>
+      <div class="fstep mark"><b>Nudge to research first</b><small>surface a reminder to run the research pass before committing</small></div>
+    </div>
+    <div class="flow-branch">
+      <div class="fb"><b>Skipped when →</b> it's a plain yes/no, or the question is already annotated as research-complete — those pass straight through, silently.</div>
+      <div class="fb"><b>Logged →</b> every firing writes a telemetry row (option count, keywords, the verdict) so the protocol can be tuned over time.</div>
+    </div>
+
+    <h2>The research pass it's asking for</h2>
+    <p>
+      The nudge isn't "think harder" — it's a concrete checklist to run before publishing options on a
+      genuine fork:
+    </p>
+    <ul>
+      <li><strong>Re-read the goals.</strong> The right answer is often already constrained by the active
+      plan's spec and recent decisions — surface those first.</li>
+      <li><strong>Check the neighbors.</strong> Adjacent plans and shared infrastructure can change the
+      shape of the decision.</li>
+      <li><strong>Read the live state, not memory.</strong> The files on disk are authoritative; a
+      remembered fact may be stale.</li>
+      <li><strong>Add one option nobody listed.</strong> The load-bearing step — generate a path
+      <em>not</em> already on the table, so the protocol expands the option space rather than rationalizing
+      the first list.</li>
+    </ul>
+    <p>The recommendation may still be one of the originals — but it has to survive that pass.</p>
+
+    <div class="callout note">
+      <div class="label">Advisory now, blocking held in reserve</div>
+      <p>Today the protocol is <strong>Phase&nbsp;1 — advisory</strong>: it nudges and lets the question
+      through. A stricter <strong>Phase&nbsp;2 — blocking</strong> exists but is <strong>opt-in</strong>,
+      not the default: it would <em>refuse</em> a substantive question until it's annotated as
+      research-complete. Shipping advisory-first, with telemetry, is deliberate — the blocking mode earns
+      its promotion only once the data shows the heuristic fires cleanly.</p>
+    </div>
+
+    <h2>Why it lives in the sessions section</h2>
+    <p>
+      Checkpoints keep a session's <em>thread</em> alive; coordination keeps sessions out of each other's
+      <em>way</em>; this keeps a session's <em>decisions</em> honest. It's the third kind of
+      session-management capability — on-demand, firing exactly when the work reaches a fork — and like the
+      others it's structural: a hook at the decision point, not a hope that good intentions hold.
+    </p>
+
+    <h2>Reference</h2>
+    <ul>
+      <li>The guard — <code>pre-asq-guard.sh</code>, a decision-time check on the structured-question tool; a substance heuristic (option count + description length, or decision keywords) with yes/no and annotated questions skipped.</li>
+      <li>The annotation — a <code>research_complete:</code> marker is the signal that the pass has been run; it lets a substantive question through (and, in the blocking mode, is required).</li>
+      <li>Phases — Phase&nbsp;1 (advisory nudge) is shipped and on by default; Phase&nbsp;2 (blocking) is opt-in via an environment flag.</li>
+      <li>Telemetry — every firing appends to <code>decision-quality-events.jsonl</code>; successful passes can surface in a plan's handoff chronicle.</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · The decision-quality protocol.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

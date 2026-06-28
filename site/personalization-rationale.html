@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why: system personalization · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">System personalization · why these choices</p>
+    <h1>Why these choices — system personalization</h1>
+    <p class="lede">
+      Three pillars underpin brain-stem's personalization story: <strong>onboarding</strong> (the
+      one-time interview that stamps your identity onto the foundation), <strong>governance
+      overlay</strong> (the seam that lets you extend or override rules without ever touching the
+      shipped base), and <strong>packaging</strong> (the install/upgrade/uninstall discipline that
+      keeps your edits safe across version boundaries). Each decision table below states what
+      brain-stem chose, what it chose over, and why. Citations link to the central register on the
+      <a href="research-rationale.html#citations">research rationale page</a>.
+    </p>
+    <p class="page-meta">
+      Decision depth · pillar #onboarding + #governance overlay/register rows + #packaging lifecycle.
+      The core governance doorman rows live on
+      <a href="governance-rationale.html">Why: write-time governance</a>.
+    </p>
+
+    <div class="callout note">
+      <div class="label">How to read these tables</div>
+      <p>Each row records what brain-stem chose, what it chose it over, why, and the ground the
+      decision rests on. <span class="pill">constraint</span> means the platform forces the shape;
+      <span class="pill ok">convergence</span> means unrelated fields independently arrived at the
+      same answer; <span class="pill muted">design judgment</span> means neither applies — the choice
+      is a reasoned bet, not a necessity. The strongest signal is a row that earns both the constraint and convergence labels at once.</p>
+    </div>
+
+    <!-- ============ ONBOARDING ============ -->
+    <p class="pillar-band">Onboarding</p>
+    <h2 id="onboarding">The personalization seam</h2>
+    <p>
+      Onboarding is the one-time guided interview you run when you first type <code>/onboard</code>.
+      It asks who you are and how you work, then writes your global preferences file and builds your
+      starter vault — the seam where the identical install everyone downloads becomes <em>your</em>
+      system. The split here is clean: the <em>shape</em> of a good first-run flow (smart-default
+      pre-fill, run-once, validate-before-write, never clobber) is convergent setup-wizard practice;
+      the <em>mechanics</em> that make those guarantees real are forced by documented platform
+      behavior. One scope rule governs everything below — brain-stem ships only the minimum-viable
+      seed; the ambitious 27-question wizard was deliberately cut to a separate add-on.
+    </p>
+    <table>
+      <thead>
+        <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>A one-time guided interview as the personalization seam</td>
+          <td>The same generic install for everyone, or hand-edited config per machine</td>
+          <td>You don't assemble a toolkit; you move into a furnished foundation and personalize it at one known seam. The mechanism matches established setup-wizard practice <a class="cite" href="research-rationale.html#cite-wizard">wizard UX</a>.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>The assistant can never start onboarding on its own</td>
+          <td>Default skill behavior, where the model can decide to fire a skill</td>
+          <td>Onboarding writes your personal files and builds your vault — it must never surprise you by running unprompted mid-task. The guard rests on a documented platform setting <a class="cite" href="research-rationale.html#cite-cc-skills">CC skills</a>; only a human typing <code>/onboard</code> launches it.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>Run once, then no-op; redoing it takes an explicit <code>--force</code></td>
+          <td>Letting setup re-run freely, or self-deleting after a successful run</td>
+          <td>A step that writes irreplaceable personal content must never be cheap to repeat by accident; self-deletion mid-run is racy and breaks the resume path.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>A two-part interview — a pre-filled confirmation card, then short optional prose</td>
+          <td>Making you type the mechanical facts, or a heavy 27-question wizard</td>
+          <td>Section A is fact-gathering a probe can do (name/email from git config, timezone from the clock); Section B is the genuinely human input — how you work — that no probe can guess, and it is fully optional.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>One AI step — a two-pass extraction of your prose into labeled fields</td>
+          <td>Pure deterministic capture of the raw answer</td>
+          <td>Verbose conversational answers must be consolidated to fit the preferences file's size cap (~four lines per block in a ~60-line file). The structural check confirms the summary lands in the right slots.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>Validate first, write atomically — block-and-log, never write-and-hope</td>
+          <td>Writing optimistically and hoping it completes</td>
+          <td>The manifest is schema-checked and both preferences files are scanned for leftover placeholders <em>before</em> anything is written; writes go to a temp file then swap; on any failure it stops and reports, leaving no half-written file.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>Author the two <code>CLAUDE.md</code> files fresh; ship no pre-seeded placeholder</td>
+          <td>Shipping a pre-seeded placeholder preferences file in the install</td>
+          <td>A file full of unfilled tokens looks broken to a reader and blocks the genuine first-run fill — getting no file is cleaner than a broken one. The global file loads first, then the more specific one, rather than one silently overriding another <a class="cite" href="research-rationale.html#cite-cc-claudemd">CC CLAUDE.md</a>.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>A re-run never silently overwrites a file you edited</td>
+          <td>Silently overwriting on re-run</td>
+          <td>If a <code>CLAUDE.md</code> differs from a fresh render, onboarding writes a <code>.new</code> file and shows you the diff, leaving the real file untouched until you decide — your edits are sacred, the same preserve-don't-clobber pattern as <a class="cite" href="research-rationale.html#cite-chezmoi">chezmoi</a>.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>End with shortcuts and an explicit "open it in Obsidian" instruction</td>
+          <td>Silently trailing off once the folder is built</td>
+          <td>Building the folder is invisible; the adopter needs an explicit, concrete next action. The hand-off "hands you the key and tells you which drawer to open first."</td>
+          <td><span class="pill muted">design judgment</span></td>
+        </tr>
+        <tr>
+          <td>Treat external tools as a soft mandate — probe, recommend, frictionless skip</td>
+          <td>A hard requirement that blocks setup</td>
+          <td>For each optional add-on: a read-only presence probe, then a strong recommendation, the honest reason, the exact command, and a clean "skip and do it later." It records your choice and never blocks <a class="cite" href="research-rationale.html#cite-wizard">wizard UX</a>.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ============ GOVERNANCE OVERLAY & REGISTER ============ -->
+    <p class="pillar-band">Governance overlay &amp; extension</p>
+    <h2 id="governance-overlay">Sealed master, transparent overlay, sanctioned extension</h2>
+    <p>
+      These three rows are the personalization half of the governance pillar — how you extend or
+      override the shipped rules without ever editing the foundation. The core write-time doorman
+      decisions (pre-write hook, three verdicts, advise-by-default, data-gated strictness) live on
+      <a href="governance-rationale.html">Why: write-time governance</a>. What sits here is the
+      seam brain-stem opens for you to reshape governance to your situation: a sealed shipped base
+      you never touch, a transparent overlay you own, and one guided command
+      (<code>/govern register</code>) that covers all 6 extension modes — 5 governable-asset kinds
+      (<code>folder</code>, <code>file-type</code>, <code>tag-extension</code>, <code>writer</code>,
+      <code>doc-amender-prompt</code>) plus the <code>project</code> work-spoke on-ramp.
+    </p>
+    <table>
+      <thead>
+        <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>A sealed master plus a transparent overlay</td>
+          <td>One rulebook everyone hand-edits</td>
+          <td>Your additions go in a separate overlay deep-merged on top; the shipped master is never edited locally. This is the structural guarantee behind taking an upgrade without losing your customizations <a class="cite" href="research-rationale.html#cite-kustomize">Kustomize</a> <a class="cite" href="research-rationale.html#cite-gitconfig">git config</a> <a class="cite" href="research-rationale.html#cite-css">CSS cascade</a>.</td>
+          <td><span class="pill">constraint</span> <span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>An override must carry a mandatory free-text <code>_override_reason</code></td>
+          <td>Letting the local rule win silently</td>
+          <td>Because the overlay wins on a collision, a silent override could shadow a shipped rule unnoticed. brain-stem blocks the merge unless the entry carries an <code>_override_reason</code> — deliberately stricter than its own analogs <a class="cite" href="research-rationale.html#cite-gitconfig">git config</a> <a class="cite" href="research-rationale.html#cite-kustomize">Kustomize</a>, matching policy-as-code waiver practice <a class="cite" href="research-rationale.html#cite-waiver">waiver practice</a> <a class="cite" href="research-rationale.html#cite-opabundles">OPA bundles</a>. Extend (new keys only) is frictionless and needs no reason; only a collision triggers the requirement. A per-write <code>--force-override</code> flag exists for non-persistent cases.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>One sanctioned extension path — <code>/govern register</code></td>
+          <td>Hand-editing the overlay file directly</td>
+          <td>The skill walks a propose-then-confirm conversation, validates each field, and appends to an audit log; hand-editing bypasses both. The skill covers all 6 modes: registering a folder type, a file-type contract, a tag extension, a writer, a doc-amender prompt, or a project work-spoke. The hook only <em>proposes</em> (and lets you skip); a human runs the skill <a class="cite" href="research-rationale.html#cite-cc-skills">CC skills</a> <a class="cite" href="research-rationale.html#cite-wizard">wizard UX</a>.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ============ PACKAGING ============ -->
+    <p class="pillar-band">Packaging &amp; runtime</p>
+    <h2 id="packaging">The install/upgrade/uninstall lifecycle</h2>
+    <p>
+      Claude&nbsp;Code reads one startup folder, <code>~/.claude</code>, and merges its settings by
+      a fixed rule — and gives you nothing else. No record of what an install put down, no way to
+      tell an old shipped file from one you edited, no safe way to take an install back out. Drop
+      brain-stem into that live folder blind and you risk silently clobbering your own work. This
+      pillar is the discipline that closes the gap, and it is reached on <strong>both</strong>
+      grounds — forced by the single-folder convention, and convergent with what Homebrew, dpkg,
+      chezmoi, Flyway, rustup, and the XDG spec each arrived at independently. brain-stem then goes
+      one step past the typical package manager: a provably write-free plan before the first write.
+    </p>
+    <table>
+      <thead>
+        <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>A preview-first install — <code>install.sh</code> writes zero files without <code>--apply</code></td>
+          <td>An installer that writes immediately</td>
+          <td>It runs every check, prints a machine-readable plan of every operation, and exits; writing must be asked for by name. The safe thing is the default, the consequential thing asked for — the check-then-apply gate <a class="cite" href="research-rationale.html#cite-rustup">rustup</a> uses.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>Refuse an apply when <code>CLAUDE_HOME</code> is unset; let a dry-run assume it</td>
+          <td>Treating preview and apply symmetrically</td>
+          <td>A preview may assume a target to render a plausible plan; a real write may not. Real files only ever land in a folder you deliberately pointed them at.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>A generated, fingerprinted receipt of every shipped file</td>
+          <td>A hand-maintained ship-list</td>
+          <td>A hand list always drifts, and a receipt that lies is worse than none. One walk of the source tree defines both what ships and what the manifest records, so they can't disagree — exactly how <a class="cite" href="research-rationale.html#cite-pkgmgr">Homebrew / Nix / apt-dpkg</a> know what they put down.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>An edit-preserving uninstall (fingerprint match — remove; mismatch — keep)</td>
+          <td>A blunt <code>rm -rf</code> of the folder</td>
+          <td>Over time your files live right next to the foundation's, so a blunt delete takes your customizations with it. The manifest is the boundary between managed and unmanaged — preserving changed files is what <a class="cite" href="research-rationale.html#cite-chezmoi">chezmoi</a> does.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>Distinguish drift from tamper on upgrade via per-release baselines</td>
+          <td>A blind copy (clobbers edits) or a blind skip (fails to deliver fixes)</td>
+          <td>A file matching a known previous release is stale shipped code — take the new version; a file matching no release is your edit — take the new version too, but snapshot your edited bytes aside as <code>.foundation-local</code>. The sidecar is dpkg's <a class="cite" href="research-rationale.html#cite-dpkgold">.dpkg-old</a>; the version-keyed baselines are <a class="cite" href="research-rationale.html#cite-flyway">Flyway/Alembic</a>'s high-water-mark.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>All-or-nothing writes via a per-file rollback journal</td>
+          <td>The Capistrano whole-tree symlink swap, or a recursive subtree copy</td>
+          <td>You can't atomically swap a directory that holds the user's live, interleaved state <a class="cite" href="research-rationale.html#cite-capistrano">Capistrano</a>, and <code>cp -R</code> can't honor per-file rename atomicity — so the work is decomposed to a per-file walk with a reverse-replayable journal.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>A delivery gate — a half-install is never recorded as success</td>
+          <td>Writing the completion stamp regardless, or a blanket "every file equals shipped" check</td>
+          <td>A blanket check is unsound — it false-refuses the merged overlay and every edited-and-preserved file. The gate checks only that files meant to update did; if not it exits code 56, stamps nothing, and a re-run converges. A short recoverable failure beats a silent incomplete "success."</td>
+          <td><span class="pill muted">design judgment</span></td>
+        </tr>
+        <tr>
+          <td>Deep-merge settings with your value winning, behind a deletion gate</td>
+          <td>A wholesale overwrite, or per-hook hand-patches</td>
+          <td>The merge refuses to proceed if it would silently drop any of your existing keys; a reconciler then adds missing foundation hooks without reordering yours. Claude&nbsp;Code reads one <code>settings.json</code> by a documented deep-merge rule <a class="cite" href="research-rationale.html#cite-cc-settings">CC settings</a>, so the shape is forced.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>Keep runtime data outside <code>~/.claude</code>, split durable vs. ephemeral</td>
+          <td>Keeping working state inside the program folder</td>
+          <td>Separating the installed program from the data it generates means uninstalling or reinstalling never endangers your accumulated work — the <a class="cite" href="research-rationale.html#cite-xdg">XDG</a> durable/ephemeral split the foundation already follows.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>Keep coordination state machine-local, not in the synced vault</td>
+          <td>Homing the session registry and locks in the synced Obsidian vault</td>
+          <td>A small, hot, frequently-rewritten JSON plus locks in a synced folder is worst-case input — and the cross-machine guarantee is a phantom, since <code>kill -0</code> and <code>lockf</code> are local-machine constructs <a class="cite" href="research-rationale.html#cite-kleppmann">Kleppmann</a>. tmux, systemd, git's <code>index.lock</code>, and even Syncthing keep runtime state local <a class="cite" href="research-rationale.html#cite-runtimestate">runtime-state precedent</a>.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>Fence background jobs to the <code>com.brain-stem.*</code> label namespace</td>
+          <td>A careless cleanup that stops unrelated jobs</td>
+          <td>On uninstall it stops only jobs in its reserved prefix and actively refuses to touch an impersonator, aborting rather than risk stopping something unrelated. Reverse-domain naming is the OS-level <a class="cite" href="research-rationale.html#cite-launchd">launchd</a> convention.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout key">
+      <div class="label">Citations live on the research rationale page</div>
+      <p>The central citation register — every reference in one deduplicated table — stays on the
+      <a href="research-rationale.html#citations">research rationale page</a>. Every
+      <span class="cite">cite</span> link above resolves to an anchor there.</p>
+    </div>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">brain-stem · documentation · Why: system personalization.</div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

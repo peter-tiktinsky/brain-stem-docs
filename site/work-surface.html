@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project organization · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">How a project's work is organized</p>
+    <h1>Project organization</h1>
+    <p class="lede">
+      brain-stem organizes everything you do into <strong>two work surfaces</strong>, split by what kind
+      of work it is. <strong>Coding work</strong> lives in code repositories, where Claude&nbsp;Code
+      already feels at home. <strong>Non-coding work</strong> — strategy, consulting, writing, planning,
+      and the deliverables they produce — needs its own durable, Claude-readable home. This page frames
+      both, then goes deep on the second, because the second is the one brain-stem had to build.
+    </p>
+    <p class="page-meta">The non-coding surface is surfaced in the vault as <code>Work/</code> · file type <code>deliverable</code>.</p>
+
+    <h2>Coding and non-coding work surfaces</h2>
+    <p>
+      Both surfaces get the full brain-stem treatment — memory, the project knowledge base, plans, the
+      library, governance. The only things that differ are <em>where you launch</em> and <em>where the
+      finished artifact lives</em>. That single split decides which surface you're working on.
+    </p>
+
+    <div class="card-grid two">
+      <div class="card code">
+        <div class="kicker">Coding work surface</div>
+        <h3>The code repository</h3>
+        <p>You launch from a code repo and Claude reads and writes the code as it always has. brain-stem
+        layers the project knowledge base over it; nothing about the code's home changes.</p>
+        <div class="spacer"></div>
+        <ul style="margin:12px 0 0; font-size:13.5px;">
+          <li><strong>Launch from</strong> a code repo — <code>~/Code/widgetlib</code></li>
+          <li><strong>The artifact is</strong> the repository (the code), in git</li>
+          <li><strong>Owned by</strong> Claude&nbsp;Code natively — nothing new needed</li>
+          <li><strong>brain-stem adds</strong> the project knowledge base on top</li>
+        </ul>
+      </div>
+      <div class="card work">
+        <div class="kicker">Non-coding work surface</div>
+        <h3>The Work surface</h3>
+        <p>There's no repository to anchor the work, so the Work surface is that anchor: a durable,
+        governed, Claude-readable home for deliverables. Everything below is about this surface.</p>
+        <div class="spacer"></div>
+        <ul style="margin:12px 0 0; font-size:13.5px;">
+          <li><strong>Launch from</strong> a Work-folder project — <code>~/work/acme-rebrand</code></li>
+          <li><strong>The artifact is</strong> deliverables in the Work folder</li>
+          <li><strong>Owned by</strong> the Work surface (the rest of this page)</li>
+          <li><strong>brain-stem adds</strong> the project knowledge base <em>and</em> the deliverable structure</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout note">
+      <div class="label">Coding work, briefly</div>
+      <p>The coding surface is the self-explanatory one within Claude&nbsp;Code: you launch in a
+      repository, Claude reads and writes the code, and brain-stem layers the project knowledge base
+      (binder, memory, library) over it. The code's home doesn't change, so it needs no further
+      explanation here. The rest of this page is the non-coding Work surface, which is where brain-stem
+      had to build something new.</p>
+    </div>
+
+    <h2>The Work folder is a master directory</h2>
+    <p>
+      <code>~/work/</code> is not itself a project — it's a <strong>master directory</strong> that holds
+      one folder per non-coding project. Each of those folders is a <em>launch directory</em>: you
+      <code>cd</code> into it and start Claude there, and that folder becomes the project (see
+      <a href="session-loading.html">What loads each session</a>). One Work area, many projects:
+    </p>
+    <pre>~/work/
+├── acme-rebrand/          ← a consulting engagement (launch Claude here)
+├── q3-board-deck/         ← a writing project
+└── market-entry-study/    ← a research project</pre>
+
+    <h2>What ships natively with the surface</h2>
+    <p>
+      Inside each project folder, the surface ships a minimal, governed starting structure: a thin
+      <code>CLAUDE.md</code> (the project's identity, a pointer to its binder, and an auto-kept map of what's
+      in the folder — which you don't hand-edit), a <code>README.md</code>, an append-only
+      <code>updates.md</code>, and two folders — <code>deliverables/</code> for polished, shareable work and
+      <code>reference/</code> for the raw material behind it (kept out of the vault's search). The exact
+      scaffold, flat versus master and what each file is for, is laid out in the guidebook below.
+    </p>
+    <p>
+      A markdown file under <code>Work/</code> that declares <code>type: deliverable</code> activates a
+      deliberately <strong>thin, lifecycle-only contract</strong>: six required frontmatter fields
+      (<code>type</code>, <code>tags</code>, <code>updated</code>, <code>project</code>,
+      <code>status</code>&nbsp;[draft·delivered·superseded], <code>audience</code>&nbsp;[internal·external])
+      and <strong>no body structure at all</strong> — because a brief, a memo, a deck source, and a
+      multi-page report share no common shape. Governance is <strong>audit-time</strong>: deliverables
+      are authored outside the vault root, so they're validated on a scoped librarian pass rather than
+      blocked at write time.
+    </p>
+
+    <p>The base structure is a floor, not a ceiling — you add whatever folders the project needs and Claude reads whatever structure it finds. Setting one up, step by step, with worked flat and multi-workstream examples: <a href="work-folder-guidebook.html">The work-folder guidebook</a>.</p>
+
+    <h2>Either surface rolls up into the project binder</h2>
+    <p>
+      Here is the part both surfaces share. Whichever one you launched from, a session's durable output —
+      its research, its decisions, its handoff (and, for non-coding work, the deliverables it produced) —
+      <strong>rolls up into the same place</strong>: the project binder, anchored by the project's
+      <code>hub.md</code> home page. The artifact differs (a repository vs. deliverables); the knowledge
+      base does not.
+    </p>
+
+    <div class="sysmap">
+      <div class="band band-sess">
+        <div class="band-tag">A session — whichever surface you launched from</div>
+        <div class="band-row two">
+          <div class="smnode code"><b>Coding project</b><small>research · decisions · a handoff — the code itself lives in git</small></div>
+          <div class="smnode work"><b>Non-coding project</b><small>research · decisions · a handoff — <em>plus</em> the deliverables it produced</small></div>
+        </div>
+      </div>
+      <div class="uptag">▲ Regardless of type, each session's durable work files up into the same binder</div>
+      <div class="band band-proj">
+        <div class="band-tag">The project binder — one roll-up per project, across all its sessions</div>
+        <div class="hubwrap">
+          <div class="smnode hub"><b>hub.md — the project's home page</b><small>indexes the research, decisions, and handoffs — and, for non-coding work, the deliverables, joined on the shared <code>project:</code> field. Plans finish and close; the deliverables stay live under the project.</small></div>
+        </div>
+      </div>
+    </div>
+    <p class="figcap">A deliverable is independent of any single plan but never orphaned: it joins its project through <code>hub.md</code>'s <em>Deliverables</em> pointer, keyed on <code>project:</code>, so it survives every plan of that project.</p>
+    <p>For the binder itself — its cover, the generated research index, decision log, and handoff
+    chronicle, and how a project is identified — see <a href="project-binder.html">The project binder</a>.</p>
+
+    <h2>Where the two surfaces interplay</h2>
+    <p>
+      The surfaces are separate, but they can feed each other. The common case: you run a consulting
+      engagement on the Work surface and want a live <strong>project-management dashboard</strong> for
+      it — a coding project. Because a vault-writer's pipeline produces a <strong>structured layer</strong>
+      (JSON process files and a SQL ledger) before it ever writes markdown, the dashboard can read that
+      feed directly and deterministically, while the Work-folder markdown stays the curated human source
+      of truth. That composition — and the writer pipeline behind it — is covered in full under
+      <a href="vault-writers.html">The vault-writer system</a>.
+    </p>
+
+    <h2>Reference</h2>
+    <ul>
+      <li><code>~/work/&lt;project&gt;/</code> — the per-project launch directory, surfaced in the vault as <code>Work/&lt;project&gt;/</code>; ships <code>CLAUDE.md</code>, <code>deliverables/</code>, <code>reference/</code>, <code>README.md</code>, <code>updates.md</code>. The <code>CLAUDE.md</code> map block is regenerated by <code>librarian work-map-generate</code>.</li>
+      <li><code>governance/file-type-contracts/deliverable.md.json</code> — the thin lifecycle contract (status &amp; audience enums; no body governance).</li>
+      <li><code>governance/frontmatter-rules.json#types.deliverable</code> — the six required frontmatter fields.</li>
+      <li><code>templates/hub-template.md</code> — the project home page; its Deliverables pointer is the join, keyed on <code>project:</code>; the binder is where either surface's work rolls up.</li>
+      <li>A <strong>vault-writer</strong> — an automated, registered system that feeds structured content into a project's Work area; its final-layer SQL/JSON output is the deterministic feed a coding dashboard can consume (see <a href="vault-writers.html">The vault-writer system</a>).</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Project organization.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

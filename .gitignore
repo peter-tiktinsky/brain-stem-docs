@@ -1,0 +1,7 @@
+.DS_Store
+*.swp
+
+# Local pre-publish tooling — NEVER committed to this public repo.
+# leak-gate.sh sources ~/Code/brain-stem/tools/ship-tokens.sh, whose detector
+# embeds confidential token literals that must not enter public history.
+tools/

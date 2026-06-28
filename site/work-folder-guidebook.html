@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The work-folder guidebook · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">System personalization · setting up your non-coding work</p>
+    <h1>The work-folder guidebook</h1>
+    <p class="lede">
+      For any <strong>non-coding</strong> work — consulting, program management, research, writing — the
+      <strong>work folder</strong> is where you work. This is the practical guide: how brain-stem supports a
+      project directory from the moment you create it, the difference between a flat and a master layout, and
+      two worked examples of what a personalized setup actually looks like.
+    </p>
+    <p class="page-meta">A guidebook. What gets scaffolded, how to create a project directory, and a fully worked personalization example.</p>
+
+    <div class="callout note">
+      <div class="label">Coding work? You may not need this</div>
+      <p>
+        A lot of people use Claude Code primarily for <strong>coding</strong>. If that's you, you may not need the
+        work folder at all: launch Claude Code from your code repository and add a <code>CLAUDE.md</code>, and
+        Claude is situated well enough to be productive. The work folder is for the other case — when you want to
+        lean on Claude Code for <strong>non-coding</strong> work too. There it pays to build out a proper project
+        directory in a <strong>Claude-native folder structure</strong>, which is exactly what the work folder gives
+        you — together with the support skills and governance that keep that structure current.
+      </p>
+    </div>
+
+    <h2>One folder per project, launched from inside it</h2>
+    <p>
+      Each non-coding project lives in its own directory under <code>~/work/</code>. You launch Claude Code
+      <em>from inside</em> that directory — that's what tells the system which project you're in and loads its
+      context. (Never launch from your home folder; always launch from the project.) The work folder is the
+      top-level directory that holds one sub-folder per project.
+    </p>
+    <p>
+      For the conceptual framing of coding versus non-coding work surfaces and how either rolls up into the
+      project binder, see <a href="work-surface.html">Project organization</a>. This page is the practical
+      how-to for setting a non-coding project up.
+    </p>
+
+    <h2>Flat or master: match the layout to your work</h2>
+    <p>
+      A project directory comes in two layouts. The difference is simply whether the project has
+      <strong>one stream of work or several</strong>.
+    </p>
+    <div class="card-grid two">
+      <div class="card">
+        <div class="kicker">Flat</div>
+        <h3>One stream of work</h3>
+        <p>A single project with one set of deliverables and reference material. The default, and the right
+        choice for most things — a report, a campaign, a piece of writing.</p>
+      </div>
+      <div class="card">
+        <div class="kicker">Master + sub-directories</div>
+        <h3>Several parallel streams</h3>
+        <p>One umbrella project that contains several distinct workstreams, each with its own deliverables and
+        reference. The right choice when you're juggling parallel efforts under one roof.</p>
+      </div>
+    </div>
+
+    <h2>What the system scaffolds for you</h2>
+    <p>
+      When you register a project, brain-stem writes a small, deliberate starting structure — and nothing more.
+      It scaffolds the <em>shape</em>; you own the content.
+    </p>
+    <h3>A flat project — five things</h3>
+    <pre><code>~/work/&lt;project&gt;/
+├── CLAUDE.md      &larr; thin identity + an auto-maintained "what lives where" map + a pointer to the binder
+├── README.md      &larr; scope, outcome, definition of done (yours to write)
+├── updates.md     &larr; an append-only running log (seeded with one line; yours and Claude's to append)
+├── deliverables/  &larr; polished, audience-facing work   (gets an auto-maintained _index.md)
+└── reference/     &larr; raw notes and source material     (gets an auto-maintained _index.md)</code></pre>
+    <p>
+      The <code>CLAUDE.md</code> carries a small machine-maintained block — a "what lives where" directory map
+      the system keeps current as the folder grows — plus a pointer to the project's binder. It does
+      <strong>not</strong> import a cover page; in this layout there is no <code>hub.md</code> in your work
+      folder at all.
+    </p>
+    <h3>A master project — a thin top, then one folder per stream</h3>
+    <pre><code>~/work/&lt;project&gt;/
+├── CLAUDE.md          &larr; master identity + the work-map + binder pointer (no top-level deliverables/reference)
+├── README.md
+├── updates.md
+└── &lt;first-stream&gt;/    &larr; a workstream — an organizational unit, never its own CLAUDE.md
+    ├── README.md      &larr; carries a one-line "launch from the master" note
+    ├── deliverables/  (auto _index.md)
+    └── reference/     (auto _index.md)</code></pre>
+    <p>
+      The master top holds only identity files; the <code>deliverables/</code> and <code>reference/</code>
+      folders live inside each stream. Sub-folders are organizational units — they never get their own
+      <code>CLAUDE.md</code> or cover page; you launch from the master.
+    </p>
+    <div class="callout note">
+      <div class="label">Where the cover page actually lives</div>
+      <p>
+        The one cover page for the project — its <code>hub.md</code> — is <strong>not</strong> in your work
+        folder. It's minted in the project's binder over in the plan tree
+        (<code>~/.claude-plans/_projects/&lt;project&gt;/hub.md</code>) at registration. The
+        <code>_index.md</code> files in <code>deliverables/</code> and <code>reference/</code> and the work-map
+        block in <code>CLAUDE.md</code> are the first files the system ever generates inside <code>~/work/</code>;
+        everything else there is yours to write.
+      </p>
+    </div>
+
+    <h2>How to create one</h2>
+    <p>
+      You don't run any of these skills yourself, and you don't have to memorize a command. In any Claude Code
+      session, just tell Claude what you want it to do — for example: <em>"Use your governance skills to help me
+      set up a new non-coding project in my work folder for a Q3 pricing study."</em> Claude reaches for the right
+      capability on its own (the <code>/govern register</code> family), proposes a structure for you to approve,
+      and writes only once you say go. Your job is to describe the project; its job is to build and register the
+      shape.
+    </p>
+    <p>
+      It runs in two stages. Simply making a folder and launching Claude inside it isn't enough — an unregistered
+      work folder is deliberately left untouched until it's registered. So you first <strong>create &amp;
+      register</strong> the project, then <strong>launch from it and make it yours</strong>. The one hard rule:
+      the folder sits exactly one level under <code>~/work</code>.
+    </p>
+
+    <h3>Stage 1 · Create &amp; register</h3>
+    <p>What each step means, and who does it — you describe, Claude builds:</p>
+    <div class="flow">
+      <div class="fstep"><b>1 · You describe it</b><small>In a session, ask Claude to set up a new non-coding project in your work folder. Name the project, and say whether it's one stream of work or several. There's no command for you to type.</small></div>
+      <div class="farr">→</div>
+      <div class="fstep gate"><b>2 · Claude proposes</b><small>It picks the right registration and proposes the structure — flat, or master with a first stream — for you to redline field by field. Nothing is written to disk yet.</small></div>
+      <div class="farr">→</div>
+      <div class="fstep mark"><b>3 · It registers</b><small>On your go-ahead it scaffolds the folder, mints the project's binder hub and the <code>_index.md</code> files, and adds a vault-view routing rule — so the project is governed from its very first file.</small></div>
+    </div>
+    <p class="flow-note">Under the hood that's <code>/govern register --kind project --layout flat</code> (or <code>--layout master --first-sub &lt;name&gt;</code> for the master shape) — but you never have to type it. You ask; Claude runs it.</p>
+
+    <h3>Stage 2 · Launch &amp; personalize</h3>
+    <p>
+      To work in the project, <strong>launch Claude Code from inside its directory</strong> — <code>cd ~/work/&lt;project&gt;</code>, then start Claude from there. That launch directory is what tells the system which project you're in and loads its context, every session from now on. From here the folder is yours to grow, and brain-stem keeps it governed as you do — no extra ceremony required:
+    </p>
+    <div class="card-grid">
+      <div class="card">
+        <div class="kicker">You add a folder</div>
+        <h3>It gets an index</h3>
+        <p>Drop in a new folder and brain-stem auto-creates and maintains its <code>_index.md</code> — a "what lives here" map kept current as the folder grows, so the directory never becomes an opaque pile.</p>
+      </div>
+      <div class="card">
+        <div class="kicker">You add a kind of document</div>
+        <h3>Claude helps you govern it</h3>
+        <p>Want every meeting note or status file to share one shape? Tell Claude, and it registers that file type and its contract — so each file of the kind is validated and governed natively, exactly like the types brain-stem ships.</p>
+      </div>
+      <div class="card">
+        <div class="kicker">You add a folder type</div>
+        <h3>Register it once</h3>
+        <p>Need folders the base scaffold doesn't include — a <code>people/</code> directory, a <code>SoW/</code> folder? Ask Claude to register the new folder type, and from then on it's part of your governed structure.</p>
+      </div>
+      <div class="card">
+        <div class="kicker">You wire up a feed</div>
+        <h3>It fills itself</h3>
+        <p>Register a vault-writer and a structure keeps itself current — transcripts, emails, or research landing in the right place on a schedule, safely de-duplicated. See <a href="vault-writers.html">the vault-writer system</a>.</p>
+      </div>
+    </div>
+    <p>
+      Growing or reshaping the project later works the same way: describe the change and Claude runs the right
+      registration for you. To add another workstream to a master, or to promote a stream into its own top-level
+      project after you move it, the registrations it reaches for are:
+    </p>
+    <pre><code># grow a master with another stream
+/govern register --kind project --under &lt;project&gt; --add-sub &lt;name&gt;
+
+# promote a stream to its own top-level project (after you move it)
+/govern register --kind project --adopt</code></pre>
+
+    <h2>Worked example 1 — a flat project</h2>
+    <p>
+      Say you're writing an independent <strong>market study</strong>: one report, one stream of work. A flat
+      layout is all you need.
+    </p>
+    <pre><code>~/work/market-study/
+├── CLAUDE.md      &larr; "this is the Q3 SaaS pricing study"; work-map; binder pointer
+├── README.md      &larr; the question, the scope, what "done" looks like
+├── updates.md     &larr; running log: what you learned each day
+├── deliverables/
+│   ├── exec-summary.md
+│   └── full-report.md
+└── reference/
+    ├── interview-notes/
+    ├── pricing-data.md
+    └── competitor-scan.md</code></pre>
+    <p>
+      Launch Claude from <code>~/work/market-study/</code> and it already knows the question, the scope, and
+      what you've gathered. Drafting the exec summary becomes a one-line prompt, because the report's reference
+      material is right there.
+    </p>
+
+    <h2>Worked example 2 — a master project, personalized</h2>
+    <p>
+      Now meet <strong>Johnny</strong>, a project manager. He works across several workstreams that belong to
+      different teams, and he uses Claude Code and brain-stem to track and document progress, stay on top of
+      risks and blockers, and keep his teams moving toward delivery. His project is a master with one
+      sub-folder per workstream — and he's <em>extended</em> the base scaffold with a couple of folder types of
+      his own:
+    </p>
+    <pre><code>~/work/program-delivery/
+├── CLAUDE.md
+├── README.md
+├── updates.md
+├── workstream-atlas/
+│   ├── README.md          &larr; scaffolded; a one-line "launch from the master" note
+│   ├── people/            &larr; one file per team member: who they are, role, responsibilities
+│   ├── meeting-notes/     &larr; one file per meeting, in Johnny's preferred structure
+│   ├── deliverables/
+│   │   ├── project-brief.md   &larr; synopsis, key stakeholders, core goals
+│   │   ├── prd.md             &larr; the requirements for this workstream
+│   │   ├── daily-status.md    &larr; append-only ledger: each day's activities, blockers, risks, top action items
+│   │   └── roadmap.md         &larr; stages and the key activities in each
+│   └── reference/
+│       └── ...source material for this workstream...
+└── workstream-borealis/
+    └── ...the same shape...</code></pre>
+    <p>
+      The <code>people/</code> and <code>meeting-notes/</code> folders aren't part of the default scaffold —
+      Johnny <strong>registered them</strong> as folder types of his own (see
+      <a href="governance-personalization.html">Governance personalization</a>), and he wrote a file-type
+      contract so every file of a given kind lands in the same structure. The base scaffold gave him
+      <code>deliverables/</code> and <code>reference/</code>; he built the rest to fit his work.
+    </p>
+
+    <h3>How Johnny made it run itself</h3>
+    <p>
+      Everything in that directory is kept current by brain-stem capabilities, because Johnny composed a capture
+      setup on top of the <a href="vault-writers.html">vault-writer system</a>. Here's the shape of what he
+      built — and, honestly, which parts are his to build versus the system's to provide:
+    </p>
+    <ul>
+      <li><strong>Connectors he wired up</strong> pull his Granola meeting transcripts and his Gmail. (The
+      connectors themselves are yours to build on the substrate — the system provides the safe-writing and
+      de-duplication machinery they feed.)</li>
+      <li><strong>Deterministic routing.</strong> For each workstream he handed Claude the list of people and
+      their emails, so transcripts and messages get sorted to the right workstream by rule, not guesswork.</li>
+      <li><strong>Better meeting notes than the raw transcript.</strong> He registered a meeting-notes file-type
+      contract and attached a prompt that points Claude at that workstream's project brief and PRD as
+      reference, so each transcript is processed into a richer, more accurate note than Granola gave him.</li>
+      <li><strong>One structured spine.</strong> Meeting notes land as their own reference assets; meeting notes
+      and emails together feed a SQLite database — workstream, progress updates, new action items and their due
+      dates, and the person who owns each line — where the records are de-duplicated and cleaned before they go
+      anywhere.</li>
+      <li><strong>One writer, many files.</strong> From that clean spine, a single agentic writer fans out across
+      all the files Johnny organizes his work in — appending to the daily status ledger, updating the roadmap,
+      amending the brief as requirements evolve — and every change it applies is recorded in an append-only,
+      immutable audit trail. His <code>updates.md</code> carries the running, human-readable log of where each
+      workstream stands.</li>
+    </ul>
+    <p>
+      Johnny set up meeting transcript and email ingestion to run on an hourly cadence throughout each work
+      day. As each email and transcript arrives, raw content is processed into his structures automatically. (Scheduling a capture run like this is something you assemble
+      — see <a href="orchestration.html">Orchestration &amp; scheduling</a>.)
+    </p>
+
+    <div class="callout key">
+      <div class="label">Why this is the whole point</div>
+      <p>
+        Because Johnny launches Claude Code from this work directory, it has immediate access to the most
+        up-to-date context and reference material for every workstream he owns. So when he needs a new
+        deliverable — a presentation, a PM dashboard, a strategic analysis — he produces it with
+        <strong>simple prompting</strong>, quickly and accurately, because the context is already loaded.
+        Without this setup, he'd have to re-share all of that material himself in every single session he
+        tasked Claude with work — paying in tokens, time, and unproductive manual effort, over and over. The
+        work folder is what turns that recurring tax into a one-time setup.
+      </p>
+    </div>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · The work-folder guidebook.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

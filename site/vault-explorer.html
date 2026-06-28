@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explore your brain · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Orientation</p>
+    <h1>Explore your brain</h1>
+    <p class="lede">
+      The brain brain-stem ships you is a single folder — named, fittingly, <code>brain</code>. Here is
+      exactly what lands in it on day one, where every piece comes from, and — for each one —
+      <strong>why it matters</strong>. Click any entry in the tree to open it.
+    </p>
+    <p class="page-meta">A click-in map of the shipped vault, verified against the scaffolder.</p>
+
+    <div class="callout key">
+      <div class="label">The one idea to hold first</div>
+      <p>On a fresh install brain-stem seeds almost nothing: one guide file (<code>CLAUDE.md</code>), one real
+      folder (<code>Vault&nbsp;Writers/</code>), an <code>.obsidian/</code> config, and <strong>five
+      shortcuts</strong>. A shortcut (technically a <em>symlink</em>) is a signpost to a folder that lives
+      elsewhere on disk — it shows up here for easy browsing, but the real files stay in their own home, so
+      deleting the vault never touches your plans, projects, or Library. The vault arrives nearly empty and is
+      <strong>grown</strong> over time. And you never start a session from the vault root — you always launch
+      from a <strong>project folder</strong> (a code repo, or a project under Work).</p>
+    </div>
+
+    <div class="callout key">
+      <div class="label">Who creates what — read the colors this way</div>
+      <p>Almost nothing in your brain is purely hand-typed by you. brain-stem lays down the structure at install,
+      and from there <strong>you provide the direction and the raw inputs while Claude generates the artifacts</strong>
+      — filing each one in its proper place, under governance and curation, and keeping the derived pages current.
+      So read the colors as <em>where a piece mostly comes from</em>, not as solo authorship; the honest rule of
+      thumb is <strong>you steer, Claude builds and maintains</strong>. Green marks the files your direction and
+      inputs drive (brain-stem scaffolds the shell and Claude fills it with you); red marks the pages Claude
+      generates and refreshes on its own, which you never hand-edit.</p>
+    </div>
+    <p class="page-meta">Unfamiliar with a term here — <em>the librarian</em>, a <em>shortcut</em>, a
+    <em>binder</em>? Every coined word on the site is defined on the <a href="glossary.html">Glossary</a>.</p>
+
+    <div class="vx" id="vx">
+      <div class="vx-tree">
+        <div class="vx-treehead">
+          <span class="vx-root">brain/</span>
+          <button class="vx-allbtn" id="vx-toggle-all" type="button">Expand all</button>
+        </div>
+        <div class="vx-treebody" id="vx-tree-body"></div>
+      </div>
+      <div class="vx-detail" id="vx-detail"></div>
+    </div>
+
+    <div class="vx-legend">
+      <span class="lchip"><span class="lsw" style="background:#b8862f"></span> Shipped on install</span>
+      <span class="lchip"><span class="lsw" style="background:#3f516b"></span> Symlink to a home outside the vault</span>
+      <span class="lchip"><span class="lsw" style="background:#b1532e"></span> Claude generates &amp; maintains it</span>
+      <span class="lchip"><span class="lsw" style="background:#4a7c4e"></span> You direct; Claude builds it</span>
+    </div>
+
+    <h2>What the brain folder is for</h2>
+    <p>
+      <strong>It keeps your context layer readable to you.</strong> Claude stores everything it captures as plain
+      Markdown, so the whole store stays human-readable and navigable — no database, no locked format.
+      <a href="https://obsidian.md">Obsidian</a> is simply the interface that makes it pleasant to browse: it
+      opens the folder as a vault, lets you read, search, and organize its contents, and draws a
+      <strong>knowledge graph</strong> that visualizes your assets and the relationships between them. It is
+      optional — any editor opens the files — but it is the intended window onto your brain.
+    </p>
+    <p>
+      <strong>It consolidates your entire context layer into one canonical location.</strong> Everything relevant
+      to your Claude&nbsp;Code work — your plans, the Library, project binders, your work area — actually lives in
+      its own optimal home on disk; the brain folder gathers all of it in one place through the
+      <strong>symlinks</strong> marked above. So each artifact stays where it belongs, yet the whole of your
+      context is reviewable from a single spot. That canonical home doesn't only serve <em>you</em>: it lets
+      Claude&nbsp;Code — or any other LLM harness you point at it — use your accumulated context as reference
+      material. If you ever multi-home, it is the feeder for a local LLM that turns your knowledge base into a
+      queryable asset, or for a vector-search layer that gives you another way to navigate and query everything
+      you've built.
+    </p>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Explore your brain.
+    </div>
+  </main>
+</div>
+
+<script>
+(function () {
+  // ---- the shipped vault, as a click-in tree. ----
+  // Repeated concepts (shortcut, the librarian, plan/project/binder, launch rule) are defined
+  // ONCE on the Glossary page (linked above), so each node stays lean.
+  const TREE = [{
+    id: 'vault', label: 'brain/', kind: 'root',
+    one: 'The single folder you browse everything from — a plain Obsidian vault, named brain.',
+    why: 'You get one window onto everything, while the real work stays portable and findable. Because it is all plain text, any tool — even a local model on your own machine — can read it; and because the heavy folders are shortcuts, you can never mistake this browsing view for the master copy.',
+    what: 'An ordinary Obsidian vault: plain folders and Markdown on your disk. On install brain-stem adds almost nothing — one guide file (<code>CLAUDE.md</code>), one real folder (<code>Vault Writers/</code>), the <code>.obsidian/</code> config, and five shortcuts. The five folders you actually work in are <code>Work</code>, <code>Projects</code>, <code>Wiki</code>, <code>Plans</code>, and <code>Skills</code> — all five are shortcuts to homes outside the vault; the one real folder that lives inside is <code>Vault Writers/</code>.',
+    from: 'Built once at install (default location <code>~/Documents/brain</code>). Every seeded file is written without overwriting, so re-running the installer never touches your edits.',
+    clar: ['Most of what you see is a shortcut to a home elsewhere on disk. Delete this folder and your plans, projects, and Library are untouched — they were never really inside it.', 'It arrives nearly empty and is grown over time; it does not ship pre-filled with content.'],
+    tips: ['Point another tool — even a local model — at this folder and it still reads. Nothing here is locked to Claude or Obsidian.'],
+    link: { href: 'index.html', label: 'The system in one picture' },
+    children: [{
+      id: 'claude-md', label: 'CLAUDE.md', kind: 'file', origin: 'shipped',
+      one: 'A short guide at the top of the vault — a plain-language map of what each folder is and where each shortcut really points.',
+      why: 'A tool opening the vault sees folders named <code>Plans/</code> and <code>Work/</code> but cannot tell they are shortcuts or where they lead. This file spells that out, so a tool knows the true location of whatever it edits instead of guessing. It is filled in at install and never overwritten, so it stays accurate on its own.',
+      what: 'A brief Markdown file (under 80 lines) that maps the vault&rsquo;s layout — here is Plans, here is the Library, and where each shortcut resolves on disk. Think of it as a lobby directory. It does NOT contain the system&rsquo;s rules; those are applied automatically whenever a file is written.',
+      from: 'Created at install from a template, with your paths filled in. Never overwritten on re-runs, so hand-edits are safe.',
+      clar: ['It is a reference, not a launch point — you never start a session from the vault root (see the orientation note above).', 'It does NOT hold the rules; it only describes the layout.', 'It is not Claude-specific — any AI you point at the folder can read it.'],
+      tips: ['Deliberately short — a map, not a manual. The depth lives in what it points to.']
+    }, {
+      id: 'work', label: 'Work', kind: 'symlink', origin: 'symlink', target: '~/work',
+      one: 'The home for all your non-code work — one folder per project, kept just outside the vault.',
+      why: 'Every project lands in the same predictable shape, so Claude always knows where the brief, the log, and the finished work are — no re-explaining yourself per project. And because it lives outside the vault, rebuilding or deleting the vault never touches your actual work.',
+      what: 'A shortcut into <code>~/work</code>, beside the vault. Everything that is not code goes here — consulting, writing, analysis (code lives in repos under <code>~/Code</code>, which you open directly). You make one folder per project, and that folder is the one you start a session from. Empty on day one; it fills one project at a time.',
+      from: 'Created empty at install. Each project folder inside is built later, in one step, by the work-setup add-on.',
+      clar: ['For non-code work only — code belongs in repos under <code>~/Code</code>.', 'You start a session from a specific project folder inside, never from this Work folder itself.'],
+      tips: ['Rule of thumb: a deck, report, or analysis belongs here; anything you would run as code stays a repo under <code>~/Code</code>.'],
+      link: { href: 'work-surface.html', label: 'Project organization' },
+      children: [{
+        id: 'work-dir', label: '&lt;project (flat)&gt;/', kind: 'folder', origin: 'authored',
+        one: 'One non-code project in the simplest <strong>flat</strong> layout — the folder you open a session from.',
+        why: 'Because the setup is identical every time, Claude knows exactly where the brief, the log, and the finished work are the moment you start — zero re-orientation per project. Later, when you create a plan that names this project, it is automatically pulled into a single roll-up page (its binder), so months of work still has one front door.',
+        what: 'The folder for one non-code project in the <strong>flat</strong> layout — one stream of work (a report, a campaign, an engagement). When you set it up, brain-stem scaffolds five things at once as an empty shell — a launch file (<code>CLAUDE.md</code>), a brief (<code>README.md</code>), a running log (<code>updates.md</code>), and two content folders (<code>deliverables/</code>, <code>reference/</code>) — and you and Claude fill in the actual content through your sessions. You open sessions from inside it.',
+        from: 'Scaffolded by brain-stem in one step when you create the project (it never overwrites an existing one). The shell is generated for you; the contents are filled in by you and Claude as the work proceeds.',
+        clar: ['<code>&lt;project (flat)&gt;</code> is a placeholder — you name the folder for your real project, and that name is the identity the system rolls the work up under.', 'It joins a binder not just by existing, but when you create a plan that names this project.', 'Use the flat layout for one stream of work; for several parallel streams under one roof, use the <strong>master</strong> layout (the next example).', 'The project&rsquo;s own root has no <code>_index.md</code> — the project binder under Projects handles the cross-plan roll-up, and Work is the one place the vault&rsquo;s index rule is relaxed. Its two content folders, <code>deliverables/</code> and <code>reference/</code>, each get a small generated contents list (<code>_index.md</code>) the librarian keeps current, so their files stay browsable.'],
+        tips: ['Whatever you name this folder is the identity the rest of the system uses to roll the work up — pick it deliberately.'],
+        link: { href: 'work-surface.html', label: 'Project organization' },
+        children: [{
+          id: 'work-claude', label: 'CLAUDE.md', kind: 'file', origin: 'authored',
+          one: 'The launch file — why Claude already knows your project the instant you start, instead of you re-explaining it.',
+          why: 'Claude Code automatically reads the <code>CLAUDE.md</code> of whatever folder you start in — and only a file with that exact name gets it. So this file carries the project&rsquo;s identity and a map of what lives where directly: open the folder and Claude already knows the project, with nothing to paste by hand. Without it, opening this folder would load nothing.',
+          what: 'A short file (about 20 lines) that, the moment you start a session here, hands Claude the project directly: its identity, a pointer to the project binder for cross-plan history, and an auto-maintained map of what lives in the folder. You almost never edit it.',
+          from: 'Written by the work-setup add-on when the project is created. It carries the orientation itself; the directory-map block inside it is refreshed automatically by the librarian, so it never goes stale.',
+          when: 'Read first, automatically, the moment you start a session here — that single read is enough; the orientation is in the file itself.',
+          clar: ['NOT the same as the vault-root <code>CLAUDE.md</code>: that one is a passive map; this one actively loads the project when you launch here.', 'It carries the orientation itself, not a pointer to a separate cover; the directory map inside it is auto-maintained so it stays current without you editing it.'],
+          tips: []
+        }, {
+          id: 'work-readme', label: 'README.md', kind: 'file', origin: 'authored',
+          one: 'The brief — what this project is and how you&rsquo;ll know it&rsquo;s done.',
+          why: 'This is where &ldquo;done&rdquo; gets defined before the work starts — the thing most often left unwritten and most often the cause of scope creep. With it, you and Claude can check work against an agreed target instead of a vague memory. It is yours to write because only you know what the client actually agreed to.',
+          what: 'Your plain statement of the project&rsquo;s scope, its intended outcome, and how you&rsquo;ll know it&rsquo;s finished — under three headings the setup drops in (scope / outcome / definition-of-done). brain-stem creates it empty; you write the rest.',
+          from: 'Created empty by the work-setup add-on with the three headings as placeholders. Claude never fills it in or changes it.',
+          clar: ['Claude does not write or maintain this — it makes an empty headed file, and you fill it.', 'This is the brief, not the running log — day-to-day progress goes in <code>updates.md</code>.'],
+          tips: ['Write the &ldquo;how I&rsquo;ll know it&rsquo;s done&rdquo; part first — that line is what prevents scope creep later.']
+        }, {
+          id: 'work-updates', label: 'updates.md', kind: 'file', origin: 'authored',
+          one: 'The running status log — add-only, newest entry at the bottom.',
+          why: 'This is the project&rsquo;s memory between sessions: it lets you (and Claude) pick the engagement back up cold, weeks later, and know exactly where it stands. Because you only ever add, never overwrite, the log is a permanent record of how the work actually unfolded — not just its latest snapshot.',
+          what: 'A dated log of progress — status, risks, decisions — written as you go. The setup seeds a one-line header; you add to it over the life of the project. (Add-only: you write new entries, you do not rewrite old ones.)',
+          from: 'Created nearly empty by the work-setup add-on; you append to it as the work moves.',
+          clar: ['A log, not the brief — the fixed goal lives in <code>README.md</code>.', 'Newest goes at the BOTTOM here — note the per-plan handoff diary does the reverse, newest on top.'],
+          tips: ['One short dated entry per session is enough — this is for picking the thread back up, not writing a report.']
+        }, {
+          id: 'deliverables', label: 'deliverables/', kind: 'folder', origin: 'authored',
+          one: 'The polished, client-facing work product — the thing you&rsquo;re actually paid to make.',
+          why: 'One clean place for the thing the client is paying for, kept apart from scratch material so you never ship a draft by accident or hunt for the final version. And these files belong to no plan, so when a plan is finished and filed away, your deck or report stays put — never swept up in housekeeping.',
+          what: 'Where the finished output lives — the strategy deck, the written report, the completed analysis. What the project exists to produce, kept clean and separate from raw material.',
+          from: 'You and Claude produce these as the work proceeds.',
+          clar: ['Polished output only — raw notes and sources belong in <code>reference/</code>.', 'Unlike <code>reference/</code>, this folder shows up in Obsidian search; it is not hidden.'],
+          tips: ['Unsure if a file belongs here? Ask: would I hand this to the client?'],
+          children: [{
+            id: 'deliv-index', label: '_index.md', kind: 'file', origin: 'generated',
+            one: 'The auto-built contents list for this folder — kept current by the librarian.',
+            what: 'A small generated list of what&rsquo;s in <code>deliverables/</code>, so the folder stays browsable. You don&rsquo;t edit it — the librarian rebuilds it as files come and go.',
+            from: 'Created and refreshed automatically by the librarian; never hand-edited.',
+            clar: ['One of the few generated files inside Work — everything beside it is yours.'],
+            tips: []
+          }, {
+            id: 'deliv-file', label: '&lt;deliverable&gt;.md', kind: 'file', origin: 'authored',
+            one: 'A placeholder for one finished deliverable — your file, named for the real thing.',
+            why: 'This is what the project exists to produce. Naming is yours: an <code>exec-summary.md</code>, a <code>full-report.md</code>, a strategy deck. As many as the work needs.',
+            what: 'A stand-in for a real deliverable you and Claude produce. <code>&lt;deliverable&gt;.md</code> is a placeholder — you name each file for the actual output, and there can be many.',
+            from: 'You and Claude write these as the work proceeds; the <code>_index.md</code> beside them tracks them automatically.',
+            clar: ['A placeholder — your deliverables are named for the real thing.'],
+            tips: []
+          }]
+        }, {
+          id: 'reference', label: 'reference/', kind: 'folder', origin: 'authored',
+          one: 'Raw notes and source material — the working input behind the finished output.',
+          why: 'When you search the vault you see your deliverables, not fifty pages of transcript. Raw input is exactly what you want Claude to read on demand but out of your way when browsing — so this folder is hidden from Obsidian&rsquo;s search while staying fully readable by Claude.',
+          what: 'The project&rsquo;s raw input — the client brief, a market scan, interview notes. brain-stem tells Obsidian to skip this folder in search so the material does not clutter your results.',
+          from: 'Gathered by you as you work — pasted source, captured notes, reference documents.',
+          clar: ['Hidden from search does NOT mean inaccessible — the files are on disk and Claude reads them whenever a task needs them.', 'Raw input, not output — finished work lives in <code>deliverables/</code>.'],
+          tips: [],
+          children: [{
+            id: 'ref-index', label: '_index.md', kind: 'file', origin: 'generated',
+            one: 'The auto-built contents list for this folder — kept current by the librarian.',
+            what: 'A small generated list of what&rsquo;s in <code>reference/</code>, so the raw material stays browsable even though the folder is hidden from Obsidian search. You don&rsquo;t edit it.',
+            from: 'Created and refreshed automatically by the librarian; never hand-edited.',
+            clar: ['Generated — everything beside it is your gathered source material.'],
+            tips: []
+          }, {
+            id: 'ref-file', label: '&lt;reference&gt;.md', kind: 'file', origin: 'authored',
+            one: 'A placeholder for one piece of source material — your file, named for the real thing.',
+            why: 'Raw input behind the finished work: a client brief, a market scan, interview notes. You gather these; Claude reads them on demand.',
+            what: 'A stand-in for a real reference file you gather. <code>&lt;reference&gt;.md</code> is a placeholder — you name each for the actual source, and <code>reference/</code> can hold sub-folders of notes too.',
+            from: 'Gathered by you as you work; the <code>_index.md</code> beside it tracks what&rsquo;s here.',
+            clar: ['A placeholder — your reference files are named for the real source.'],
+            tips: []
+          }]
+        }, {
+          id: 'work-additions', label: '&lt;your additions&gt;', kind: 'folder', origin: 'authored',
+          one: 'Anything you add on top of the base shell — the structure your work actually needs.',
+          why: 'The five scaffolded items are a floor, not a ceiling. Real projects need more — a <code>people/</code> folder, a <code>meeting-notes/</code> folder, a custom status doc — and brain-stem is built to absorb them without you touching any config: add a folder and it gets an auto-maintained index; register a new file type and every file of that kind is governed exactly like the ones that shipped.',
+          what: 'A stand-in for the folders and document types you add yourself. You don&rsquo;t hand-edit anything — you tell Claude what you want (&ldquo;add a people folder&rdquo;, &ldquo;govern a meeting-note type&rdquo;) and it registers the structure, then keeps it indexed and governed from then on.',
+          from: 'Created as you work, on your direction. A new folder gets an auto-maintained <code>_index.md</code>; a new document type is registered through <code>/govern register</code> so it&rsquo;s validated on every write.',
+          clar: ['You never hand-edit governance files — you describe the structure you want and Claude registers it for you.', 'Registered additions are governed exactly like the shipped folders and types — nothing you add is second-class.'],
+          tips: ['Making a kind of document often? Ask Claude to register it as a file type, so every one lands in the same shape.'],
+          link: { href: 'work-folder-guidebook.html', label: 'The work-folder guidebook' }
+        }]
+      }, {
+        id: 'work-dir-master', label: '&lt;project (master)&gt;/', kind: 'folder', origin: 'authored',
+        one: 'One non-code project in the <strong>master</strong> layout — several parallel streams under one roof.',
+        why: 'When a project is really several efforts at once — different teams, different deliverables, one umbrella — a flat folder blurs them together. The master layout keeps a thin shared top and gives each stream its own folder, so each has its own deliverables and reference while the whole thing still rolls up as one project.',
+        what: 'The folder for a multi-stream project. brain-stem scaffolds a thin top — the launch file (<code>CLAUDE.md</code>), brief (<code>README.md</code>), and log (<code>updates.md</code>) — and one folder per workstream (shown here as Workstream&nbsp;A and Workstream&nbsp;B). There are no top-level <code>deliverables/</code> or <code>reference/</code>; those live inside each stream. You still launch from this master folder, never from a stream.',
+        from: 'Scaffolded by brain-stem when you choose the master layout (and name a first stream). You and Claude fill in each stream as the work proceeds; add more streams the same way later.',
+        clar: ['<code>&lt;project (master)&gt;</code> is a placeholder — you name it for your real project.', 'You launch sessions from this master folder — never from a workstream inside it.', 'Choose master only for genuinely parallel streams; one stream of work wants the simpler flat layout above.', 'Your Additions appear at two levels — the master top (project-wide) and inside each workstream (stream-specific).'],
+        tips: ['Start with one stream and add others as they appear — you don&rsquo;t have to plan them all up front.'],
+        link: { href: 'work-folder-guidebook.html', label: 'The work-folder guidebook' },
+        children: [{
+          id: 'wm-claude', label: 'CLAUDE.md', kind: 'file', origin: 'authored',
+          one: 'The master&rsquo;s launch file — loads the whole project when you start a session here.',
+          what: 'The same launch file as a flat project, scaffolded by brain-stem: it carries the project&rsquo;s identity, a pointer to its binder, and an auto-maintained map — now spanning every workstream. You launch from here.',
+          from: 'Scaffolded at setup; the directory-map block inside is kept current by the librarian.',
+          clar: ['The only <code>CLAUDE.md</code> in the project — workstreams don&rsquo;t get their own.'],
+          tips: []
+        }, {
+          id: 'wm-readme', label: 'README.md', kind: 'file', origin: 'authored',
+          one: 'The umbrella brief — what the whole project is and how its streams fit together.',
+          what: 'A short brief for the master, scaffolded empty under the standard headings; you write the rest. Each stream also gets its own README for its piece.',
+          from: 'Created empty by brain-stem; you fill it in.',
+          clar: [], tips: []
+        }, {
+          id: 'wm-updates', label: 'updates.md', kind: 'file', origin: 'authored',
+          one: 'The project-wide running log, across all streams.',
+          what: 'The same add-only status log as a flat project, here spanning the whole master. Seeded with one line; you and Claude append as work moves.',
+          from: 'Seeded by brain-stem; appended to as you work.',
+          clar: [], tips: []
+        }, {
+          id: 'wm-stream', label: '&lt;workstream A&gt;/', kind: 'folder', origin: 'authored',
+          one: 'One stream of work inside the master — its own deliverables, reference, and additions, but no launch file.',
+          why: 'Each parallel effort gets a clean home of its own — its finished work and its raw material kept separate — while still belonging to the one project. That is what lets a sprawling, multi-team effort stay coherent instead of fragmenting into separate projects.',
+          what: 'A workstream folder, scaffolded with its own brief (<code>README.md</code>) and the two content folders (<code>deliverables/</code>, <code>reference/</code>) — each with the same auto <code>_index.md</code> plus your own files as a flat project. You can extend it with your own folders and types too. It is an organizational unit only — no <code>CLAUDE.md</code>, never a launch point.',
+          from: 'Scaffolded when you add the stream; you and Claude fill its contents.',
+          clar: ['No <code>CLAUDE.md</code> here — you always launch from the master above, not from a stream.', 'Its <code>README.md</code> carries a one-line &ldquo;launch from the master&rdquo; note.', '&ldquo;Workstream A&rdquo; is a placeholder heading — you name each stream for the real work.'],
+          tips: [],
+          children: [{
+            id: 'wm-stream-readme', label: 'README.md', kind: 'file', origin: 'authored',
+            one: 'The stream&rsquo;s brief — and a reminder to launch from the master.',
+            what: 'A short brief for this one stream, scaffolded under the standard headings, plus a one-line note that sessions launch from the master folder, not here.',
+            from: 'Created by brain-stem when the stream is added; you fill it in.',
+            clar: [], tips: []
+          }, {
+            id: 'wm-stream-deliv', label: 'deliverables/', kind: 'folder', origin: 'authored',
+            one: 'This stream&rsquo;s finished, client-facing output.',
+            what: 'The same role as a flat project&rsquo;s deliverables, scoped to this stream: an auto-maintained <code>_index.md</code> plus your own deliverable files.',
+            from: 'You and Claude produce these as the stream&rsquo;s work proceeds.',
+            clar: [], tips: [],
+            children: [{
+              id: 'wma-deliv-index', label: '_index.md', kind: 'file', origin: 'generated',
+              one: 'The auto-built contents list for this stream&rsquo;s deliverables.',
+              what: 'A small generated list, kept current by the librarian; you don&rsquo;t edit it.',
+              from: 'Created and refreshed automatically by the librarian.',
+              clar: [], tips: []
+            }, {
+              id: 'wma-deliv-file', label: '&lt;deliverable&gt;.md', kind: 'file', origin: 'authored',
+              one: 'A placeholder for one of this stream&rsquo;s finished deliverables — your file.',
+              what: 'A stand-in for a real deliverable; you name each for the actual output. As many as the stream needs.',
+              from: 'You and Claude write these as the stream&rsquo;s work proceeds.',
+              clar: [], tips: []
+            }]
+          }, {
+            id: 'wm-stream-ref', label: 'reference/', kind: 'folder', origin: 'authored',
+            one: 'This stream&rsquo;s raw notes and source material.',
+            what: 'The same role as a flat project&rsquo;s reference, scoped to this stream; hidden from Obsidian search, fully readable by Claude — an auto-maintained <code>_index.md</code> plus your own source files.',
+            from: 'Gathered by you as the stream&rsquo;s work proceeds.',
+            clar: [], tips: [],
+            children: [{
+              id: 'wma-ref-index', label: '_index.md', kind: 'file', origin: 'generated',
+              one: 'The auto-built contents list for this stream&rsquo;s reference material.',
+              what: 'A small generated list, kept current by the librarian; you don&rsquo;t edit it.',
+              from: 'Created and refreshed automatically by the librarian.',
+              clar: [], tips: []
+            }, {
+              id: 'wma-ref-file', label: '&lt;reference&gt;.md', kind: 'file', origin: 'authored',
+              one: 'A placeholder for one of this stream&rsquo;s source files — your file.',
+              what: 'A stand-in for real source material; you name each for the actual source.',
+              from: 'Gathered by you as the stream&rsquo;s work proceeds.',
+              clar: [], tips: []
+            }]
+          }, {
+            id: 'wma-additions', label: '&lt;your additions&gt;', kind: 'folder', origin: 'authored',
+            one: 'This stream&rsquo;s own extra folders and document types — added on your direction.',
+            why: 'Each workstream is a starting shape you extend independently. One stream might add an <code>interviews/</code> folder, another a <code>models/</code> folder — tailor each to its own work.',
+            what: 'A stand-in for the structure you add inside this stream. You describe it and Claude registers it through <code>/govern register</code>; new folders get an auto-index, new types are governed on every write. Your Additions can live here inside a stream AND at the master top level.',
+            from: 'Created on your direction as the stream grows; governed exactly like the shipped folders and types.',
+            clar: ['Additions are per-stream here — the master also has its own top-level Your Additions.'],
+            tips: [],
+            link: { href: 'work-folder-guidebook.html', label: 'The work-folder guidebook' }
+          }]
+        }, {
+          id: 'wm-stream-b', label: '&lt;workstream B&gt;/', kind: 'folder', origin: 'authored',
+          one: 'A second workstream — same idea as Workstream A, shaped to its own work.',
+          why: 'A master holds as many streams as the project needs, each independent. Showing two makes the point: they are siblings, not nested.',
+          what: 'Another stream beside Workstream A. It has the same starting shape — its own <code>README.md</code>, <code>deliverables/</code> and <code>reference/</code> (each with an auto <code>_index.md</code> plus your files), and its own Your Additions — but you tailor every stream&rsquo;s folders and file types to whatever that stream&rsquo;s work needs. (Expand Workstream A to see the full shape; it&rsquo;s identical here.)',
+          from: 'Scaffolded the same way as Workstream A, whenever you add it; you and Claude fill its contents.',
+          clar: ['Same scaffold as Workstream A — README, deliverables/, reference/, and Your Additions — then tailored to this stream.', '&ldquo;Workstream B&rdquo; is a placeholder heading; name it for the real work.'],
+          tips: [],
+          link: { href: 'work-folder-guidebook.html', label: 'The work-folder guidebook' }
+        }, {
+          id: 'wm-additions', label: '&lt;your additions&gt;', kind: 'folder', origin: 'authored',
+          one: 'The master&rsquo;s own top-level additions — extra folders and document types that span the whole project.',
+          why: 'Your Additions live at two levels in a master: here at the top (project-wide — say a <code>people/</code> roster shared across streams) and inside each workstream (stream-specific). Both are yours to grow; both are governed the same way.',
+          what: 'A stand-in for structure you add at the master level, above any single stream. You describe what you want and Claude registers it through <code>/govern register</code>; new folders get an auto-maintained index, new document types are validated on every write.',
+          from: 'Created on your direction as the project grows; governed exactly like the shipped folders and types.',
+          clar: ['Top-level here means project-wide; each workstream also has its own Your Additions for stream-specific structure.', 'You never hand-edit governance files — describe the structure and Claude registers it.'],
+          tips: [],
+          link: { href: 'work-folder-guidebook.html', label: 'The work-folder guidebook' }
+        }]
+      }]
+    }, {
+      id: 'projects', label: 'Projects', kind: 'symlink', origin: 'symlink', target: '~/.claude-plans/_projects',
+      one: 'One home page per project — a single place to see a whole project even when its work spans many plans.',
+      why: 'Plans get created one at a time, often months apart, and you usually can&rsquo;t know up front which will end up belonging together — so you can&rsquo;t just file them into one folder by hand (nobody maintains that past week two). A binder solves the after-the-fact problem: it watches each plan&rsquo;s project name and auto-gathers the matching ones, so a project grown across ten plans stays coherent — its research, decisions, and history all reachable from one page.',
+      what: 'A shortcut into where your binders are kept. A binder gathers every plan belonging to the same project into one view. It holds no copies — it points at the real plans and refreshes whenever they change.',
+      from: 'Binders are built and kept current by the librarian. A plan joins a project&rsquo;s binder automatically the moment it names that project in its manifest — you never assemble one by hand.',
+      clar: ['The project&rsquo;s actual work does not live here — this is a gathered view that points at the plans (which live under Plans).', 'There is no &ldquo;universal binder.&rdquo; Binders are per-project; the universal store is the Library (under Wiki).'],
+      tips: ['What makes a plan join a binder is one thing: the project name in that plan&rsquo;s manifest. Get the name right and the plan appears.'],
+      link: { href: 'project-binder.html', label: 'The project binder' },
+      children: [{
+        id: 'proj-dir', label: '&lt;project&gt;/', kind: 'folder', origin: 'generated',
+        one: 'One project&rsquo;s home folder: a cover page you write, plus three pages the librarian builds and refreshes.',
+        why: 'The alternative — a hand-written project summary — quietly goes stale and starts lying to you. These three indexes rebuild from the plans on every run, so they can&rsquo;t drift. That is what lets you answer &ldquo;what has this project researched, decided, and handed off?&rdquo; from one folder, and trust the answer.',
+        what: 'The gathered view for one project. Five files: a cover page you keep by hand (<code>hub.md</code>), an auto-built session card (<code>_situating.md</code>), plus three the librarian builds — one index each for the project&rsquo;s research, its decisions, and its session handoffs — each pulled together from across all the project&rsquo;s plans.',
+        from: 'The three indexes and the session card are rebuilt by the librarian from every plan naming this project. The cover page is the exception: created from a template once, then maintained by you, never overwritten.',
+        clar: ['It does not contain the plans — it contains a cover and three indexes that point back at them.', 'The <code>&lt;project&gt;/</code> name is a stand-in for your real project name (e.g. <code>acme-rebrand</code>).'],
+        tips: ['If an index looks wrong, fix the underlying plan — the index corrects itself on the next run. Editing it directly is pointless.'],
+        link: { href: 'project-binder.html', label: 'The project binder' },
+        children: [{
+          id: 'hub', label: 'hub.md', kind: 'file', origin: 'authored',
+          one: 'The binder&rsquo;s cover — a hand-kept list of the project&rsquo;s plans, plus pointers to the three auto-built indexes that sit beside it.',
+          why: 'It is the project&rsquo;s one cheap orientation page: read it and you (or Claude) know the project&rsquo;s plans and where its research, decisions, and handoffs are gathered — without loading any of that content. The cover stays small and stable; the volume that changes (the three indexes) lives in separate files it points at, each rebuilt from the plans on every librarian run.',
+          what: 'The binder&rsquo;s front door — eight pointer-only blocks. Block 1 names the project and carries its short list of plan IDs and status; the next blocks point at the three index files sitting right beside it (research, decisions, handoffs), plus Library references and deliverables. It holds no content of its own — it points.',
+          from: 'Seeded once from the binder template when the binder first forms (create-if-missing), then hand-maintained. No librarian capability rewrites it. The pointer links to the three indexes are part of the template, so they are present from the moment the binder exists.',
+          when: 'Read on demand to orient you to the whole project across its plans. What loads by itself at the start of a session you open in this project is the generated <code>_situating.md</code> beside it (the auto-built session card — see that node); this hub is the curated, stable companion you open when you want the full picture.',
+          clar: ['The pointers to the three indexes are baked into the template — you never add them by hand. They are live from the moment the binder exists, even before any research or decision artifact does; the index they point at simply starts empty and fills in as artifacts emerge.', 'The block-1 list of plan IDs and status is hand-kept — it is NOT auto-updated. Add a plan to the project and this list can drift until you update it. (The three indexes beside it DO auto-track every plan; the hub&rsquo;s own plan list does not.)', 'For projects set up under the current layout this is the only <code>hub.md</code>. An older project from a previous layout may also have a separate <code>hub.md</code> inside its work folder (<code>~/work/&lt;project&gt;/hub.md</code>) — that older file is a leftover, not part of how new projects work.'],
+          tips: ['The three indexes (research-index, decision-log, handoff-chronicle) auto-regenerate every librarian run; this cover is the stable, hand-kept front over them. The librarian&rsquo;s only touch on the cover itself is enforcing its ~200-line size cap (an audit-time check).'],
+          link: { href: 'project-binder.html', label: 'The project binder' }
+        }, {
+          id: 'situating', label: '_situating.md', kind: 'file', origin: 'generated',
+          one: 'The auto-built session card — a machine-made snapshot of the project (its plans, their status, where to pick up) that loads by itself at the start of a session you open in this project.',
+          why: '<code>hub.md</code> is the cover you keep by hand; this card is what orients Claude automatically. It is rebuilt from the plan files so it is always current and you never edit it — the system reads it before Claude&rsquo;s first reply, so a session starts already knowing the project&rsquo;s state.',
+          what: 'A generated card listing the project&rsquo;s plans and each one&rsquo;s stage, the overall project status, the plan in progress and its current task, the latest handoff line, and pointers to the three indexes and the deliverables folder.',
+          from: 'Built and refreshed by the librarian from the project&rsquo;s plan files; loaded into the session automatically at start.',
+          when: 'Loaded automatically at the start of a session opened in this project; also refreshed when the project closes out.',
+          clar: ['A generated snapshot, not a hand-kept page — you never edit it; fix the underlying plan and it corrects itself.', 'Distinct from <code>hub.md</code>: the card is the machine-built part that loads itself, the cover is the curated part you open on demand.'],
+          tips: [],
+          link: { href: 'project-binder.html', label: 'The project binder' }
+        }, {
+          id: 'research-index', label: 'research-index.md', kind: 'file', origin: 'generated',
+          one: 'An auto-built table of all the research across the project&rsquo;s plans, grouped by the plan it came from.',
+          why: 'On a multi-plan project, research piles up in scattered folders and it is easy to forget you already did a piece — so you re-run it weeks later and pay twice. This table answers &ldquo;what has this project already looked into, and where?&rdquo; so you reuse instead of redo. It lists only formally logged work, so it stays a trustworthy map, not a junk drawer.',
+          what: 'An auto-built table listing every piece of research the plans have logged — one row each, showing type, status, source, a one-line summary, and a link to the matching Library article if the finding was promoted there.',
+          from: 'Built by the librarian from each plan&rsquo;s logged research; rebuilt in full every run. A note earns a row only once it is listed in its plan&rsquo;s manifest.',
+          clar: ['It does not hold the research — it indexes and links to items in the plan folders.', 'Only logged research appears — a note merely saved in a folder but never listed never shows up.'],
+          tips: ['To get a file listed here, add it to the plan manifest&rsquo;s research list — that act of logging is what promotes a scratch note into a tracked item.']
+        }, {
+          id: 'decision-log', label: 'decision-log.md', kind: 'file', origin: 'generated',
+          one: 'An auto-built ledger of every significant decision made across the project&rsquo;s plans.',
+          why: 'The most expensive thing to lose on a long project is WHY a decision was made — so teams (and AI sessions) re-open settled questions and re-argue them. This ledger is the institutional memory that stops that: every significant call in one place, with replaced ones linked forward so you can trace how the thinking changed.',
+          what: 'An auto-built table gathering the decision records from all the project&rsquo;s plans — each row showing the decision&rsquo;s ID, title, status (proposed, accepted, rejected, deprecated, or superseded), and a link to the full record. A superseded decision is never deleted; it points forward to its replacement.',
+          from: 'Built by the librarian as a straight gathering of each plan&rsquo;s logged decisions; rebuilt every run.',
+          clar: ['&ldquo;Significant&rdquo; means any consequential, hard-to-reverse choice — not only technical ones.', 'It does not contain the reasoning — that stays in the per-decision records it links to.'],
+          tips: ['Can&rsquo;t remember why a past choice was made? Start here and follow the forward-links for the whole chain.']
+        }, {
+          id: 'handoff-chronicle', label: 'handoff-chronicle.md', kind: 'file', origin: 'generated',
+          one: 'An auto-built timeline, newest first, of every session&rsquo;s handoff note across the project&rsquo;s plans.',
+          why: 'A project worked across many sessions has its continuity scattered across a dozen handoff notes — and the one line you most need (where to pick up next) is the hardest to find. This timeline pulls every &ldquo;start here next&rdquo; line into one page, so resuming a cold project means reading one page, not doing archaeology.',
+          what: 'A handoff is the short note left at the end of a session saying what got done and where to pick up. This page stitches the handoffs from all the project&rsquo;s plans into one history, newest on top — one short entry per session with its &ldquo;start here next time&rdquo; line copied word-for-word.',
+          from: 'Built by the librarian from every plan&rsquo;s handoff file each run (a session-close step can also add the newest entry). You write the handoffs in the plans; this assembles them.',
+          clar: ['It does not replace the per-plan handoffs — it harvests one short entry from each; the full notes stay in the plans.', 'A summary timeline, not a full record.'],
+          tips: ['Resuming a cold project? Read the top entry first — its &ldquo;start here next time&rdquo; line is usually all you need.']
+        }, {
+          id: 'proj-research', label: 'research/', kind: 'folder', origin: 'generated',
+          one: 'Live links into each plan&rsquo;s research — the index tells you what exists; this is the door you open.',
+          why: 'This folder and <code>research-index.md</code> both surface the project&rsquo;s research but do different jobs — the index is the readable map (WHAT exists), this is the door (open and work in the live files without leaving the binder). And because these are links, not copies, there is only ever one true copy of each file; the librarian sweeps away any link whose target is gone, so dead links can&rsquo;t pile up.',
+          what: 'A folder of shortcuts, one per plan that contributes research, each opening straight into that plan&rsquo;s live research folder — the same shortcut trick the vault uses, one level deeper inside the binder.',
+          from: 'Maintained by the librarian from the plans&rsquo; logged, finalized research; rebuilt and cleaned up every run.',
+          clar: ['Links, not copies — the research lives in the plan folders.', 'It mirrors only logged, finalized research, not every loose file in a plan.'],
+          tips: ['If a link ever looks broken, leave it — the next librarian run sweeps it away on its own.']
+        }]
+      }]
+    }, {
+      id: 'wiki', label: 'Wiki', kind: 'symlink', origin: 'symlink', target: '~/.claude-plans/_library',
+      one: 'Your permanent reference library — curated, reusable knowledge that outlives any single project. (The folder is labeled Wiki; everything calls it the Library.)',
+      why: 'This is what stops you re-researching what you already figured out. Work out a vendor&rsquo;s compliance rules for one project, and six months later a different project needs the same rules — without the Library that finding is trapped in the first project and you pay the research cost again. Here a hard-won finding becomes a reusable asset, surfaced the moment you&rsquo;re about to need it again.',
+      what: 'A shortcut into your Library: short, polished articles, one idea each, sorted onto shelves by topic, that ANY project can pull from. The opposite of a project folder (which holds one project&rsquo;s work and ends with it). Only finished, cleaned-up knowledge gets shelved here — not messy in-progress notes.',
+      from: 'Starts empty; fills through promotion. When you mark a plan&rsquo;s research finished, the librarian strips the project-specific names and dates, keeps a copy of the original, and shelves a clean article. You decide what gets promoted.',
+      when: 'Never loaded automatically — a full reference shelf every session would be huge and mostly irrelevant. Instead, the first time something you ask looks like research, a quiet background check surfaces a one-line pointer to any relevant article you already have.',
+      clar: ['Not your scratch-pad — raw, in-progress work lives elsewhere; only finished, cleaned-up knowledge is shelved here.', 'Nothing lands here by accident — an article appears only after you mark research finished and approve it.'],
+      tips: ['The background check only ever helps — it points you to coverage you already have. It never hunts for gaps or nags you to fill them.'],
+      link: { href: 'context-library.html', label: 'Dual context layers' },
+      children: [{
+        id: 'wiki-index', label: '_index.md', kind: 'file', origin: 'generated',
+        one: 'The Library&rsquo;s front desk — an auto-built map of every topic shelf and the articles on it.',
+        why: 'The Library lives outside your vault, so Obsidian can&rsquo;t browse it directly — this page is how you see what&rsquo;s on the shelves. It&rsquo;s also what the background check reads to decide whether you already have coverage, instead of opening every article. Rebuilt automatically, it never lies about what&rsquo;s really there.',
+        what: 'The top-level contents list for the whole Library: a single page naming each topic folder and the articles inside it. Each topic folder also has its own contents list; this one sits above them all.',
+        from: 'Rebuilt by the librarian every time an article is added or moved. A generated list — read it, don&rsquo;t hand-edit it.',
+        when: 'You rarely open it directly — the background check consults it for you. Open it when you want to browse the whole Library by hand.',
+        clar: ['Don&rsquo;t hand-edit — manual changes are overwritten on the next rebuild; edit the articles and this updates to match.', 'It lists contents; it is not itself an article.'],
+        tips: []
+      }, {
+        id: 'wiki-log', label: 'log.md', kind: 'file', origin: 'generated',
+        one: 'The Library&rsquo;s history — one line for each time an article is added, changed, or replaced.',
+        why: 'The moment this earns its place: you acted on an article last month, today it reads differently, and you can&rsquo;t tell whether it was revised or you misremember. This log answers that in one line. A safety net you check rarely — there for the day you do need to know what changed under you.',
+        what: 'A running record of the Library&rsquo;s history — one line per change, in order. The history of changes, not the articles themselves.',
+        from: 'The librarian adds a line automatically whenever it shelves or revises an article during promotion. Add-only, so the history stays honest.',
+        clar: ['A record of changes, not content — the actual reference lives in the topic shelves.'],
+        tips: []
+      }, {
+        id: 'topic', label: '&lt;topic&gt;/', kind: 'folder', origin: 'generated',
+        one: 'One subject&rsquo;s shelf — a folder gathering every article on a single topic.',
+        why: 'Without folders the Library would be one junk drawer you scroll to find anything, and the background check would have no shelf to point you to. Subject folders keep related knowledge in one findable place — and let you see at a glance which subjects you&rsquo;ve built deep coverage on and which are thin.',
+        what: 'A folder gathering all your reference articles on one subject, with its own contents list. A new subject folder appears automatically the first time you promote an article about that subject; you never build them in advance.',
+        from: 'Created by the librarian during promotion the first time an article is shelved under a new subject.',
+        clar: ['Topics are not created in advance — on a fresh install there are no shelves; the first appears with your first promoted article.', 'The folder organizes; the knowledge lives in the articles inside it.'],
+        tips: [],
+        children: [{
+          id: 'article', label: '&lt;article&gt;.md', kind: 'file', origin: 'generated',
+          one: 'A finished reference article — one idea, cleaned of project specifics, ready to reuse anywhere.',
+          why: 'This is where a one-off finding becomes a permanent asset, and the cleanup is what makes it reusable — skip it and you&rsquo;re filing one client&rsquo;s names and dates onto a shelf labeled &ldquo;universal.&rdquo; Without articles like this, finished research has nowhere to graduate to and simply dies inside the plan that produced it.',
+          what: 'A short page covering one idea, tagged at the top with <code>type: reference</code> (how the system tells curated reference from everything else). The originating project&rsquo;s names and dates are stripped out, so it reads as general knowledge.',
+          from: 'Written by the librarian when you promote a plan&rsquo;s finished research — in two steps so you stay in control: it cleans the draft and shows you a side-by-side preview, and saves nothing until you approve.',
+          clar: ['One article, one idea — a distilled page, not the raw research. The original is kept separately in <code>_raw/</code>.', 'Not written by hand here — the librarian produces it; you approve the preview before anything is saved.'],
+          tips: [],
+          link: { href: 'context-library.html', label: 'Dual context layers' }
+        }, {
+          id: 'raw', label: '_raw/', kind: 'folder', origin: 'generated',
+          one: 'The untouched original behind each article — kept so you can always check where the knowledge came from.',
+          why: 'A reference article is only as trustworthy as your ability to check it. The cleanup deliberately drops the specifics — so when you&rsquo;re about to make a real decision on an article&rsquo;s claim, <code>_raw/</code> is the unchanged original you check against. The article can drift across edits; the source never moves.',
+          what: 'A sub-folder holding an unchanged copy of the original material each article was cleaned up from. The polished article can be rewritten freely; this raw record is never altered — the receipt that an article traces back to real source.',
+          from: 'Saved automatically by the librarian the moment an article is created, then left alone.',
+          clar: ['Deliberately never changed — the article can be edited; the <code>_raw/</code> original stays fixed on purpose.', 'Not where you read — read the clean article; reach into <code>_raw/</code> only to check the source.'],
+          tips: []
+        }]
+      }]
+    }, {
+      id: 'plans', label: 'Plans', kind: 'symlink', origin: 'symlink', target: '~/.claude-plans',
+      one: 'One window onto everything you&rsquo;re running — every project, plus the raw ideas not yet promoted to one.',
+      why: 'This is where multi-session work gets a permanent home that survives the end of any one conversation. Without it, a multi-week project lives only in your chat history and your head — you re-explain the goal every session and lose track of what&rsquo;s actually done versus merely claimed-done. The plan tree is the spine that lets you pick an initiative back up weeks later and know exactly where it stands.',
+      what: 'A shortcut into all your long-running work at <code>~/.claude-plans/</code>. Inside: one numbered folder per project, three list pages the librarian keeps current (<code>_index.md</code>, <code>_backlog.md</code>, <code>_archive.md</code>), and an <code>_inbox/</code> where new ideas wait. A fresh install starts empty.',
+      from: 'Appears at install, empty. It fills from the planning commands — you jot ideas with <code>/backlog-triage</code>, turn good ones into plans with <code>/backlog-research</code> or <code>/new-plan</code>, then flesh them out.',
+      clar: ['Not a to-do app — each numbered folder is a full project with its own goal, task list, research, and history.', 'This same outside-the-vault folder also holds your binders (via Projects) and the Library (via Wiki); they&rsquo;re siblings of your plans, not shown twice here.'],
+      tips: ['Plan numbers are handed out in creation order and never reused, so &ldquo;plan 87&rdquo; means the same thing forever.'],
+      link: { href: 'plans.html', label: 'Plans' },
+      children: [{
+        id: 'plan-index', label: '_index.md', kind: 'file', origin: 'generated',
+        one: 'The master list of every plan, grouped by where it stands.',
+        why: 'Without it you&rsquo;d open dozens of plan folders one by one just to answer &ldquo;what am I working on, and what stage is each at?&rdquo; This answers it in one read — and because it&rsquo;s generated from each plan&rsquo;s real recorded stage, it can&rsquo;t quietly fall out of date the way a hand-kept list would.',
+        what: 'One auto-built page listing every plan grouped by stage — being researched, planned, in progress, done, verified, closed. Big initiatives split into pieces show those nested underneath.',
+        from: 'Rebuilt by the librarian from all your plan folders; always matches what&rsquo;s really there.',
+        clar: ['Claude maintains this, not you — the next rebuild overwrites hand-edits.', '&ldquo;Done,&rdquo; &ldquo;verified,&rdquo; and &ldquo;closed&rdquo; are different stages: done = finished, verified = actually checked, closed = wrapped and put to rest.'],
+        tips: []
+      }, {
+        id: 'backlog', label: '_backlog.md', kind: 'file', origin: 'generated',
+        one: 'Your waiting room — everything you might do next but haven&rsquo;t started — in one scannable table.',
+        why: 'A captured idea is worthless if you can never find it again, which is why most idea inboxes become graveyards. This page keeps quick capture worth doing: jot down a dozen ideas knowing they all surface here. And it cleanly separates &ldquo;things I&rsquo;m thinking about&rdquo; from &ldquo;things I&rsquo;m actively building.&rdquo;',
+        what: 'An auto-built table of everything you might work on but haven&rsquo;t begun — loose ideas in the <code>_inbox/</code> plus plans you&rsquo;ve sketched but not started. One rule: not started shows here; the moment you start it, it moves to <code>_index.md</code>.',
+        from: 'Rebuilt by the librarian. To change an item, change the idea note or the plan it came from.',
+        clar: ['The not-yet-started queue only — the instant you start something, it leaves this page for <code>_index.md</code>.'],
+        tips: ['A companion cleanup pass (<code>/backlog-hygiene</code>) keeps this fresh — flagging stale items and filing away ones that are actually done.']
+      }, {
+        id: 'archive', label: '_archive.md', kind: 'file', origin: 'generated',
+        one: 'The record of finished, retired plans — the plan tree&rsquo;s long-term memory.',
+        why: 'Without an archive, finished plans either pile up forever on your active list (drowning out current work) or get deleted (losing the history of what you built and why). This keeps the active list short while the full history stays one click away — so months later you can still answer &ldquo;didn&rsquo;t we already build something like this?&rdquo;',
+        what: 'An auto-kept log of plans you&rsquo;ve finished and filed away. A plan isn&rsquo;t archived the moment you finish it: it first sits &ldquo;closed,&rdquo; and moves here only once a batch of closed plans has built up and one has been closed for a while.',
+        from: 'The librarian moves a closed plan here once a handful have piled up and it&rsquo;s rested a while — accumulation plus a cooling-off, not a calendar rule.',
+        clar: ['Triggered by a batch of closed plans plus a cooling-off rest — NOT a fixed &ldquo;30 days later&rdquo; rule.', 'Archived means filed away, not deleted — the plan&rsquo;s folder and full history still exist.'],
+        tips: []
+      }, {
+        id: 'inbox', label: '_inbox/', kind: 'folder', origin: 'authored',
+        one: 'The no-commitment holding pen for raw ideas, before any becomes a plan.',
+        why: 'This makes capturing an idea effortless and commitment-free — you jot it in seconds and sort it later. Without it, every fleeting idea would force an upfront decision (&ldquo;is this worth a whole numbered project?&rdquo;), so you&rsquo;d either over-commit to half-baked ideas or, far more likely, never write them down.',
+        what: 'A folder where each new idea lands as one quick note, passing through three stages as you sort it — new, triaged, briefed. An idea here costs nothing and uses no plan number; numbers are handed out only when an idea graduates into a real plan. Empty on a fresh install.',
+        from: 'Created the first time you capture an idea with <code>/backlog-triage</code>.',
+        clar: ['An idea here is NOT a plan yet — no number, no task list; a candidate waiting to be sorted.', 'You decide nothing when you drop an idea here — capture first, judge later.'],
+        tips: [],
+        children: [{
+          id: 'inbox-item', label: '&lt;slug&gt;.md', kind: 'file', origin: 'authored',
+          one: 'One captured idea, named by a short slug, working its way through the funnel.',
+          why: 'This is the unit that makes the funnel work — a self-contained record of one idea and what was decided about it. Without the verdict it carries you&rsquo;d re-judge the same idea every time, and could unknowingly start duplicate or overlapping projects.',
+          what: 'A single idea saved as one note; its filename is a short hyphenated &ldquo;slug&rdquo; like <code>meeting-summarizer</code>, with no number. When you capture it, the system sorts it into one of four buckets and writes the verdict in: NOVEL (genuinely new), DUPLICATE (you already have this), OVERLAP (partly repeats an existing plan), or DEFERRED (worth doing, not now). If it becomes a plan, its text is copied word-for-word into that plan&rsquo;s brief and this note is deleted.',
+          from: 'You create it by asking Claude to jot the idea down (which runs <code>/backlog-triage</code>); sorting and promotion update it in place.',
+          clar: ['An idea note is a different thing from a plan — its own three labels (new / triaged / briefed), not the longer plan lifecycle.', 'When it graduates, this note is deleted — its content lives on inside the plan&rsquo;s brief.'],
+          tips: []
+        }]
+      }, {
+        id: 'plan-dir', label: '&lt;NN-flat-plan&gt;/', kind: 'folder', origin: 'authored',
+        one: 'One project&rsquo;s working folder, structured so &ldquo;done&rdquo; has to be checked, not just claimed.',
+        why: 'This is what turns a vague intention into a project the system can shepherd from idea to checked-and-verified done. A folder of loose notes can&rsquo;t stop you — or an AI working for you — from marking work done that was never done; this structure can. It is what makes a multi-session project resumable and trustworthy.',
+        what: 'One project&rsquo;s folder, named with a number plus a slug (e.g. <code>87-vault-hardening/</code>). Inside are four core files every plan has — spec, manifest, tasks, handoff (goal, real task list, readable list, running log) — plus optional extras: the ideation brief, and folders for research and decisions. Most plans are flat; only a genuinely large effort becomes a &ldquo;master plan&rdquo; coordinating sub-plans.',
+        from: 'Scaffolded by <code>/new-plan</code> (when you know what you want) or <code>/backlog-research</code> (when an idea is researched into a plan first). The number is assigned in creation order and never reused.',
+        clar: ['The number is permanent and meaningful — the plan&rsquo;s identity, not just sort order.', 'A plan never silently grows into a master plan — splitting into sub-plans is always a deliberate choice.'],
+        tips: ['Default to flat — four files in one folder is right for almost every project.'],
+        link: { href: 'plans.html', label: 'Plans' },
+        children: [{
+          id: 'ideation-brief', label: '00-ideation-brief.md', kind: 'file', origin: 'authored',
+          one: 'The case for the plan — why it exists, captured before the goal locks in.',
+          why: 'Six months on, the spec tells you what you decided to build but not why — and the why is what you need to judge whether the work still makes sense or should be killed. This brief preserves the reasoning and evidence so it doesn&rsquo;t evaporate, and it&rsquo;s where a captured idea&rsquo;s original wording lives forever.',
+          what: 'The &ldquo;why this plan exists&rdquo; document, written before the plan itself — the original idea, the research that justified it, and the call on whether to proceed. The <code>00-</code> in its name forces it to the top of the folder, because it&rsquo;s the first thing to read.',
+          from: 'Written by <code>/backlog-research</code> when an idea is researched into a plan (it also copies the original idea note&rsquo;s text in). If you skip research and use <code>/new-plan</code>, it&rsquo;s left as an empty placeholder.',
+          clar: ['The optional fifth file — separate from the four core files every plan has.', 'An empty-looking brief just means the research-skip path (<code>/new-plan</code>) was used.'],
+          tips: [],
+          link: { href: 'plans.html', label: 'Plans' }
+        }, {
+          id: 'spec', label: 'spec.md', kind: 'file', origin: 'authored',
+          one: 'The north star — the goal and constraints, kept fixed so the target can&rsquo;t drift.',
+          why: 'Drifting goals are the silent killer of long projects: the work wanders, scope creeps, and you end up somewhere nobody chose. A fixed spec means every later session aims at the same target, so &ldquo;are we finished?&rdquo; has an answer that doesn&rsquo;t move.',
+          what: 'Your written statement of what the plan should achieve and what &ldquo;finished&rdquo; looks like. Once set, you treat it as fixed. It&rsquo;s one of the four core files, and the one you write yourself rather than the system generating.',
+          from: 'You write it (with Claude&rsquo;s help) when the plan is created — human-authored, unusual here since most of these files are auto-built.',
+          clar: ['Holds the goal, not the steps — the task breakdown lives in the manifest and tasks list.', 'Fixed is a discipline, not a hard lock. If the goal genuinely must change, that&rsquo;s a real, logged decision, not a quiet edit.'],
+          tips: []
+        }, {
+          id: 'manifest', label: 'manifest.json', kind: 'file', origin: 'authored',
+          one: 'The plan&rsquo;s single source of truth — its real task list and stage, in a form the system can check.',
+          why: 'This is the load-bearing file of the whole plan tree, for a concrete reason: AI tools have a documented habit of claiming they ticked a box they never actually did. So completion is recorded HERE, in checkable structured data — and the readable to-do list is treated as just a printout of it. Lose this and you lose the plan&rsquo;s real state.',
+          what: 'The plan&rsquo;s true state in structured data the system can read and check — the real task list with each task&rsquo;s status, the plan&rsquo;s stage, the project it belongs to, and links to its research and decisions. Think of it as the master spreadsheet: everything else you read about the plan is generated from it. (&ldquo;Manifest&rdquo; = a ship&rsquo;s cargo list, a precise, checkable inventory.) Re-checked on every save, so it can&rsquo;t go malformed. You rarely open it — Claude&rsquo;s tools update it for you.',
+          from: 'Authored and updated as work proceeds, and automatically checked for errors on every save.',
+          clar: ['Think of this as the spreadsheet and <code>tasks.md</code> as a printout of it — you mark a task done by changing the manifest, and the readable list re-prints to match.', 'Stored in a system-readable format (JSON), which is why the tools touch it for you.'],
+          tips: [],
+          link: { href: 'plans.html', label: 'Plans' }
+        }, {
+          id: 'tasks', label: 'tasks.md', kind: 'file', origin: 'generated',
+          one: 'The human-readable to-do list — a printout of the manifest, not the source. Read it; don&rsquo;t edit it.',
+          why: 'This is the deliberate split that keeps completion honest. You get a pleasant readable checklist, but it&rsquo;s explicitly a read-only mirror — because if you could mark something done here by hand, that&rsquo;s exactly where an AI agent could fake progress too. Done counts only when it&rsquo;s recorded in the manifest, never penciled onto the printout.',
+          what: 'A clean, readable version of the task list that actually lives in <code>manifest.json</code>, rebuilt automatically every time the real task list changes.',
+          from: 'Machine-rebuilt from the manifest by the librarian whenever it changes. One of the four core files, but the only one that&rsquo;s generated rather than written.',
+          clar: ['Do NOT mark tasks done here — any hand-edit is erased on the next rebuild. Change the manifest (which the tools do for you).', 'A copy, not the original — the real list lives in <code>manifest.json</code>.'],
+          tips: ['For the curious: the system rebuilds only the section between two hidden marker lines it controls.']
+        }, {
+          id: 'handoff', label: 'handoff.md', kind: 'file', origin: 'authored',
+          one: 'The plan&rsquo;s running diary — add-only, newest entry on top.',
+          why: 'This is what lets a project survive across many sessions and weeks without re-explaining everything each time: a fresh session reads the top entry and instantly knows the state of play. Never rewriting old entries is what makes it useful — you can see how the plan actually unfolded, including where a session got something wrong and a later one fixed it.',
+          what: 'A running progress diary. Each session adds one fresh entry to the top — what happened, what&rsquo;s left, where to pick up. You only ever add; a correction is a new entry on top, never an edit of history.',
+          from: 'Written at the end of each session — by you, or automatically by the wrap-up step that records where things stand.',
+          clar: ['Older entries are never edited or deleted — a correction is a NEW entry on top.', 'Newest is at the TOP, the reverse of a normal diary (and of <code>updates.md</code>), so you read the current state first.'],
+          tips: [],
+          link: { href: 'session-close.html', label: 'Session close' }
+        }, {
+          id: 'research', label: '_research/', kind: 'folder', origin: 'authored',
+          one: 'The findings this plan produced — and the on-ramp to the shared Library.',
+          why: 'Research you do for one project is usually valuable to the next — but only if it can escape the project it was born in. A finished piece here is the one thing eligible to be promoted into the Library, cleaned of this project&rsquo;s specifics, so every future plan can reuse it. Without this tracked home, hard-won research stays trapped in one plan folder.',
+          what: 'An optional folder holding the research a plan produced — one file per piece, each marked in-progress, finished, or parked. Marking a piece finished is the deliberate step that later lets it be cleaned and moved onto the Library.',
+          from: 'Written during the plan&rsquo;s research and listed in the manifest so the system tracks it. Only listed research is eligible to be promoted.',
+          clar: ['Optional — many plans have none.', 'Marking a piece finished is a manual signal you give; that signal is what unlocks promotion to the Library.'],
+          tips: ['Promotion is propose-then-apply: it shows a cleaned-up preview first and writes nothing until you approve; the original is always kept.'],
+          link: { href: 'context-library.html', label: 'Dual context layers' }
+        }, {
+          id: 'decisions', label: 'decisions/', kind: 'folder', origin: 'authored',
+          one: 'The plan&rsquo;s decision ledger — what was chosen, what was rejected, and why.',
+          why: 'Months later the most expensive question is &ldquo;why did we do it this way — and did we already rule out the obvious alternative?&rdquo; Without a ledger you re-argue settled questions, or quietly reverse a deliberate choice without realizing it was deliberate. A decision deserves its own note so a future session, yours or Claude&rsquo;s, inherits the reasoning instead of guessing.',
+          what: 'An optional folder with one short note per important decision — what you chose, the options considered, and why, plus a status like &ldquo;accepted&rdquo; or &ldquo;superseded.&rdquo; (Sometimes called ADRs, &ldquo;architecture decision records,&rdquo; but they work for any meaningful choice, not just technical ones.)',
+          from: 'Written as decisions are made, and listed in the manifest so they&rsquo;re tracked with the plan.',
+          clar: ['Optional — small plans often have none.', 'Replacing a decision means adding a new note marking the old one &ldquo;superseded,&rdquo; not deleting it.'],
+          tips: []
+        }]
+      }, {
+        id: 'plan-master', label: '&lt;NN-master-plan&gt;/', kind: 'folder', origin: 'authored',
+        one: 'A large effort split into sub-plans — a coordinating master over several full plans, each a numbered sub-folder.',
+        why: 'Some efforts are too big for one flat plan: many phases or work-streams, weeks of work. Rather than one sprawling task list, the master splits the effort into sub-plans — each a complete plan in its own right — numbered in the order they run. The master coordinates; the sub-plans do the work and report their status up. A master is never auto-created — it takes the explicit <code>--master</code> choice.',
+        what: 'A plan folder that coordinates sub-plans. At its root sit the four core plan files — <code>spec.md</code>, <code>manifest.json</code>, <code>tasks.md</code>, <code>handoff.md</code> — for the overall effort (but no ideation brief; that is a flat-plan file only). Beneath them, one numbered sub-folder per sub-plan (<code>01-…/</code>, <code>02-…/</code>), each a full plan with its own quartet. Sub-plans are numbered in execution order and never talk to each other — they only publish status up to the master.',
+        from: 'Scaffolded by <code>/new-plan --master</code>, which also seeds the first sub-plan. More sub-plans are added later with <code>/new-plan --add-subplan</code>. The master&rsquo;s manifest tracks them and their order.',
+        clar: ['Reach for this only for genuinely large efforts — almost every plan is flat (the example above).', 'The master root carries the quartet but NO <code>00-ideation-brief.md</code> — the brief is a flat-plan file only.', 'Each sub-folder is a complete plan, not a checklist item — its own spec, manifest, tasks, and handoff.', 'Sub-plans are numbered in execution order (01, 02, …), which is not the same as the master&rsquo;s own creation-order number.'],
+        tips: ['Default to flat. Split into a master only when the effort is genuinely too big for one task list.'],
+        link: { href: 'plans.html', label: 'Plans' },
+        children: [{
+          id: 'pm-spec', label: 'spec.md', kind: 'file', origin: 'authored',
+          one: 'The master&rsquo;s north star — the goal of the whole effort, plus a map of its sub-plans.',
+          what: 'The overall spec for the master plan — the goal and definition of done for the entire effort, with a sub-plan map. Each sub-plan also has its own spec for its slice.',
+          from: 'You write it (with Claude&rsquo;s help) when the master is created.',
+          clar: ['Unlike a sub-plan&rsquo;s spec, the master spec carries no <code>parent_plan</code> — it is the parent.'],
+          tips: []
+        }, {
+          id: 'pm-manifest', label: 'manifest.json', kind: 'file', origin: 'authored',
+          one: 'The master&rsquo;s source of truth — type &ldquo;master,&rdquo; with the roster of sub-plans and their order.',
+          what: 'The structured control file for the master (<code>type: master</code>): the overall stage, the project it belongs to, and the <code>sub_plans[]</code> roster with each sub-plan&rsquo;s execution order and status. It holds no task list of its own — each sub-plan&rsquo;s tasks live in that sub-plan&rsquo;s manifest.',
+          from: 'Authored and updated as the effort proceeds; the librarian reconciler pulls each sub-plan&rsquo;s status up into the roster.',
+          clar: ['Type is <code>master</code> (a flat plan is <code>plan</code>; a sub-plan is <code>sub-plan</code>).', 'No <code>tasks[]</code> at the master level — the roster of sub-plans takes its place.'],
+          tips: []
+        }, {
+          id: 'pm-tasks', label: 'tasks.md', kind: 'file', origin: 'generated',
+          one: 'The master&rsquo;s readable rollup — its sub-plan map and overall progress.',
+          what: 'A readable view of the master, the same way a flat plan&rsquo;s <code>tasks.md</code> mirrors its manifest — here showing the sub-plan map rather than a single task list. You read it; you don&rsquo;t hand-edit it.',
+          from: 'Rebuilt from the master&rsquo;s manifest; one of the four core files, the generated one.',
+          clar: ['A printout, not the source — the real roster lives in <code>manifest.json</code>.'],
+          tips: []
+        }, {
+          id: 'pm-handoff', label: 'handoff.md', kind: 'file', origin: 'authored',
+          one: 'The master&rsquo;s running diary — newest entry on top, spanning the whole effort.',
+          what: 'The add-only session diary for the master, the same as a flat plan&rsquo;s but scoped to the overall effort.',
+          from: 'Written at the end of each session, by you or the wrap-up step.',
+          clar: [], tips: []
+        }, {
+          id: 'pm-sub', label: '01-&lt;sub-plan&gt;/', kind: 'folder', origin: 'authored',
+          one: 'One sub-plan — a full plan in its own right, numbered for its place in the running order.',
+          why: 'A sub-plan is a complete plan, not a checklist line: it has its own goal, task list, and history, and earns its own &ldquo;verified.&rdquo; That is what lets a huge effort stay trustworthy — each piece is checked on its own terms — while the master keeps the pieces in order.',
+          what: 'A numbered sub-folder (<code>01-</code>, <code>02-</code>, … in execution order) holding a full plan: its own four-file quartet (spec, manifest, tasks, handoff), plus optional research and decisions just like the flat plan above. It carries a <code>parent_plan</code> pointer to the master and publishes its status up.',
+          from: 'Seeded by <code>/new-plan --master</code> (the first sub) or <code>--add-subplan</code> (each later one); then worked like any plan.',
+          clar: ['A full plan, not a task — its own spec, manifest, tasks, and handoff (shown below).', 'The number is execution order within the master (01, 02, …), distinct from the master&rsquo;s own creation-order number.'],
+          tips: [],
+          link: { href: 'plans.html', label: 'Plans' },
+          children: [{
+            id: 'pms-spec', label: 'spec.md', kind: 'file', origin: 'authored',
+            one: 'The sub-plan&rsquo;s goal — and a <code>parent_plan</code> pointer to its master.',
+            what: 'The same as a flat plan&rsquo;s spec, scoped to this slice of the effort. Its frontmatter carries <code>parent_plan: &lt;NN-master-plan&gt;</code> (required for any plan file this deep).',
+            from: 'Written when the sub-plan is seeded.',
+            clar: [], tips: []
+          }, {
+            id: 'pms-manifest', label: 'manifest.json', kind: 'file', origin: 'authored',
+            one: 'The sub-plan&rsquo;s source of truth — type &ldquo;sub-plan,&rdquo; with its own task list.',
+            what: 'The structured control file for this sub-plan (<code>type: sub-plan</code>), carrying <code>parent_plan</code>, a <code>sub_plan_id</code> (e.g. &ldquo;01&rdquo;), and its own <code>tasks[]</code> — the master&rsquo;s roster pulls this sub-plan&rsquo;s status up.',
+            from: 'Authored and updated as the sub-plan&rsquo;s work proceeds; checked on every save.',
+            clar: [], tips: []
+          }, {
+            id: 'pms-tasks', label: 'tasks.md', kind: 'file', origin: 'generated',
+            one: 'The sub-plan&rsquo;s readable to-do list — a printout of its manifest.',
+            what: 'The same generated, read-only checklist as a flat plan&rsquo;s <code>tasks.md</code>, rebuilt from this sub-plan&rsquo;s manifest.',
+            from: 'Machine-rebuilt from the sub-plan&rsquo;s manifest by the librarian.',
+            clar: [], tips: []
+          }, {
+            id: 'pms-handoff', label: 'handoff.md', kind: 'file', origin: 'authored',
+            one: 'The sub-plan&rsquo;s running diary — newest entry on top.',
+            what: 'The add-only session diary for this sub-plan. Unlike its spec and manifest, the handoff is exempt from carrying a <code>parent_plan</code> line.',
+            from: 'Written at the end of each session working this sub-plan.',
+            clar: [], tips: []
+          }]
+        }]
+      }]
+    }, {
+      id: 'skills', label: 'Skills', kind: 'symlink', origin: 'symlink', target: '~/.claude/skills',
+      one: 'A shortcut into your global skills — the /commands you can run in any project.',
+      why: 'This is the one place inside the vault where you can answer &ldquo;what can I actually type and run right now?&rdquo; without leaving Obsidian. The skills themselves live in Claude Code&rsquo;s own settings folder; this link lets you see your whole toolkit from where you already work.',
+      what: 'A shortcut to where Claude Code keeps your skills. Skills are the named things you trigger by typing a slash command in a session — like <code>/new-plan</code>, <code>/backlog-research</code>, or a meeting processor. These are your global skills, available in every project, not tied to one.',
+      from: 'The folder belongs to Claude Code, but brain-stem installs its OWN core skills into it at setup — the librarian, <code>/govern register</code>, <code>/new-plan</code>, the backlog commands, and more — alongside any other skills you add. The vault just links that folder in so you can see the whole toolkit.',
+      clar: ['The folder is Claude Code&rsquo;s, but it holds brain-stem&rsquo;s own shipped skills (like <code>/new-plan</code> and <code>/librarian</code>) right beside any others you install — the vault only links it in so you can see them.', 'Global skills, available in every project — not a list for this one project.'],
+      tips: ['You run a skill by typing its slash command (e.g. <code>/new-plan</code>) in a session — not by opening anything in this folder.']
+    }, {
+      id: 'vw', label: 'Vault Writers/', kind: 'folder', origin: 'shipped',
+      one: 'The one list of every automated helper allowed to save into your vault — one page each. (These automated savers are called writers.)',
+      why: 'Once an AI is co-authoring your vault and connections are saving content in too, many hands write into the same files. Without one visible list of who&rsquo;s allowed, an automated helper could quietly mangle a note and you&rsquo;d have no way to tell which one did it. This folder is that list — and it&rsquo;s the one folder strict about its format: a writer page missing required info is refused at save time, because other automatic processes read these pages and one broken page would break them too.',
+      what: 'The one folder brain-stem actually creates inside the vault — your place to see every automatic helper wired in. A writer is any system that saves content for you without you typing it: an email or calendar connection, a meeting-transcript importer, a chat scraper, an automated research routine. Each registered writer gets its own small reference page. Empty of writers on day one — just an empty catalog page.',
+      from: 'Created at install (the only real folder it makes inside the vault). You register a writer by running <code>/govern register</code>, which interviews you and drops a correctly-formed page in for you.',
+      clar: ['The content a connection brings in does NOT land here — this folder holds reference pages ABOUT the writers; the content goes wherever each page says (a Work folder, the Library, etc.).', 'You don&rsquo;t wire up a connection by hand-editing here — <code>/govern register</code> writes the page for you.'],
+      tips: ['This is the one top-level item that is &ldquo;really here&rdquo; rather than a shortcut to elsewhere.'],
+      link: { href: 'vault-writers.html', label: 'The vault-writer system' },
+      children: [{
+        id: 'vw-index', label: '_index.md', kind: 'file', origin: 'generated',
+        one: 'The always-current catalog table of every writer wired into your vault.',
+        why: 'Reading every writer&rsquo;s page one by one just to answer &ldquo;what&rsquo;s feeding my vault, and is it all still running?&rdquo; would be tedious and error-prone. This catalog answers it at a glance, and because Claude rebuilds it from the actual pages it can&rsquo;t quietly go out of date.',
+        what: 'A single page listing every registered writer in one table — its name, kind, whether it&rsquo;s active, when it last ran, and where it saves things. Ships empty and fills in as you register and retire writers.',
+        from: 'Created empty at install, then rebuilt to match the actual writer pages automatically. You don&rsquo;t edit it — changes are overwritten on the next rebuild.',
+        clar: ['Claude maintains this table, not you — hand-edits are overwritten.', 'A roster, not the writers themselves — full detail lives on each writer&rsquo;s own page (the <code>&lt;writer&gt;.md</code> example sits right below).'],
+        tips: []
+      }, {
+        id: 'vw-example', label: '&lt;writer&gt;.md', kind: 'file', origin: 'authored',
+        one: 'One writer&rsquo;s reference page — a single automated saver, shown here as a placeholder.',
+        why: 'Think of this page as a writer&rsquo;s permission slip: it states what the writer is and, crucially, exactly which files in your vault it may write — and whether directly or through a safe-merge lane. Those declared destinations are on the record, and the page itself is held to a strict shape: brain-stem refuses to save a writer page that is missing required information, so a half-defined helper can never quietly slip into the catalog.',
+        what: 'The reference page for a single registered writer. It records its kind and subtype (e.g. a <code>connector</code> for an email or calendar service, a meeting-transcript importer, or a scheduled research routine), the skill that runs it, its destinations (which files it may write, and whether directly or through a safe-merge lane), its status (active / paused / retired), its schedule, and a short description.',
+        from: 'Created once when you register the writer with <code>/govern register</code>. You set it up at registration and don&rsquo;t edit it by hand after; the live status (last run, success/failure) updates itself.',
+        clar: ['<code>&lt;writer&gt;.md</code> is a placeholder — each page is named for the writer you actually register (e.g. <code>gmail</code>, <code>granola</code>, <code>weekly-research</code>).', 'It does NOT hold the captured content itself — only where the writer saves its processed output.'],
+        tips: ['A destination is either direct (the writer just writes the file) or staged — staged routes through a coordinator so two writers, or you and a writer, never overwrite each other.'],
+        link: { href: 'vault-writers.html', label: 'The vault-writer system' }
+      }]
+    }, {
+      id: 'obsidian', label: '.obsidian/', kind: 'folder', origin: 'shipped',
+      one: 'Obsidian&rsquo;s own settings folder. The only thing brain-stem touches here is one setting that keeps search tidy.',
+      why: 'It keeps brain-stem out of your way. The vault is plain folders and text — it works with or without Obsidian — so brain-stem adds exactly one search setting and leaves the rest of your Obsidian setup alone.',
+      what: 'Every Obsidian vault has a small settings folder for themes, plugins, and layout. brain-stem creates it only if you do not already have one, and writes a single entry into <code>app.json</code> (the next node explains it). Everything else here is Obsidian&rsquo;s.',
+      from: 'Created at install only if missing; if you already have one, brain-stem adds its one setting and leaves the rest untouched.',
+      clar: ['This is Obsidian&rsquo;s folder, not brain-stem&rsquo;s — brain-stem only adds one search setting.', 'Nothing about how the vault behaves depends on it. Remove it and you lose only Obsidian&rsquo;s on-screen conveniences (like the graph view).'],
+      tips: [],
+      children: [{
+        id: 'app-json', label: 'app.json', kind: 'file', origin: 'shipped',
+        one: 'One search setting that keeps Obsidian&rsquo;s results clean — no duplicate hits, no raw working notes in the way.',
+        why: 'Search for one note without this and you would get it two or three times — once per shortcut that exposes the same folder — plus a pile of rough notes. That is the price of the shortcut trick that lets you browse everything in one place; this setting pays it down. It is display-only: no file is moved, hidden, or broken on disk.',
+        what: 'brain-stem adds one thing to Obsidian&rsquo;s settings: a short list of folders for search to skip (called <code>userIgnoreFilters</code>) — the duplicate views reached through shortcuts, plus each Work project&rsquo;s raw <code>reference/</code> notes. Search then returns each note once.',
+        from: 'Added at install in one safe write that keeps any filters you had set yourself.',
+        clar: ['Display only — it changes what search shows, never how files or links work.', 'Nothing is duplicated on disk; the &ldquo;duplicates&rdquo; are the same files seen through more than one shortcut.'],
+        tips: []
+      }]
+    }]
+  }];
+
+  // ---- flatten + parent map ----
+  const byId = {}, parent = {};
+  (function walk(nodes, par) {
+    for (const n of nodes) { byId[n.id] = n; parent[n.id] = par; if (n.children) walk(n.children, n.id); }
+  })(TREE, null);
+
+  const folderIds = Object.keys(byId).filter(k => byId[k].children && byId[k].children.length);
+  const expanded = new Set(['vault', 'work', 'work-dir', 'deliverables', 'reference', 'work-dir-master', 'wm-stream', 'projects', 'wiki', 'plans', 'vw']);
+  let selected = 'vault';
+
+  const treeBody = document.getElementById('vx-tree-body');
+  const detailEl = document.getElementById('vx-detail');
+  const allBtn = document.getElementById('vx-toggle-all');
+
+  function originColor(o) {
+    return { shipped: '#b8862f', symlink: '#3f516b', generated: '#b1532e', authored: '#4a7c4e' }[o] || '#7a7163';
+  }
+  function icon(n) {
+    const c = n.origin ? originColor(n.origin) : '#b1532e';
+    if (n.kind === 'file') {
+      return '<svg class="vx-ico" width="15" height="15" viewBox="0 0 14 14" fill="none">'
+        + '<rect x="2.5" y="1.5" width="9" height="11" rx="1.3" fill="' + c + '" fill-opacity="0.16" stroke="' + c + '" stroke-width="1"/>'
+        + '<line x1="4.5" y1="5" x2="9.5" y2="5" stroke="' + c + '" stroke-width="1"/>'
+        + '<line x1="4.5" y1="7.3" x2="9.5" y2="7.3" stroke="' + c + '" stroke-width="1"/>'
+        + '<line x1="4.5" y1="9.6" x2="7.8" y2="9.6" stroke="' + c + '" stroke-width="1"/></svg>';
+    }
+    return '<svg class="vx-ico" width="15" height="15" viewBox="0 0 14 14" fill="none">'
+      + '<path d="M1.5 3.5a1 1 0 0 1 1-1h2.6l1 1.2h5.4a1 1 0 0 1 1 1v5.8a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1V3.5z" '
+      + 'fill="' + c + '" fill-opacity="0.16" stroke="' + c + '" stroke-width="1"/></svg>';
+  }
+  function rows(nodes, depth) {
+    let h = '';
+    for (const n of nodes) {
+      const kids = n.children && n.children.length;
+      const exp = expanded.has(n.id);
+      const sel = selected === n.id;
+      h += '<button class="vx-row' + (sel ? ' sel' : '') + '" data-id="' + n.id + '" style="padding-left:' + (10 + depth * 15) + 'px">';
+      h += kids ? '<span class="vx-tw" data-toggle="' + n.id + '">' + (exp ? '▾' : '▸') + '</span>'
+                : '<span class="vx-tw"></span>';
+      h += icon(n);
+      h += '<span class="vx-lbl">' + n.label + '</span>';
+      if (n.kind === 'symlink') h += '<span class="vx-arrow">→</span>';
+      if (n.origin) h += '<span class="vx-dot" style="background:' + originColor(n.origin) + '"></span>';
+      h += '</button>';
+      if (kids && exp) h += rows(n.children, depth + 1);
+    }
+    return h;
+  }
+  function pathOf(id) {
+    const parts = []; let c = id;
+    while (c) { parts.unshift(byId[c].label.replace(/\/$/, '')); c = parent[c]; }
+    return parts.join(' / ');
+  }
+  function kindLabel(k) { return { root: 'vault', file: 'file', folder: 'folder', symlink: 'symlink' }[k] || k; }
+  function originLabel(o) { return { shipped: 'Shipped on install', symlink: 'Symlink', generated: 'Claude generates &amp; maintains', authored: 'You direct; Claude builds' }[o]; }
+
+  function renderDetail(id) {
+    const n = byId[id];
+    let h = '<p class="vx-path">' + pathOf(id) + '</p>';
+    h += '<h3 class="vx-title">' + n.label + '</h3>';
+    if (n.one) h += '<p class="vx-oneliner">' + n.one + '</p>';
+    h += '<div class="vx-badges"><span class="vx-kind">' + kindLabel(n.kind) + '</span>';
+    if (n.origin) h += '<span class="vx-badge vx-b-' + n.origin + '">' + originLabel(n.origin) + '</span>';
+    h += '</div>';
+    if (n.kind === 'symlink') h += '<div class="vx-target">Points to <code>' + n.target + '</code> <span class="vx-tnote">— a home outside the vault</span></div>';
+    if (n.why) h += '<div class="vx-why"><h4>Why it matters</h4><p>' + n.why + '</p></div>';
+    if (n.what) h += '<div class="vx-field"><h4>What it is</h4><p>' + n.what + '</p></div>';
+    if (n.from) h += '<div class="vx-field"><h4>Where it comes from</h4><p>' + n.from + '</p></div>';
+    if (n.when) h += '<div class="vx-field"><h4>When it loads</h4><p>' + n.when + '</p></div>';
+    if (n.clar && n.clar.length) h += '<div class="vx-mixups"><h4>Common mix-ups</h4><ul>' + n.clar.map(c => '<li>' + c + '</li>').join('') + '</ul></div>';
+    if (n.tips && n.tips.length) h += '<div class="vx-field"><h4>Good to know</h4><ul>' + n.tips.map(t => '<li>' + t + '</li>').join('') + '</ul></div>';
+    if (n.link) h += '<a class="vx-dive" href="' + n.link.href + '">Go deeper — ' + n.link.label + ' →</a>';
+    detailEl.innerHTML = h;
+  }
+  function renderTree() { treeBody.innerHTML = rows(TREE, 0); }
+  function setAllBtn() { allBtn.textContent = folderIds.every(k => expanded.has(k)) ? 'Collapse all' : 'Expand all'; }
+
+  function select(id) {
+    selected = id;
+    const n = byId[id];
+    if (n.children && n.children.length) expanded.add(id);
+    renderTree(); renderDetail(id);
+    try { history.replaceState(null, '', '#x-' + id); } catch (e) {}
+  }
+
+  treeBody.addEventListener('click', e => {
+    const tog = e.target.closest('[data-toggle]');
+    if (tog) {
+      const id = tog.getAttribute('data-toggle');
+      expanded.has(id) ? expanded.delete(id) : expanded.add(id);
+      renderTree(); setAllBtn();
+      e.stopPropagation();
+      return;
+    }
+    const row = e.target.closest('.vx-row');
+    if (row) { select(row.getAttribute('data-id')); setAllBtn(); }
+  });
+  allBtn.addEventListener('click', () => {
+    const allExp = folderIds.every(k => expanded.has(k));
+    if (allExp) { expanded.clear(); expanded.add('vault'); }
+    else { folderIds.forEach(k => expanded.add(k)); }
+    renderTree(); setAllBtn();
+  });
+
+  // deep link: #x-<id>
+  const hash = location.hash.slice(1);
+  if (hash.indexOf('x-') === 0 && byId[hash.slice(2)]) {
+    selected = hash.slice(2);
+    let c = parent[selected];
+    while (c) { expanded.add(c); c = parent[c]; }
+  }
+  renderTree(); renderDetail(selected); setAllBtn();
+})();
+</script>
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

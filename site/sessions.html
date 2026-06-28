@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session management · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Session management · how a session runs</p>
+    <h1>Session management</h1>
+    <p class="lede">
+      A session is a single conversation with Claude, from open to close — and its working memory is
+      <strong>perishable</strong>. brain-stem wraps the session in machinery that saves your place as the
+      window fills, keeps concurrent sessions out of each other's way, and reconciles what changed on the
+      way out. This page is the lifecycle; each piece has its own page.
+    </p>
+    <p class="page-meta">Most of it is forced by one platform constraint — a finite working window that compacts <em>lossily</em>; the rest answers a second gap: a session that starts knowing nothing about its project.</p>
+
+    <h2>What Claude Code gives you — and what's missing</h2>
+    <p>
+      Natively, the assistant has a fixed-size working window. When a long session fills it, the platform
+      <strong>compacts</strong> the conversation — replacing the verbatim history with a summary, after
+      which the full detail is <strong>gone</strong>. The platform also exposes lifecycle moments (session
+      start, before-compaction, stop, session end) where a script can run.
+    </p>
+    <table>
+      <thead><tr><th>Claude Code gives you</th><th>What's missing</th><th>brain-stem adds</th></tr></thead>
+      <tbody>
+        <tr><td>A finite working window with automatic, lossy compaction</td><td>A long session <strong>silently loses its own working state</strong> at the moment of compaction</td><td>A structured <a href="checkpoints.html">checkpoint</a> + a context-pressure ladder</td></tr>
+        <tr><td>Lifecycle hook moments a script can fire on</td><td>No coordination between concurrent sessions in one project</td><td><a href="multi-session.html">Multi-session coordination</a> with same-file warnings</td></tr>
+        <tr><td>A blank slate each session</td><td>No tidy-up of what a session changed</td><td>End-of-session <a href="session-close.html">reconciliation</a></td></tr>
+        <tr><td>A session that starts knowing nothing about your project</td><td>The assistant <strong>can't orient itself</strong> to the project it's in</td><td>Auto-loads the project's <a href="project-binder.html">situating card</a> at every start</td></tr>
+      </tbody>
+    </table>
+
+    <h2>The session lifecycle</h2>
+    <p>
+      Read the arc start to finish. Each moment below is a hook the platform fires; brain-stem hangs one
+      behavior on each. The order matters — saving must happen at compaction, but <em>restoring</em> can
+      only happen at the next start (the platform forbids injecting context at the compaction moment).
+    </p>
+    <div class="flow">
+      <div class="fstep proj"><b>Start</b><small>register the session; auto-load the project's situating card; on a post-compaction restart, restore the saved checkpoint</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Each message</b><small>read context pressure; nudge you to checkpoint; warn if a peer touched your file</small></div>
+      <div class="farr">›</div>
+      <div class="fstep gate"><b>Stop / compaction</b><small>refuse to stop on a stale checkpoint; save your place just before detail is trimmed</small></div>
+      <div class="farr">›</div>
+      <div class="fstep mark"><b>Close</b><small>mark the session done and reconcile what changed</small></div>
+    </div>
+    <table>
+      <thead><tr><th>Moment</th><th>What fires</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Session start</strong></td><td>Register the session in the coordination registry; if this is a restart <em>after</em> compaction, read the saved checkpoint back in and rotate the old one to a dated archive. Also, for any session launched from a registered project (a coding repo or a non-coding Work project), an always-on hook auto-loads the project's situating card as context before the first turn — so the session already knows what the project is and where things stand.</td></tr>
+        <tr><td><strong>Each message</strong></td><td>Compute context pressure, check checkpoint freshness, emit escalating nudges, and surface peer-session overlap warnings.</td></tr>
+        <tr><td><strong>Stop (attempting to exit)</strong></td><td>The stop-gate refuses to let a busy session end on a stale or missing checkpoint.</td></tr>
+        <tr><td><strong>Before compaction</strong></td><td>Preserve a fresh rich checkpoint, or mechanically extract a fallback one — no model call.</td></tr>
+        <tr><td><strong>Session end</strong></td><td>Mark the registry row closed; if a peer left work pending, spawn the reconciler in the background. And unless an explicit close already ran, spawn the librarian's commit-free integrity cleanup detached — so indexes and frontmatter stay honest even when you forget to close.</td></tr>
+        <tr><td><strong>Explicit close</strong></td><td><code>/librarian session-close</code> runs the full cleanup chain (next pages) — including regenerating the project's binder indexes and its situating card, so the next session start auto-loads fresh context.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Always-on, and on-demand</h2>
+    <p>
+      Most session machinery is <strong>always-on</strong> — it runs every session whether or not you ask.
+      A smaller set is <strong>on-demand</strong>, invoked by you or fired when the work calls for it
+      (often the moment you produce or change material and governance has to weigh in).
+    </p>
+    <div class="card-grid two">
+      <div class="card code">
+        <div class="kicker">Always-on</div>
+        <h3>Runs every session</h3>
+        <p>Session registration and checkpoint restore; auto-loading the project's situating card on
+        every start; per-message pressure nudges and peer-overlap warnings; the stop-gate; the
+        pre-compaction fallback save; deregistration, background reconciliation, and a detached
+        commit-free integrity cleanup on exit.</p>
+      </div>
+      <div class="card work">
+        <div class="kicker">On-demand</div>
+        <h3>Invoked by you or by the task</h3>
+        <p>A rich <a href="checkpoints.html"><code>/session-checkpoint</code></a> on request; the
+        <a href="session-close.html"><code>/librarian session-close</code></a> cleanup; and the
+        <a href="decision-quality.html">decision-quality</a> nudge that fires when you're about to commit
+        to a substantive choice.</p>
+      </div>
+    </div>
+
+    <div class="callout note">
+      <div class="label">Where governance enters a session</div>
+      <p>A session isn't only about staying alive — it's about <em>producing material safely</em>. The
+      moment a write lands inside the vault, the <a href="governance-engine.html">governance engine</a>
+      checks it (allow · advise · deny), and the writer pipeline serializes it. So session machinery and
+      governance interlock: the session keeps your place and coordinates the work; governance keeps each
+      write well-formed.</p>
+    </div>
+
+    <h2>Go deeper</h2>
+    <div class="card-grid">
+      <a class="card" href="checkpoints.html"><div class="kicker">Stay alive</div><h3>Checkpoints</h3><p>The context-pressure ladder, the Continuity Block, and why save and restore are split.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="multi-session.html"><div class="kicker">Stay clear</div><h3>Multi-session coordination</h3><p>The shared registry, peer awareness, and same-file warnings across concurrent sessions.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="session-close.html"><div class="kicker">Tidy up</div><h3>Session close</h3><p>Deregistration, background reconciliation, and the librarian's end-of-session cleanup chain.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="decision-quality.html"><div class="kicker">Decide well</div><h3>The decision-quality protocol</h3><p>Research before you commit to a fork — how the nudge works and why it exists.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="session-management-rationale.html"><div class="kicker">Why these choices</div><h3>Session-management rationale</h3><p>The research and design decisions behind checkpoints, the registry, and the decision-quality nudge.</p><div class="spacer"></div><div class="more">Read →</div></a>
+    </div>
+
+    <h2>Reference</h2>
+    <ul>
+      <li>Session hooks — <code>session-register.sh</code> (start — registration), <code>session-start-project-context.sh</code> (start — auto-loads the project situating card), <code>prompt-context.sh</code> (each message), <code>stop-checkpoint-check.sh</code> (stop), <code>pre-compact-checkpoint.sh</code> (before compaction), <code>session-deregister.sh</code> (end).</li>
+      <li>On-demand — the <code>/session-checkpoint</code> skill and the <code>/librarian session-close</code> capability.</li>
+      <li>Coordination registry — machine-local at <code>~/.local/state/brain-stem/.coordination/session-registry.json</code>; never in the vault.</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Session management.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

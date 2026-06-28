@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The research rationale · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Orientation · research rationale</p>
+    <h1>Why these choices, in depth</h1>
+    <p class="lede">
+      This is where the site's design defends itself. Every section has a <em>Why</em> page that argues its
+      decisions one by one; this page sits above them. It lays out the single test brain-stem holds every
+      design to, the principles that recur across all of them, and a pointer into each section's full rationale.
+      It is the long answer to one question: is any of this arbitrary?
+    </p>
+    <p class="page-meta">
+      The method behind every <em>Why</em> page — and, at the foot, the single register of every external
+      source those pages cite. Every reference here is a verified source, and each one links straight to it.
+    </p>
+
+    <div class="callout key">
+      <div class="label">How to read this page</div>
+      <p>It opens with the one rule that governs all the others — the test brain-stem applies before it calls
+      any design "the right one" — then the six principles that recur across every section, then a pointer
+      into each section's full rationale page. The clickable source register sits at the end; every
+      <span class="cite">citation</span> on those pages links back to its entry here.</p>
+    </div>
+
+    <h2 id="two-kinds">The two kinds of "optimal"</h2>
+    <p>
+      brain-stem makes one promise about its own design: a choice is justified only if it is forced by
+      the platform, or independently rediscovered by unrelated fields — <strong>never reached by
+      taste</strong>. Holding that distinction is what makes the design auditable: you can check which
+      kind of "optimal" a given choice rests on, rather than taking a designer's word for it.
+    </p>
+    <div class="card-grid two">
+      <div class="card">
+        <div class="kicker">Optimal by constraint</div>
+        <h3>The platform forces the shape</h3>
+        <p>Claude Code behaves a fixed way and only one design works. The auto-loaded memory file is
+        hard-capped with no overflow path <span class="cite-host"><a class="cite" href="#cite-cc-memory">CC memory</a></span>,
+        so a single small index plus fetch-on-demand detail is not "a good idea" — it is the only shape
+        the platform permits.</p>
+      </div>
+      <div class="card">
+        <div class="kicker">Optimal by convergence</div>
+        <h3>Unrelated fields rediscovered it</h3>
+        <p>Separate disciplines arrived at the same structure on their own. The three-way split of
+        memory matches a fifty-year consensus in memory science
+        <a class="cite" href="#cite-tulving">Tulving 1972</a> <a class="cite" href="#cite-cohen-squire">Cohen &amp; Squire 1980</a>;
+        "warn before you block" matches what policy engines, linters, and rollout systems each reached
+        independently <a class="cite" href="#cite-opa">OPA Gatekeeper</a>.</p>
+      </div>
+    </div>
+    <div class="callout note">
+      <div class="label">The meta-rule</div>
+      <p><strong>Constraint settles what <em>must</em> be true; convergence confirms what <em>ought</em>
+      to be.</strong> The strongest signal is a choice reached on both grounds at once — and the design
+      holds because both kinds of pressure point the same way. A choice that is neither is, by the
+      system's own rule, arbitrary.</p>
+    </div>
+
+    <h2 id="friction-inversion">The friction inversion</h2>
+    <p>
+      One cross-cutting property surprises people, and it follows directly from the two-grounds test.
+      You might expect the system to let you reshape the surface conveniences and lock down the deep
+      machinery. It is exactly the reverse.
+    </p>
+    <div class="callout key">
+      <div class="label">The more universal a pillar, the more brain-stem lets you bend it</div>
+      <p>The governance engine — the most universal piece — has the richest customization seam: your
+      overlay can override any rule. Plans — the most opinionated — has the thinnest. The pieces you are
+      most likely to want to reshape are the ones built to be reshaped, because they are the ones where
+      reshaping is <em>safe</em>. Universal equals safe to bend. The seams are the product: you don't
+      assemble a toolkit, you move into a furnished foundation and personalize it at known seams.</p>
+    </div>
+
+    <h2 id="principles">The six design principles</h2>
+    <p>
+      Because the same non-arbitrariness test is applied everywhere, the same handful of principles surface in
+      every section. These six are a different axis from the six sections above — the sections are <em>what</em>
+      gets governed; the principles are the recurring moves for <em>how</em> every section is governed. For each,
+      the engine chose a specific shape over a specific alternative, for a specific reason.
+    </p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="ph"><span class="pn">1</span><h3>Advise before you block</h3></div>
+        <p class="keeps">A doorman at every write returns <em>allow / advise / deny</em> — and advise is the workhorse. Most policy is taught, not enforced by blocking.</p>
+        <p class="row"><b>Chosen over</b> a binary allow/deny, and a deny-first design — blocking a save over a missing tag is hostile and just trains people to switch the guard off.</p>
+        <p class="row"><b>Grounded in</b> <a class="cite" href="#cite-opa">OPA Gatekeeper</a> <a class="cite" href="#cite-k8s">K8s Pod Security</a> <a class="cite" href="#cite-eslint">ESLint</a> <a class="cite" href="#cite-saltzer">Saltzer &amp; Schroeder</a></p>
+        <p class="vrow"><span class="pill">constraint</span> <span class="pill ok">convergence</span></p>
+      </div>
+      <div class="pillar">
+        <div class="ph"><span class="pn">2</span><h3>Two surfaces for every rule</h3></div>
+        <p class="keeps">Each rule is kept twice: a machine-readable form the assistant <em>applies</em> at write-time, and a human-readable page a person reads to <em>understand</em> the reasoning.</p>
+        <p class="row"><b>Chosen over</b> one rulebook everyone hand-edits — which makes every upgrade overwrite local work and blurs custom rules into shipped ones.</p>
+        <p class="row"><b>Grounded in</b> <a class="cite" href="#cite-kustomize">Kustomize</a> <a class="cite" href="#cite-gitconfig">git config</a> <a class="cite" href="#cite-css">CSS cascade</a></p>
+        <p class="vrow"><span class="pill">constraint</span> <span class="pill ok">convergence</span></p>
+      </div>
+      <div class="pillar">
+        <div class="ph"><span class="pn">3</span><h3>Propose, then confirm</h3></div>
+        <p class="keeps">Where the system changes something on your behalf, it drafts the change and lets you accept, edit, or skip — rather than acting silently.</p>
+        <p class="row"><b>Chosen over</b> silent auto-writes — the installer ships a provably write-free preview; memory promotion never auto-writes; new rules go through a guided interview.</p>
+        <p class="row"><b>Grounded in</b> <a class="cite" href="#cite-wizard">setup-wizard UX</a> <a class="cite" href="#cite-rustup">rustup check/apply</a></p>
+        <p class="vrow"><span class="pill ok">convergence</span></p>
+      </div>
+      <div class="pillar">
+        <div class="ph"><span class="pn">4</span><h3>Structural, not disciplinary</h3></div>
+        <p class="keeps">Guarantees — an index stays current, a hand-edit always wins, "verified" is real — are enforced by machinery, not by anyone remembering to be careful.</p>
+        <p class="row"><b>Chosen over</b> convention and good intentions — indexes are regenerated not hand-tended, and "verified" is machine-stamped so "done" cannot be forged.</p>
+        <p class="row"><b>Grounded in</b> <a class="cite" href="#cite-issue33603">prose-rule decay #33603</a> <a class="cite" href="#cite-pmbok">PMI/PMBOK</a></p>
+        <p class="vrow"><span class="pill ok">convergence</span></p>
+      </div>
+      <div class="pillar">
+        <div class="ph"><span class="pn">5</span><h3>Fail open, surface the problem</h3></div>
+        <p class="keeps">If a piece of the system is itself misconfigured, the default is to let your work continue while surfacing the problem — never to lock you out.</p>
+        <p class="row"><b>Chosen over</b> fail-closed — a layer that locks you out on its own failure is worse than no layer.</p>
+        <p class="row"><b>Grounded in</b> the availability-over-security doctrine — fail-open is the documented choice "where availability is more critical than security" <a class="cite" href="#cite-authzed">AuthZed</a>. This is a <em>deliberate inversion</em> of <a class="cite" href="#cite-saltzer">Saltzer &amp; Schroeder</a> fail-safe-defaults: a formatting/governance hook is outside the security-critical domain where fail-closed is mandated.</p>
+        <p class="vrow"><span class="pill ok">convergence</span></p>
+      </div>
+      <div class="pillar">
+        <div class="ph"><span class="pn">6</span><h3>Your edits are sacred</h3></div>
+        <p class="keeps">Installing, re-running setup, and uninstalling all treat anything you personalized as something to preserve, never a side effect to discard.</p>
+        <p class="row"><b>Chosen over</b> last-writer-wins — a hand-edit always wins via a two-signal check; upgrades diff against per-release baselines; uninstall preserves edited files.</p>
+        <p class="row"><b>Grounded in</b> <a class="cite" href="#cite-crdt">OT/CRDT survivorship</a> <a class="cite" href="#cite-chezmoi">chezmoi</a> <a class="cite" href="#cite-pkgmgr">package-manager receipts</a></p>
+        <p class="vrow"><span class="pill">constraint</span> <span class="pill ok">convergence</span></p>
+      </div>
+    </div>
+
+    <h2 id="pillars">The rationale, section by section</h2>
+    <p>
+      The detailed decision tables — "brain-stem chose X over Y, because Z" — now live on each section's own
+      rationale page, linked below. Every citation marker there resolves to the register at the bottom of this page.
+    </p>
+    <div class="pillar-map">
+      <div class="card-grid two">
+        <a class="card" href="context-memory-rationale.html"><div class="kicker">Section</div><h3>Context &amp; memory</h3><p>The memory model and the dual context layers — why memory splits three ways and loads as one small index.</p><div class="spacer"></div><div class="more">Read →</div></a>
+        <a class="card" href="project-management-rationale.html"><div class="kicker">Section</div><h3>Project management</h3><p>Plans, orchestration, and the binder — control-file-is-truth, machine-stamped "verified," a human-gated runner.</p><div class="spacer"></div><div class="more">Read →</div></a>
+        <a class="card" href="governance-rationale.html"><div class="kicker">Section</div><h3>Write-time governance</h3><p>The doorman at every write, and the guards that keep your hand-edits winning.</p><div class="spacer"></div><div class="more">Read →</div></a>
+        <a class="card" href="session-management-rationale.html"><div class="kicker">Section</div><h3>Session management</h3><p>Surviving a finite, lossily-compacted working window, and deciding before asking.</p><div class="spacer"></div><div class="more">Read →</div></a>
+        <a class="card" href="automated-capture-rationale.html"><div class="kicker">Section</div><h3>Automated capture</h3><p>One reconciler, survivorship, and content-addressed writes into a shared structure.</p><div class="spacer"></div><div class="more">Read →</div></a>
+        <a class="card" href="personalization-rationale.html"><div class="kicker">Section</div><h3>System personalization</h3><p>The onboarding seam, the overlay, and the install/upgrade lifecycle.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      </div>
+    </div>
+
+    <h2 id="citations">Citation register</h2>
+    <p>
+      One deduplicated register of every external reference attached to a design decision. A citation is
+      marked <strong>verified</strong> when it was confirmed in a named source,
+      <strong>corrected</strong> when the original wording or figure was tightened,
+      <strong>unverified</strong> when it is asserted but not traced to a primary source, and
+      <strong>refuted</strong> when a source itself found it wrong.
+    </p>
+
+    <h3>Academic references</h3>
+    <table>
+      <thead><tr><th>Reference</th><th>Grounds</th></tr></thead>
+      <tbody>
+        <tr id="cite-tulving"><td><a href="https://www.semanticscholar.org/paper/Episodic-and-semantic-memory-Tulving/d792562462dbb687015954805d31620240db57a1" target="_blank" rel="noopener">Tulving (1972), <em>Episodic and Semantic Memory</em></a></td><td>The episodic/semantic split behind the memory triad</td></tr>
+        <tr id="cite-cohen-squire"><td><a href="https://www.science.org/doi/10.1126/science.7414331" target="_blank" rel="noopener">Cohen &amp; Squire (1980), <em>Preserved Learning… in Amnesia</em> (Science 210:207–210)</a></td><td>The declarative/procedural split — the triad's second half</td></tr>
+        <tr id="cite-coala"><td><a href="https://arxiv.org/abs/2309.02427" target="_blank" rel="noopener">CoALA — <em>Cognitive Architectures for Language Agents</em> (arXiv:2309.02427)</a></td><td>The triad carried onto agents</td></tr>
+        <tr id="cite-memgpt"><td><a href="https://arxiv.org/abs/2310.08560" target="_blank" rel="noopener">MemGPT — <em>Towards LLMs as Operating Systems</em> (arXiv:2310.08560)</a></td><td>Small-core-plus-large-archive tiering; the curated-store principle</td></tr>
+        <tr id="cite-mast"><td><a href="https://arxiv.org/abs/2503.13657" target="_blank" rel="noopener">MAST — <em>Multi-Agent System Failure Taxonomy</em>, in Cemri et&nbsp;al., "Why Do Multi-Agent LLM Systems Fail?" (arXiv:2503.13657)</a></td><td>The human-gated plan runner; inter-agent-misalignment (coordination) is ~37% of multi-agent failures — the second-largest of three categories</td></tr>
+        <tr id="cite-lostmiddle"><td><a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener">Liu et&nbsp;al., "Lost in the Middle: How Language Models Use Long Contexts" (TACL 2023, arXiv:2307.03172)</a></td><td>Attention degrades in long contexts — the single-read budget</td></tr>
+        <tr id="cite-specgaming"><td><a href="https://arxiv.org/abs/2410.06491" target="_blank" rel="noopener">Specification-gaming literature (arXiv:2410.06491, 2406.10162)</a></td><td>"Done is a claim, not a fact" — machine-stamped <code>verified</code></td></tr>
+        <tr id="cite-aries"><td><a href="https://dl.acm.org/doi/10.1145/128765.128770" target="_blank" rel="noopener">ARIES write-ahead-logging recovery (Mohan et&nbsp;al.)</a></td><td>Checkpoint-then-resume convergence (Sessions)</td></tr>
+        <tr id="cite-kleppmann"><td><a href="https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html" target="_blank" rel="noopener">Kleppmann, "How to do distributed locking"</a></td><td>A cross-machine lock is a phantom — machine-local coordination state (Packaging, Sessions)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Standards &amp; engineering principles</h3>
+    <table>
+      <thead><tr><th>Reference</th><th>Grounds</th></tr></thead>
+      <tbody>
+        <tr id="cite-saltzer"><td><a href="https://web.mit.edu/Saltzer/www/publications/protection/" target="_blank" rel="noopener">Saltzer &amp; Schroeder (1975) — complete-mediation &amp; fail-safe-defaults</a></td><td>The every-write doorman; the canon fail-open deliberately pulls against</td></tr>
+        <tr id="cite-pmbok"><td><a href="https://www.pmi.org/pmbok-guide-standards" target="_blank" rel="noopener">PMI / PMBOK — verified vs. accepted deliverables</a></td><td>The "completed ≠ verified" distinction in Plans</td></tr>
+        <tr id="cite-singlewriter"><td><a href="https://mechanical-sympathy.blogspot.com/2011/09/single-writer-principle.html" target="_blank" rel="noopener">Single Writer Principle (concurrency design)</a></td><td>The sole-writer reconciler (Vault)</td></tr>
+        <tr id="cite-cas"><td><a href="https://git-scm.com/book/en/v2/Git-Internals-Git-Objects" target="_blank" rel="noopener">Content-addressable storage + POSIX atomic <code>rename(2)</code> (Git's object model)</a></td><td>Content-hash staging packets (Vault)</td></tr>
+        <tr id="cite-crdt"><td><a href="https://crdt.tech/" target="_blank" rel="noopener">Operational-transformation / CRDT survivorship literature</a></td><td>Two-signal survivorship — the human edit always wins</td></tr>
+        <tr id="cite-xdg"><td><a href="https://specifications.freedesktop.org/basedir-spec/latest/" target="_blank" rel="noopener">XDG Base Directory Specification</a></td><td>Durable vs. ephemeral state split; exhaust kept out of the vault</td></tr>
+        <tr id="cite-nygard"><td><a href="https://adr.github.io/" target="_blank" rel="noopener">Nygard's minimal ADR form; <code>adr.github.io</code>; Fowler bliki</a></td><td>The per-plan ADR ledger (Plans, Vault)</td></tr>
+        <tr id="cite-madr"><td><a href="https://adr.github.io/madr/" target="_blank" rel="noopener">MADR — Markdown ADR; "capture rejected options" thesis</a></td><td>The ADR status enum (Plans)</td></tr>
+        <tr id="cite-dry"><td><a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself" target="_blank" rel="noopener">DRY / Single-Source-of-Truth principle</a></td><td>Manifest-is-truth, tasks generated (Plans)</td></tr>
+        <tr id="cite-semver"><td><a href="https://semver.org/" target="_blank" rel="noopener">Keep-a-Changelog + Semantic Versioning</a></td><td>CHANGELOG slice before apply; version stamping (Packaging)</td></tr>
+        <tr id="cite-postel"><td><a href="https://martinfowler.com/bliki/TolerantReader.html" target="_blank" rel="noopener">Tolerant Reader (Fowler) / Postel's robustness principle</a></td><td>The machine map alongside the human render (Memory)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Anthropic / Claude Code platform docs</h3>
+    <table>
+      <thead><tr><th>Reference</th><th>Grounds</th></tr></thead>
+      <tbody>
+        <tr id="cite-cc-hooks"><td><a href="https://code.claude.com/docs/en/hooks" target="_blank" rel="noopener">Claude Code hooks docs (<code>PreToolUse</code> can block; <code>PostToolUse</code> cannot; the <code>permissionDecision</code> / <code>additionalContext</code> contract)</a></td><td>The single interception point; the third verdict (Governance, Sessions, Plans, Vault)</td></tr>
+        <tr id="cite-cc-memory"><td><a href="https://code.claude.com/docs/en/memory" target="_blank" rel="noopener">Claude Code memory docs (200-line / 25KB auto-load cap, silent drop, no <code>@import</code>; per-git-root keying; <code>rules/</code> every session)</a></td><td>The single hot index; the two scopes; slug resolution (Memory)</td></tr>
+        <tr id="cite-cc-context"><td><a href="https://code.claude.com/docs/en/context-window" target="_blank" rel="noopener">Claude Code context-window / compaction docs (compaction replaces the verbatim conversation)</a></td><td>The lossy-window constraint (Sessions, Plans)</td></tr>
+        <tr id="cite-cc-settings"><td><a href="https://code.claude.com/docs/en/settings" target="_blank" rel="noopener">Claude Code settings docs (<code>settings.json</code> hooks; deep-merge rule)</a></td><td>Pressure thresholds; the settings deep-merge (Sessions, Packaging)</td></tr>
+        <tr id="cite-cc-skills"><td><a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">Claude Code skills docs (slash-command model; <code>disable-model-invocation</code>)</a></td><td><code>/govern register</code>, <code>/onboard</code> human-only (Governance, Onboarding, Plans)</td></tr>
+        <tr id="cite-cc-subagents"><td><a href="https://code.claude.com/docs/en/sub-agents" target="_blank" rel="noopener">Claude Code sub-agents docs (orchestrator-worker; workers report up only)</a></td><td>Master/sub-plans, sub-peer isolation (Plans)</td></tr>
+        <tr id="cite-cc-claudemd"><td><a href="https://code.claude.com/docs/en/memory" target="_blank" rel="noopener">Claude Code <code>CLAUDE.md</code> docs (concatenation; block-level HTML-comment stripping)</a></td><td>Two <code>CLAUDE.md</code> files; the count-both-ways guard caveat (Onboarding, Memory)</td></tr>
+        <tr id="cite-cc-headless"><td><a href="https://code.claude.com/docs/en/headless" target="_blank" rel="noopener">Claude Code headless / print-mode docs (<code>claude -p</code>)</a></td><td>The doc-amender; the job-runner (Vault, Plans)</td></tr>
+        <tr id="cite-anthropic-ctx"><td><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener">Anthropic, "Effective context engineering for AI agents" (Sept 2025) — "context… must be treated as a finite resource"</a></td><td>The single-read token budget (Memory, Sessions)</td></tr>
+        <tr id="cite-agentteams"><td><a href="https://code.claude.com/docs/en/agent-teams" target="_blank" rel="noopener">Claude Code agent-teams model (v2.1.32+, teammates message each other)</a></td><td>Cited as the model brain-stem deliberately rejects (Plans)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Industry patterns — memory, governance, packaging, plans, context</h3>
+    <table>
+      <thead><tr><th>Reference</th><th>Grounds</th></tr></thead>
+      <tbody>
+        <tr id="cite-mem0"><td><a href="https://mem0.ai/blog/state-of-ai-agent-memory-2026" target="_blank" rel="noopener">Mem0, "State of AI Agent Memory 2026" (mem0.ai/blog) — viable retrieval ≈6.9K tokens/query; 26K tokens/query flagged not-production-viable</a></td><td>Triad-retained consensus; the chronicle budget anchor (Memory, Sessions)</td></tr>
+        <tr id="cite-langmem"><td><a href="https://langchain-ai.github.io/langmem/" target="_blank" rel="noopener">LangMem (LangChain) — hot-path tools vs. background memory managers; two-stage capture</a></td><td>Triad-retained; two-stage episodic capture (Memory)</td></tr>
+        <tr id="cite-zep"><td><a href="https://arxiv.org/abs/2501.13956" target="_blank" rel="noopener">Zep / Graphiti — non-lossy episode capture (arXiv:2501.13956)</a></td><td>The chronicle's two-stage capture (Memory)</td></tr>
+        <tr id="cite-rjmurillo"><td><a href="https://github.com/rjmurillo/ai-agents/blob/main/.agents/architecture/ADR-014-distributed-handoff-architecture.md" target="_blank" rel="noopener">rjmurillo/ai-agents ADR-014 "Distributed Handoff Architecture" — centralized HANDOFF.md grew to 122&nbsp;KB / ~35K tokens, 80%+ PR-conflict rate</a></td><td>The ~50KB chronicle proxy stays under it (Memory)</td></tr>
+        <tr id="cite-reasoningbank"><td><a href="https://arxiv.org/abs/2509.25140" target="_blank" rel="noopener">Google / UIUC ReasoningBank (arXiv:2509.25140) — short, addressable, embedding-retrieved memory items</a></td><td>The per-plan ADR ledger is ahead of the agent-memory field — brain-stem adds supersession the field still defers (Plans)</td></tr>
+        <tr id="cite-opa"><td><a href="https://open-policy-agent.github.io/gatekeeper/website/docs/violations/" target="_blank" rel="noopener">Open Policy Agent Gatekeeper (<code>dryrun → warn → deny</code>)</a></td><td>The advise-before-block ladder (Governance, Memory)</td></tr>
+        <tr id="cite-k8s"><td><a href="https://kubernetes.io/docs/concepts/security/pod-security-admission/" target="_blank" rel="noopener">Kubernetes Pod Security Standards (<code>enforce / audit / warn</code>)</a></td><td>The advise-before-block ladder (Governance)</td></tr>
+        <tr id="cite-eslint"><td><a href="https://eslint.org/docs/latest/use/configure/rules" target="_blank" rel="noopener">ESLint <code>off / warn / error</code> severity</a></td><td>The ladder; the alert-fatigue anti-pattern (Governance, Memory)</td></tr>
+        <tr id="cite-kustomize"><td><a href="https://kubectl.docs.kubernetes.io/references/kustomize/glossary/" target="_blank" rel="noopener">Kustomize — "a base has no knowledge of an overlay"; overlay wins</a></td><td>Sealed master + transparent overlay (Governance)</td></tr>
+        <tr id="cite-gitconfig"><td><a href="https://git-scm.com/docs/git-config" target="_blank" rel="noopener">git config <code>system &lt; global &lt; local</code> precedence</a></td><td>Overlay precedence — and the silent override brain-stem is stricter than (Governance)</td></tr>
+        <tr id="cite-css"><td><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascade/Introduction" target="_blank" rel="noopener">CSS cascade — later / higher-specificity layers override</a></td><td>The overlay-wins shape (Governance)</td></tr>
+        <tr id="cite-opabundles"><td><a href="https://www.openpolicyagent.org/docs/management-bundles" target="_blank" rel="noopener">OPA signed bundles (supply-chain verification before activation)</a></td><td>The sealed-and-verified bundle analog; brain-stem's override is the stated <code>_override_reason</code>, not a signature (Governance)</td></tr>
+        <tr id="cite-waiver"><td>Policy-as-code waiver practice (document bypassed control + approver + timestamp)</td><td>The stated <code>_override_reason</code> (Governance)</td></tr>
+        <tr id="cite-authzed"><td><a href="https://authzed.com/blog/fail-open" target="_blank" rel="noopener">authzed — fail-open suits "availability more critical than security"</a></td><td>Fail-open by domain (Governance)</td></tr>
+        <tr id="cite-wizard"><td><a href="https://ui-patterns.com/patterns/Wizard" target="_blank" rel="noopener">ui-patterns.com Wizard pattern (propose-then-confirm UX)</a></td><td><code>/govern register</code>; onboarding setup-wizard (Governance, Onboarding)</td></tr>
+        <tr id="cite-chezmoi"><td><a href="https://www.chezmoi.io/" target="_blank" rel="noopener">chezmoi — preserving user-changed managed dotfiles, no-clobber</a></td><td>Upgrade/uninstall edit-preservation (Packaging, Onboarding)</td></tr>
+        <tr id="cite-pkgmgr"><td>Homebrew / Nix / apt-dpkg — generated receipt + installed-file manifest</td><td>The fingerprinted manifest (Packaging)</td></tr>
+        <tr id="cite-dpkgold"><td><a href="https://www.debian.org/doc/debian-policy/ap-pkg-conffiles.html" target="_blank" rel="noopener">dpkg <code>.dpkg-old</code> sidecar pattern</a></td><td>The <code>.foundation-local</code> sidecar on upgrade (Packaging)</td></tr>
+        <tr id="cite-flyway"><td><a href="https://flywaydb.org/" target="_blank" rel="noopener">Flyway / Alembic — forward-only, high-water-mark migrations</a></td><td>Version-keyed baselines; the migration runner (Packaging)</td></tr>
+        <tr id="cite-capistrano"><td><a href="https://capistranorb.com/" target="_blank" rel="noopener">Capistrano symlink-deploy model</a></td><td>Cited as the rejected model (Packaging)</td></tr>
+        <tr id="cite-rustup"><td><a href="https://rustup.rs/" target="_blank" rel="noopener">rustup check-only → explicit-apply model</a></td><td>Preview-first install; self-update (Packaging, Propose-then-confirm)</td></tr>
+        <tr id="cite-runtimestate"><td>tmux / Electron / systemd / Syncthing / git <code>index.lock</code> runtime-state precedents</td><td>Coordination state kept machine-local (Packaging, Sessions)</td></tr>
+        <tr id="cite-launchd"><td><a href="https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html" target="_blank" rel="noopener">Apple launchd reverse-domain labels; folder-watch + timed triggers</a></td><td>The label fence; file-watch + timer backstop (Packaging, Vault)</td></tr>
+        <tr id="cite-lockf"><td><a href="https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man3/lockf.3.html" target="_blank" rel="noopener">macOS <code>lockf</code> advisory single-instance lock</a></td><td>The batch lock; registry serialization (Vault, Sessions)</td></tr>
+        <tr id="cite-taskmaster"><td><a href="https://github.com/eyaltoledano/claude-task-master" target="_blank" rel="noopener">Task Master — <code>tasks.json</code> as truth, markdown read-only</a></td><td>Manifest-is-truth (Plans)</td></tr>
+        <tr id="cite-kiro"><td><a href="https://github.com/kirodotdev/Kiro/issues/2358" target="_blank" rel="noopener">AWS Kiro issues #2358 / #2609 / #1213 — markdown-checklist status bugs</a></td><td>The rejected "drifting checklist" camp (Plans)</td></tr>
+        <tr id="cite-fowler"><td><a href="https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html" target="_blank" rel="noopener">Fowler / Böckeler — SDD-tools review</a></td><td>The markdown checklist is the failing part (Plans)</td></tr>
+        <tr id="cite-kong"><td><a href="https://konghq.com/blog/engineering/docs-as-code-screenshot-automation" target="_blank" rel="noopener">Kong "docs-as-code"</a></td><td>The generated-view pattern (Plans)</td></tr>
+        <tr id="cite-speckit"><td><a href="https://github.com/github/spec-kit" target="_blank" rel="noopener">GitHub Spec-Kit — <code>specify → plan → tasks → implement</code> + <code>constitution.md</code></a></td><td>The two-tier ledger; the quartet (Plans, Context)</td></tr>
+        <tr id="cite-twsdd"><td><a href="https://www.thoughtworks.com/en-us/insights/blog/agile-engineering-practices/spec-driven-development-unpacking-2025-new-engineering-practices" target="_blank" rel="noopener">Thoughtworks SDD — "context decay: agents forgetting older decisions"</a></td><td>The ADR rationale; ADR decay (Plans, Vault)</td></tr>
+        <tr id="cite-kiroflow"><td><a href="https://kiro.dev/docs/specs/" target="_blank" rel="noopener">AWS Kiro — requirements / design / tasks 3-artifact flow</a></td><td>The quartet maps onto and exceeds it (Plans)</td></tr>
+        <tr id="cite-para"><td><a href="https://fortelabs.com/blog/para" target="_blank" rel="noopener">PARA / <em>Building a Second Brain</em> (Forte, fortelabs.com/blog/para) — Projects/Areas (active) ↔ Resources/Archives (reference)</a></td><td>Binder ↔ Library, the active/reference split (Context)</td></tr>
+        <tr id="cite-secondbrain"><td><a href="https://zettelkasten.de/posts/collectors-fallacy/" target="_blank" rel="noopener">The "Collector's Fallacy" — capture-then-drift / maintenance-collapse (Tietze, zettelkasten.de/posts/collectors-fallacy)</a></td><td>Enforcement-not-convention (Cross-cutting, Vault, Context)</td></tr>
+        <tr id="cite-zettel"><td><a href="https://zettelkasten.de/posts/concepts-sohnke-ahrens-explained/" target="_blank" rel="noopener">Zettelkasten note types — fleeting / literature / permanent; project notes outside the slip-box (Ahrens, zettelkasten.de)</a></td><td>Workshop ephemeral; the <code>work/</code> surface (Context)</td></tr>
+        <tr id="cite-johnny"><td><a href="https://johnnydecimal.com" target="_blank" rel="noopener">Johnny.Decimal (johnnydecimal.com) — fixed predefined roster (≤10 areas, decided upfront); flagged anti-pattern for brain-stem</a></td><td>No fixed roster (Context, by contrast)</td></tr>
+        <tr id="cite-consulting"><td><a href="https://berkeley.pressbooks.pub/tdo4p/" target="_blank" rel="noopener">Consulting KM practice — one folder per engagement, raw↔polished (Glushko, <em>The Discipline of Organizing</em>, UC Berkeley)</a></td><td>The <code>work/</code> deliverable layer (Context)</td></tr>
+        <tr id="cite-agentsmd"><td><a href="https://code.claude.com/docs/en/memory" target="_blank" rel="noopener">AGENTS.md cross-tool standard — "Claude Code reads CLAUDE.md, not AGENTS.md" (Claude Code memory docs)</a></td><td>Markdown + <code>CLAUDE.md</code> bridge (Context)</td></tr>
+        <tr id="cite-obsidian"><td><a href="https://help.obsidian.md/Symbolic+links+and+junctions" target="_blank" rel="noopener">Obsidian symlink hazards — git syncs target; watcher misses external edits; "excluded" only hides</a></td><td>Homes outside the synced vault; exhaust segregation (Context, Vault)</td></tr>
+        <tr id="cite-contextrot"><td><a href="https://research.trychroma.com/context-rot" target="_blank" rel="noopener">Context rot (Chroma Research, "Context Rot: How Increasing Input Tokens Impacts LLM Performance," 2025) — fuller windows degrade attention</a></td><td>Pointer-only hub.md; accessibility tiering (Context)</td></tr>
+        <tr id="cite-progressive"><td><a href="https://code.claude.com/docs/en/memory" target="_blank" rel="noopener"><code>@import</code> expands inline and counts fully against the window (Claude Code memory docs)</a></td><td>hub.md ≤ 200 lines (Context)</td></tr>
+        <tr id="cite-vercel"><td><a href="https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals" target="_blank" rel="noopener">Vercel skills-eval — skills never invoked in 56% of cases</a></td><td>Hook-driven, not skill-auto-detection (Context)</td></tr>
+        <tr id="cite-claudemem"><td><a href="https://github.com/thedotmack/claude-mem" target="_blank" rel="noopener">claude-mem plugin segregates its payload to <code>~/.claude-mem/</code></a></td><td>Exhaust segregation (Vault, Cross-cutting)</td></tr>
+        <tr id="cite-langgraph"><td><a href="https://docs.langchain.com/oss/python/langgraph/persistence" target="_blank" rel="noopener">LangGraph persisted-state (interrupt-and-resume)</a></td><td>Checkpoint-then-resume convergence (Sessions)</td></tr>
+        <tr id="cite-pandoc"><td><a href="https://github.com/jgm/pandoc/issues/9113" target="_blank" rel="noopener">Pandoc issue #9113 — a reproducible PPTX corruption bug (PNG data-URL + custom <code>--reference-doc</code> template)</a></td><td>A concrete PPTX output defect; why Pandoc isn't trusted for decks (Context)</td></tr>
+        <tr id="cite-issue33603"><td><a href="https://github.com/anthropics/claude-code/issues/33603" target="_blank" rel="noopener">Claude Code issue #33603 — standing prose rule degrades over sessions</a></td><td>Enforce in hooks (Cross-cutting, Governance, Context, Packaging, Plans)</td></tr>
+        <tr id="cite-issue56393"><td><a href="https://github.com/anthropics/claude-code/issues/56393" target="_blank" rel="noopener">Claude Code issue #56393 — prose-rule degradation</a></td><td>Enforce in hooks (Cross-cutting, Governance)</td></tr>
+        <tr id="cite-issue18427"><td><a href="https://github.com/anthropics/claude-code/issues/18427" target="_blank" rel="noopener">Claude Code issue #18427 — after-write channel cannot inject a correction</a></td><td>Intercept pre-write (Governance, Context, Memory)</td></tr>
+        <tr id="cite-issue52493"><td><a href="https://github.com/anthropics/claude-code/issues/52493" target="_blank" rel="noopener">Claude Code issue #52493 — silent edit-failure inside a cloud-sync boundary</a></td><td>Homes outside the vault (Context)</td></tr>
+        <tr id="cite-issue21858"><td><a href="https://github.com/anthropics/claude-code/issues/21858" target="_blank" rel="noopener">Claude Code issues #21858 (<code>paths:</code> in user rules ignored) / #25562 (only matches under primary CWD)</a></td><td><code>~/.claude/rules/</code> is always-on; keep it small (Memory)</td></tr>
+      </tbody>
+    </table>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · The research rationale.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

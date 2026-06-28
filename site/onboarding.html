@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Onboarding · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Getting started · the one-time first-run setup</p>
+    <h1>Onboarding</h1>
+    <p class="lede">
+      After you have <a href="installation.html">installed the foundation</a>, all the moving parts are in
+      place but nothing is personalized yet — the system does not know who you are, where you want your notes
+      kept, or how you like to be spoken to. <strong>Onboarding is the one-time guided setup that fills those
+      gaps.</strong> You type one command, answer a short interview, and the system writes down your preferences
+      and builds your vault.
+    </p>
+    <p class="page-meta">The setup wizard a new app shows you the first time — except this one also builds your filing cabinet and remembers your preferences across every future session.</p>
+
+    <h2>You type it; it never fires on its own</h2>
+    <p>
+      You start onboarding by typing one command in a Claude&nbsp;Code session:
+    </p>
+    <pre>/onboard</pre>
+    <p>
+      <code>/onboard</code> is a <strong>skill</strong> — a named capability you trigger with a slash. Most
+      skills can start two ways: you type them, <em>or</em> the assistant decides on its own that the moment
+      calls for it. Onboarding is deliberately set so the assistant can <strong>never</strong> start it by itself
+      (its definition carries <code>disable-model-invocation: true</code>). Only a human typing
+      <code>/onboard</code> begins it.
+    </p>
+    <div class="callout key">
+      <div class="label">Why it is muted from auto-firing</div>
+      <p>Onboarding writes your personal files and builds your vault, so it must never surprise you by running
+      unprompted in the middle of unrelated work. The skill stays fully visible and discoverable in the menu — it
+      is just muted from auto-firing.</p>
+    </div>
+
+    <h2>The two-part interview</h2>
+    <p>The interview is short and split into two parts, on purpose.</p>
+
+    <h3>Section A — the confirmation card</h3>
+    <p>The system has already looked up the obvious facts and simply shows them to you to confirm or correct:</p>
+    <table>
+      <thead><tr><th>Field</th><th>Where it comes from</th></tr></thead>
+      <tbody>
+        <tr><td>Name</td><td>Your git settings (<code>git config --global user.name</code>)</td></tr>
+        <tr><td>Email</td><td>Your git settings (<code>git config --global user.email</code>)</td></tr>
+        <tr><td>Timezone</td><td>Your operating system</td></tr>
+        <tr><td>Vault location</td><td>A proposed default folder for your new vault</td></tr>
+      </tbody>
+    </table>
+    <p>
+      You press Enter to accept everything, or a number to edit a single field. No typing is required unless
+      something is wrong. This is mechanical fact-gathering the computer can do for you — it uses no AI and
+      records no free text.
+    </p>
+
+    <h3>Section B — in your own words</h3>
+    <p>This is the only part where <em>you</em> describe who you are and how you work:</p>
+    <ul>
+      <li>Your role and organization</li>
+      <li>How you want the assistant to communicate with you</li>
+      <li>How you want it to collaborate</li>
+      <li>Your tools and field of work</li>
+    </ul>
+    <p>
+      Write loosely and at length — the one AI-assisted step of onboarding reads your answer and condenses it
+      into a few short, labeled fields (your role, your organization, and three preference blocks: communication
+      style, working patterns, tooling &amp; domain). Everything in Section&nbsp;B is <strong>optional</strong>;
+      skip anything that does not apply. Section&nbsp;A is fact-gathering a computer can do; Section&nbsp;B is the
+      genuinely human input no lookup can guess.
+    </p>
+    <div class="callout note">
+      <div class="label">A note on voice</div>
+      <p>Section&nbsp;B is written to be "spoken or typed," but the path that runs in the shipped flow is the
+      <strong>typed</strong> one: your written answer is captured and staged, then handed to the assistant for the
+      extraction step. A spoken-voice recorder is a possible future add-on, not part of the flow today.</p>
+    </div>
+
+    <h2>What onboarding produces</h2>
+    <p>From your answers, onboarding writes three things:</p>
+    <table>
+      <thead><tr><th>Output</th><th>What it is</th><th>Where it lands</th></tr></thead>
+      <tbody>
+        <tr><td><strong>A settings file</strong></td><td>A small, structured record of your answers — name, email, timezone, vault location, role, preferences</td><td><code>~/.claude/user-manifest.json</code></td></tr>
+        <tr><td><strong>A personal-preferences file</strong></td><td>A plain instructions file the assistant reads at the start of <em>every</em> session</td><td><code>~/.claude/CLAUDE.md</code></td></tr>
+        <tr><td><strong>A brain vault</strong></td><td>A fresh, pre-built notes folder, ready to open in Obsidian</td><td>a folder you chose (default under <code>Documents/</code>)</td></tr>
+      </tbody>
+    </table>
+    <p>
+      The settings file (the <strong>user-manifest</strong>) is the single system of record for who you are:
+      every other part of the system reads your details from there rather than re-asking you. Before it is saved
+      it is checked against a strict blueprint (<code>user-manifest-schema.json</code>) — if the data does not
+      fit, the write is refused rather than saved broken — and it is written <strong>atomically</strong>, so you
+      never end up with a half-written, corrupted file.
+    </p>
+
+    <h3>The two <code>CLAUDE.md</code> files</h3>
+    <p>
+      A <code>CLAUDE.md</code> file is a plain instructions file the assistant reads <strong>automatically</strong>
+      when it starts working — a standing note it re-reads every session. Onboarding authors two of them, with
+      different jobs:
+    </p>
+    <table>
+      <thead><tr><th>File</th><th>What it holds</th><th>What it is about</th></tr></thead>
+      <tbody>
+        <tr><td><strong>The global file</strong> (<code>~/.claude/CLAUDE.md</code>)</td><td>Your identity plus three preference blocks (communication, working style, tools &amp; field)</td><td><strong>You as a person</strong>, across all your work</td></tr>
+        <tr><td><strong>The vault file</strong> (at the top of your new vault)</td><td>A map of the vault's folder structure</td><td><strong>The layout</strong> of one notebook</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Both start as <strong>templates</strong> — finished documents with blanks like <code>{{IDENTITY_NAME}}</code> —
+      and onboarding fills every blank with your real values. As a safeguard, before either file is saved the
+      system scans the finished text for any leftover <code>{{...}}</code> blank and <strong>refuses to write the
+      file if even one remains.</strong> You never end up with a <code>CLAUDE.md</code> that literally says
+      <code>{{IDENTITY_NAME}}</code> to the assistant. Onboarding is the authoritative author of the global file:
+      if you skip onboarding you get <strong>no</strong> global preferences file at all — cleaner than a broken,
+      half-filled one.
+    </p>
+
+    <h2>Your vault, built for you</h2>
+    <p>
+      brain-stem ships a <strong>seed</strong> — a small starter folder tree with the standard folders every
+      brain vault has (today, a <code>Vault Writers/</code> catalog of every automated system that writes into
+      your vault, the folder carrying its own index note). Onboarding copies that seed into the location you chose and
+      turns it into your working vault. This is <strong>adopt-by-default</strong>: you do not opt in to the
+      standard structure as an extra step; you get it automatically.
+    </p>
+    <p>
+      The copy is gentle and safe to repeat: it walks the seed file by file and <strong>skips anything already
+      present</strong>, so re-running setup never overwrites your work. While building the vault, onboarding also
+      wires five convenience shortcuts into it — folder links that make one location appear inside another without
+      copying anything:
+    </p>
+    <table>
+      <thead><tr><th>Link in your vault</th><th>Points at</th></tr></thead>
+      <tbody>
+        <tr><td><code>Plans/</code></td><td>your plans home (<code>~/.claude-plans/</code>)</td></tr>
+        <tr><td><code>Skills/</code></td><td>your installed skills (<code>~/.claude/skills/</code>)</td></tr>
+        <tr><td><code>Wiki/</code></td><td>the universal Library (<code>~/.claude-plans/_library</code>)</td></tr>
+        <tr><td><code>Projects/</code></td><td>the project binders (<code>~/.claude-plans/_projects</code>)</td></tr>
+        <tr><td><code>Work/</code></td><td>your deliverable work area (<code>~/work</code>)</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Building a folder is invisible, so onboarding does not silently finish. It prints a clear next action —
+      <em>"Open it in Obsidian (Open folder as vault) → select your vault path. Confirm when done."</em> — then
+      hands you the key and tells you which drawer to open first.
+    </p>
+
+    <h2>The optional add-ons — recommended, never required</h2>
+    <p>The last step offers two optional extras and recommends them honestly without ever blocking you:</p>
+    <table>
+      <thead><tr><th>Add-on</th><th>What it does</th><th>Why it is recommended</th></tr></thead>
+      <tbody>
+        <tr><td><strong>claude-mem</strong></td><td>An optional plugin that gives the assistant broad automatic recall <em>on top of</em> brain-stem's own curated memory</td><td>The system is fully functional without it — the recommendation says so plainly.</td></tr>
+        <tr><td><strong>GitHub</strong></td><td>A backup service that gives your vault full version history and lets you recover or sync across machines</td><td>Protects your work from any mistake.</td></tr>
+      </tbody>
+    </table>
+    <p>
+      For each, the system checks whether you already have it, gives a strong recommendation with the honest
+      reason and the exact command to set it up, and offers a frictionless "skip and do it later — the rest of
+      your setup still works." It records your choice but never forces it. Set up both, neither, or one, and your
+      setup still works coherently.
+    </p>
+
+    <h2>Run once — and how to safely re-run</h2>
+    <p>
+      Onboarding is designed to run <strong>once</strong> and then get out of the way. The moment setup
+      completes, the system records a small "onboarding finished" marker. After that, a plain <code>/onboard</code>
+      does nothing — it prints <code>Onboarding already complete — nothing to do</code> and exits without
+      touching anything. This protects your personalized files from a careless second run.
+    </p>
+    <table>
+      <thead><tr><th>You type</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td><code>/onboard</code> (after setup is done)</td><td>No-op. Prints "already complete," exits. Nothing is touched.</td></tr>
+        <tr><td><code>/onboard --resume</code></td><td>Picks up an <em>unfinished</em> setup where you left off.</td></tr>
+        <tr><td><code>/onboard --force</code></td><td>The deliberate "yes, I really mean redo this" override. Re-runs the full setup.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout key">
+      <div class="label">It will not silently overwrite your edits — block-and-log</div>
+      <p>If a <code>CLAUDE.md</code> already exists and differs from what would be freshly generated, onboarding
+      does not overwrite it on its own — it writes the proposed new version off to the side (ending in <code>.new</code>),
+      shows you the differences, and leaves your real file untouched until you decide. Replacing the file is
+      opt-in — that is exactly what <code>--force</code> is for. The whole of setup follows
+      one rule, <strong>block-and-log</strong>: if anything goes wrong — bad data, a failed check, a disk error —
+      it stops and reports the failure instead of saving something broken. It never writes a half-finished file
+      and hopes.</p>
+    </div>
+    <p class="page-meta">Onboarding seeds <strong>no memory</strong> — your identity lands in <code>CLAUDE.md</code>,
+    not in any memory file. Memory bootstrap is handled by a separate startup hook, so a re-run of onboarding
+    never touches your accumulated memory.</p>
+
+    <h2>A gentle reminder until you are done</h2>
+    <p>
+      If you install brain-stem but have not yet finished onboarding, the assistant surfaces a one-line banner at
+      the start of each session inviting you to run <code>/onboard --resume</code> and pick up where you left off.
+      Once setup completes, that banner disappears for good. It never blocks you from working and never forces the
+      command — it is the "finish setting up your account" nudge a well-designed app shows until you complete
+      onboarding, then stops bothering you forever.
+    </p>
+
+    <h2>Where to go next</h2>
+    <ul>
+      <li><a href="installation.html">Install &amp; upgrade guide</a> — how the foundation got onto your machine, and how to upgrade or remove it.</li>
+      <li><a href="getting-started.html">Getting started</a> — the quickstart and the mental model behind everything onboarding just set up.</li>
+      <li><a href="system-personalization.html">System personalization</a> — the governed seam where you extend the rules after setup.</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Onboarding.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

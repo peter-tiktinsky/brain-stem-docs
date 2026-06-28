@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The vault-writer system · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Automated capture · the engine underneath</p>
+    <h1>The vault-writer system</h1>
+    <p class="lede">
+      The vault-writer system is the machinery that turns <strong>outside information into structured,
+      reusable assets in your vault</strong> — and keeps doing it on its own. It ships the hard parts (safe
+      writing, deduplication, an audit trail, a deterministic-and-optional-AI processing path); you supply the
+      connectors that decide what to pull and how to shape it.
+    </p>
+    <p class="page-meta">A deep page. What the system guarantees, the design principles for building on it, and where the lines between "shipped" and "you build it" actually fall.</p>
+
+    <h2>The pipeline, end to end</h2>
+    <p>
+      Whatever the source — an email, a meeting transcript, a scrape — the path into your vault is always the
+      same shape. A connector does the fetching and shaping, then hands the result to a pipeline that does the
+      writing. The connector never writes a destination file itself; it <strong>emits a packet</strong>, and a
+      single program applies it.
+    </p>
+    <div class="flow">
+      <div class="fstep"><b>Source</b><small>Email, transcript, scrape — pulled by a connector you register.</small></div>
+      <div class="farr">→</div>
+      <div class="fstep gate"><b>Staging packet</b><small>A content-addressed JSON packet, named by the SHA-256 of its body. Holds the body + where it should land + an output type.</small></div>
+      <div class="farr">→</div>
+      <div class="fstep mark"><b>Writer-reconciler</b><small>The sole writer. De-duplicates by content hash, picks the winner, and writes atomically — under an OS lock so two runs never collide.</small></div>
+      <div class="farr">→</div>
+      <div class="fstep"><b>Destination(s)</b><small>A note, a JSON file, or a SQLite table — plus an append-only manifest row recording the write.</small></div>
+    </div>
+    <p>
+      Two properties of that middle step do a lot of work. First, the <strong>writer-reconciler is the only
+      thing that writes a destination</strong> — enforced with an exclusive lock, not just by convention — so
+      you never get two processes racing on the same file. Second, <strong>your hand-edits always win</strong>:
+      if you've edited a file the system also maintains, a two-signal check (a frontmatter marker plus a
+      content-hash drift) detects it and the reconciler preserves your edit instead of clobbering it.
+    </p>
+    <div class="callout note">
+      <div class="label">Where everything lives (and what's permanent)</div>
+      <p>
+        Raw source is retained under <code>~/.local/share/brain-stem/vault-writers/raw/</code>; a per-day
+        processing ledger and the durable manifest live alongside it
+        (<code>manifest.sqlite</code>, a WAL-mode <code>writes</code> table, append-only). The destinations are
+        your actual files. The only <em>ephemeral</em> piece is the in-flight staging packet at
+        <code>~/.local/state/brain-stem/vault-staging/&lt;writer-id&gt;/&lt;sha256&gt;.json</code>, which is
+        deleted once it's applied. So your raw inputs, your processed records, the audit log, and your outputs
+        are all kept permanently and locally — only the transient hand-off is thrown away.
+      </p>
+    </div>
+
+    <h2>It doesn't only write notes</h2>
+    <p>
+      Each packet carries an <strong>output type</strong>, and that's what lets one capture land in more than
+      one shape. The same processed information can be a readable note <em>and</em> a row in a queryable table.
+    </p>
+    <table>
+      <thead><tr><th>Output type</th><th>Lands as</th><th>Good for</th></tr></thead>
+      <tbody>
+        <tr><td><code>markdown</code></td><td>A note in your vault.</td><td>Anything you read — meeting notes, summaries, briefs.</td></tr>
+        <tr><td><code>json</code></td><td>A structured JSON file.</td><td>Records you'll process again, or feed to other tooling.</td></tr>
+        <tr><td><code>sqlite</code> / <code>db</code></td><td>A SQLite (or external) database file.</td><td>Anything you'll <strong>query</strong> later or wire to a dashboard.</td></tr>
+      </tbody>
+    </table>
+    <p>
+      This is the quiet superpower: if you ever want to query your captured information, or use it as the data
+      behind a web page, a dashboard, or any product that needs structured input, the structured copy is
+      <strong>already there</strong> — you don't have to go re-extract it from prose.
+    </p>
+
+    <h2>Build it deterministic-first</h2>
+    <p>
+      The most important design principle for a connector is this: when you're turning unstructured content
+      into a formal structure, make the processing <strong>as deterministic as you can</strong>. The system's
+      own posture models this — the default path is a plain mechanical write with no model in the loop, and the
+      AI lane is something you opt into. There are four reasons it pays off:
+    </p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="ph"><span class="pn">1</span><h3>Correct processing</h3></div>
+        <p class="keeps">Deterministic rules behave the same way every time — essential when the same fact can arrive from more than one source.</p>
+      </div>
+      <div class="pillar">
+        <div class="ph"><span class="pn">2</span><h3>Trustworthy formatting</h3></div>
+        <p class="keeps">If you want information to land in a consistent, predictable shape, a rule gives you that; a model's phrasing drifts.</p>
+      </div>
+      <div class="pillar">
+        <div class="ph"><span class="pn">3</span><h3>Token economics</h3></div>
+        <p class="keeps">Repetitive work shouldn't lean on a heavy model. The more structure you give the ingestion, the less token tax you pay.</p>
+      </div>
+      <div class="pillar">
+        <div class="ph"><span class="pn">4</span><h3>It scales quietly</h3></div>
+        <p class="keeps">Deterministic steps run on a schedule without supervision and without surprises — the right base for always-on capture.</p>
+      </div>
+    </div>
+    <div class="callout key">
+      <div class="label">Token cost: the optimization lever is in your connector, not the writer</div>
+      <p>
+        The token-economy argument is real, but the lever is <strong>in your connector, not a setting on the
+        writer</strong>. A connector is just a script: it can parse deterministically, or call a cheaper model
+        (Sonnet rather than Opus), or even a local model at near-zero token cost, <em>before</em> it emits its
+        packet. The pipeline's own optional AI step always runs with the ambient default model — it has no
+        per-writer model dial today. So "use a cheap or local model for the repetitive part" is a way you
+        <em>design the connector</em>, not a flag you toggle on the writer. The architecture makes it possible;
+        you make it happen.
+      </p>
+    </div>
+
+    <h2>When to bring AI into the loop</h2>
+    <p>
+      Not everything is deterministic, and reasoning genuinely matters at certain moments. So the system keeps
+      an opt-in <strong>LLM-reasoning lane</strong>: you can register an operator-authored prompt
+      (a <code>doc-amender-prompt</code>) that runs through <code>claude -p</code> to merge an incoming packet
+      into a destination intelligently. Even then it stays inside the safety model — the prompt <strong>composes
+      a packet, it never writes the final file</strong>; the reconciler still does that. Think of it as:
+      deterministic by default, model in the loop only where you decide it earns its keep.
+    </p>
+    <div class="card-grid two">
+      <div class="card">
+        <div class="kicker">Deterministic is enough</div>
+        <h3>Action items by workstream</h3>
+        <p>Pull action items from emails and transcripts and route each to the right workstream by handing
+        Claude a list of the people on each one. A rule, not a judgment call.</p>
+      </div>
+      <div class="card">
+        <div class="kicker">Reach for the model</div>
+        <h3>What resonated in the room</h3>
+        <p>After a demo, gauge audience sentiment, or which of the ideas you floated landed best. That's a
+        reading of meaning — the place to attach an LLM prompt.</p>
+      </div>
+    </div>
+
+    <h2>You're never taxed for changing your mind</h2>
+    <p>
+      Here is the payoff that makes the whole thing worth setting up. Because the system keeps your <strong>raw
+      content</strong>, holds onto the <strong>processed content</strong>, and stores the <strong>outputs</strong>
+      — all permanently, all local — you are free to evolve what you want from it without re-architecting
+      anything.
+    </p>
+    <div class="flow">
+      <div class="fstep"><b>Today</b><small>Pull action items from email. Trivial to start.</small></div>
+      <div class="farr">→</div>
+      <div class="fstep"><b>Add a source</b><small>Also pull them from meeting transcripts — no duplication to worry about, because you fan both into the same de-duplicating destination.</small></div>
+      <div class="farr">→</div>
+      <div class="fstep"><b>Tomorrow</b><small>Want a dashboard instead of a sheet? Reuse the SQLite the system already built for you.</small></div>
+    </div>
+    <p>
+      You end up with all the Lego bricks you need to build pretty much anything you want — and, unlike a
+      traditional system, you aren't penalised for deciding you want something different next week.
+    </p>
+    <div class="callout note">
+      <div class="label">One honest note on de-duplication</div>
+      <p>
+        "No duplicate action items" isn't magic — it's a setup choice. The system de-duplicates by content hash
+        per source automatically; to collapse the <em>same</em> item arriving from two different connectors, you
+        route both into <strong>one destination</strong> keyed on the item's identity, and a deterministic
+        keyed upsert (replace-on-key) handles the rest. The pipeline gives you the de-dup machinery and the
+        cross-source index; you point the sources at a shared keyed landing place to use it.
+      </p>
+    </div>
+
+    <h2>What ships, and what you build</h2>
+    <p>
+      It's worth being clear about the line, because it's where most of the leverage is. brain-stem ships the
+      <strong>substrate</strong>; you compose the <strong>connectors</strong> on top of it.
+    </p>
+    <table>
+      <thead><tr><th>Shipped (the substrate)</th><th>You build (the connectors)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Writer registration (<code>/govern register --kind writer</code>); staging packets; the
+          single writer-reconciler; the SQLite manifest; raw retention; fan-in and fan-out; the deterministic
+          composer and the opt-in LLM lane.</td>
+          <td>The fetchers themselves (e.g. a Gmail or Granola connector — the source labels are registration
+          names, not shipped code); any source-to-workstream routing logic; a custom file-type contract for the
+          shape you want; and any model calls your connector makes.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      You register a writer, declare where its packets should land and in what shape, and the substrate takes
+      it from there. A single agentic writer can <strong>fan out</strong> to many destination files at once —
+      appending where things should append, updating where they should update — and every applied change is
+      recorded in the append-only manifest, which is your immutable audit trail of what the system did.
+    </p>
+
+    <div class="callout key">
+      <div class="label">Run it on a schedule</div>
+      <p>
+        Capture is most useful when it's always on. The vault-writer pipeline is exactly the kind of work you'll
+        want to run on a recurring basis — see <a href="orchestration.html">Orchestration &amp; scheduling</a>
+        for how scheduling works (and what's turnkey versus what you assemble yourself).
+      </p>
+    </div>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · The vault-writer system.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

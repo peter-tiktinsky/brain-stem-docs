@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Write-time governance · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Write-time governance · conventions enforced at the moment of every write</p>
+    <h1>Write-time governance</h1>
+    <p class="lede">
+      Every file and folder, the moment it is created or edited, is checked against a rulebook of
+      conventions. The point is that files are always <strong>discoverable by Claude</strong> and
+      <strong>findable by you</strong> — not because someone remembered to apply the right format,
+      but because the system enforced it at write time.
+    </p>
+    <p class="page-meta">Conventions applied structurally — at the write — not left to memory or discipline.</p>
+
+    <h2>Two kinds of governance</h2>
+    <p>
+      brain-stem uses the word "governance" in two distinct places, and it helps to name them cleanly
+      before going further:
+    </p>
+    <div class="card-grid two">
+      <div class="card">
+        <div class="kicker">This section</div>
+        <h3>Write-time governance</h3>
+        <p>Conventions that apply to every file and folder at the moment of creation: frontmatter
+        schema, naming rules, mandatory indexes, doc-dependency chains. Enforced by a hook that fires
+        on every write. The goal: any file the system touches is structurally legible immediately,
+        without a cleanup pass later.</p>
+      </div>
+      <div class="card">
+        <div class="kicker">Project management section</div>
+        <h3>Process governance</h3>
+        <p>Conventions for how work is organized and tracked over time: plans, orchestration,
+        project binders. These govern the lifecycle of work — how you propose, run, gate, and close
+        a piece of work — not the shape of the individual files it produces.</p>
+      </div>
+    </div>
+    <p>
+      The distinction is practical: if you are looking at a specific file and asking "is this
+      well-formed?" or "why is this folder structured this way?", that is write-time governance.
+      If you are asking "how does this piece of work get planned and run?", that is process governance
+      in the <a href="project-management.html">Project management</a> section.
+    </p>
+
+    <h2>Go deeper</h2>
+    <div class="card-grid">
+      <a class="card" href="governance-engine.html"><div class="kicker">The foundation</div><h3>The governance engine</h3><p>How the write-time doorman works: one interception point (the <code>PreToolUse</code> hook), three verdicts — allow, advise, deny — and why most policy teaches rather than blocks.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="single-document.html"><div class="kicker">One file</div><h3>The single document</h3><p>The rules that govern a file in isolation: frontmatter schema, required fields, tagging, naming, and the type contract that specifies a file's expected body shape.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="across-documents.html"><div class="kicker">Across files</div><h3>Across documents &amp; folders</h3><p>The rules that cross file boundaries: mandatory per-folder indexes that keep folders navigable for Claude, and doc-dependency chains that flag when related files fall out of sync.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="governance-rationale.html"><div class="kicker">Why these choices</div><h3>Why: write-time governance</h3><p>The reasoning behind the write-time enforcement model, the three-tier compliance approach, vault guards, and survivorship rules — why these choices and not simpler alternatives.</p><div class="spacer"></div><div class="more">Read →</div></a>
+    </div>
+
+    <div class="callout note">
+      <div class="label">Extending or overriding the rules</div>
+      <p>The write-time rulebook is sealed in a foundation layer — you do not edit it directly.
+      You extend it (register new file types, folder types, writers) or override a shipped rule
+      (with a stated reason) through the overlay seam. That is a personalization concern, not a
+      write-time concern. See
+      <a href="governance-personalization.html">Governance personalization</a>.</p>
+    </div>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">brain-stem · documentation · Write-time governance.</div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beyond the second brain · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">The argument</p>
+    <h1>Beyond the second brain</h1>
+    <p class="lede">
+      The second-brain idea — even its AI versions — is a <strong>store you keep beside your
+      work</strong>: capture, organize, retrieve later. brain-stem keeps that promise — a dedicated,
+      governed place to capture knowledge — but changes where it lives. The store isn't beside the
+      work; it's <strong>folded into the first brain</strong>, connected to the faculties Claude
+      already has so it's used automatically.
+    </p>
+    <p class="page-meta">The one-page case for adopting · the full case — decision by decision, with
+    citations — lives on <a href="research-rationale.html">the research rationale</a>.</p>
+
+    <div class="callout key">
+      <div class="label">The foundation — Claude Code gives you the slots; brain-stem fills them</div>
+      <p>Claude&nbsp;Code is deliberately a near-blank platform. It <em>exposes</em> the extension
+      points — a folder it reads on launch, a small file it auto-loads into memory, scripts that run
+      before a write or when a session starts, a place to drop commands — but it leaves them empty. Out
+      of the box the assistant doesn't know who you are, remembers nothing between sessions, and has no
+      opinion about what a well-formed file looks like. brain-stem is the layer that wires those slots
+      into a complete, opinionated, enforced system — the nervous system that connects the brain to the
+      body. The second-brain argument below is what that connection adds up to.</p>
+    </div>
+
+    <p>
+      Framed another way: brain-stem is the operational foundation for a personalized Claude Code.
+      Almost every component — the context layer, the session model, the governance engine, the
+      project scaffold — is something a serious user would eventually need a strong version of anyway.
+      Building each from scratch costs enormous time. Without a coherent foundation the tax is
+      constant: Claude mistakes you keep correcting, manual work you keep repeating, friction on every
+      session handoff. The pillars below are where that tax accumulates — and what wiring them
+      together actually buys.
+    </p>
+
+    <h2>Claude can already do all of this — that's the point</h2>
+    <p>
+      Nothing here is about giving Claude a new superpower. Claude natively has the capabilities — it can
+      read your files, remember, plan, research, and write. The problem is that the slots that would wire
+      those capabilities together sit <strong>empty</strong>: out of the box each one runs alone, ungoverned,
+      and only when you set it up by hand. brain-stem is what connects them.
+    </p>
+    <p>
+      The table below is the whole argument in one place, grouped by the <strong>six parts of the system</strong>
+      — the same six sections in the sidebar. Under each section sit the <strong>capabilities</strong> native to
+      Claude&nbsp;Code; under each capability, the real <strong>pitfalls</strong> it runs into — and how three
+      worlds answer each one: native Claude&nbsp;Code, off-the-shelf second brains, and brain-stem. Read down a
+      capability to see every way it falls short out of the box; read across a pitfall to see who actually solves
+      it. The off-the-shelf column stays honest — where a market tool genuinely leads on one axis, it's named.
+    </p>
+    <table>
+      <thead>
+        <tr><th>Capability</th><th>Pitfall</th><th>Native Claude&nbsp;Code</th><th>Off-the-shelf second brains</th><th>brain-stem</th></tr>
+      </thead>
+      <tbody>
+        <tr><th colspan="5" class="grp"><span class="g-name">Context &amp; memory</span><span class="g-desc">durable knowledge that survives between sessions</span></th></tr>
+        <tr>
+          <td class="cap" rowspan="3"><strong>Remember</strong><span class="cap-desc">Hold durable knowledge across sessions.</span></td>
+          <td><strong>Nothing persists between sessions</strong></td>
+          <td>Starts blank every session.</td>
+          <td>Files persist, but the AI loads nothing from them.</td>
+          <td>On-disk memory loaded at start, in two scopes.</td>
+        </tr>
+        <tr>
+          <td><strong>No memory classification</strong></td>
+          <td>One undifferentiated file.</td>
+          <td>Mostly opaque auto-extraction; Claude's own consumer memory is the transparent exception — editable and cited — but still untyped and manually curated.</td>
+          <td>Declared-at-write-time Semantic / Procedural / Episodic.</td>
+        </tr>
+        <tr>
+          <td><strong>Learning is siloed per project</strong></td>
+          <td>A lesson learned in one directory is gone when you launch elsewhere.</td>
+          <td>No cross-store transfer; each vault is an island.</td>
+          <td>Project learning promotes into universal rules and reference.</td>
+        </tr>
+        <tr>
+          <td class="cap" rowspan="2"><strong>Read knowledge</strong><span class="cap-desc">Load the right context without overflowing the window.</span></td>
+          <td><strong>The auto-loaded memory truncates silently</strong></td>
+          <td>Reads only the first ~25&nbsp;KB / 200 lines — no warning.</td>
+          <td>RAG stores dilute: retrieval accuracy drops as the corpus grows.</td>
+          <td>A byte-first load guard keeps a small curated hot index loadable.</td>
+        </tr>
+        <tr>
+          <td><strong>Retrieval is indiscriminate</strong></td>
+          <td>A full window degrades attention; nothing curates what reaches the model.</td>
+          <td>Stores return whatever matches; Reflect is the honest exception — its loading discipline is the market's best, nothing auto-dumped.</td>
+          <td>Access tiered by cost — a small high-value set up front, heavy detail behind a pointer.</td>
+        </tr>
+        <tr>
+          <td class="cap"><strong>Research</strong><span class="cap-desc">Turn findings into reusable assets.</span></td>
+          <td><strong>No universal-asset model</strong></td>
+          <td>Research redone every session.</td>
+          <td>Capture is great; reuse and evolution are unbuilt.</td>
+          <td>A universal Library + a moment-of-need reuse hint.</td>
+        </tr>
+        <tr>
+          <td class="cap"><strong>Orient</strong><span class="cap-desc">Know where the project stands before the first reply.</span></td>
+          <td><strong>No orientation at session start</strong></td>
+          <td>Each session opens cold — no status, focus, or last handoff.</td>
+          <td>You re-brief from scratch; a passive store can't situate the work.</td>
+          <td>A generated situating card auto-loads before your first message.</td>
+        </tr>
+
+        <tr><th colspan="5" class="grp"><span class="g-name">Project management</span><span class="g-desc">running a multi-step project without losing the thread</span></th></tr>
+        <tr>
+          <td class="cap"><strong>Plan</strong><span class="cap-desc">Run a multi-step project without losing the thread.</span></td>
+          <td><strong>"Done" is forgeable</strong></td>
+          <td>Plans are ephemeral; "done" is whatever the assistant claims.</td>
+          <td>A hand-ticked checklist drifts from reality, and nothing verifies it.</td>
+          <td>The control file is truth; "verified" is machine-stamped, so "done" can't be forged.</td>
+        </tr>
+        <tr>
+          <td class="cap"><strong>Orchestrate</strong><span class="cap-desc">Dispatch and schedule multi-step work.</span></td>
+          <td><strong>Unattended runs have no guardrails</strong></td>
+          <td>Dispatch to headless sessions is all-or-nothing — fully autonomous or fully manual, with no failure-detection.</td>
+          <td>A passive note store has no runtime to orchestrate at all.</td>
+          <td>A propose-and-gate dispatcher walks the manifest, halts irreversible work, and breaks the circuit after two silent failures.</td>
+        </tr>
+        <tr>
+          <td class="cap"><strong>Organize work</strong><span class="cap-desc">Give every kind of work a governed home.</span></td>
+          <td><strong>Only coding work has a home</strong></td>
+          <td>Only a code repo is a Claude-readable workspace; strategy, writing, and decks have none.</td>
+          <td>A note store isn't a governed project workspace.</td>
+          <td>Code repos plus a governed <code>Work/</code> folder under a thin deliverable contract — both roll up the same way.</td>
+        </tr>
+        <tr>
+          <td class="cap"><strong>Project binder</strong><span class="cap-desc">A per-project roll-up a fresh session can read.</span></td>
+          <td><strong>No durable project record</strong></td>
+          <td>No per-project roll-up; hand-kept status files rot.</td>
+          <td>A flat note pile never aggregates into a project-level record.</td>
+          <td>A binder — research index, decision log, handoff chronicle — regenerated at each close behind a hand-curated cover.</td>
+        </tr>
+
+        <tr><th colspan="5" class="grp"><span class="g-name">Write-time governance</span><span class="g-desc">keeping a shared, AI-co-authored folder trustworthy at the moment of the write</span></th></tr>
+        <tr>
+          <td class="cap" rowspan="3"><strong>Write to a vault</strong><span class="cap-desc">Decide what a good write is, at the write.</span></td>
+          <td><strong>No rulebook for a good write</strong></td>
+          <td>One interception point, no opinion.</td>
+          <td>No write-time schema; structure is convention only.</td>
+          <td>A governance engine returning <em>allow / advise / deny</em>.</td>
+        </tr>
+        <tr>
+          <td><strong>Standing instructions degrade</strong></td>
+          <td>Prose rules get rationalized away over a few sessions.</td>
+          <td>Vendors concede their rules "may not always" be followed.</td>
+          <td>Enforcement is a deterministic write-time hook, not prose.</td>
+        </tr>
+        <tr>
+          <td><strong>An AI co-author accelerates the rot</strong></td>
+          <td>The assistant writes into the same ungoverned folder it reads.</td>
+          <td>Bolting an AI on a passive store speeds the decay — it writes too, and retrieves from the ungoverned pile.</td>
+          <td>Every write clears the doorman; retrieval is from a curated, classified store.</td>
+        </tr>
+        <tr>
+          <td class="cap"><strong>Enforce structure</strong><span class="cap-desc">Hold every file to a shape.</span></td>
+          <td><strong>Files are opaque, unstructured blobs</strong></td>
+          <td>Reads and writes any file as undifferentiated text — no required fields, no body shape.</td>
+          <td>No write-time schema; structure is convention, abandoned first.</td>
+          <td>Per-type frontmatter schema and a body contract — required fields, slug grammar, size caps — checked on every write.</td>
+        </tr>
+        <tr>
+          <td class="cap"><strong>Co-author safely</strong><span class="cap-desc">Share a folder with the AI without losing edits.</span></td>
+          <td><strong>A shared folder drifts with a co-author</strong></td>
+          <td>No coordinator, no survivorship.</td>
+          <td>Last-modified-wins; conflicts spawn duplicate files to hand-merge.</td>
+          <td>Single-writer reconciler + survivorship: your edit wins.</td>
+        </tr>
+        <tr>
+          <td class="cap"><strong>Relate documents</strong><span class="cap-desc">Keep coupled files and folders in sync.</span></td>
+          <td><strong>Indexes rot and coupled docs drift</strong></td>
+          <td>No index discipline; the write hook sees one file at a time.</td>
+          <td>Manual maps-of-content are the first thing abandoned.</td>
+          <td>Indexes regenerated and project state derived; write-time advisories name the docs a change should cascade to.</td>
+        </tr>
+
+        <tr><th colspan="5" class="grp"><span class="g-name">Session management</span><span class="g-desc">surviving a finite, self-trimming conversation — and coordinating across many</span></th></tr>
+        <tr>
+          <td class="cap"><strong>Survive a long session</strong><span class="cap-desc">Outlast a finite, self-trimming window.</span></td>
+          <td><strong>Working state lost when the window compacts</strong></td>
+          <td>Compaction replaces the verbatim conversation; in-flight state is gone.</td>
+          <td>No session model at all — nothing to lose, but nothing to resume.</td>
+          <td>Checkpoints on a pressure ladder survive the trim; the next session restarts from the saved block.</td>
+        </tr>
+        <tr>
+          <td class="cap"><strong>Coordinate sessions</strong><span class="cap-desc">Run many sessions without collisions.</span></td>
+          <td><strong>No coordination across concurrent sessions</strong></td>
+          <td>Parallel sessions are blind to each other.</td>
+          <td>No session runtime exists — there is nothing to coordinate.</td>
+          <td>Peer-session awareness plus a same-file overlap warning.</td>
+        </tr>
+        <tr>
+          <td class="cap"><strong>Close a session</strong><span class="cap-desc">Leave a clean state behind.</span></td>
+          <td><strong>A session leaves no clean state</strong></td>
+          <td>A SessionEnd moment, but no tidy-up; a crash leaves a ghost registry row.</td>
+          <td>Nothing reconciles a note store when you stop.</td>
+          <td>Always-on deregister plus an on-demand session-close that reconciles, regenerates indexes, and exits clean.</td>
+        </tr>
+        <tr>
+          <td class="cap"><strong>Decide well</strong><span class="cap-desc">Pressure-test a fork before taking it.</span></td>
+          <td><strong>Forks aren't pressure-tested</strong></td>
+          <td>The assistant offers the first options it thinks of, never stress-tested.</td>
+          <td>A passive store doesn't weigh in on decisions.</td>
+          <td>A decision-time nudge to run a 4-element research pass — re-read goals, check neighbors, read live state, add one unconsidered option — before options publish.</td>
+        </tr>
+
+        <tr><th colspan="5" class="grp"><span class="g-name">Automated capture</span><span class="g-desc">letting the system write to the vault on its own, without racing or clobbering</span></th></tr>
+        <tr>
+          <td class="cap"><strong>Capture automatically</strong><span class="cap-desc">Let the system write to the vault on its own.</span></td>
+          <td><strong>Capture is a manual chore</strong></td>
+          <td>You write each memory by hand.</td>
+          <td>Capture is manual and self-rewarding; curation and governance get skipped, so the store drifts.</td>
+          <td>Capture is automated by vault-writers — and governed on the way in.</td>
+        </tr>
+        <tr>
+          <td class="cap"><strong>Ingest safely</strong><span class="cap-desc">Many feeds, one safe writer.</span></td>
+          <td><strong>Many feeds race and clobber</strong></td>
+          <td>Connectors and scripts write vault files directly, with no coordination.</td>
+          <td>No concurrency control across importers; conflicts spawn duplicates.</td>
+          <td>A single writer-reconciler — content-hash staging packets applied by atomic rename, logged to an append-only manifest.</td>
+        </tr>
+        <tr>
+          <td class="cap"><strong>Amend with AI</strong><span class="cap-desc">Use a model to enrich incoming content, safely.</span></td>
+          <td><strong>The smart lane overwrites blindly</strong></td>
+          <td>A headless model run over content becomes the writer of record — silent overwrite on conflict.</td>
+          <td>AI enrichment, where it exists, writes straight to the store.</td>
+          <td>An opt-in amender lane composes a packet back to staging and never writes the destination; conflicts block and log.</td>
+        </tr>
+
+        <tr><th colspan="5" class="grp"><span class="g-name">System personalization</span><span class="g-desc">making it yours, and keeping it yours through upgrades</span></th></tr>
+        <tr>
+          <td class="cap"><strong>Get set up</strong><span class="cap-desc">Make the install yours from day one.</span></td>
+          <td><strong>The install isn't yet yours</strong></td>
+          <td>The same install everyone runs; a blind drop-in can clobber your edits.</td>
+          <td>A generic setup with no guided personalization.</td>
+          <td>A one-time guided interview that builds your vault — validate-before-write, never overwriting an edited file.</td>
+        </tr>
+        <tr>
+          <td class="cap"><strong>Customize the rules</strong><span class="cap-desc">Extend or override shipped policy, safely.</span></td>
+          <td><strong>No safe way to bend the rules</strong></td>
+          <td>No sanctioned way to extend or override shipped policy; hand-editing blurs yours-vs-shipped and breaks upgrades.</td>
+          <td>Rules are fixed, or fully open with no audited middle.</td>
+          <td>One governed seam — a sealed master plus a transparent overlay — where an override carries a stated reason.</td>
+        </tr>
+        <tr>
+          <td class="cap"><strong>Install &amp; upgrade</strong><span class="cap-desc">Take updates without losing your work.</span></td>
+          <td><strong>Upgrades clobber your customizations</strong></td>
+          <td>Your edits live in the one shipped config an update overwrites.</td>
+          <td>A blind drop-in update replaces the very files your tweaks live in.</td>
+          <td>Sealed core + audited overlay; a preview-first, reversible install never clobbers your edits.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="page-meta">Each pillar's full case — the alternatives weighed and the evidence behind every
+    choice — is laid out on <a href="research-rationale.html">the research rationale</a>.</p>
+    <div class="callout key">
+      <div class="label">The category difference</div>
+      <p>brain-stem absolutely gives you a place to capture knowledge — most of it automated, the rest
+      auto-governed and organized so it stays usable. What's different is <em>where it lives</em>: not a
+      separate database you maintain and point at, but storage, recall, governance, and continuity
+      <strong>wired into how Claude loads and runs</strong> — part of the brain, not bolted on beside
+      it. The second brain's promise, delivered inside the first.</p>
+    </div>
+
+    <h2>None of it is arbitrary</h2>
+    <p>
+      Every choice above is anchored to one of two things — never to taste. A piece is either
+      <strong>forced by the platform</strong> (Claude&nbsp;Code behaves a fixed way and only one shape
+      works — the hard memory cap forces a single small index) or <strong>independently rediscovered</strong>
+      by unrelated fields (the three-way memory split matches a fifty-year consensus in memory science;
+      "advise before you block" matches what policy engines and linters converged on). Holding that
+      distinction is what makes the design auditable instead of opinionated.
+    </p>
+    <div class="callout note">
+      <div class="label">The counterintuitive part — the friction inversion</div>
+      <p>You might expect to customize the surface conveniences and have the deep machinery locked down.
+      It is the reverse: <strong>the more universal a pillar, the more brain-stem lets you bend it.</strong>
+      Governance — the most universal piece — has the richest customization seam; Plans, the most
+      opinionated, has the thinnest. The pieces you are most likely to want to reshape are the ones built
+      to be reshaped, because they are the ones where reshaping is safe. The full per-pillar evidence — the
+      two kinds of "optimal," the design principles, and every alternative weighed — is on
+      <a href="research-rationale.html">the research rationale</a>.</p>
+    </div>
+
+    <h2>Why "store it and search it" isn't enough</h2>
+    <p>
+      Traditional second-brain architecture is optimized for <em>capture</em> and <em>storage</em>, and
+      structurally neglects the three things that actually keep a knowledge system trustworthy and
+      usable over its life:
+    </p>
+    <ul>
+      <li><strong>Governance</strong> — machine-enforced rules about what's well-formed and what gets kept.</li>
+      <li><strong>Curation</strong> — keeping signal high as the store grows, and keeping indexes current.</li>
+      <li><strong>Loading discipline</strong> — deciding what reaches a session versus what waits.</li>
+    </ul>
+    <p>
+      Capture is cheap and self-rewarding; the other three are work, so they get skipped — and the
+      store drifts, fills with noise, and is abandoned. Bolting an AI on top <em>accelerates</em> the
+      rot, because the AI now writes too, and retrieves indiscriminately from the ungoverned pile.
+      brain-stem's bet is to build governance, curation, and loading discipline in as the foundation —
+      to make them the connective tissue rather than chores you remember.
+    </p>
+
+    <div class="callout note">
+      <div class="label">The most human thing it does</div>
+      <p>A person carries a lesson from one job to the next. Out-of-the-box Claude can't: a lesson
+      learned in one project directory is gone the moment you launch elsewhere. brain-stem promotes
+      project learning into universal rules and reference — so what Claude learns in one arena is
+      available in all of them. That single capability is the difference between a tool you re-teach
+      and a body that grows.</p>
+    </div>
+
+    <h2>The five differentiators that carry the case</h2>
+    <div class="card-grid">
+      <div class="card"><div class="kicker">1</div><h3>Enforcement, not convention</h3><p>Rules apply at <em>every</em> write via a hook — not left to anyone remembering. "Structural, not disciplinary" is a literal design rule.</p></div>
+      <div class="card"><div class="kicker">2</div><h3>Curated, classified memory</h3><p>A small, typed memory (Semantic / Procedural / Episodic), declared at write-time — versus catch-everything memory that dilutes and rots.</p></div>
+      <div class="card"><div class="kicker">3</div><h3>Regenerated, derived state</h3><p>Indexes are regenerated and project state is derived from where work happens — so correctness survives neglect.</p></div>
+      <div class="card"><div class="kicker">4</div><h3>Sealed core, audited overlay</h3><p>Customize at designed seams through one audited path; overrides of shipped policy require a stated reason. Upgrades don't clobber your work.</p></div>
+      <div class="card"><div class="kicker">5</div><h3>Lessons across arenas</h3><p>Project learning promotes into universal rules and reference, so it transfers everywhere — the thing a plain store never does.</p></div>
+    </div>
+
+    <h2>The personalization layer</h2>
+    <p>
+      The components above are the baseline — a complete, opinionated, enforced foundation. They are
+      also built to be extended: each has a clear seam where your preferences, your file types, your
+      workflow conventions, and your voice layer in without touching the core. The result is a Claude
+      Code that understands and evolves with you over time, not a generic assistant you re-teach from
+      scratch each session.
+    </p>
+    <p class="page-meta">How that extension works — the governance overlay, the personalization
+    interview, and the work-folder conventions — is covered on
+    <a href="system-personalization.html">System personalization</a>.</p>
+
+    <h2>Sources</h2>
+    <p class="page-meta">External grounding for the market claims above (verified primary/vendor sources).
+    For the design-rationale citations — every paper, standard, and platform doc behind the pillars, with
+    verification status — see the master register on <a href="research-rationale.html">the research rationale</a>.</p>
+    <ul>
+      <li>Native memory load cap &amp; lossy compaction — Anthropic Claude&nbsp;Code docs (<code>code.claude.com/docs/en/memory</code>, <code>/context-window</code>).</li>
+      <li>Standing rules not reliably followed — GitHub Copilot docs ("may not always follow"); Cursor community reports of rules injected but inconsistently obeyed.</li>
+      <li>Retrieval dilution as a store grows — "Lost in the Middle" (<a href="https://arxiv.org/abs/2307.03172">arXiv:2307.03172</a>); RAG failure-point surveys (<a href="https://arxiv.org/abs/2401.05856">arXiv:2401.05856</a>).</li>
+      <li>Opaque, uninspectable auto-memory — reporting on ChatGPT memory extraction and stale-fact carryover; Windsurf hidden-memory accumulation write-ups.</li>
+      <li>Manual maps-of-content abandoned first; capture-then-drift — PKM critiques (the collector's fallacy; emergent-PKM abandonment retrospectives).</li>
+      <li>Last-modified-wins sync conflicts — Obsidian Sync conflict-handling docs.</li>
+      <li>Memory-science grounding for typed memory — Tulving (1972); Cohen &amp; Squire (1980); CoALA (<a href="https://arxiv.org/abs/2309.02427">arXiv:2309.02427</a>); MemGPT (<a href="https://arxiv.org/abs/2310.08560">arXiv:2310.08560</a>).</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Beyond the second brain.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

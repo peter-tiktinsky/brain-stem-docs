@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Automated capture · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Automated capture · section overview</p>
+    <h1>Automated capture</h1>
+    <p class="lede">
+      Connectors and writers bring outside information — emails, meeting transcripts, calendar data — into
+      your vault, structured and reusable, without you re-pasting anything into every session.
+    </p>
+    <p class="page-meta">Two big ideas: structure it deterministically so repetitive processing stays cheap,
+    and keep everything local so you are never penalised for changing your mind.</p>
+
+    <h2>Two ideas that anchor the whole system</h2>
+
+    <h3>Determinism first</h3>
+    <p>
+      The default posture for a capture pipeline is mechanical: parse the source, apply a fixed transform,
+      emit a content-addressed packet, write once. No model call needed. That posture makes
+      repeated processing cheap and trustworthy — run the same connector ten times and get the same result.
+      When a judgment call genuinely requires language understanding (audience sentiment, action-item
+      attribution), you opt in to an LLM lane; the rest of the pipeline stays mechanical.
+    </p>
+    <p>
+      This posture is built into the architecture — it is not just a recommendation in the docs. But it has
+      practical consequences: the pipeline enforces a single writer-reconciler (one process owns every
+      write the pipeline makes), deduplicates by content hash, and routes the LLM step <em>before</em> the write —
+      so even the judgment-call lane produces a deterministic packet that the reconciler applies.
+    </p>
+
+    <h3>Flexibility — never taxed for changing your mind</h3>
+    <p>
+      Raw source data, per-day processed outputs, the append-only SQLite manifest, and any structured
+      outputs (markdown notes, JSON, queryable SQLite tables) are all kept locally and permanently.
+      The only ephemeral piece is the in-flight staging packet — and once it is applied, the manifest
+      records exactly what was written and when.
+    </p>
+    <p>
+      That means you can start with action items from email, add a second source later, and the
+      system already has the structured data to build from. If you want a dashboard tomorrow, the
+      SQLite the pipeline built is already there. Cross-source deduplication works when you route
+      multiple sources into one keyed destination — that is a routing decision you configure, not
+      something the system does automatically.
+    </p>
+
+    <div class="callout note">
+      <div class="label">What ships vs what you build</div>
+      <p>
+        The substrate ships: registration, the staging-packet format, the writer-reconciler, the
+        append-only manifest, fan-in/fan-out routing, and both the deterministic and LLM-amender
+        write lanes. <strong>Connectors are user-built</strong> — a connector is a script that pulls
+        from a source (Granola, Gmail, or anything else) and emits a packet. The registration system
+        records <code>granola</code> and <code>gmail</code> as valid labels, but the connector logic
+        itself is yours to write.
+      </p>
+    </div>
+
+    <h2>Scheduling capture runs</h2>
+    <p>
+      Capture connectors run on whatever schedule you set. The two turnkey scheduled jobs in brain-stem
+      are the writer-reconciler and the doc-amender; everything else is a hand-rolled
+      <code>launchd</code> plist calling <code>dispatch.sh</code>. For how the orchestration layer
+      handles scheduling, headless runs, and the propose-and-gate flow, see
+      <a href="orchestration.html">Orchestration &amp; scheduling</a>.
+    </p>
+
+    <h2>Go deeper</h2>
+    <div class="card-grid">
+      <a class="card" href="vault-writers.html"><div class="kicker">The pipeline</div><h3>The vault-writer system</h3><p>How the pipeline works end to end: the staging packet, the single writer-reconciler, output types (markdown, JSON, SQLite), the optional LLM-amender lane, and what ships vs. what you build as a connector author.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="automated-capture-rationale.html"><div class="kicker">Why these choices</div><h3>Why: automated capture</h3><p>The design decisions behind the capture architecture — single-writer reconciler, content-addressed packets, atomic writes, the doc-amender AI lane, and why raw data stays out of the vault.</p><div class="spacer"></div><div class="more">Read →</div></a>
+    </div>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">brain-stem · documentation · Automated capture.</div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

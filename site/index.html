@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introduction · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Introduction</p>
+    <h1>The nervous system for Claude&nbsp;Code</h1>
+    <p class="lede">
+      brain-stem was built in response to the pitfalls of the traditional <strong>second brain</strong> — a
+      strong idea (a dedicated, governed place to capture knowledge for Claude) that most setups never deliver on,
+      leaving the store sitting <em>beside</em> the assistant rather than wired into it. brain-stem answers on all
+      three fronts its name implies, at once: it builds the <strong>brain</strong> that finally completes the
+      second-brain promise, it optimizes the <strong>body</strong> — Claude&nbsp;Code's other faculties, from
+      planning to sessions to governance — and it grows the <strong>stem</strong> that connects them, so knowledge
+      and capability reinforce each other instead of running as separate tools. The result isn't a second brain
+      bolted on the side; it's <em>one integrated system</em>, wired into how Claude loads and runs every session.
+    </p>
+    <p class="page-meta">Internal reference · documents brain-stem as shipped.</p>
+
+    <div class="callout key">
+      <div class="label">The second brain, built into the first</div>
+      <p>This isn't a rejection of the second-brain idea — it's its fulfilment. You absolutely get a
+      dedicated home for knowledge; most of the capture is automated, and wherever it stays manual it's
+      <strong>automatically governed and organized</strong> so Claude can use it strategically. The
+      difference is that the store isn't a separate database you maintain and point at — it's an
+      <strong>expansion of Claude's own brain</strong>, wired to the extremities. The nervous system,
+      not a filing cabinet beside the desk.</p>
+    </div>
+
+    <h2>Brain, stem, body</h2>
+    <p>
+      Out of the box you have a brain with no spinal column: Claude can already read your files, remember, plan,
+      research, and write, but each faculty runs alone, ungoverned, and only when you wire it up by hand. brain-stem
+      carries signals both ways and makes them one coherent system — each faculty tuned against what actually works
+      and wired to the others rather than standing beside them. That is what makes the brain itself
+      <strong>smarter</strong> and the whole better at supporting you and personalizing to your goals. The map below
+      is what that connected body actually does, end to end.
+    </p>
+
+    <h2>The system in one picture</h2>
+    <p>
+      Read it as <strong>three levels of context, stacked by reach</strong>. You work at the bottom, in
+      a single <strong>session</strong>. What's worth keeping rises: into <strong>this project's</strong>
+      shared knowledge base, and — when it applies everywhere — up to the <strong>universal</strong>
+      level that every future project inherits.
+    </p>
+
+    <div class="legend" aria-label="color key">
+      <span class="chip"><span class="sw" style="background:#e8ddf0;border-color:#b79fcf"></span> Universal — every project</span>
+      <span class="chip"><span class="sw" style="background:#d6e8e1;border-color:#8fbcae"></span> This project's knowledge base</span>
+      <span class="chip"><span class="sw" style="background:#fbf6ee;border-color:#c9bda6"></span> Loaded at session start</span>
+      <span class="chip"><span class="sw" style="background:#fffdf9;border-color:#4a7c4e;border-left-width:4px"></span> Coding work</span>
+      <span class="chip"><span class="sw" style="background:#fffdf9;border-color:#b1532e;border-left-width:4px"></span> Non-coding work</span>
+      <span class="chip"><span class="sw" style="background:#dfe6ef;border-color:#aebed6"></span> Always-on machinery</span>
+    </div>
+
+    <div class="sysmap">
+
+      <!-- LEVEL 3 (top of the page, highest reach): UNIVERSAL -->
+      <div class="band band-univ">
+        <div class="band-tag">Universal — shared across every project you ever launch</div>
+        <div class="band-row two">
+          <div class="smnode univ"><b>The Library</b><small>Reusable reference, distilled from your work and stripped of project specifics — available in any project.</small></div>
+          <div class="smnode univ"><b>Global rules</b><small>Standing lessons that govern how Claude behaves in all future work, everywhere.</small></div>
+        </div>
+      </div>
+
+      <div class="uptag">▲ When research applies everywhere it's scrubbed clean in a scratch Workshop and shelved in the Library; when a lesson applies everywhere it becomes a Global rule</div>
+
+      <!-- LEVEL 2: THIS PROJECT -->
+      <div class="band band-proj">
+        <div class="band-tag">This project — its memory and knowledge base, shared across all of its sessions</div>
+        <div class="proj-stores">
+          <div class="smnode"><b>Project memory</b><small>How to act in this project, and what's happened — semantic, procedural, and episodic notes scoped to this project.</small></div>
+          <div class="hubwrap">
+            <div class="smnode hub"><b>The project binder · hub.md</b><small>one of brain-stem's net-new additions: the binder's curated cover page, read on demand — it indexes everything the project accumulates and points to each asset below.</small></div>
+            <div class="pointers">
+              <span class="lead">hub.md points to →</span>
+              <span class="ptr">Research</span>
+              <span class="ptr">Decisions</span>
+              <span class="ptr">Handoffs</span>
+              <span class="ptr">Library references</span>
+              <span class="ptr">Deliverables</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="uptag">▲ Everything a session produces is filed up into this project knowledge base, so the next session inherits it</div>
+
+      <!-- LEVEL 1: A SESSION -->
+      <div class="band band-sess">
+        <div class="band-tag">A session — what happens each time you launch Claude from the project</div>
+        <div class="phases">
+          <div class="phase">
+            <div class="phase-h">① Launch</div>
+            <div class="smnode code"><b>Coding work</b><small>from a code folder<br><code>~/Code/widgetlib</code></small></div>
+            <div class="smnode work"><b>Non-coding work</b><small>from a Work folder<br><code>~/work/acme-rebrand</code></small></div>
+          </div>
+
+          <div class="chev">›</div>
+
+          <div class="phase">
+            <div class="phase-h">② What loads</div>
+            <div class="smnode load"><b>Claude Code's normal context</b><small>rules, settings, and this project's memory — organized by brain-stem</small></div>
+            <div class="smnode hub"><b>+ the project's situating card</b><small>Auto-generated from the project's plans and loaded automatically at session start (<code>_situating.md</code>): plan roster, current status, active focus, and latest handoff headline — so Claude self-orients before its first turn, with no reading step.</small></div>
+          </div>
+
+          <div class="chev">›</div>
+
+          <div class="phase wide">
+            <div class="phase-h">③ Do the work</div>
+            <div class="subcols">
+              <div class="subcol">
+                <div class="sub-h">Using a plan</div>
+                <div class="smnode"><b>Turn ideas into plans</b><small>Capture a cheap idea, then transform it into a researched, well-formed plan.</small></div>
+                <div class="smnode orch"><b>Orchestrated build</b><small>A ready plan runs through a propose-and-gate orchestrator: workers build, and you approve the irreversible steps.</small></div>
+                <div class="smnode"><b>Filed as you go</b><small>Plan history, decisions, and research are organized into the project knowledge base automatically.</small></div>
+              </div>
+              <div class="subcol">
+                <div class="sub-h">Without a plan</div>
+                <div class="smnode"><b>Same rules still apply</b><small>Every file-write, governance, and memory rule stays live — so ad-hoc work is still organized and still persists for future sessions.</small></div>
+                <div class="smnode code work"><b>Produces the work itself</b><small>Coding work → the repository; non-coding work → deliverables in the Work folder, ready to export.</small></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ALWAYS ON -->
+      <div class="band band-orch">
+        <div class="band-tag">Always on — every session, with or without a plan</div>
+        <div class="band-row">
+          <div class="smnode orch"><b>Keeps your place</b><small>As a long session fills up, your progress is saved automatically, so the thread is never lost.</small></div>
+          <div class="smnode orch"><b>Keeps sessions out of each other's way</b><small>When several sessions run in one project at once, it tracks who's touching what and warns you before two of them edit the same file.</small></div>
+          <div class="smnode orch"><b>Checks every write</b><small>Every file written into the vault is checked against the rulebook — most writes just get a gentle reminder; only a structural break is blocked.</small></div>
+          <div class="smnode orch"><b>Thinks before it asks</b><small>Claude researches its options before posing a choice, so you only field well-considered questions.</small></div>
+          <div class="smnode orch"><b>Tidies up at the end</b><small>On exit it reconciles what changed and writes a handoff — lightly on auto-exit, thoroughly on a formal close.</small></div>
+        </div>
+      </div>
+
+    </div>
+    <p class="figcap">Three levels of reach: a session (bottom) does the work; what's worth keeping rises into the project's knowledge base, and — when it applies everywhere — up to the universal level. brain-stem's net-new pieces are the situating card (<code>_situating.md</code>, loaded each session automatically) and the curated binder cover (<code>hub.md</code>); the rest it organizes using Claude Code's own systems. Each piece is explained in plain terms here and in technical depth on its own page below.</p>
+
+    <h2>Where durable knowledge lives</h2>
+    <p>
+      Everything that survives between sessions answers one of two questions — <strong>how to act</strong>
+      (operational) or <strong>what the work is and where it stands</strong> (contextual) — at either
+      <strong>project</strong> or <strong>universal</strong> scope. Add the <strong>structural</strong>
+      blueprint (plans) and that's the whole durable picture. The full inventory and how each piece loads
+      lives on <a href="context-and-memory.html">Context &amp; memory</a>.
+    </p>
+
+    <table class="quadrant">
+      <thead>
+        <tr><th></th><th>Project</th><th>Universal</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Operational — how to act</th>
+          <td>Semantic &amp; procedural memory</td>
+          <td>Global rules + <code>CLAUDE.md</code></td>
+        </tr>
+        <tr>
+          <th>Contextual — what &amp; where</th>
+          <td>Episodic memory + the <a href="project-binder.html">project binder</a></td>
+          <td class="hl">The Library — <code>Wiki/</code></td>
+        </tr>
+        <tr>
+          <th>Structural — the blueprint</th>
+          <td colspan="2">Plans — <code>spec · manifest · tasks · handoff</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Obsidian is just the window</h2>
+    <p>
+      brain-stem was designed with Obsidian in mind — but it does not depend on it. The whole "brain" is
+      <strong>plain folders and Markdown files</strong>; any editor opens them, and the system runs exactly
+      the same whether or not Obsidian is ever installed. Obsidian is simply the most convenient
+      <em>window</em> onto what Claude produces session to session and project to project — not the engine
+      underneath.
+    </p>
+    <div class="callout note">
+      <div class="label">The one thing Obsidian uniquely adds</div>
+      <p>The single Obsidian-specific affordance is the <strong>graph view</strong> — a visual of your
+      knowledge graph, drawn from the tag taxonomy. But the machinery runs on structured
+      frontmatter — it reads the tags only to keep them <em>healthy</em> for that graph; tags and
+      wiki-links are user-side navigation that degrade to
+      plain text in any other reader. Remove Obsidian and you lose the graph picture — and nothing else.
+      Even the <code>Plans</code> · <code>Wiki</code> · <code>Projects</code> · <code>Work</code> shortcuts
+      are ordinary symlinks that resolve in any file browser.</p>
+    </div>
+
+    <h2>Portable by design</h2>
+    <p>
+      Minimizing lock-in is a deliberate goal. brain-stem leans almost entirely on a computer's
+      <strong>native folders and files</strong>, <strong>universal Markdown</strong>, and a set of
+      <strong>documented governing rules</strong> — so your knowledge never gets trapped in one app's
+      format, and you can plug and play whatever tools you like around it. What it needs to <em>run</em> is
+      short:
+    </p>
+    <table>
+      <thead><tr><th>To run brain-stem, all you need</th><th>Which means</th></tr></thead>
+      <tbody>
+        <tr><td>A Mac</td><td><em>For now</em> — the scheduler and session-locking use macOS specifics; Linux and Windows aren't supported yet.</td></tr>
+        <tr><td>A terminal</td><td>Built into macOS — nothing to install.</td></tr>
+        <tr><td>Local files &amp; folders</td><td>Already there; no database, no proprietary store.</td></tr>
+        <tr><td>A Claude&nbsp;Code account</td><td><em>For now</em> — native versions for other harnesses (e.g. Codex, Antigravity) aren't built yet.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn">
+      <div class="label">The honest line: portable knowledge, a macOS runtime</div>
+      <p>Portability here is about your <strong>knowledge</strong>, not the engine. The running system —
+      its background scheduler and the locking that keeps concurrent sessions from colliding — is built on
+      <strong>macOS</strong> specifics (<code>launchd</code> and BSD <code>lockf</code>), and the project
+      says so plainly: <strong>macOS only, today</strong>. The governing rules and the vault scaffold are
+      ordinary bash and travel further in principle, but the shipped system targets a Mac. The distinction
+      is the whole point — the <em>brain it produces</em> is plain text that goes anywhere, even while the
+      <em>engine that produces it</em> still needs a Mac.</p>
+    </div>
+    <div class="callout key">
+      <div class="label">Multi-homing — the brain travels</div>
+      <p>Because the brain is nothing but plain text, it isn't locked to Claude&nbsp;Code. The folder
+      brain-stem builds can serve as a <strong>reference or resource for any other AI harness</strong>, in
+      whole or in part — or you can point a <strong>local LLM</strong> at it and treat your accumulated
+      knowledge graph as the feeder for a private, searchable knowledge base you query offline. The value
+      you build up stays <em>yours</em>, and stays portable across whatever systems you choose.</p>
+    </div>
+
+    <h2>Go deeper</h2>
+    <div class="card-grid">
+      <a class="card" href="vault-explorer.html"><div class="kicker">See your brain</div><h3>Explore your brain</h3><p>A click-through map of everything that lands in your store on day one — where each piece comes from, and why it matters.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="value-add.html"><div class="kicker">The case</div><h3>Why brain-stem</h3><p>The platform-completion thesis, pillar by pillar: what the bare harness leaves empty, and why each piece is built the way it is.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="research-rationale.html"><div class="kicker">The evidence</div><h3>The research rationale</h3><p>The studies and prior art behind the design — memory science, policy engines, multi-agent failure data, and more.</p><div class="spacer"></div><div class="more">Read →</div></a>
+    </div>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Introduction.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Reference · short answers, with a pointer to the full page</p>
+    <h1>FAQ</h1>
+    <p class="lede">
+      The questions people ask while deciding whether to install brain-stem, or while using it. Answers are
+      short; each ends with a link to the page that covers the topic in full. No prior background is assumed.
+    </p>
+    <p class="page-meta">Five groups — before installing, installing safely, privacy &amp; trust, using it, and where else to look.</p>
+
+    <div class="callout note">
+      <div class="label">Jump to a group</div>
+      <p><a href="#before">Before installing</a> · <a href="#safe">Installing safely</a> ·
+      <a href="#privacy">Privacy &amp; trust</a> · <a href="#using">Using it</a> ·
+      <a href="#elsewhere">Where else to look</a></p>
+    </div>
+
+    <h2 id="before">Before installing</h2>
+
+    <div class="faq">
+      <h3>What do I need first?</h3>
+      <p>A Mac, <a href="https://www.anthropic.com/claude-code">Claude&nbsp;Code</a> installed, and <code>git</code>
+      to download the project. The installer itself hard-requires <code>jq</code> (plus a few standard macOS
+      helpers — <code>python3</code>, <code>plutil</code>, <code>sqlite3</code>, <code>shasum</code>) and refuses
+      to proceed if any are missing.</p>
+      <p class="faq-link"><a href="installation.html">→ Install &amp; upgrade guide: Before you begin</a></p>
+    </div>
+
+    <div class="faq">
+      <h3>Does it work on Windows or Linux?</h3>
+      <p>No. brain-stem targets a single person's Mac. It is not built for other operating systems or shared servers.</p>
+    </div>
+
+    <div class="faq">
+      <h3>Do I need Obsidian?</h3>
+      <p>No. Your vault is just a folder of plain-text files that any editor can open.
+      <a href="https://obsidian.md">Obsidian</a> is the intended, free way to browse it, but it is optional.</p>
+    </div>
+
+    <div class="faq">
+      <h3>Is it free? What's the license?</h3>
+      <p>Yes — it is open source under Apache-2.0.</p>
+      <p class="faq-link"><a href="https://github.com/peter-tiktinsky/brain-stem/blob/main/LICENSE">→ LICENSE</a></p>
+    </div>
+
+    <h2 id="safe">Installing safely</h2>
+
+    <div class="faq">
+      <h3>Will installing overwrite my existing <code>~/.claude</code>?</h3>
+      <p>Not silently, and not by accident. Running <code>bash install.sh</code> on its own writes <strong>zero
+      files</strong> — it only prints a preview. Writing requires the explicit <code>--apply</code> flag. And if
+      <code>~/.claude</code> already contains files brain-stem did not put there, the installer <strong>stops and
+      refuses</strong> rather than clobber them; proceeding takes explicit acknowledgement flags <em>and</em> a
+      backup directory it copies the old files into first.</p>
+      <p class="faq-link"><a href="installation.html">→ Installing into a folder that already has files</a></p>
+    </div>
+
+    <div class="faq">
+      <h3>I edited a shipped file, then a new version came out. Will my edit be lost?</h3>
+      <p>No. On an upgrade, each file you edited is updated to the new version with <strong>your</strong> copy
+      preserved alongside it as <code>&lt;file&gt;.foundation-local</code>. Your change is never silently overwritten.</p>
+      <p class="faq-link"><a href="installation.html">→ Version migrations</a></p>
+    </div>
+
+    <div class="faq">
+      <h3>Can I uninstall cleanly later?</h3>
+      <p>Yes. Running <code>bash uninstall.sh</code> from the project backs everything up first, then removes only the untouched
+      files it originally installed — anything you edited, and your vault, are left alone.</p>
+      <p class="faq-link"><a href="uninstalling.html">→ Uninstalling</a></p>
+    </div>
+
+    <h2 id="privacy">Privacy &amp; trust</h2>
+
+    <div class="faq">
+      <h3>Does it phone home or send my data anywhere?</h3>
+      <p>No. brain-stem's own code performs <strong>no network egress</strong> — no telemetry, no analytics, no
+      "phone home." The only logs it writes are local files on your machine.</p>
+      <p class="faq-link"><a href="https://github.com/peter-tiktinsky/brain-stem/blob/main/SECURITY.md#scope-of-trust">→ Security: Scope of trust</a></p>
+    </div>
+
+    <div class="faq">
+      <h3>Is my vault sent to Anthropic to train models?</h3>
+      <p>brain-stem transmits nothing. Separately, how your <em>conversations with the assistant</em> are handled
+      is governed by Anthropic's own data policy for <a href="https://www.anthropic.com/claude-code">Claude&nbsp;Code</a>,
+      which you can review and configure there — the same for any Claude&nbsp;Code user, with or without brain-stem.</p>
+    </div>
+
+    <div class="faq">
+      <h3>How do I report a security issue?</h3>
+      <p>Privately, through GitHub's private vulnerability reporting.</p>
+      <p class="faq-link"><a href="https://github.com/peter-tiktinsky/brain-stem/blob/main/SECURITY.md#reporting-a-vulnerability">→ SECURITY.md</a></p>
+    </div>
+
+    <h2 id="using">Using it</h2>
+
+    <div class="faq">
+      <h3>Do I have to use the plans and backlog features?</h3>
+      <p>No. brain-stem is <strong>advisory by default</strong> — it teaches and reminds far more than it blocks.
+      Plans is the one capability you adopt as a <em>methodology</em> if you run formal multi-step projects;
+      everything else you simply receive.</p>
+      <p class="faq-link"><a href="value-add.html">→ Why brain-stem</a></p>
+    </div>
+
+    <div class="faq">
+      <h3>What's the difference between "memory" and the "context library"?</h3>
+      <p><strong>Memory</strong> is the small curated set of notes the assistant reads back at the <em>start of
+      every session</em> — who you are, what matters. The <strong>context library</strong> is where framed
+      reference material and per-project state live, pulled in <em>when a piece of work needs it</em>. One is
+      always-on identity; the other is on-demand context.</p>
+      <p class="faq-link"><a href="context-and-memory.html">→ Context &amp; memory</a></p>
+    </div>
+
+    <div class="faq">
+      <h3>Is claude-mem required?</h3>
+      <p>No. <a href="https://github.com/thedotmack/claude-mem">claude-mem</a> is an optional plugin that
+      auto-captures session observations; brain-stem works fully without it and only <em>recommends</em> it during
+      onboarding.</p>
+      <p class="faq-link"><a href="memory-model.html">→ The memory model</a></p>
+    </div>
+
+    <div class="faq">
+      <h3>Can I change the rules without forking the project?</h3>
+      <p>Yes — that is the whole point of the <strong>overlay</strong>. You register new folders, file types,
+      tags, or writers with <code>/govern register</code>, and your additions extend the shipped foundation
+      without modifying it, so you keep your customizations across upgrades.</p>
+      <p class="faq-link"><a href="governance-personalization.html">→ Governance personalization</a> · <a href="commands.html">Commands</a></p>
+    </div>
+
+    <h2 id="elsewhere">Where else to look</h2>
+    <ul>
+      <li><a href="installation.html">Install &amp; upgrade guide</a> — install, upgrade, and the safety guards in full.</li>
+      <li><a href="glossary.html">Glossary</a> — every term in one place.</li>
+      <li><a href="commands.html">Commands</a> — every command brain-stem adds.</li>
+      <li><a href="packaging-runtime.html">Packaging &amp; runtime</a> — how the install is recorded, reversed, and where its data lives.</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · FAQ.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

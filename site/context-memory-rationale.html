@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why: context &amp; memory · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Context &amp; memory · design rationale</p>
+    <h1>Why these choices — context &amp; memory</h1>
+    <p class="lede">
+      Every decision in the context &amp; memory section rests on a verifiable ground — either the
+      platform forces the shape, or unrelated fields arrived at the same structure independently.
+      This page reproduces the decision tables for both pillars and explains the reasoning behind each row.
+    </p>
+    <p class="page-meta">
+      Decision tables distilled from the shipped brain-stem design.
+      Citations link to the central register on
+      <a href="research-rationale.html#citations">The research rationale</a> — the register itself
+      stays there; only the decision tables live here.
+    </p>
+
+    <div class="callout note">
+      <div class="label">How to read these tables</div>
+      <p>Each row records what brain-stem chose, what it chose it over, why, and the ground the
+      decision rests on. <span class="pill">constraint</span> means the platform forces the shape;
+      <span class="pill ok">convergence</span> means unrelated fields independently arrived at the
+      same answer; <span class="pill muted">design judgment</span> means neither applies — the choice
+      is a reasoned bet, not a necessity. The strongest signal is a row that earns both the constraint and convergence labels at once.</p>
+    </div>
+
+    <!-- ===== MEMORY ===== -->
+    <p class="pillar-band">The memory model</p>
+    <h2 id="memory">Why memory is split three ways and loaded as a single small index</h2>
+    <p>
+      By default a session forgets everything when it ends. The memory pillar makes durable knowledge
+      survive: a small index that loads automatically at the start of every conversation, pointing to
+      deeper notes read only when needed. Two platform facts shape almost everything here — the
+      auto-loaded file is hard-capped (the first 200&nbsp;lines or 25&nbsp;KB, then silently dropped)
+      and there is no include mechanism to pull in other files
+      <a class="cite" href="research-rationale.html#cite-cc-memory">CC memory</a>.
+      An unbounded store doesn't fail loudly; it just goes invisible from the bottom up.
+    </p>
+    <table>
+      <thead>
+        <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Split durable memory into exactly three kinds — semantic, procedural, episodic</td>
+          <td>One undifferentiated pile</td>
+          <td>A single bucket gives a stale one-time correction the same retrieval weight as a durable
+          fact. The split is the fifty-year memory-science consensus — episodic/semantic
+          <a class="cite" href="research-rationale.html#cite-tulving">Tulving 1972</a>,
+          declarative/procedural
+          <a class="cite" href="research-rationale.html#cite-cohen-squire">Cohen &amp; Squire 1980</a>
+          — carried onto agents
+          <a class="cite" href="research-rationale.html#cite-coala">CoALA</a>
+          <a class="cite" href="research-rationale.html#cite-memgpt">MemGPT</a>.
+          A fourth "reflective" type was rejected: reflection is a process, and its output is already
+          a fact or a rule.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>One small auto-loaded index plus fetch-on-demand detail</td>
+          <td>An unbounded or fully auto-loaded memory</td>
+          <td>The auto-load file is hard-capped and content past the cap is silently dropped, so a
+          fully auto-loaded store would be truncated invisibly
+          <a class="cite" href="research-rationale.html#cite-cc-memory">CC memory</a>.
+          The only realizable shape is one hot <code>MEMORY.md</code> index plus cold, on-demand
+          topic files.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>A small, curated memory</td>
+          <td>A catch-everything store of every observation</td>
+          <td>The more a catch-all grows, the lower its signal-to-noise falls. Mirrors MemGPT's
+          small-core principle
+          <a class="cite" href="research-rationale.html#cite-memgpt">MemGPT</a>;
+          brain-stem asserts no measured decay rate, only the qualitative trend.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>Two scopes — per-project memory and a global <code>rules/</code> folder</td>
+          <td>A single "global project" memory directory</td>
+          <td>Auto-memory is strictly per-git-root; the only surfaces that load in <em>every</em>
+          session are <code>~/.claude/CLAUDE.md</code> and <code>~/.claude/rules/</code>
+          <a class="cite" href="research-rationale.html#cite-cc-memory">CC memory</a>.
+          A "global project dir" only loads from its own working directory, so it isn't actually
+          global.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>Declare each note's kind at write time</td>
+          <td>A separate program guessing the kind afterward</td>
+          <td>The author already knows the fact's kind and can state it; guessing introduces silent
+          misclassification you'd have to second-guess. The taxonomy is frozen at five filename
+          prefixes times three retrieval types.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>Automated promotion writes only to <code>rules/</code></td>
+          <td>Letting any writer touch your <code>CLAUDE.md</code></td>
+          <td>Your personal <code>CLAUDE.md</code> is authored once and yours alone to hand-edit —
+          survivorship. Trust differs by direction: promoting project lessons up proposes-then-confirms;
+          pulling from an external store is never automatic.</td>
+          <td><span class="pill muted">design judgment</span></td>
+        </tr>
+        <tr>
+          <td>Episodic capture = a no-LLM chronicle plus one index pointer</td>
+          <td>A per-session CoALA-STAR narrative
+          <a class="cite" href="research-rationale.html#cite-coala">CoALA</a></td>
+          <td>A per-session STAR narrative would be static boilerplate with no retrieval value and
+          would compete with the optional recall plugin.
+          "Auto-generated survives, hand-maintained rots," so capture is harvested, not authored —
+          a two-stage shape
+          <a class="cite" href="research-rationale.html#cite-zep">Zep</a>
+          <a class="cite" href="research-rationale.html#cite-langmem">LangMem</a>
+          independently endorse.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>Rotate the chronicle at a ~50&nbsp;KB cap</td>
+          <td>Calling 50&nbsp;KB a "measured threshold"</td>
+          <td>A no-LLM session-end hook can't tokenize, so bytes proxy a single-read token budget
+          <a class="cite" href="research-rationale.html#cite-anthropic-ctx">context engineering</a>
+          <a class="cite" href="research-rationale.html#cite-lostmiddle">Lost in the Middle</a>;
+          the cap is a deliberate proxy, not a measured threshold.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>The load guard advises — it warns, never blocks</td>
+          <td>Blocking the save on a cap breach</td>
+          <td>Over-blocking a legitimate save is worse than a too-long index a human can trim;
+          blocking trains people to disable the guard. A separate monitor only <em>records</em>
+          status — it never auto-deletes curated memory
+          <a class="cite" href="research-rationale.html#cite-opa">OPA Gatekeeper</a>
+          <a class="cite" href="research-rationale.html#cite-eslint">ESLint</a>.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>Count both raw and comment-stripped lines; gate on the larger</td>
+          <td>A naive single-direction size check</td>
+          <td>Otherwise bulky content could hide inside HTML comments to dodge the check — yet still
+          cost load budget. Comment-stripping is <em>not</em> documented for <code>MEMORY.md</code>
+          <a class="cite" href="research-rationale.html#cite-cc-claudemd">CC CLAUDE.md</a>,
+          so the safe default assumes comments cost budget.</td>
+          <td><span class="pill muted">design judgment</span></td>
+        </tr>
+        <tr>
+          <td>Lock the section order now; document the overflow seam but build it later</td>
+          <td>Building the cold-spill machinery now, or a calendar trigger</td>
+          <td>The locked Semantic→Procedural→Episodic order makes the cold boundary knowable from the
+          first index, so the future machinery drops in without re-deciding anything. The trigger is
+          volume-gated, not calendar-gated — "wait 30 days" is arbitrary; the signal that matters is
+          the index approaching the cap.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>Resolve the memory directory exactly as the harness does</td>
+          <td>Reconstructing the slug with a naive path-replace</td>
+          <td>Several near-misses would write where the running session never reads. The resolver must
+          match the shipped binary — key by git root, realpath, honor
+          <code>autoMemoryDirectory</code> first
+          <a class="cite" href="research-rationale.html#cite-cc-memory">CC memory</a>.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>Carry a machine-readable presence map alongside the human render</td>
+          <td>Keeping only the inline render, or only the map</td>
+          <td>Inline-only forces machines to parse rendered prose
+          <a class="cite" href="research-rationale.html#cite-postel">Tolerant Reader</a>;
+          map-only loses the human "checked-and-absent vs broken-link" disambiguation. Serve both
+          audiences without coupling them.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>For the live corpus, split memory per-project</td>
+          <td>Retaining the shared corpus, a hybrid, or tiering by access frequency</td>
+          <td>The 25&nbsp;KB cap makes one shared corpus permanently lossy — only
+          ~37% of entries load; per-project split is the only candidate that structurally kills the
+          dark fold. Precondition: the always-on <code>rules/</code> tier must stay small and
+          universal
+          <a class="cite" href="research-rationale.html#cite-issue21858">#21858/#25562</a>.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ===== CONTEXT & LIBRARY ===== -->
+    <p class="pillar-band">Context &amp; Library</p>
+    <h2 id="context-library">Why context is structured as Workshop, Library, and promotion</h2>
+    <p>
+      Context is the durable material that <em>frames</em> the work and records its state — distinct
+      from the always-on operational memory that governs <em>how</em> the assistant acts. brain-stem
+      splits it across an ephemeral <strong>Workshop</strong> to think in, a universal
+      <strong>Library</strong> of reusable reference, and a promotion path between them. The
+      load-bearing thread: <em>auto-generated surfaces survive while hand-maintained ones rot</em>.
+      The rows below are the ones that belong to context &amp; memory; the binder,
+      <code>_situating.md</code>, and launch-directory identity are addressed in the project management
+      rationale, and the <code>work/</code> deliverable layer in the
+      <a href="work-folder-guidebook.html">work-folder guidebook</a>.
+    </p>
+    <table>
+      <thead><tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Split context from always-on operational memory</td>
+          <td>One undifferentiated "knowledge" pile</td>
+          <td>You can't reason about a store that conflates how-to-act with what-happened with
+          what-frames-the-topic — it fills up, drifts, and is abandoned. This is the documented
+          capture-then-drift / maintenance-collapse pattern — the Collector's Fallacy
+          <a class="cite" href="research-rationale.html#cite-secondbrain">second brain</a>.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>Home the durable surfaces in the plan area</td>
+          <td>Homing them inside the tool's own config folder (<code>~/.claude/</code>)</td>
+          <td>That folder is protected by a rule that blocks edits to sensitive files, so a script
+          writing reference there fails unreliably — and "a store you cannot reliably write to is
+          not a store."</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>Home surfaces outside the synced vault; expose a read-only symlink view</td>
+          <td>Homing the real surfaces inside the notes vault</td>
+          <td>A notes folder is one setting away from cloud sync, where silent edit-failures are a
+          known hazard
+          <a class="cite" href="research-rationale.html#cite-issue52493">#52493</a>,
+          and Obsidian symlink hazards (git syncs the target, the watcher misses external edits)
+          compound it
+          <a class="cite" href="research-rationale.html#cite-obsidian">Obsidian symlinks</a>.</td>
+          <td><span class="pill">constraint</span></td>
+        </tr>
+        <tr>
+          <td>The Workshop is ephemeral — never loaded, never indexed</td>
+          <td>One folder holding raw notes <em>and</em> finished reference</td>
+          <td>Forcing structure onto scratch paper only slows the work: "the Workshop is where you
+          think; the Library is what you keep." Surveys of real setups found no durable two-in-one
+          store; and it matches what Zettelkasten practitioners do — discard a project's scratch notes once the work closes
+          <a class="cite" href="research-rationale.html#cite-zettel">Zettelkasten</a>.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>Promotion is a scrub-transformation, gated by a proposed diff</td>
+          <td>A verbatim copy from project to Library</td>
+          <td>A "universal" article still carrying one project's names is "project leftovers on the
+          wrong shelf"; a draft that is nothing but project specifics has nothing left after
+          scrubbing, so it never promotes. The scrub ships advisory-first, with a human diff
+          backstop.</td>
+          <td><span class="pill muted">design judgment</span></td>
+        </tr>
+        <tr>
+          <td>The Library reuse hint is an advisory prompt-time nudge</td>
+          <td>Full-loading the shelf; a standing "check first" rule; an after-action check; a block</td>
+          <td>Full-load defeats loading discipline; a standing rule rots
+          <a class="cite" href="research-rationale.html#cite-issue33603">#33603</a>
+          <a class="cite" href="research-rationale.html#cite-issue56393">#56393</a>;
+          an after-action check fires too late and can't inject context
+          <a class="cite" href="research-rationale.html#cite-issue18427">#18427</a>.
+          A prompt-time hook is the only vehicle that fires before research begins without blocking —
+          and a hook beats skill auto-detection, which went un-invoked 56% of the time
+          <a class="cite" href="research-rationale.html#cite-vercel">Vercel eval</a>.</td>
+          <td><span class="pill">constraint</span> <span class="pill ok">convergence</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">brain-stem · documentation · Why: context &amp; memory.</div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

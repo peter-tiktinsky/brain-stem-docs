@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multi-session coordination · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Sessions · staying out of each other's way</p>
+    <h1>Multi-session coordination</h1>
+    <p class="lede">
+      You can have several sessions open in one project at once — and without coordination they'd quietly
+      overwrite each other's work. brain-stem keeps a <strong>shared whiteboard</strong> the open sessions
+      read to stay clear of one another, and surfaces a warning the moment two sessions reach for the same
+      file.
+    </p>
+    <p class="page-meta">A machine-local registry — bookkeeping for running programs, deliberately not in the vault.</p>
+
+    <h2>The session registry</h2>
+    <p>
+      Every open session registers itself in one ephemeral file. Think of it as a whiteboard the sessions
+      read to stay out of each other's way. Each row carries what another session needs to know:
+    </p>
+    <table>
+      <thead><tr><th>Field</th><th>What it records</th></tr></thead>
+      <tbody>
+        <tr><td><code>pid</code></td><td>The long-lived Claude process (resolved by walking up from the hook, not the transient subshell).</td></tr>
+        <tr><td><code>status</code></td><td><code>active</code> · <code>closed</code> · <code>closed-pending-reconciliation</code>.</td></tr>
+        <tr><td><code>last_heartbeat</code></td><td>A liveness timestamp, so a dead session can be told from a live one.</td></tr>
+        <tr><td><code>touched_files</code></td><td>The files this session has edited — populated after each write.</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Writes to the registry are lock-guarded and atomic (temp file, then rename), so two sessions updating
+      it at once never corrupt it. It lives in machine-local state, <strong>not the vault</strong> — it's
+      bookkeeping for the running programs, not knowledge.
+    </p>
+
+    <h2>Peer awareness and the same-file warning</h2>
+    <p>
+      On <em>each message you send</em>, the per-message hook reads the registry and speaks what the other
+      open sessions are doing into the conversation:
+    </p>
+    <ul>
+      <li>a short <strong>summary</strong> of the other active sessions;</li>
+      <li>the load-bearing one — a <strong>warning when a peer has touched the same file</strong> you've
+      also touched: <em>"Overlapping files with peer sessions: … Re-read before editing";</em></li>
+      <li>a note of who left work pending, and a recommended close mode when you mention finishing.</li>
+    </ul>
+    <div class="callout note">
+      <div class="label">Why a per-message hook does this</div>
+      <p>The registry's peer state changes between every message — sessions open and close while you work —
+      so it has to be read at message time, not baked in once at the start. The message-submit hook fires
+      on every message you send and hands what it reads into that turn; that is why the registry feeds it.
+      (A separate session-start hook injects pre-baked project context before your first turn, but only the
+      per-message hook can carry state that changes mid-session.) The registry collects the facts; the
+      message-submit hook speaks them.</p>
+    </div>
+
+    <h2>Last session out does the cleanup</h2>
+    <p>
+      The status field powers a simple discipline for closing cleanly. When you end a session, it marks its
+      own row closed. If peers are still active, your close does <strong>only your own part</strong> and
+      <em>defers</em> the shared cleanup to whoever closes last. The reconciler — which reaps stale, closed,
+      and pending rows under a lock — is <strong>idempotent</strong>, so running it twice changes nothing.
+      Two closing sessions never trample each other or run the global cleanup twice.
+    </p>
+    <p>
+      That deferral is the bridge to the next page: closing a session is itself a small reconciliation, and
+      a full close runs a whole cleanup chain. (See <a href="session-close.html">Session close</a>.)
+    </p>
+
+    <h2>Reference</h2>
+    <ul>
+      <li>The registry — <code>~/.local/state/brain-stem/.coordination/session-registry.json</code>; lock-guarded, atomic writes; machine-local (never in the vault).</li>
+      <li>Peer awareness — <code>prompt-context.sh</code> reads the registry on each message and emits the summary + same-file overlap warning.</li>
+      <li>Touched-file tracking — a post-write hook appends each edited path to the session's <code>touched_files</code>.</li>
+      <li>Reconciliation — <code>reconcile-sessions.sh</code> reaps stale/closed/pending rows under a lock; idempotent.</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Multi-session coordination.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

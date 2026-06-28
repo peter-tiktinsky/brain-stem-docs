@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commands · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Reference · every command you type</p>
+    <h1>Commands</h1>
+    <p class="lede">
+      A <strong>command</strong> here is a <strong>slash command</strong>: you type a slash and a name into a
+      running Claude&nbsp;Code session and it runs a packaged capability called a <strong>skill</strong>. These
+      are the <strong>nine commands brain-stem adds for you to run directly</strong> — grouped below by the part
+      of the system they belong to. A handful of other shipped skills are internal machinery you never type;
+      they are noted at the end.
+    </p>
+    <p class="page-meta">Each entry: the one thing it does, when you'd reach for it, and a link into the section that explains the why.</p>
+
+    <h2>At a glance</h2>
+    <table>
+      <thead><tr><th>Command</th><th>What it does</th><th>When you'd use it</th><th>Area</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#onboard"><code>/onboard</code></a></td><td>One-time guided setup: interviews you, writes your config, builds your vault</td><td>First thing, right after installing</td><td>Getting started</td></tr>
+        <tr><td><a href="#new-plan"><code>/new-plan</code></a></td><td>Scaffold a new plan directory in one step</td><td>Starting a multi-step project</td><td>Project management</td></tr>
+        <tr><td><a href="#backlog-triage"><code>/backlog-triage</code></a></td><td>Capture a raw idea and classify it against what already exists</td><td>Jotting down a project idea for later</td><td>Project management</td></tr>
+        <tr><td><a href="#backlog-research"><code>/backlog-research</code></a></td><td>Research a triaged idea into a brief plus a draft plan</td><td>Turning a promising idea into something planned</td><td>Project management</td></tr>
+        <tr><td><a href="#backlog-hygiene"><code>/backlog-hygiene</code></a></td><td>Review the backlog for staleness and missing decisions</td><td>Periodic backlog cleanup</td><td>Project management</td></tr>
+        <tr><td><a href="#session-checkpoint"><code>/session-checkpoint</code></a></td><td>Write a save-point of the current conversation's state</td><td>Before a long task, or when a session is getting full</td><td>Session management</td></tr>
+        <tr><td><a href="#librarian"><code>/librarian</code></a></td><td>Audit and reconcile governance, plans, and vault indexes</td><td>End-of-session cleanup; regenerating derived files</td><td>Session management</td></tr>
+        <tr><td><a href="#mem-promote"><code>/mem-promote</code></a></td><td>Propose moving auto-captured observations into curated memory</td><td>If you use the optional claude-mem plugin</td><td>Context &amp; memory</td></tr>
+        <tr><td><a href="#govern-register"><code>/govern register</code></a></td><td>Register a new governed surface (folder, file type, tag, writer, amender prompt, project)</td><td>Extending the rules to cover something new</td><td>System personalization</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Getting started</h2>
+    <div class="cmd" id="onboard">
+      <h3><code>/onboard</code></h3>
+      <p>
+        The one-time guided setup that personalizes everything. It runs a short two-part interview — a
+        confirmation card of facts it already looked up (name, email, timezone, a proposed vault location), then a
+        few questions in your own words — and from your answers writes a settings file
+        (<code>user-manifest.json</code>), your personal <code>~/.claude/CLAUDE.md</code> preferences file, and a
+        freshly built <strong>vault</strong>. It also records whether you want a couple of optional external
+        integrations. It is safe to run more than once; it will not clobber what it already wrote.
+      </p>
+      <p class="cmd-more">Full walkthrough: <a href="onboarding.html">Onboarding</a></p>
+    </div>
+
+    <h2>Project management</h2>
+    <p>
+      These four commands support running multi-step projects. They are
+      only relevant if you use brain-stem's <a href="plans.html">plans</a> workflow; you can ignore them otherwise.
+    </p>
+    <div class="cmd" id="new-plan">
+      <h3><code>/new-plan</code></h3>
+      <p>
+        Scaffolds a complete, rule-compliant plan directory in a single step — the standard set of files a plan
+        needs (<code>spec.md</code>, <code>tasks.md</code>, <code>handoff.md</code>, <code>manifest.json</code>,
+        plus a placeholder idea brief) — assigning the next available number prefix and rejecting low-information
+        folder names. A <code>--master</code> mode scaffolds a larger multi-phase plan. Use it when you want a plan
+        set up cleanly without the research-first route below.
+      </p>
+    </div>
+    <div class="cmd" id="backlog-triage">
+      <h3><code>/backlog-triage</code></h3>
+      <p>
+        Captures a raw, pre-plan idea into your idea inbox and automatically classifies it as <strong>new</strong>,
+        a <strong>duplicate</strong>, an <strong>overlap</strong> with something existing, or
+        <strong>deferred</strong> — so the backlog does not accumulate near-identical entries. Use it the moment an
+        idea occurs to you.
+      </p>
+    </div>
+    <div class="cmd" id="backlog-research">
+      <h3><code>/backlog-research</code></h3>
+      <p>
+        Does deep research on a triaged idea (or an in-flight plan): it reads your vault, your setup, and outside
+        best practices, then writes an <strong>ideation brief</strong> and a <strong>draft plan directory</strong>.
+        A <code>--promote</code> flag graduates a captured idea straight into a plan. Use it when an idea is
+        promising enough to be worth investigating before committing to it.
+      </p>
+    </div>
+    <div class="cmd" id="backlog-hygiene">
+      <h3><code>/backlog-hygiene</code></h3>
+      <p>
+        A review loop over the whole backlog. It scans your idea inbox and your in-flight plans for staleness and
+        for items missing a decision about what happens next, and with <code>--fix</code> applies safe automatic
+        maintenance (archiving finished items, flagging the ones that need a call). Use it periodically to keep the
+        backlog honest.
+      </p>
+    </div>
+
+    <h2>Session management</h2>
+    <div class="cmd" id="session-checkpoint">
+      <h3><code>/session-checkpoint</code></h3>
+      <p>
+        Writes a <strong>save-point</strong> of the current conversation — what you are working on, what is done,
+        what is next — in a fixed structure, so a long session can survive its working memory being trimmed (which
+        Claude&nbsp;Code does automatically when a conversation gets long). It is also fired automatically as a
+        session fills up; you can run it yourself before a long task or when you want a clean handoff.
+      </p>
+      <p class="cmd-more">How sessions stay on-track: <a href="sessions.html">Session management</a> · <a href="checkpoints.html">Checkpoints</a></p>
+    </div>
+    <div class="cmd" id="librarian">
+      <h3><code>/librarian</code></h3>
+      <p>
+        The vault, plan, and governance <strong>maintenance</strong> entry point. It audits and reconciles the
+        governance rules, plan status, and the vault's auto-generated index files, and regenerates derived files
+        (tables of contents, task lists, rule indexes) so they cannot drift out of date. End-of-session
+        reconciliation is one of its modes — which is where you will reach for it most: to tidy up at the close of
+        a working session.
+      </p>
+      <p class="cmd-more">The cleanup chain it runs: <a href="session-close.html">Session close</a></p>
+    </div>
+
+    <h2>Context &amp; memory</h2>
+    <div class="cmd" id="mem-promote">
+      <h3><code>/mem-promote</code></h3>
+      <p>
+        Proposes moving observations from the optional <strong>claude-mem</strong> plugin (which auto-captures
+        notes about your sessions) into your curated, hand-trusted <strong>file memory</strong>. It gathers
+        candidates, reshapes them, checks for conflicts, and then asks before writing — it <strong>never</strong>
+        writes memory automatically. This command is only useful if you have installed claude-mem.
+      </p>
+      <p class="cmd-more">What memory is here and how it is curated: <a href="memory-model.html">The memory model</a></p>
+    </div>
+
+    <h2>System personalization</h2>
+    <div class="cmd" id="govern-register">
+      <h3><code>/govern register</code></h3>
+      <p>
+        The sanctioned way to <strong>extend the rules</strong> to cover something the foundation does not yet
+        know about — without editing (and without forking) the shipped rule files. Each registration lands in your
+        personal <strong>overlay</strong>, which sits on top of the foundation. You type it directly; it is never
+        run automatically on your behalf. It has six kinds, named with <code>--kind</code>:
+      </p>
+      <table>
+        <thead><tr><th><code>--kind</code></th><th>Registers</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><code>folder</code></td><td>A new top-level folder in your vault, with its own conventions</td><td>A new <code>Clients/</code> area</td></tr>
+          <tr><td><code>file-type</code></td><td>A new kind of file (its required shape) within an existing folder</td><td>A <code>meeting-note</code> type</td></tr>
+          <tr><td><code>tag-extension</code></td><td>New allowed values for a tag dimension</td><td>Extra status tags</td></tr>
+          <tr><td><code>writer</code></td><td>A new automated system that writes into your vault, so it is catalogued and governed</td><td>A scheduled importer</td></tr>
+          <tr><td><code>doc-amender-prompt</code></td><td>The instructions used when an automated edit needs the assistant to reconcile a file</td><td>Custom merge guidance</td></tr>
+          <tr><td><code>project</code></td><td>A <code>~/work/&lt;spoke&gt;</code> project workspace, plus a vault-view routing rule so it surfaces in your vault</td><td>A new client engagement workspace</td></tr>
+        </tbody>
+      </table>
+      <pre>/govern register --kind folder --target &lt;vault-relative-path&gt; [--inherit-from &lt;parent-path&gt;]</pre>
+      <p class="cmd-more">Why governance is extended this way: <a href="governance-personalization.html">Governance personalization</a> · <a href="governance-engine.html">The governance engine</a></p>
+    </div>
+
+    <h2>Not in this reference</h2>
+    <p>A few shipped skills are <strong>internal machinery, not commands you type</strong>:</p>
+    <ul>
+      <li><strong>The librarian's capability catalog</strong> — the librarian routes to a large set of named
+      maintenance routines internally. These are a maintainer-facing surface, reached through <code>/librarian</code>,
+      not invoked directly.</li>
+      <li><strong>Event-driven runners</strong> — the automated edit reconciler and the writer-reconciliation
+      runner run when triggered by an event or another skill, not from a prompt you type.</li>
+    </ul>
+    <p class="page-meta">These exist so the commands above work; you do not call them yourself.</p>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Commands.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

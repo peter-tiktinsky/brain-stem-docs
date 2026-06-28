@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The project binder · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Project management · the binder</p>
+    <h1>The project binder</h1>
+    <p class="lede">
+      Every project accumulates more than research. As you work, a project's <strong>findings,
+      decisions, and session history</strong> pile up across all of its plans — and the
+      <strong>project binder</strong> is the one place that gathers them into a single, always-current
+      view — anchored by a curated home page, with an auto-generated orientation card that loads the
+      moment you start work in that project.
+    </p>
+    <p class="page-meta">A per-project roll-up · it <em>indexes</em> the project's plans, it doesn't hold their contents. Surfaced in your notes app as <code>Projects/</code>.</p>
+
+    <div class="callout key">
+      <div class="label">The ring binder for one project</div>
+      <p>A binder is the roll-up of <strong>every plan that belongs to a project</strong> — its research,
+      its decisions, its handoffs — gathered into one view, with sub-plans grouped underneath their master
+      by lineage. <strong>Membership is automatic:</strong> each plan's control file names the project it
+      belongs to, so every plan naming this project is gathered in, with no roster to maintain by hand. The
+      binder doesn't copy the plans' contents — it <strong>indexes</strong> them, linking back to the
+      canonical plan folders.</p>
+    </div>
+
+    <h2>How a project is identified — the launch directory</h2>
+    <p>
+      All of this depends on one question: <em>which project am I in?</em> brain-stem answers it the
+      simplest way — <strong>a project is the directory you launched Claude from.</strong> Start
+      Claude&nbsp;Code inside a folder and that folder <em>is</em> the project's identity; both
+      project-scoped surfaces — this project's memory and this project's binder — are selected by it, every
+      session. There is <strong>no list of projects to maintain</strong>.
+    </p>
+    <table>
+      <thead><tr><th>Project kind</th><th>Launched from</th><th>Binder gathers</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Coding</strong></td><td>a code directory — e.g. <code>~/Code/widgetlib</code></td><td>research, decisions, handoffs (the code itself stays in git)</td></tr>
+        <tr><td><strong>Non-coding</strong></td><td>a Work-area folder — e.g. <code>~/work/acme-rebrand</code></td><td>research, decisions, handoffs — plus a pointer to the <a href="work-surface.html">deliverables</a> it produced</td></tr>
+      </tbody>
+    </table>
+    <div class="callout note">
+      <div class="label">Why the launch directory, not a declared list</div>
+      <p>A hand-maintained roster of "what counts as this project" drifts out of date the moment you forget
+      to update it. Reading the project from where you launched means there is nothing to keep in sync — the
+      identity is read fresh from reality each session. (The full mechanics of what a launch resolves are on
+      <a href="session-loading.html">What loads each session</a>.)</p>
+    </div>
+
+    <h2>What's inside the binder</h2>
+    <p>
+      A binder holds a small, fixed set of pages: one generated orientation card that loads the moment a
+      session opens, one hand-curated cover, and three generated roll-ups re-derived from the project's
+      plans. The orientation card is the one page loaded at session start; the cover and the three indices
+      are read on demand by following their pointers.
+    </p>
+
+    <div class="hubwrap" style="margin:22px 0;">
+      <div class="smnode hub"><b>hub.md — the cover page (hand-maintained)</b><small>the project's home page and identity: a pointer-only map that brings the whole project into view without loading its contents. The one binder page you curate by hand; opened on demand when you want the curated project view.</small></div>
+      <div class="ptrcards">
+        <div class="ptrcard"><b>_situating.md <span style="font-weight:400;color:var(--ok)">· generated · loaded each session</span></b><small>The binder's orientation card: the project's plan roster, its overall status, the active focus (the in-progress plan and its current task), and the latest handoff headline — derived entirely from the plans and loaded into every session the instant it opens, so the assistant self-orients before its first reply.</small></div>
+        <div class="ptrcard"><b>research-index.md <span style="font-weight:400;color:var(--ok)">· generated</span></b><small>Every plan's findings rolled into one index, organized by plan, with a link straight into each plan's <code>_research/</code> folder.</small></div>
+        <div class="ptrcard"><b>decision-log.md <span style="font-weight:400;color:var(--ok)">· generated</span></b><small>Every plan's decisions in one cross-plan list; superseded records are forward-linked, never dropped — so settled choices aren't re-litigated.</small></div>
+        <div class="ptrcard"><b>handoff-chronicle.md <span style="font-weight:400;color:var(--ok)">· generated</span></b><small>The session-handoff records across the project, newest-first, each carrying its <code>Next session:</code> line — so any session resumes cleanly.</small></div>
+      </div>
+    </div>
+    <p class="figcap">The binder's own pages are the cover, the generated orientation card, and three generated indices. The cover additionally points <em>outward</em> — to the <strong>universal Library</strong> articles this project drew on (the <code>Wiki/</code> view) and, for non-coding work, to its <strong>deliverables</strong> (the <code>Work/</code> view) — those are surfaces the cover links to, not binder pages.</p>
+
+    <table>
+      <thead><tr><th>Page</th><th>Origin</th><th>What it holds</th><th>Loads</th></tr></thead>
+      <tbody>
+        <tr><td><strong>_situating.md</strong> (orientation card)</td><td>Generated by the librarian; refreshed at session-close and session-open</td><td>Plan roster, project status, active focus, and the latest handoff headline</td><td>Eagerly, at session start</td></tr>
+        <tr><td><strong>hub.md</strong> (cover)</td><td>Template-scaffolded once, then hand-maintained</td><td>The project's identity, its plan IDs and status, and pointers into everything below</td><td>On demand</td></tr>
+        <tr><td><strong>research-index.md</strong></td><td>Generated by the librarian</td><td>Findings across all the project's plans, organized by plan</td><td>On demand</td></tr>
+        <tr><td><strong>decision-log.md</strong></td><td>Generated by the librarian</td><td>Decisions across all the project's plans, rolled into one list</td><td>On demand</td></tr>
+        <tr><td><strong>handoff-chronicle.md</strong></td><td>Generated by the librarian</td><td>Session handoffs across the project, newest-first</td><td>On demand</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Generated, not tended — how the binder stays correct</h2>
+    <p>
+      The split between the curated cover and the generated pages — the orientation card and the three
+      indices — is deliberate. The cover (<code>hub.md</code>) is <strong>scaffolded automatically from a
+      template the moment you register or create the project</strong> — and never again; the harness will
+      not overwrite a hub you have already curated. After that first scaffold it is
+      <strong>yours to hand-maintain</strong> — it is the project's net-new home page, the one surface a
+      person curates. It is pointer-only by contract: it carries links, never imported bodies, so loading
+      it stays cheap.
+    </p>
+    <p>
+      The three indices — and the orientation card — are the opposite: <strong>nobody hand-tends them.</strong>
+      A librarian pass re-derives each one from the project's plans — the research index from every plan's
+      <code>_research/</code>, the decision log from every plan's decision ledger, the handoff chronicle
+      from every plan's session diary. These pages are re-derived as part of <strong>every session-close</strong>,
+      so the binder is refreshed at the end of each session with no manual trigger. Re-deriving them means
+      they <strong>cannot go stale</strong>: a
+      status file kept current by a person rots the moment attention moves on, but a generated index is
+      correct on every pass with no upkeep.
+    </p>
+    <div class="callout note">
+      <div class="label">A reading surface, not a system dependency</div>
+      <p>Because the generated pages — the three indices and the orientation card — re-derive from the
+      plans (the canonical content stays in the plan folders), the binder is regenerable, not a fragile
+      dependency: delete a generated page and the next librarian pass rebuilds it. The full
+      reasoning — why auto-generated surfaces survive while hand-maintained ones rot — is on
+      <a href="research-rationale.html#context-library">the research rationale</a>.</p>
+    </div>
+
+    <h2>Research is the one facet that travels</h2>
+    <p>
+      Most of the binder stays <em>inside</em> the project: the cover, the orientation card, the decision
+      log, and the handoff chronicle are this project's own record and belong nowhere else. Research is
+      different. A project's findings are
+      often reusable, so research is the one facet that can <strong>promote up</strong> out of the project
+      and into the <strong>universal Library</strong> — scrubbed of project specifics so it becomes
+      reference any future project can draw on.
+    </p>
+    <div class="flow">
+      <div class="fstep proj"><b>Project research</b><small>findings rolled into the binder's <code>research-index.md</code></small></div>
+      <div class="farr">›</div>
+      <div class="fstep gate"><b>Promote &amp; scrub</b><small>strip the project specifics; preserve the raw source</small></div>
+      <div class="farr">›</div>
+      <div class="fstep univ"><b>Universal Library</b><small>reference any project can reuse — the <code>Wiki/</code> view</small></div>
+    </div>
+    <p class="flow-note">The binder is project context; the Library is universal context. How the promotion
+    works — the scrub, the propose-then-apply gate, the immutable raw copy — is covered in full on
+    <a href="context-library.html">Dual context layers</a>. The decision log and handoff chronicle have no
+    such path; they stay with the project.</p>
+
+    <h2>Where it lives</h2>
+    <p>
+      Binders live in the plan area, not inside your notes vault and not inside the folder Claude&nbsp;Code
+      itself occupies — so the assistant can always write to them reliably, and they never get caught in a
+      cloud-sync boundary. Your notes app sees a read-only <code>Projects/</code> view.
+    </p>
+    <pre>~/.claude-plans/_projects/&lt;project&gt;/   the binder           → surfaced as Projects/&lt;project&gt;/
+    _situating.md                     generated · loaded each session
+    hub.md                            the cover (hand-maintained · read on demand)
+    research-index.md                 generated · links into each plan's _research/
+    decision-log.md                   generated · cross-plan decisions
+    handoff-chronicle.md              generated · session handoffs, newest-first</pre>
+
+    <h2>Where the binder connects</h2>
+    <div class="card-grid">
+      <a class="card" href="plans.html"><div class="kicker">Upstream</div><h3>Plans &amp; orchestration</h3><p>How a plan's research, decisions, and handoff roll up into the binder as it's worked, completed, and verified.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="work-surface.html"><div class="kicker">Upstream</div><h3>Project organization</h3><p>How both coding and non-coding work roll up into the same binder — and how deliverables join it.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="context-library.html"><div class="kicker">Sideways</div><h3>Dual context layers</h3><p>The binder is project context; research promotes up into the universal Library. The promotion loop in full.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="session-loading.html"><div class="kicker">At runtime</div><h3>What loads each session</h3><p>Why the orientation card loads at session start and everything else waits behind a pointer.</p><div class="spacer"></div><div class="more">Read →</div></a>
+    </div>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · The project binder.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

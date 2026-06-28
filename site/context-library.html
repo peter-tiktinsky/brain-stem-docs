@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dual context layers · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Surface · research &amp; reference</p>
+    <h1>Dual context layers</h1>
+    <p class="lede">
+      Knowledge in brain-stem lives at <strong>two layers</strong>. You do research
+      <strong>inside a project</strong>, where it starts as rough notes and settles into finished
+      findings. When a finding is general enough to help <em>any</em> project, it can be promoted up to the
+      <strong>universal Library</strong> — a curated shelf every future project inherits. This page is how
+      the two layers relate, and how research climbs from one to the other instead of being redone.
+    </p>
+    <p class="page-meta">Project research is rolled up under <code>Projects/</code>; the universal Library is surfaced as <code>Wiki/</code>. They are deliberately <strong>different assets</strong> — this page keeps them straight.</p>
+
+    <h2>The two layers at a glance</h2>
+    <p>
+      Read it left to right: research is born in a project, and only the general part earns its way up to
+      the Library. The loop closes back at the start of the <em>next</em> piece of research.
+    </p>
+
+    <div class="legend" aria-label="color key">
+      <span class="chip"><span class="sw" style="background:#e6efec;border-color:#b6cec6"></span> Project layer — this project's research</span>
+      <span class="chip"><span class="sw" style="background:#f3ddd0;border-color:#b1532e"></span> The promotion gate (scrub)</span>
+      <span class="chip"><span class="sw" style="background:#e8ddf0;border-color:#b79fcf"></span> Universal layer — the Library</span>
+    </div>
+
+    <div class="flow">
+      <div class="fstep proj"><b>Research, inside a project</b><small>rough notes on a scratch bench → finished findings filed in the project</small></div>
+      <div class="farr">›</div>
+      <div class="fstep gate"><b>Promote</b><small>you declare it finalized; it's scrubbed of project detail — proposed for your review, then applied</small></div>
+      <div class="farr">›</div>
+      <div class="fstep univ"><b>The universal Library</b><small>a curated article every future project can reuse, with its raw source kept beside it</small></div>
+    </div>
+    <div class="flow-branch">
+      <div class="fb"><b>Before new research →</b> Claude checks the Library first, to reuse what's already there before you redo it.</div>
+    </div>
+    <p class="figcap">Research is born in a project and earns its way up. The scrub is the gate: strip the one project's specifics and what's left is reusable everywhere — or there was nothing general to keep.</p>
+
+    <h2>Layer one: research lives in a project first</h2>
+    <p>
+      You don't research in the abstract — you research to move a project forward. So research starts at
+      the <strong>project layer</strong>, in two grades:
+    </p>
+    <ul>
+      <li><strong>Raw research — the Workshop.</strong> A scratch bench for in-progress work, with
+      <strong>no required format and no rules</strong>, because forcing structure onto scratch paper only
+      slows the thinking. It's ephemeral and <strong>never loaded</strong> into a session automatically,
+      and it has no vault view on purpose. It exists to be thought in, and is read at exactly one moment —
+      when a piece is promoted out of it.</li>
+      <li><strong>Finished research — the project's record.</strong> When a piece settles, it's filed as
+      durable project research in the plan that produced it (declared in that plan's manifest), and the
+      <a href="project-binder.html">project binder</a> rolls every plan's findings into one generated
+      research index. This is the project's accumulated knowledge — read on demand, inherited by the
+      project's next session.</li>
+    </ul>
+    <p>
+      That is the whole first layer: rough notes become finished findings, and the binder gathers them so
+      nothing a project learned is lost between sessions. Most findings stop here — they're true for
+      <em>this</em> project and don't need to go anywhere else. Research is only <em>one</em> of the things
+      a binder holds — alongside the decision log, the handoff chronicle, and the hand-maintained cover; the
+      full anatomy and how a project is identified are on <a href="project-binder.html">The project binder</a>.
+    </p>
+
+    <h2>Layer two: the universal Library</h2>
+    <p>
+      Some findings, though, are <em>general</em> — true for any project, not just the one that produced
+      them. Those can rise to the <strong>Library</strong>: the universal shelf of reusable reference,
+      surfaced as <code>Wiki/</code>. It's a <strong>different asset</strong> from a project's research,
+      and it's built to stay trustworthy:
+    </p>
+    <ul>
+      <li><strong>The curated article.</strong> One article, one concept — a short
+      <code>type: reference</code> file in a topic folder, written to be reused. Every topic folder and the
+      Library root carries an <code>_index.md</code>, so the shelf is always labeled.</li>
+      <li><strong>The immutable raw source.</strong> The project material an article was distilled from is
+      kept unchanged in a <code>_raw/</code> sub-folder. The polished article can be rewritten freely; the
+      record of where it came from never is.</li>
+      <li><strong>One change log.</strong> A single library-wide <code>log.md</code> records one line per
+      event — added, updated, superseded — so there's one place to see what changed and when.</li>
+    </ul>
+    <div class="callout note">
+      <div class="label">Each layer keeps a raw-and-finished pair — for different reasons</div>
+      <p><strong>At the project layer</strong>, "raw" is the Workshop scratch (ephemeral, thrown away) and
+      "finished" is the project's filed research. <strong>At the universal layer</strong>, "raw" is the
+      immutable <code>_raw/</code> source (kept <em>forever</em>) and "finished" is the curated article.
+      The project keeps raw to think; the Library keeps raw to stay accountable. The Library is
+      <strong>not</strong> loaded into every session — a full shelf every time would be enormous and mostly
+      irrelevant; it loads only at the moment of need (below).</p>
+    </div>
+
+    <h2>Promotion — from project research to a universal asset</h2>
+    <p>
+      Promotion is the bridge between the two layers, and it's a <em>transformation</em>, not a copy. It is
+      <strong>something you ask for</strong>: you mark a finished piece of project research as universal by
+      declaring it <strong>finalized</strong> in the plan's manifest. That declaration is the selectivity
+      gate — nothing promotes just because it's sitting on the Workshop bench.
+    </p>
+    <div class="callout note">
+      <div class="label">Propose first, then apply — never silently</div>
+      <p>Promotion runs in two passes, because a scrub that strips too much — or too little — needs a human
+      backstop. A <strong>propose</strong> pass scrubs the candidate and <strong>writes nothing</strong>;
+      it shows you the diff of what would be stripped. Only an explicit <strong>apply</strong> writes the
+      article. It is deliberately <em>not</em> automatic.</p>
+    </div>
+    <p>On apply, the routine:</p>
+    <ol>
+      <li><strong>Scrub.</strong> Strip everything specific to the one project that produced the draft —
+      names, dates, one-off details — leaving the general, reusable truth. <em>This is the gate:</em> a
+      draft that is nothing but project-specifics has nothing left, and never becomes an article.</li>
+      <li><strong>Preserve the source.</strong> The original, unscrubbed project material is copied
+      unchanged into the new article's <code>_raw/</code> — so the universal asset always remembers exactly
+      what it grew from.</li>
+      <li><strong>Shelve and index.</strong> The scrubbed article is written into its topic folder and the
+      change is recorded in the library log; the topic and root indexes are re-derived separately by the librarian.</li>
+    </ol>
+    <p>The plain version: <strong>the project is where you think; the Library is what you keep.</strong></p>
+
+    <h2>Where the assets live — the file map</h2>
+    <p>
+      Concretely, a research asset moves through three homes (with a scratch pre-stage), each a real place
+      on disk. The whole tree lives under <code>~/.claude-plans/</code>, mirrored into your notes app by
+      symlink:
+    </p>
+    <div class="flow">
+      <div class="fstep term"><b>Scratch</b><small>the Workshop · <code>~/.local/state/brain-stem/workshop/</code> · no notes-app view</small></div>
+      <div class="farr">›</div>
+      <div class="fstep proj"><b>In the project</b><small>a plan's <code>_research/</code> — declared finalized in its manifest</small></div>
+      <div class="farr">›</div>
+      <div class="fstep proj"><b>Into the binder</b><small>rolled up automatically under <code>_projects/&lt;project&gt;/</code> → <code>Projects/</code></small></div>
+      <div class="farr">›</div>
+      <div class="fstep univ"><b>To the Universal Store</b><small>promotion (scrub) lands a copy in <code>_library/&lt;topic&gt;/</code> → <code>Wiki/</code></small></div>
+    </div>
+    <p>The two concrete structures — project side, then universal side:</p>
+    <pre>~/.claude-plans/
+├── &lt;plan&gt;/                         a plan, in the plans folder
+│   ├── manifest.json                declares research_artifacts[] (finalized = promotable)
+│   └── _research/                   finished project research lives here  ← the source of truth
+│       └── &lt;artifact&gt;.md
+└── _projects/&lt;project&gt;/             the project binder            → surfaced as Projects/&lt;project&gt;/
+    ├── _situating.md                the status card (generated; loaded each session)
+    ├── hub.md                       the cover (curated; read on demand)
+    ├── research-index.md            rolls up every plan's research (generated)
+    └── research/&lt;plan&gt;/  →          symlinks back to each plan's _research/</pre>
+    <pre>~/.claude-plans/_library/            the Universal Store          → surfaced as Wiki/
+├── _index.md                       root index of every topic
+├── log.md                          one line per event: added · updated · superseded
+└── &lt;topic&gt;/
+    ├── _index.md                   topic index
+    ├── &lt;article&gt;.md                the scrubbed reference article (type: reference)
+    └── _raw/                       immutable copy of the unscrubbed project source</pre>
+    <p class="figcap">
+      The plan's <code>_research/</code> is the source of truth; the binder <em>indexes</em> it (it doesn't
+      relocate it); promotion writes a separate, scrubbed copy into the Library and keeps the original
+      beside it in <code>_raw/</code>. Project assets stay under <code>Projects/</code>; the one universal
+      asset lands under <code>Wiki/</code>.
+    </p>
+
+    <h2>Before new research: check the Library first</h2>
+    <p>
+      The two layers close the loop at the one moment it matters — the <em>start</em> of new research. When
+      a request looks like research, a small message-time check consults the Library
+      index and surfaces a <strong>compact coverage pointer</strong>: <em>there may already be reference on this,
+      and here's how to read it.</em> It is advisory — it never blocks, and it's silent when the Library is
+      empty. Its job is one thing: <strong>reuse what's already universal before you redo it.</strong>
+    </p>
+    <div class="callout key">
+      <div class="label">The check reuses; promotion contributes</div>
+      <p>The check only <em>leverages</em> existing reference — it does not scan for gaps to fill. Enriching
+      the shelf happens the other way, through <strong>promotion</strong> (above), which you trigger when a
+      finished finding generalizes. So when the check is silent on a topic, that absence is simply your cue
+      that there may be something worth promoting up once your research is done. Together — reuse on the way
+      in, contribute on the way out — universal knowledge flows from one project into the next without
+      anyone maintaining a cross-project index by hand.</p>
+    </div>
+
+    <h2>How a project is identified</h2>
+    <p>
+      All of this depends on one question — <em>which project am I in?</em> — answered the simplest way:
+      <strong>a project is the directory you launched from.</strong> Both project-scoped surfaces (this
+      project's memory and its research/binder) key off it, every session, with no list to keep in sync.
+      (See <a href="session-loading.html">What loads each session</a>.)
+    </p>
+
+    <h2>Why this design</h2>
+    <table>
+      <thead><tr><th>Choice</th><th>The reasoning</th></tr></thead>
+      <tbody>
+        <tr><td>Research starts at the project layer</td><td>You research to move a project; forcing every note to be "universal-ready" up front would tax the thinking. Generality is recognized later, not demanded early.</td></tr>
+        <tr><td>The universal Library is a separate asset</td><td>Mixing one project's specifics into a shared shelf makes the shelf untrustworthy. A distinct, scrubbed, indexed asset stays reference-grade — which is exactly why the title keeps the two layers apart.</td></tr>
+        <tr><td>Promotion is declared, and propose-then-apply</td><td>The declaration keeps the shelf selective; the propose/apply split gives a human a chance to catch a bad scrub before it's written. Neither is automatic — on purpose.</td></tr>
+        <tr><td>Keep the immutable raw source</td><td>A polished article you can rewrite is only trustworthy if the thing it was distilled from is preserved unchanged.</td></tr>
+        <tr><td>Check the Library at the start of research</td><td>A standing "remember to reuse" rule rots, and an after-the-fact check fires too late. A prompt-time check leverages existing reference at the only moment it can prevent a duplicate.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Reference</h2>
+    <ul>
+      <li><strong>Raw project research (the Workshop)</strong> — <code>~/.local/state/brain-stem/workshop/</code>: an ephemeral scratch bench; never loaded or indexed; no vault view; read only at promotion.</li>
+      <li><strong>Finished project research</strong> — a plan's <code>_research/</code> (declared in the manifest's <code>research_artifacts[]</code>, <code>finalized</code> = promotable), rolled into the binder's generated <code>research-index.md</code> under <code>~/.claude-plans/_projects/&lt;project&gt;/</code> → <code>Projects/</code>.</li>
+      <li><strong>The universal Library</strong> — <code>~/.claude-plans/_library/</code> → <code>Wiki/</code>: topic folders of one-concept <code>type: reference</code> articles; <code>_index.md</code> per topic and at the root; immutable <code>_raw/</code> sources; one library-wide <code>log.md</code>.</li>
+      <li><strong>The promotion (scrub) routine</strong> — user-declared (manifest <code>finalized</code>); <strong>propose</strong> (dry-run diff, writes nothing) then <strong>apply</strong> (scrub → preserve source in <code>_raw/</code> → shelve + log; indexes re-derived separately by the librarian). Not automatic.</li>
+      <li><strong>The moment-of-need Library check</strong> — a message-time background check that detects research intent and surfaces a compact coverage pointer; advisory, never blocks, silent when empty; <strong>leverages existing reference only</strong> (it does not flag gaps — enrichment is via promotion).</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Dual context layers.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orchestration &amp; scheduling · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Project management · putting work in motion</p>
+    <h1>Orchestration &amp; scheduling</h1>
+    <p class="lede">
+      <a href="plans.html">Plans</a> describe the work. <strong>Orchestration</strong> runs it — dispatching
+      tasks to fresh AI sessions under human-gated supervision. <strong>Scheduling</strong> decides
+      <em>when</em>: from always-on capture to an overnight batch you wake up to. This page covers how both are
+      set up and governed, and is honest about what's turnkey versus what you assemble.
+    </p>
+    <p class="page-meta">A deep page. The orchestrator, its gates, programmatic sessions, and the real scheduling surface.</p>
+
+    <h2>What orchestration is</h2>
+    <p>
+      The orchestrator is a <strong>propose-and-gate dispatcher</strong>, not a fully autonomous background
+      process. Nothing fires without a human reasoning or approval point. It reads a plan's machine-readable manifest as its
+      contract, walks the tasks, and dispatches each one to its own fresh AI session — but it never rewrites the
+      plan's own files.
+    </p>
+    <div class="flow">
+      <div class="fstep"><b>dispatch</b><small>You point it at a plan. It resolves the manifest and the task order.</small></div>
+      <div class="farr">→</div>
+      <div class="fstep gate"><b>plan-runner</b><small>Walks the tasks in dependency order and applies a gate to each (below).</small></div>
+      <div class="farr">→</div>
+      <div class="fstep"><b>job-runner</b><small>Runs one task as a fresh, non-interactive session under a timeout watchdog.</small></div>
+      <div class="farr">→</div>
+      <div class="fstep mark"><b>check</b><small>A snapshot check after each task catches the failure where a task reports success but nothing actually changed.</small></div>
+    </div>
+    <p>
+      It keeps its own state outside your vault — an execution queue, a verdict log, and a circuit-breaker that
+      halts new dispatches after two silent failures in a row. The plan's <code>spec</code>,
+      <code>tasks</code>, <code>handoff</code>, research, and decisions are left untouched; status transitions
+      are driven by you, the hooks, and the harness, not by the dispatcher.
+    </p>
+
+    <h2>The two gates</h2>
+    <p>
+      Every task is sorted into one of two supervision modes before it runs. This is the safety valve that lets
+      a dispatcher run unattended work without it running <em>away</em>.
+    </p>
+    <div class="card-grid two">
+      <div class="card work">
+        <div class="kicker">HITL — human in the loop</div>
+        <h3>Halts for approval</h3>
+        <p>Anything irreversible or flagged as a live mutation <strong>stops</strong> and waits for an explicit
+        approval signal. By design, a scheduled, unattended run of a live-mutation plan will simply halt rather
+        than proceed on its own.</p>
+      </div>
+      <div class="card code">
+        <div class="kicker">HOTL — human on the loop</div>
+        <h3>Proceeds under watch</h3>
+        <p>Reversible work proposes what it's about to do and proceeds under supervision. The human-in-the-loop
+        gate and the circuit-breaker are the backstops if something goes wrong.</p>
+      </div>
+    </div>
+
+    <h2>Interactive vs. programmatic sessions</h2>
+    <p>
+      Most of your work is an <strong>interactive</strong> session — you, typing, watching. Orchestrated and
+      scheduled work instead runs in <strong>programmatic</strong> sessions: a single non-interactive
+      <code>claude -p</code> ("print mode") run that executes one instruction and exits, under a watchdog. The
+      session is told how it was invoked — on-demand versus scheduled — so it can behave appropriately. This is
+      the same engine whether a human kicked it off or a timer did.
+    </p>
+    <div class="callout note">
+      <div class="label">A naming caution</div>
+      <p>
+        Claude Code itself also offers scheduled "routines" (its <code>/schedule</code> and <code>/loop</code>
+        features). Those are the <strong>harness's</strong> cloud-scheduling surface, not brain-stem. This page
+        is about brain-stem's own scheduling — which runs locally through macOS, described next.
+      </p>
+    </div>
+
+    <h2>How scheduling actually works</h2>
+    <p>
+      brain-stem's scheduler is macOS <strong>launchd</strong> — there is no cron or systemd fallback, and no
+      single "schedule this for me" command. Think of it as two things: a handful of built-in scheduling
+      actions, and an open path for recurring automation you wire together yourself:
+    </p>
+    <table>
+      <thead><tr><th>What you want</th><th>How it's done</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Always-on capture (the writer pipeline)</td>
+          <td>The two foundation jobs — the writer-reconciler and the doc-amender — ship as launchd templates with a renderer; you render and bootstrap them as launchd jobs in a documented post-install step (not automatically at onboarding).</td>
+          <td><span class="pill advise">You bootstrap it</span></td>
+        </tr>
+        <tr>
+          <td>Run a plan or a task once at a future time</td>
+          <td>A one-off delayed dispatch; a delay of more than a few hours installs itself as a one-shot launchd job that fires once at the target time.</td>
+          <td><span class="pill ok">Shipped</span></td>
+        </tr>
+        <tr>
+          <td>Run anything else on a <em>recurring</em> schedule</td>
+          <td>Hand-author a launchd job that calls the dispatcher. There's no shipped recurring scheduler beyond the two capture jobs.</td>
+          <td><span class="pill advise">You assemble it</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      So the honest shape is: capture runs itself once you bootstrap its two launchd jobs, one-off future runs are a built-in, and
+      recurring automation of arbitrary skills or plans is something you set up with a small launchd job.
+      Everything here is macOS-only.
+    </p>
+
+    <h2>Starter recipes — a menu to build from</h2>
+    <p>
+      The point of all this is the lifecycles it unlocks. Here are concrete starting ideas, each labelled by how
+      much is shipped versus how much you wire up — so you know what you're signing up for.
+    </p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="ph"><span class="pn">A</span><h3>A daily system audit + backup</h3></div>
+        <p class="keeps">Run a full librarian sweep once a day: it audits your vault and pushes a Git backup of your vault, install, and plans.</p>
+        <p class="row"><b>Reality</b>The payload is one shipped command (a full librarian run <em>includes</em> the backup, which commits and pushes to a remote you've configured). Only the daily timer is a small launchd job you add.</p>
+        <div class="vrow"><span class="pill ok">Payload shipped</span> <span class="pill advise">schedule it yourself</span></div>
+      </div>
+      <div class="pillar">
+        <div class="ph"><span class="pn">B</span><h3>Overnight idea triage</h3></div>
+        <p class="keeps">Drop ideas into your inbox through the day; one overnight run triages and researches them, so you wake up to ready-to-review plan drafts.</p>
+        <p class="row"><b>Reality</b>Every piece exists as a skill — triage, research, plan scaffolding, and one-off scheduled dispatch — but there's no shipped overnight sweep that chains them. This one is a recipe you compose, not a feature you switch on.</p>
+        <div class="vrow"><span class="pill advise">Composable</span></div>
+      </div>
+      <div class="pillar">
+        <div class="ph"><span class="pn">C</span><h3>Run a plan on a schedule</h3></div>
+        <p class="keeps">Execute a particular plan automatically on a cadence, through the orchestrator's gates.</p>
+        <p class="row"><b>Reality</b>A one-off scheduled run is built in; a recurring cadence is a small launchd job calling the dispatcher. Remember the gates — a plan with irreversible steps will halt for approval rather than complete unattended.</p>
+        <div class="vrow"><span class="pill advise">One-off shipped · recurring you assemble</span></div>
+      </div>
+    </div>
+    <div class="callout key">
+      <div class="label">The through-line</div>
+      <p>
+        Scheduling plus the orchestrator plus <a href="vault-writers.html">the vault-writer system</a> is how a
+        day's worth of routine work — capturing information, auditing the system, advancing a plan — happens
+        without you driving each step. Start with the turnkey pieces, then assemble the recurring lifecycles
+        that fit how you actually work.
+      </p>
+    </div>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Orchestration &amp; scheduling.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

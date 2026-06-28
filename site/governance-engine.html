@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The governance engine · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">The engine · how every write is checked</p>
+    <h1>The governance engine</h1>
+    <p class="lede">
+      The governance engine is a rulebook consulted on <strong>every file write</strong>. It is the heart of
+      <em>write-time governance</em> — making sure each file, the moment it's created, follows the conventions
+      that keep it discoverable. The discipline is structural rather than a matter of remembering to be careful:
+      the rules are applied by machinery at the moment of the write, not left to anyone's good intentions.
+    </p>
+    <p class="page-meta">One interception point (<code>PreToolUse</code>), three verdicts: allow · advise · deny.</p>
+
+    <h2>Allow, advise, deny</h2>
+    <p>
+      Claude&nbsp;Code offers a single place to intercept a write (the <code>PreToolUse</code> hook) and
+      natively only two answers: allow or deny. brain-stem adds the rulebook and a crucial third
+      verdict — <strong>advise</strong>.
+    </p>
+    <table>
+      <thead><tr><th>Verdict</th><th>What happens</th><th>Used for</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Allow</strong></td><td>The write proceeds, silently.</td><td>A well-formed write that needs no comment.</td></tr>
+        <tr><td><strong>Advise</strong></td><td>The write <em>proceeds</em>, and a reminder is injected back to the assistant.</td><td>The workhorse — most policy is taught, not blocked (a missing tag, a doc whose paired doc should update too).</td></tr>
+        <tr><td><strong>Deny</strong></td><td>The write is blocked, with a reason.</td><td>Reserved for structural corruption — an unknown document type, a malformed required field, a broken plan status.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="flow">
+      <div class="fstep"><b>A file write</b><small>Edit / Write</small></div>
+      <div class="farr">›</div>
+      <div class="fstep gate"><b>Inside the vault?</b><small>the guard is <code>VAULT_ROOT</code>-gated</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Checked against the rulebook</b><small>one of three verdicts is returned ↓</small></div>
+    </div>
+    <div class="flow-branch">
+      <div class="fb"><b>Outside the vault →</b> allowed untouched — a code repo or <code>~/work</code> is audited later, never blocked here.</div>
+    </div>
+    <div class="verdicts">
+      <div class="verdict ok"><div class="vh">Allow</div><p>The write proceeds, silently — a well-formed write that needs no comment.</p></div>
+      <div class="verdict advise"><div class="vh">Advise</div><p>The write proceeds <em>and</em> a reminder is injected back. The workhorse — most policy is taught, not blocked.</p></div>
+      <div class="verdict deny"><div class="vh">Deny</div><p>The write is blocked, with a reason. Reserved for writes that would actually corrupt the structure.</p></div>
+    </div>
+    <p class="figcap">The doorman runs on every write — but only acts inside the vault, and mostly advises rather than blocks.</p>
+
+    <div class="callout key">
+      <div class="label">Structural, not disciplinary</div>
+      <p>The point is that the check fires deterministically, every time, regardless of whether the
+      assistant remembers the rule. Advise carries the day-to-day load; deny is the narrow guardrail
+      for writes that would actually corrupt the structure.</p>
+    </div>
+
+    <h2>Eight pillars</h2>
+    <p>
+      The rulebook is organized into eight pillars, each owning one slice of policy. They fall into three
+      families by <em>what they govern</em> — a scope ladder from inside a single file outward:
+      <strong>the single document</strong> (its labels and its body), <strong>across documents &amp;
+      folders</strong> (structure spanning files), and <strong>writers &amp; lifecycles</strong> (operation
+      rather than shape). Read each panel as <em>what it keeps true</em>, plus the slice it governs, a
+      concrete example, and the verdict it leans on — most pillars teach (advise); a few guard structure
+      and will block (deny).
+    </p>
+
+    <div class="pillar-cat">
+      <p class="pillar-band">The single document</p>
+      <p class="cat-sub">Everything that governs one file on its own — how it's identified and labeled (frontmatter, tags, name), and how its body is structured (the type contract). <a href="single-document.html">Read the deep dive →</a></p>
+      <div class="pillars">
+
+        <div class="pillar">
+          <div class="ph"><span class="pn">1</span><h3>Frontmatter</h3></div>
+          <p class="keeps">Every document declares what it is and carries the fields its type requires.</p>
+          <p class="row"><b>Governs</b>Document types, their required and optional metadata fields, allowed values, and where each type may live.</p>
+          <p class="row"><b>Example</b>A <code>deliverable</code> must carry <code>status</code> and <code>audience</code>; an unknown type is refused.</p>
+          <div class="vrow"><span class="pill advise">advise</span> <span class="pill deny">deny</span></div>
+        </div>
+
+        <div class="pillar">
+          <div class="ph"><span class="pn">2</span><h3>Tagging</h3></div>
+          <p class="keeps">Notes stay findable through one controlled vocabulary, not ad-hoc hashtags.</p>
+          <p class="row"><b>Governs</b>The allowed hashtag taxonomy and tag prefixes, plus the rule that a document carries its tags.</p>
+          <p class="row"><b>Example</b>A missing tag is flagged; a tag whose prefix falls outside the taxonomy is refused until it's corrected or registered.</p>
+          <div class="vrow"><span class="pill advise">advise</span> <span class="pill deny">deny</span></div>
+        </div>
+
+        <div class="pillar">
+          <div class="ph"><span class="pn">3</span><h3>Naming</h3></div>
+          <p class="keeps">Files and folders are named predictably, so the structure stays legible.</p>
+          <p class="row"><b>Governs</b>Allowed folder and file names, the known top-level vault folders, and filename patterns.</p>
+          <p class="row"><b>Example</b>A plan folder must match the numbered <code>NN-slug</code> shape.</p>
+          <div class="vrow"><span class="pill advise">advise</span> <span class="pill deny">deny</span></div>
+        </div>
+
+        <div class="pillar">
+          <div class="ph"><span class="pn">4</span><h3>File-type contracts</h3></div>
+          <p class="keeps">Each document type has its own rulebook — fields, enums, and size limits.</p>
+          <p class="row"><b>Governs</b>Per-type body structure and limits — one contract per type, about a dozen shipped.</p>
+          <p class="row"><b>Example</b>The <code>deliverable</code> contract fixes <code>status</code> to draft · delivered · superseded.</p>
+          <div class="vrow"><span class="pill advise">advise</span> <span class="pill deny">deny</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="pillar-cat">
+      <p class="pillar-band">Across documents &amp; folders</p>
+      <p class="cat-sub">Rules that span more than one file — what a folder must contain, and which documents move together. <a href="across-documents.html">Read the deep dive →</a></p>
+      <div class="pillars">
+
+        <div class="pillar">
+          <div class="ph"><span class="pn">5</span><h3>Mandatory files</h3></div>
+          <p class="keeps">Every folder that needs an anchor file has one, so nothing is left unlabeled.</p>
+          <p class="row"><b>Governs</b>Which folders must contain a required file — an <code>_index.md</code>, a manifest, a writer reference.</p>
+          <p class="row"><b>Example</b>A topic folder with no <code>_index.md</code> is flagged as missing its label.</p>
+          <div class="vrow"><span class="pill advise">advise</span></div>
+        </div>
+
+        <div class="pillar">
+          <div class="ph"><span class="pn">6</span><h3>Doc-dependencies</h3></div>
+          <p class="keeps">Paired documents move together — a change in one cues the update of the other.</p>
+          <p class="row"><b>Governs</b>The docs that must update together (the cascade) and their fan-in relationships.</p>
+          <p class="row"><b>Example</b>Editing a plan's manifest cues the regenerated <code>tasks.md</code> to follow.</p>
+          <div class="vrow"><span class="pill advise">advise</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="pillar-cat">
+      <p class="pillar-band">Writers &amp; lifecycles</p>
+      <p class="cat-sub">The two pillars that govern operation rather than shape — the automated systems that write in (now covered by <a href="vault-writers.html">the vault-writer system</a>), and the lifecycle of plan work (under <a href="plans.html">Plans</a>).</p>
+      <div class="pillars">
+
+        <div class="pillar">
+          <div class="ph"><span class="pn">7</span><h3>Vault-writers</h3></div>
+          <p class="keeps">Every automated system that writes into the vault is registered and runs through one reconciler.</p>
+          <p class="row"><b>Governs</b>The writer registry plus processing defaults and the staging-pipeline config (the writer's <em>shape</em> lives in the File-type contracts pillar).</p>
+          <p class="row"><b>Example</b>A writer must declare its destinations and each one's output type before it can run.</p>
+          <div class="vrow"><span class="pill muted">operational config</span></div>
+        </div>
+
+        <div class="pillar">
+          <div class="ph"><span class="pn">8</span><h3>Plans</h3></div>
+          <p class="keeps">Multi-step work follows one lifecycle and one folder shape — no exceptions.</p>
+          <p class="row"><b>Governs</b>The plan-folder lifecycle, status transitions, the file quartet, and the backlog row (see <a href="plans.html">Plans</a>).</p>
+          <p class="row"><b>Example</b><code>closed</code> is structurally refused unless the plan is already <code>verified</code>.</p>
+          <div class="vrow"><span class="pill advise">advise</span> <span class="pill deny">deny</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="callout key">
+      <div class="label">Writers &amp; lifecycles are documented in other sections</div>
+      <p>The last two pillars — <strong>vault-writers</strong> and <strong>plans</strong> — are full
+      members of the governance engine: the rulebook checks them on every write like any other pillar.
+      But their rules, rationale, and complete descriptions <strong>live in the top-level sections they
+      belong to</strong>, not here. The vault-writers pillar is covered by
+      <a href="vault-writers.html">the vault-writer system</a> under
+      <a href="automated-capture.html">Automated capture</a>; the plans pillar is covered by
+      <a href="plans.html">Plans</a> under <a href="project-management.html">Project management</a>.
+      This page is the <em>engine</em> that enforces them; those pages are where each one's policy is
+      described in full.</p>
+    </div>
+
+    <h2>How the rulebook is built</h2>
+    <p>
+      The eight pillars aren't eight files you wire together: they're composed at release time into one sealed,
+      generated bundle (<code>foundation-master.json</code>) that you never edit by hand. How that composition
+      works, and how you extend or override it through the overlay, is its own topic.
+    </p>
+
+    <div class="callout key">
+      <div class="label">Extending or overriding the rulebook</div>
+      <p>The shipped rulebook is sealed, but you extend it — your own document types, folder rules, writers, and
+      whole archetypes — through a separate, audited overlay seam, and you can override a shipped rule when it
+      doesn't fit (with a stated reason on the record). That is its own topic:
+      <a href="governance-personalization.html">Governance personalization</a> covers the overlay, the
+      composition, and <code>/govern register</code> in full.</p>
+    </div>
+
+    <h2>Where the guard acts — and where it can't</h2>
+    <p>
+      The guard's document-governance branches are <strong><code>VAULT_ROOT</code>-gated</strong>: they only fire on a
+      write whose path is inside the vault. This is deliberate — it keeps the engine from firing
+      spurious advisories on every file on disk. (The plan-lifecycle branch is the main exception — it
+      governs the plans tree at its own root, <code>~/.claude-plans/</code>, not the vault.)
+    </p>
+    <div class="callout warn">
+      <div class="label">The Work area is governed at audit time</div>
+      <p>Because the gate is the vault root, writes to the <a href="work-surface.html">Work area</a>
+      (which lives outside the vault) are <strong>never write-time governed</strong>. The work product you
+      author there is covered instead by an audit-time backstop — a session-close parity check — which
+      also catches cross-file drift that a single-write guard structurally cannot see. The one wrinkle: the
+      system keeps a couple of navigation files in the Work area current for you (a what-lives-where map
+      and folder indexes), but it never machine-writes your actual deliverables.</p>
+    </div>
+
+    <div class="callout note">
+      <div class="label">Fail-open by design</div>
+      <p>If the rulebook is missing, the engine allows the write. A corrupt overlay falls back to the
+      foundation-only view. Missing machine identity exits quietly. The engine degrades toward letting
+      you work, never toward locking you out.</p>
+    </div>
+
+    <h2>Why this design</h2>
+    <table>
+      <thead><tr><th>Choice</th><th>The reasoning</th></tr></thead>
+      <tbody>
+        <tr><td>Enforce at write-time via a hook</td><td>A standing written rule degrades over sessions; a hook fires regardless of the assistant's cooperation.</td></tr>
+        <tr><td>Advise as the default verdict</td><td>Most policy should be taught, not blocked — blocking is reserved for structural corruption.</td></tr>
+        <tr><td>Compose pillars into a sealed, generated master</td><td>One reproducible bundle to ship and reason about; edits live in the source pillars (see <a href="governance-personalization.html">Governance personalization</a>).</td></tr>
+        <tr><td>Gate on the vault root; audit outside it</td><td>Avoids spurious advisories everywhere; the Work area and code repos are covered by audit, not write-time blocking.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Reference</h2>
+    <ul>
+      <li><code>governance/foundation-master.json</code> — the composed, sealed rulebook (one slot per pillar). Generated; edit the source pillars.</li>
+      <li><code>governance/file-type-contracts/*.json</code> — the per-document-type contracts (one per type).</li>
+      <li><code>hooks/pre-write-guard.sh</code> — the doorman that emits allow / advise / deny; <code>VAULT_ROOT</code>-gated.</li>
+      <li>The session-close parity audit — the audit-time backstop covering the Work area and cross-file drift.</li>
+      <li>Extending and overriding the rulebook (the overlay seam and <code>/govern register</code>) — see <a href="governance-personalization.html">Governance personalization</a>.</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · The governance engine.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

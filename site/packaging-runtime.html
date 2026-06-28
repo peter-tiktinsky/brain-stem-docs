@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Packaging &amp; runtime · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Getting started · how the foundation is staged, recorded, and reversed</p>
+    <h1>Packaging &amp; runtime</h1>
+    <p class="lede">
+      How brain-stem gets onto your machine, what records the install, how it is reversed, and where its working
+      data lives. The honest takeaway, up front: <strong>nothing here is magic.</strong> Installation is a
+      careful, recorded file-copy from a source folder into the one folder Claude&nbsp;Code reads — with a great
+      deal of safety wrapped around the moment files are written.
+    </p>
+    <p class="page-meta">The reference companion to the <a href="installation.html">Install &amp; upgrade guide</a> and <a href="uninstalling.html">Uninstalling</a> — this is the <em>why</em> beneath both.</p>
+
+    <div class="callout note">
+      <div class="label">On this page</div>
+      <p><a href="#foundation">What "the foundation" is</a> · <a href="#home">~/.claude &amp; CLAUDE_HOME</a> ·
+      <a href="#install">Dry-run, then --apply</a> · <a href="#gates">Pre-flight gates</a> ·
+      <a href="#upgrade">Upgrading &amp; two reasons a file can differ</a> · <a href="#manifest">The manifest</a> ·
+      <a href="#uninstall">Uninstall</a> · <a href="#state">Where runtime state lives</a> ·
+      <a href="#failures">Failure modes it defends against</a></p>
+    </div>
+
+    <h2>What Claude&nbsp;Code gives you — and what's missing</h2>
+    <table>
+      <thead><tr><th>Claude&nbsp;Code gives you</th><th>What's missing</th><th>brain-stem adds</th></tr></thead>
+      <tbody>
+        <tr><td>Exactly one startup folder (<code>~/.claude</code>) it reads on launch, and a documented deep-merge rule for settings</td><td>No install discipline: writing into the live folder blind risks clobbering your edits, with no receipt and no safe uninstall</td><td>A recorded, <strong>preview-first</strong> file copy — a write-free dry-run by default, real writes gated behind <code>--apply</code></td></tr>
+        <tr><td>A place to drop scripts, skills, and rules</td><td>No way to tell an old shipped version from your own edit</td><td>A content-fingerprinted <strong>manifest</strong> and per-release baselines that distinguish a stale file from a hand edit</td></tr>
+        <tr><td>A folder you can delete</td><td>A blunt delete would take your edits with it; working state mixed into the program folder is fragile</td><td>A fingerprint-walk <strong>uninstall</strong> that preserves edited files, and a two-root split of durable vs. throwaway runtime state</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="foundation">What "the foundation" is, and why it has to be installed</h2>
+    <p>
+      Out of the box, Claude&nbsp;Code's assistant is a blank slate — no rules, no automations, no reusable
+      procedures. "The foundation" is the curated bundle that turns that blank slate into a disciplined workspace.
+      It contains four kinds of things:
+    </p>
+    <table>
+      <thead><tr><th>Ingredient</th><th>Plain meaning</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Settings</strong></td><td>A single configuration file that tells Claude&nbsp;Code how to behave.</td></tr>
+        <tr><td><strong>Hooks</strong></td><td>Small scripts the program runs automatically at moments in a session (for example, when one starts).</td></tr>
+        <tr><td><strong>Skills</strong></td><td>Reusable, named procedures you invoke on demand (<code>/onboard</code>, <code>/govern register</code>, <code>/librarian</code>).</td></tr>
+        <tr><td><strong>Rules</strong></td><td>Machine-readable rule files that encode the foundation's conventions.</td></tr>
+      </tbody>
+    </table>
+    <p>"Installing" means copying that bundle out of the downloaded source folder into the one directory Claude&nbsp;Code reads from when it starts up.</p>
+
+    <h2 id="home"><code>~/.claude</code> — where Claude lives (and <code>CLAUDE_HOME</code>, the knob that picks it)</h2>
+    <p>
+      When Claude&nbsp;Code launches, it looks in <strong>one folder</strong> for everything it should load: its
+      settings, automation scripts, skills, and rules. By long-standing convention that folder is
+      <code>~/.claude</code> in your home directory. One <strong>environment variable</strong>, <code>CLAUDE_HOME</code>,
+      changes the destination — useful for testing an install in a throwaway location. If it is unset, the
+      documented default is <code>~/.claude</code>. The mental model: <strong><code>~/.claude</code> is "where
+      Claude lives," and <code>CLAUDE_HOME</code> is the override that says "put it somewhere else."</strong>
+    </p>
+
+    <h2 id="install">Dry-run by default, then <code>--apply</code></h2>
+    <p>
+      The riskiest moment in any install is the first time it writes files. So the plain command —
+      <code>bash install.sh</code> with no extra words — <strong>does not install anything.</strong> It prints an
+      <strong>action plan</strong> (structured JSON naming every folder it would create, every set of files it would copy,
+      and a reason for each), then exits having written <strong>zero files</strong>. The plan is emitted only
+      <em>after</em> every safety check passes but <em>before</em> the first folder is created — so the preview
+      reflects fully-validated state yet cannot accidentally mutate anything. Pipe it through <code>jq .</code> to
+      read it comfortably.
+    </p>
+    <p>To actually perform the copy, re-run the <strong>same</strong> command with one word added — <code>--apply</code>, the explicit opt-in that flips preview mode into do-it-for-real mode. There is a deliberate safety asymmetry:</p>
+    <table>
+      <thead><tr><th>Mode</th><th>If <code>CLAUDE_HOME</code> is <strong>not</strong> set</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Dry run</strong> (<code>bash install.sh</code>)</td><td>Quietly assumes <code>~/.claude</code> to render a plausible preview, and records a <code>claude_home_defaulted</code> flag disclosing that it guessed.</td><td>A preview writes nothing, so a sensible default is harmless.</td></tr>
+        <tr><td><strong>Apply</strong> (<code>bash install.sh --apply</code>)</td><td><strong>Refuses</strong> — it stops with an error and exits without writing.</td><td>Real files must never land in a folder you did not consciously choose.</td></tr>
+      </tbody>
+    </table>
+    <p class="page-meta">The principle: a preview may assume a target; a real write may not. Files only ever land where you deliberately pointed them.</p>
+
+    <h2 id="gates">Pre-flight gates: the checks that run before any file is copied</h2>
+    <p>
+      Before the installer creates anything, it runs a sequence of quick safety checks, internally called
+      <strong>gates</strong>. Each answers one yes/no question and refuses to proceed if the answer is dangerous.
+      The installer is paranoid on purpose — most gates exist to stop you from clobbering something you care about.
+    </p>
+    <table>
+      <thead><tr><th>The gate's question</th><th>If the answer is dangerous</th></tr></thead>
+      <tbody>
+        <tr><td>Are you running as the all-powerful <strong>root</strong> account?</td><td>Refused — too much blast radius for a personal install.</td></tr>
+        <tr><td>Does the target folder hold <strong>someone else's unrelated Claude setup</strong>?</td><td>Refused, unless you explicitly force it with a confirmation flag.</td></tr>
+        <tr><td>Have the foundation's <strong>own files in an existing target drifted</strong> from the shipped version?</td><td>It depends <em>why</em> — see <a href="#upgrade">two reasons a file can differ</a>. An older shipped version is replaced cleanly; genuinely edited content is preserved and a real apply demands a typed override.</td></tr>
+        <tr><td>Does the target path <strong>secretly tunnel into your synced notes vault</strong> via a symlink?</td><td>Refused outright — that path is protected, with no override.</td></tr>
+        <tr><td>Does the <strong>plan folder already contain an existing plan tree</strong>?</td><td>Refused unless you pass an acknowledgement flag, so it never silently overlays existing plan files.</td></tr>
+        <tr><td>Would merging the new settings <strong>silently delete keys</strong> from your existing configuration?</td><td>Refused — your existing settings are never quietly discarded.</td></tr>
+        <tr><td>If a destructive step is pending, can it <strong>first prove a backup will work</strong> — and take one?</td><td>Refused — it demands a writable backup location, verifies it round-trips, and copies your existing settings into a timestamped <code>settings.json.pre-install-&lt;timestamp&gt;</code> first. No provable backup, no install.</td></tr>
+        <tr><td>Do you have the <strong>helper programs</strong> the install needs (e.g. <code>jq</code>)?</td><td>Refused if any are missing.</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="upgrade">Upgrading in place — two reasons a file can differ</h2>
+    <p>
+      The drift gate raises a question: if the installer refuses when a file's fingerprint does not match the
+      receipt, how does it ever <strong>upgrade</strong> an existing install — where, by definition, your files
+      differ from the new ones? The answer is that "differs from the shipped version" has <strong>two completely
+      different causes</strong>, and the installer must tell them apart.
+    </p>
+    <table>
+      <thead><tr><th>State</th><th>What it means</th><th>What the installer does</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Version-delta</strong> — the on-disk bytes match a <em>known previous release</em></td><td>Simply an older version of a foundation file, sitting where the upgrade is supposed to replace it. Not something you changed.</td><td><strong>Take the new version</strong> cleanly. A normal upgrade, no confirmation needed.</td></tr>
+        <tr><td><strong>Foreign / edited</strong> — the on-disk bytes match <em>no</em> known release</td><td>You (or some tool) changed this file. The foundation has no record of these exact bytes, so it assumes they are yours.</td><td><strong>Preserve your version.</strong> The new version is laid down, but your copy is saved alongside as <code>&lt;file&gt;.foundation-local</code>. A real apply will not silently overwrite it without a typed confirmation.</td></tr>
+      </tbody>
+    </table>
+    <p>
+      What makes the distinction possible is the <strong>per-release baseline archive</strong> — a stored
+      fingerprint list for every version the foundation ever shipped (under <code>governance/baselines/</code>). To
+      classify a differing file, the installer checks its fingerprint against every archived release: a match means
+      "old shipped version" (replace); no match means "your edit" (preserve). A <strong>legacy install</strong>
+      (made before the version stamp) is brought current by walking the shipped file list one file at a time, so
+      <em>every</em> managed file is examined — not just some subset of directories.
+    </p>
+    <div class="callout key">
+      <div class="label">The delivery gate — an upgrade won't claim success if it fell short</div>
+      <p>Before writing the completion stamp that records an upgrade as finished, the installer verifies that every
+      managed file it shipped actually reached the new version. The check is <strong>disposition-aware</strong>: it
+      does not demand that files you edited (deliberately preserved) or merged (like your overlay) match the
+      shipped fingerprint — only that the files meant to take the new version did. If any file that should have
+      updated is still stale, it <strong>fails closed</strong>: stops with exit code <strong>56</strong> ("delivery
+      shortfall"), writes no completion stamp, advances no baseline. Re-running <code>bash install.sh --apply</code>
+      picks up the unfinished work and converges. A half-delivered home is never recorded as a finished upgrade.</p>
+    </div>
+
+    <h2 id="manifest">The manifest (ship-list): the receipt of exactly what was installed</h2>
+    <p>
+      When you install, a record is kept of <strong>every single file</strong> laid down — its location, size,
+      permission setting, and a <strong>fingerprint</strong> (a SHA-256 content hash: a short string derived from a
+      file's exact contents, so that if even one character changes, the fingerprint changes too — a tamper-evident
+      seal). This record is the <strong>manifest</strong>, installed at
+      <code>~/.claude/governance/foundation-manifest.json</code>. Each entry records <code>path</code>,
+      <code>sha256</code>, <code>mode</code>, and <code>size</code>. The manifest does three jobs:
+    </p>
+    <ol>
+      <li>It is the <strong>authoritative answer</strong> to "what does a correct install look like?"</li>
+      <li>It lets a later check <strong>detect tampering</strong> — an edited shipped file no longer matches its fingerprint.</li>
+      <li>It tells the <strong>uninstaller</strong> precisely which files are safe to remove.</li>
+    </ol>
+    <div class="callout note">
+      <div class="label">Why the manifest is generated, not hand-written</div>
+      <p>A hand-maintained file list <strong>always drifts</strong> — someone adds a file and forgets to list it,
+      or removes one and leaves a stale entry. So a generator walks the <em>actual</em> source tree and emits the
+      manifest automatically. Because the <strong>same walk</strong> defines both what the installer ships and what
+      the manifest records, the two cannot silently disagree; a release-time check fails the build on any mismatch.
+      The receipt is a photograph of the truth, taken automatically — not a list someone tried to keep current by hand.</p>
+    </div>
+
+    <h2 id="uninstall">Uninstall: reversing the install without destroying your work</h2>
+    <p>
+      Over time <strong>your</strong> files end up living next to the foundation's files in the same folders, so a
+      blunt "delete everything in <code>~/.claude</code>" would take your edits with it. The uninstaller
+      (<code>bash uninstall.sh</code>) reads the manifest and goes <strong>file by file</strong>:
+    </p>
+    <table>
+      <thead><tr><th>Comparison result</th><th>What it means</th><th>What the uninstaller does</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Fingerprint matches</strong></td><td>Untouched, original foundation content.</td><td>Safely removes it.</td></tr>
+        <tr><td><strong>Fingerprint differs</strong></td><td>You edited this file.</td><td><strong>Preserves it and reports it</strong> — never silently deleted.</td></tr>
+        <tr><td><strong>File it never created</strong></td><td>Your own content.</td><td>Left alone entirely.</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Your personal edits survive an uninstall <strong>by default</strong>. The safety net is a <strong>mandatory
+      backup taken first</strong>: before removing anything, it copies the entire target folder into a timestamped
+      <code>.pre-uninstall-&lt;timestamp&gt;/</code>. There is <strong>no preview / dry-run mode</strong> for
+      uninstall (the <code>--dry-run</code> flag is listed as deferred in the script header) — the backup is the
+      safety mechanism instead.
+    </p>
+    <p>
+      Part of what the foundation can set up is <strong>scheduled background jobs</strong> on macOS, managed by the
+      system's service manager <strong>launchd</strong> and each identified by a <strong>label</strong>. The
+      foundation reserves a private name-space: every one of its jobs is named starting with
+      <code>com.brain-stem</code>. Uninstall stops and removes <strong>only</strong> jobs in that reserved
+      name-space — and actively <strong>refuses</strong> to touch any job whose name merely looks similar but sits
+      outside the prefix, aborting rather than risk stopping something unrelated. This is why uninstall
+      <em>fully</em> reverses the install: it pulls down the timers, not just the files.
+    </p>
+
+    <h2 id="state">Where runtime state lives — and why it is kept out of <code>~/.claude</code></h2>
+    <p>
+      There is an important difference between the foundation's <strong>program</strong> (the scripts, skills,
+      settings, and rules — what you installed, in <code>~/.claude</code>) and its <strong>runtime state</strong>
+      (the working data those scripts produce: session bookmarks, processing records, scratch files, coordination
+      locks). The foundation deliberately stores runtime state in standard locations <strong>outside</strong>
+      <code>~/.claude</code>, following the <strong>XDG Base Directory</strong> convention — so uninstalling or
+      reinstalling the program never endangers your accumulated working data. The state is split into two roots by
+      how much you would care if it vanished:
+    </p>
+    <table>
+      <thead><tr><th>Root</th><th>Location</th><th>Holds</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Durable</strong></td><td><code>~/.local/share/brain-stem/</code></td><td>The write-activity database (<code>manifest.sqlite</code>) and per-day processing records — expensive or impossible to recreate; lands where backup software looks.</td></tr>
+        <tr><td><strong>Ephemeral</strong></td><td><code>~/.local/state/brain-stem/</code></td><td>Throwaway staging scratch, per-session checkpoint files under <code>sessions/&lt;session-id&gt;/</code>, and the <code>.coordination/</code> lock files that keep multiple Claude windows from colliding — cheap to throw away and rebuild.</td></tr>
+      </tbody>
+    </table>
+    <p class="page-meta">The mental image: "the app" and "the app's notebook" are kept in different drawers on purpose. (Plan files live in a third place again — <code>~/.claude-plans/</code> — which is neither the program folder nor a runtime-state root.)</p>
+
+    <p>
+      Two more records round out the design. Every <strong>real</strong> install writes a dated
+      <strong>provenance log</strong> into <code>~/.claude/logs/</code> recording the facts of that install,
+      including the folder it targeted. It is durable evidence of what was done, and it is how the uninstaller
+      double-checks it is pointed at a genuine install — if there is no install log, the uninstaller
+      <strong>refuses</strong>. And Claude&nbsp;Code reads a single config file, <code>~/.claude/settings.json</code>;
+      the installer <strong>deep-merges</strong> the foundation's settings into it field by field rather than
+      overwriting — atomically (it fully succeeds or leaves the original untouched), and refusing to proceed if the
+      merge would silently delete any of your existing keys.
+    </p>
+
+    <h2 id="failures">The failure modes this packaging design defends against</h2>
+    <p>Every safety property exists because a simpler design fails in a concrete, painful way. Stated plainly:</p>
+    <table>
+      <thead><tr><th>Design choice</th><th>The failure it prevents</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Dry-run by default</strong></td><td>An installer that writes immediately gives you no chance to inspect what lands where. The preview exits before the first folder is created — provably write-free.</td></tr>
+        <tr><td><strong>Apply refuses an unset target</strong></td><td>Real files landing in a folder you did not consciously choose.</td></tr>
+        <tr><td><strong>Drift detection on an existing install</strong></td><td>A reinstall blindly overwriting foundation files you had genuinely edited; the fingerprint check distinguishes an old shipped version from a real edit.</td></tr>
+        <tr><td><strong>Disposition-aware delivery gate</strong></td><td>An upgrade recording itself as finished while some files silently stayed out of date (exit code 56 stops it).</td></tr>
+        <tr><td><strong>Backup-proof-of-life before any destructive step</strong></td><td>A destructive overwrite running with no working backup.</td></tr>
+        <tr><td><strong>Generated (not hand-edited) manifest</strong></td><td>A hand-kept file list drifting; a release-gate parity check fails the build on any mismatch.</td></tr>
+        <tr><td><strong>Fingerprint walk on uninstall</strong></td><td>Blunt deletion taking your own edits with it.</td></tr>
+        <tr><td><strong>Mandatory backup before uninstall</strong></td><td>An irreversible mistake — the whole target is copied first, so even a surprise is recoverable.</td></tr>
+        <tr><td><strong><code>com.brain-stem.*</code> label fence</strong></td><td>A careless cleanup stopping unrelated background jobs.</td></tr>
+        <tr><td><strong>Two-root state split</strong></td><td>Program churn (uninstall/reinstall) endangering your accumulated working data.</td></tr>
+        <tr><td><strong>Provenance-log check</strong></td><td>An uninstaller pointed at the wrong or never-installed folder.</td></tr>
+        <tr><td><strong><code>settings.json</code> deep-merge</strong></td><td>Overwriting your existing configuration.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout note">
+      <div class="label">None of this is novel — that's the point</div>
+      <p>These are the same patterns mature package and dotfile managers settled on independently: a generated
+      receipt of installed files (Homebrew, Nix, apt/dpkg), preserving files the user changed rather than clobbering
+      them (chezmoi), and keeping working state out of the program folder sorted into durable and ephemeral roots
+      (the XDG specification). Where brain-stem goes one step further than the typical installer is that it emits a
+      <strong>provably write-free action plan before the first write</strong> — you see the entire set of file
+      operations, having changed nothing, before you authorize one.</p>
+    </div>
+
+    <h2>Where to go next</h2>
+    <ul>
+      <li><a href="installation.html">Install &amp; upgrade guide</a> — the step-by-step install and upgrade commands.</li>
+      <li><a href="uninstalling.html">Uninstalling</a> — the practical removal walkthrough.</li>
+      <li><a href="faq.html">FAQ</a> — the short answers to common install-safety questions.</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Packaging &amp; runtime.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

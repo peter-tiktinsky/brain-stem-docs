@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session close · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Sessions · tidying up</p>
+    <h1>Session close</h1>
+    <p class="lede">
+      Ending a session has an <strong>always-on</strong> side that happens whether you ask or not — your
+      session leaves the registry, and on a clean exit the vault gets an automatic integrity pass — and an
+      <strong>explicit close</strong> you can run to do that tidying on demand and get a backup offer.
+      Either way a whole checklist of housekeeping runs in the right order, so you don't have to remember a
+      dozen steps yourself.
+    </p>
+    <p class="page-meta">Always-on: <code>session-deregister.sh</code>. Explicit: <code>/librarian session-close</code>.</p>
+
+    <h2>The always-on half — auto-close and reconcile</h2>
+    <p>
+      A session leaves the registry without you doing anything — and there are two cases, because a session
+      doesn't always end cleanly:
+    </p>
+    <ul>
+      <li><strong>A clean end.</strong> Closing the window fires the SessionEnd hook
+      <code>session-deregister.sh</code>, which marks your registry row <code>closed</code> and, if a peer
+      left work pending, spawns the reconciler in the background — detached and non-blocking.</li>
+      <li><strong>An abandoned or crashed session.</strong> If the process just vanishes and SessionEnd
+      never fires, your row is left behind as a ghost — and it is <strong>auto-closed by the
+      reconciler</strong>. A row is reaped once it looks gone — its process is dead <em>or</em> its
+      heartbeat has gone stale (older than ~30 minutes) — but a fresh heartbeat is a hard keep that
+      overrides a pid which merely <em>looks</em> dead, so a live session that is still heartbeating is
+      never wrongly reaped.</li>
+    </ul>
+    <p>
+      This reconciliation is <strong>effectively always-on</strong>: it runs at session lifecycle moments —
+      a new session reaps on start, a closing session spawns it when a peer is pending — reaping the stale,
+      closed, and pending rows under a lock, clearing the pending flag, and stamping the time. It is
+      idempotent (running it twice changes nothing). Its job is to keep peer-awareness honest so the shared
+      "whiteboard" never fills with ghosts. Note what it is: <strong>registry cleanup</strong> — the
+      automatic close of a session's <em>coordination</em> footprint — <strong>not</strong> the thorough
+      housekeeping sweep itself.
+    </p>
+    <p>
+      That registry cleanup is not the only thing that happens on its own. When a session ends
+      <em>cleanly</em> without a formal close, brain-stem also spawns the <strong>integrity subset of the
+      close automatically</strong>, detached in the background — so the thorough housekeeping mostly runs
+      without you asking: it re-checks conventions, refreshes the plan and writer indexes, re-syncs master
+      plans, flags drift, and refreshes the project binder and work-surface. It is structurally
+      <strong>commit-free</strong> (it never commits, never offers a backup, and never rewrites your
+      authored content), it auto-detects its scope, and it stands down if you already ran a formal close.
+      If a session <em>crashes</em> before it can run, the next session's start-up runs it as a backstop.
+      So a formal <code>/librarian session-close</code> is mostly about doing this <em>now</em>, on demand —
+      plus the one thing the automatic pass deliberately won't do: <strong>offer to back up</strong>.
+    </p>
+
+    <h2>The explicit half — <code>/librarian session-close</code></h2>
+    <p>
+      When you declare you're done, the close capability first <strong>auto-detects its scope</strong> from
+      the registry, then chains a fixed sequence of cleanup chores:
+    </p>
+    <div class="card-grid">
+      <div class="card"><div class="kicker">Scope: solo</div><h3>You're the only session</h3><p>Run the full cleanup, including the shared reconciliation.</p></div>
+      <div class="card"><div class="kicker">Scope: scoped</div><h3>Peers still active</h3><p>Do only your own part; defer the shared sweep to whoever closes last.</p></div>
+      <div class="card"><div class="kicker">Scope: reconciler</div><h3>You're the last one out</h3><p>Run your part <em>and</em> the deferred shared sweep on everyone's behalf.</p></div>
+    </div>
+    <p>The chore chain, in order:</p>
+    <div class="flow">
+      <div class="fstep"><b>Re-check conventions</b><small>frontmatter, naming, placement, staleness</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Refresh indexes</b><small>the plan list and writer catalogs</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Refresh the binder</b><small>append the handoff; re-derive the project's research, decision, and handoff indexes; refresh its situating card</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Refresh the work surface</b><small>update the project's directory map and folder indexes</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Re-sync masters</b><small>each master plan's roll-up against its subs' real status</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Cascade renames</b><small>renamed files surfaced as a dry-run proposal</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Reconcile + drift</b><small>registry sweep + plan-trinity drift check</small></div>
+    </div>
+    <p class="flow-note">The binder and work-surface refreshes are scoped to the project you're closing in — they regenerate exactly the context the next session in that project loads at start.</p>
+    <div class="callout note">
+      <div class="label">Advisory, never wedged</div>
+      <p>The whole flow is <strong>advisory</strong>: a chore that fails is logged and the flow continues,
+      and the close <strong>always exits cleanly</strong>. It never blocks you and never leaves a session
+      stuck. The drift check is read-only; the cascade-rename is a proposal, not an auto-apply. The close
+      also never commits anything itself — a manual close just ends by <em>offering</em> to run
+      <code>/librarian backup</code> if you want to commit the working state.</p>
+    </div>
+
+    <h2>The receipt — the session-close log</h2>
+    <p>
+      Every close writes one aggregated <strong>session-close log</strong> — the librarian's notes on what
+      the close actually did, with each chore marked <code>ok</code> / <code>skip</code> / <code>error</code>.
+      It's the always-there receipt: a record exists even when the cleanup ran quietly in the background. It
+      lives in machine-local state, <strong>not the vault</strong> — machine exhaust stays out of your
+      indexed knowledge.
+    </p>
+
+    <h2>How the two work in concert</h2>
+    <p>
+      The two halves are designed as a <strong>floor and a sweep</strong>. The always-on deregister is the
+      floor: every session, no matter how it ends, leaves the registry honest and triggers background
+      reconciliation when a peer needs it — so concurrent sessions never corrupt the shared list. The
+      thorough integrity sweep runs on top — automatically on a clean exit, or on demand when you close
+      formally. The coordinating rule is <strong>"last session
+      out does the shared cleanup":</strong> if peers are still active when you formally close, your close
+      does only <em>your</em> part and <strong>defers</strong> the shared reconciliation to
+      whoever closes last — which is why two closing sessions never trample each other or run the global
+      cleanup twice. Because the reconciler is idempotent, that deferral is always safe.
+    </p>
+    <table>
+      <thead><tr><th>What happens at the end</th><th>Auto-close<br><small>window close / SessionEnd</small></th><th>Formal close<br><small><code>/librarian session-close</code></small></th></tr></thead>
+      <tbody>
+        <tr><td>Remove your session from the registry</td><td>On a clean end, immediately; if abandoned, auto-reaped when stale (~30 min)</td><td>Yes</td></tr>
+        <tr><td>Background reconcile (only if a peer left work pending)</td><td>Always</td><td>Yes — and runs the full sweep itself when last out</td></tr>
+        <tr><td>Write the session's episodic-memory row</td><td>Always</td><td>(already written; close backfills its summary)</td></tr>
+        <tr><td>Re-check conventions · refresh indexes · re-sync masters · flag drift</td><td>On a clean exit (the integrity pass)</td><td>Yes</td></tr>
+        <tr><td>Refresh the project binder + work-surface indexes (active project)</td><td>On a clean exit (the integrity pass)</td><td>Yes</td></tr>
+        <tr><td>Cascade-rename proposal (dry-run)</td><td>On a clean exit (the integrity pass)</td><td>Yes</td></tr>
+        <tr><td>Write the session-close receipt log</td><td>On a clean exit (the integrity pass)</td><td>Yes</td></tr>
+        <tr><td>Offer to back up (<code>/librarian backup</code>)</td><td>Never — backup is by hand only</td><td>Yes — offered after the chain</td></tr>
+      </tbody>
+    </table>
+
+    <h2>What if you never formally close?</h2>
+    <p>
+      Less is lost than you'd think. Closing the window cleanly already triggers the automatic integrity
+      pass above, so the thorough housekeeping mostly runs on its own. What a formal close adds is doing it
+      <em>now</em> and on your terms — plus the one chore that is never automatic: the backup offer.
+    </p>
+    <div class="callout note">
+      <div class="label">Still happens automatically</div>
+      <p>Your session is marked closed in the registry; if a peer left work pending, the reconciler runs in
+      the background; the session's episodic-memory row is written; and — on a clean exit — the integrity
+      pass re-checks conventions, refreshes the indexes, re-syncs masters, flags drift, and refreshes the
+      project binder and work-surface, writing its own receipt. Your actual work — every file you wrote —
+      stays in the vault and the plan tree, untouched.</p>
+    </div>
+    <div class="callout warn">
+      <div class="label">What you actually give up</div>
+      <p>Two things. First, <strong>backup is never automatic</strong> — only a manual close offers
+      <code>/librarian backup</code>; nothing commits or pushes on your behalf, so the working state isn't
+      backed up until you run it yourself. Second, the automatic integrity pass runs on a <em>clean</em>
+      exit; if a session <strong>crashes</strong> before it fires, the housekeeping is deferred until the
+      next session's start-up backstop catches it — and it always runs against <em>current</em> state,
+      never retroactively for the crashed session's specific changes.</p>
+    </div>
+    <p>
+      The practical takeaway: closing the window loses no work and still tidies the vault; running
+      <code>/librarian session-close</code> yourself is how you tidy <em>on demand</em> and get the backup
+      offer. Backup, run periodically by hand, is the one habit the automation deliberately leaves to you.
+    </p>
+
+    <div class="callout key">
+      <div class="label">How this ties back to memory and the binder</div>
+      <p>Close-out is where a session's contributions settle: episodic memory records what happened, the
+      binder's generated pages and its situating card re-derive from the plans you touched, and indexes
+      refresh — so the next session in this project starts already oriented. The session keeps
+      your place while you work (<a href="checkpoints.html">checkpoints</a>) and coordinates with peers
+      (<a href="multi-session.html">the registry</a>); close is where it hands the durable residue back to
+      <a href="context-and-memory.html">context and memory</a>.</p>
+    </div>
+
+    <h2>Reference</h2>
+    <ul>
+      <li>Always-on — <code>session-deregister.sh</code> (SessionEnd): marks closed, spawns the background reconciler when a pending peer exists.</li>
+      <li>Explicit — <code>/librarian session-close</code>: auto-detects scope (solo / scoped / reconciler), chains the cleanup chores, advisory semantics, always exits cleanly.</li>
+      <li>The receipt — a dated <code>session-close-*.md</code> log in <code>~/.local/state/brain-stem/logs/</code> (machine-local, not the vault).</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Session close.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting started · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Getting started · the nervous system for Claude Code</p>
+    <h1>Getting started</h1>
+    <p class="lede">
+      brain-stem provides Claude&nbsp;Code with a <strong>brain</strong> (a governed context &amp; memory layer),
+      optimizes its <strong>body</strong> (Claude&nbsp;Code's native planning, session management, and orchestration
+      capabilities), and grows the <strong>stem</strong> that connects these surfaces. At install, brain-stem replaces
+      separate, bolted-on tools with a <strong>single integrated system</strong> wired into how Claude runs every
+      session — turning a generic Claude&nbsp;Code setup into <strong>a truly personal AI that understands and evolves
+      with you</strong>.
+    </p>
+    <p class="lede">
+      Most "second brain" setups sit a knowledge store beside the assistant and trust discipline to keep it
+      alive — so it <em>drifts</em>, and the assistant rarely reads it. But the store is only half the gap:
+      Claude&nbsp;Code's other faculties — planning, project management, sessions, orchestration — ship just as
+      siloed, each left for you to wire up by hand, if at all. <strong>brain-stem closes both.</strong> It makes
+      the knowledge store part of how Claude works — most capture automatic, every manual write governed, what
+      matters reloaded each session — and it tunes each native faculty to what research and practice show actually
+      works, then connects them to the context/memory layer and to one another. You don't just get an optimized
+      brain attached to the same unimproved tools; you get every component a <strong>personal AI operating
+      system</strong> needs, each tuned to best practice and integrated with the rest.
+    </p>
+    <p class="page-meta">This page is the on-ramp: the five-minute quickstart, the full stack of capabilities brain-stem ships, and a map of the documentation.</p>
+
+    <h2>Quickstart — five minutes, four moves</h2>
+
+    <h3>1 — Preview (writes nothing)</h3>
+    <p>
+      Download the project and run the installer with no flags. <strong>On its own it installs nothing</strong> —
+      it prints an <em>action plan</em> listing every operation it would perform, then exits having written zero files.
+      Always safe to run.
+    </p>
+    <pre>git clone https://github.com/peter-tiktinsky/brain-stem.git
+cd brain-stem
+bash install.sh | jq .</pre>
+
+    <h3>2 — Install</h3>
+    <p>
+      Name where it should install (it refuses to guess), then re-run the same command with <code>--apply</code> —
+      the explicit opt-in that turns the preview into the real install. It copies the foundation into
+      <code>~/.claude</code> (the folder Claude&nbsp;Code reads on startup) and writes a receipt of everything it
+      laid down.
+    </p>
+    <pre>export CLAUDE_HOME=~/.claude
+bash install.sh --apply</pre>
+
+    <h3>3 — Onboard</h3>
+    <p>
+      Installing put the parts in place; it does not yet know <em>you</em>. Start a Claude&nbsp;Code session and
+      run the one-time setup. A short two-part interview follows — a confirmation card of facts it already looked
+      up, then a few questions in your own words — and from your answers it writes your preferences and builds
+      your <strong>context store</strong>.
+    </p>
+    <pre>/onboard</pre>
+
+    <h3>4 — Open your brain</h3>
+    <p>
+      When onboarding finishes it prints the path to your new store. Open that folder in
+      <a href="https://obsidian.md">Obsidian</a> (<em>Open folder as vault</em>) — or any editor; it is just plain
+      files. From now on, every session starts already knowing who you are, every write into your store is checked
+      as it happens, and what matters is remembered between conversations.
+    </p>
+
+    <div class="callout note">
+      <div class="label">Need more than the happy path?</div>
+      <p>The <a href="installation.html">Install &amp; upgrade guide</a> covers prerequisites, installing into a
+      folder that already has files, upgrading in place, and error recovery. The full <code>/onboard</code>
+      walkthrough is on <a href="onboarding.html">Onboarding</a>.</p>
+    </div>
+
+    <h2>What brain-stem ships</h2>
+    <p>
+      brain-stem ships a <strong>comprehensive suite of capabilities, each wired into how Claude&nbsp;Code loads
+      and runs — automatically, every session.</strong> Two pieces set the stage once; the rest run continuously.
+    </p>
+
+    <h3>Set up once — your brain, and how you reach it</h3>
+    <div class="card-grid">
+      <a class="card" href="vault-explorer.html"><div class="kicker">Your "brain"</div><h3>A governed context store</h3><p>The plain-text store you and the assistant both write into — your "brain." A rulebook consulted at every save keeps it structurally consistent (allow · advise · deny), so the one place everything is captured into never drifts or rots.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="onboarding.html"><div class="kicker">One-time setup</div><h3>Guided onboarding</h3><p>A one-time-use onboarding skill that interviews you, documents who you are and your preferences, and builds your context store for you — so the foundation starts already personalized to you.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="index.html"><div class="kicker">Optional interface · portable</div><h3>One canonical home</h3><p>Shortcuts gather every place your context lives — plans, the Library, project binders, your work area — into a single folder, tagging already wired. Open it in Obsidian to navigate your whole knowledge graph from one place, or point any other tool at it. It is plain files; nothing is locked in.</p><div class="spacer"></div><div class="more">Read →</div></a>
+    </div>
+
+    <h3>The capability suite — wired into every session</h3>
+    <div class="card-grid two">
+
+      <a class="card" href="context-and-memory.html">
+        <div class="kicker">Context &amp; memory</div>
+        <h3>Self-organizing memory &amp; knowledge</h3>
+        <p>Claude organizes its own memory and knowledge — and weaves them into each other automatically, instead of leaving them as separate piles.</p>
+        <ul>
+          <li><strong>Memory that survives, split three ways</strong> — semantic, procedural, and episodic notes, at project and universal scope, read back at the start of every session.</li>
+          <li><strong>A context library</strong> — reusable reference plus per-project binders that frame the work and never go stale.</li>
+          <li><strong>Operational and contextual, kept connected</strong> — how Claude should act and what the work is, distinct but woven together rather than dumped in one bucket.</li>
+          <li><strong>Lessons across arenas</strong> — a lesson learned in one project is promoted into universal rules and reference, so learning transfers to every future project.</li>
+        </ul>
+        <div class="spacer"></div>
+        <div class="more">Read →</div>
+      </a>
+
+      <a class="card" href="project-management.html">
+        <div class="kicker">Project management</div>
+        <h3>Idea capture to autonomous execution</h3>
+        <p>Set up and run multi-step work on the most optimal, research-backed conventions — with every piece of context it produces captured, organized, and kept as living reference.</p>
+        <ul>
+          <li><strong>Cheap idea capture</strong> — jot any initiative down for almost nothing; it's triaged, stored, and maintained, then promotable into a full plan on demand.</li>
+          <li><strong>Research-backed plans</strong> — ideas become well-formed plans whose research, decisions, and materials are organized so you can thoughtfully one-shot the work.</li>
+          <li><strong>Autonomous orchestration &amp; scheduling</strong> — ready plans run through a propose-and-gate orchestrator and scheduled skill runs, with human gates on anything irreversible.</li>
+          <li><strong>A project binder that compounds</strong> — Claude indexes every plan in a project and rolls its key materials into persistent context that grows on its own; the more you work in a directory, the better its output gets. Universal materials promote up for reuse anywhere.</li>
+        </ul>
+        <div class="spacer"></div>
+        <div class="more">Read →</div>
+      </a>
+
+      <a class="card" href="write-time-governance.html">
+        <div class="kicker">Write-time governance</div>
+        <h3>A doorman at every write</h3>
+        <p>Every file and folder is checked the moment it's created, so your store stays discoverable and trustworthy without anyone remembering to be careful.</p>
+        <ul>
+          <li><strong>Allow · advise · deny</strong> — most policy teaches with a reminder; hard blocks are reserved for writes that would corrupt structure.</li>
+          <li><strong>Conventions enforced at write time</strong> — frontmatter, naming, folder layout, and required indexes, applied by machinery rather than left to discipline.</li>
+          <li><strong>Cross-document consistency</strong> — paired documents are flagged when one drifts out of sync with another.</li>
+          <li><strong>Structural, not disciplinary</strong> — the check fires deterministically every time, regardless of whether the assistant remembers the rule.</li>
+        </ul>
+        <div class="spacer"></div>
+        <div class="more">Read →</div>
+      </a>
+
+      <a class="card" href="sessions.html">
+        <div class="kicker">Session management</div>
+        <h3>Conscious, durable sessions</h3>
+        <p>Claude keeps one long conversation alive, coordinates several at once, and cleans up after itself on the way out.</p>
+        <ul>
+          <li><strong>Autosave for your train of thought</strong> — checkpoints and a context-pressure ladder let a session survive its own memory being trimmed, or cold-start the next morning.</li>
+          <li><strong>Multi-session coordination</strong> — concurrent windows track who's touching what and warn before two edit the same file.</li>
+          <li><strong>Conscious hand-offs</strong> — Claude knows when to hand off to a fresh session, and reconciles what it changed before it does.</li>
+          <li><strong>Decision quality</strong> — a nudge to research the options before committing to a consequential fork.</li>
+        </ul>
+        <div class="spacer"></div>
+        <div class="more">Read →</div>
+      </a>
+
+      <a class="card" href="automated-capture.html">
+        <div class="kicker">Automated capture</div>
+        <h3>Outside information, brought in structured</h3>
+        <p>Connectors and a single-writer pipeline turn the information you already deal with into reusable, structured assets — without re-pasting it into every session.</p>
+        <ul>
+          <li><strong>Deterministic by default</strong> — parse, transform, write once; repeated processing stays cheap and trustworthy, with an opt-in AI lane for genuine judgment calls.</li>
+          <li><strong>One reconciler, many sources</strong> — emails, transcripts, calendar data, scrapes — all routed through a single governed writer that never collides with your edits.</li>
+          <li><strong>Local and permanent</strong> — raw source, processed outputs, and a queryable record stay on your machine, so you're never taxed for changing your mind.</li>
+        </ul>
+        <div class="spacer"></div>
+        <div class="more">Read →</div>
+      </a>
+
+      <a class="card" href="system-personalization.html">
+        <div class="kicker">System personalization</div>
+        <h3>Built to be bent to you</h3>
+        <p>The whole foundation is made to be extended at designed seams — so you personalize it without forking it or losing your changes on an update.</p>
+        <ul>
+          <li><strong>A governed overlay</strong> — register your own file types, folders, tags, and writers on top of the sealed rulebook; your additions survive every upgrade.</li>
+          <li><strong>The work-folder guidebook</strong> — a scaffolded home for any non-coding work, with flat and master layouts and worked examples.</li>
+          <li><strong>The friction inversion</strong> — the most universal pieces are the most customizable, so you reshape exactly what's safe to reshape.</li>
+        </ul>
+        <div class="spacer"></div>
+        <div class="more">Read →</div>
+      </a>
+
+    </div>
+
+    <h2>Documentation</h2>
+    <p>
+      <strong>Getting started</strong> covers adoption and <strong>Reference</strong> is for look-ups. In between
+      sits the heart of the site: <strong>Orientation</strong> is your gateway into the six
+      <strong>Architecture &amp; capabilities</strong> sections — the in-depth documentation of everything
+      brain-stem provides. Every page is listed below.
+    </p>
+    <div class="toc">
+
+      <h3>Getting started</h3>
+      <p class="toc-note">What brain-stem is, and how to adopt it — install, onboard, upgrade, and uninstall.</p>
+      <ul>
+        <li><a href="getting-started.html">Getting started</a> — this on-ramp: the quickstart, the capability suite, and this table of contents.</li>
+        <li><a href="installation.html">Install &amp; upgrade guide</a> — the complete install, upgrade, and migration runbook.</li>
+        <li><a href="onboarding.html">Onboarding</a> — what <code>/onboard</code> does, and how to safely re-run it.</li>
+        <li><a href="uninstalling.html">Uninstalling</a> — removing brain-stem cleanly and reversibly.</li>
+        <li><a href="packaging-runtime.html">Packaging &amp; runtime</a> — how the install is staged, recorded, reversed, and where its data lives.</li>
+      </ul>
+
+      <h3>Orientation</h3>
+      <p class="toc-note">Your gateway into the architecture sections below — start here to see the whole system.</p>
+      <ul>
+        <li><a href="index.html">Introduction</a> — what brain-stem is, the second-brain thesis, and the whole system in one picture.</li>
+        <li><a href="vault-explorer.html">Explore your brain</a> — a click-through map of everything in your store on day one.</li>
+        <li><a href="value-add.html">Why brain-stem</a> — the case for adopting, pillar by pillar.</li>
+        <li><a href="research-rationale.html">The research rationale</a> — the evidence base behind the design.</li>
+      </ul>
+
+      <div class="toc-arch">
+      <p class="toc-band">Architecture &amp; capabilities</p>
+      <p class="toc-note">In-depth documentation on each capability brain-stem ships — Orientation is the gateway in.</p>
+
+      <h3>Context &amp; memory</h3>
+      <ul>
+        <li><a href="context-and-memory.html">Context &amp; memory</a> — the map: operational vs. contextual knowledge, at project or universal scope.</li>
+        <li><a href="context-library.html">Dual context layers</a> — the Workshop, the Library, and how content promotes between them.</li>
+        <li><a href="memory-model.html">The memory model</a> — three kinds of memory, two scopes, and the hot index under a hard cap.</li>
+        <li><a href="session-loading.html">What loads each session</a> — exactly what context assembles at session start, and what stays on-demand.</li>
+        <li><a href="context-memory-rationale.html">Why: context &amp; memory</a> — the rationale behind the memory split and the load tiers.</li>
+      </ul>
+
+      <h3>Project management</h3>
+      <ul>
+        <li><a href="project-management.html">Project management</a> — the operational side of getting work done.</li>
+        <li><a href="work-surface.html">Project organization</a> — code repositories and Work folders, and how each rolls up into the binder.</li>
+        <li><a href="plans.html">Plans</a> — the plan lifecycle from idea to machine-verified result.</li>
+        <li><a href="orchestration.html">Orchestration &amp; scheduling</a> — the propose-and-gate runner and the scheduling substrate.</li>
+        <li><a href="project-binder.html">The project binder</a> — the per-project roll-up loaded at session start.</li>
+        <li><a href="project-management-rationale.html">Why: project management</a> — the design decisions behind the section.</li>
+      </ul>
+
+      <h3>Write-time governance</h3>
+      <ul>
+        <li><a href="write-time-governance.html">Write-time governance</a> — conventions enforced at the moment of every write.</li>
+        <li><a href="governance-engine.html">The governance engine</a> — the doorman (allow, advise, deny) and its eight pillars.</li>
+        <li><a href="single-document.html">The single document</a> — the rules that govern one file in isolation.</li>
+        <li><a href="across-documents.html">Across documents &amp; folders</a> — the rules that cross file boundaries.</li>
+        <li><a href="governance-rationale.html">Why: write-time governance</a> — the reasoning behind the enforcement model.</li>
+      </ul>
+
+      <h3>Session management</h3>
+      <ul>
+        <li><a href="sessions.html">Session management</a> — the session lifecycle, from start to close.</li>
+        <li><a href="checkpoints.html">Checkpoints</a> — the context-pressure ladder and the Continuity Block.</li>
+        <li><a href="multi-session.html">Multi-session coordination</a> — the shared registry and same-file warnings.</li>
+        <li><a href="session-close.html">Session close</a> — deregistration, reconciliation, and the cleanup chain.</li>
+        <li><a href="decision-quality.html">The decision-quality protocol</a> — research before you commit to a fork.</li>
+        <li><a href="session-management-rationale.html">Why: session management</a> — the rationale behind checkpoints and the registry.</li>
+      </ul>
+
+      <h3>Automated capture</h3>
+      <ul>
+        <li><a href="automated-capture.html">Automated capture</a> — connectors and writers that bring outside information in.</li>
+        <li><a href="vault-writers.html">The vault-writer system</a> — the capture pipeline end to end.</li>
+        <li><a href="automated-capture-rationale.html">Why: automated capture</a> — the design decisions behind the pipeline.</li>
+      </ul>
+
+      <h3>System personalization</h3>
+      <ul>
+        <li><a href="system-personalization.html">System personalization</a> — the operational foundation for a personalized setup.</li>
+        <li><a href="governance-personalization.html">Governance personalization</a> — the governed overlay seam for extending the rules.</li>
+        <li><a href="work-folder-guidebook.html">The work-folder guidebook</a> — setting up and running any non-coding work.</li>
+        <li><a href="personalization-rationale.html">Why: system personalization</a> — the reasoning behind the personalization model.</li>
+      </ul>
+      </div>
+
+      <h3>Reference</h3>
+      <p class="toc-note">General look-ups for day-to-day use.</p>
+      <ul>
+        <li><a href="commands.html">Commands</a> — every command brain-stem adds, categorized by activity.</li>
+        <li><a href="glossary.html">Glossary</a> — every coined term in one place.</li>
+        <li><a href="faq.html">FAQ</a> — short answers to the most common questions.</li>
+      </ul>
+
+    </div>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Getting started.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

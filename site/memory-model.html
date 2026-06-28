@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The memory model · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">The engine · what survives between sessions</p>
+    <h1>The memory model</h1>
+    <p class="lede">
+      Out of the box, Claude&nbsp;Code starts every session blank, and the one file it auto-loads is
+      silently capped. brain-stem's memory is the answer: a <strong>small, curated, classified</strong>
+      set of on-disk notes the assistant reads back at the start of every session — deliberately not a
+      catch-everything pile that rots.
+    </p>
+    <p class="page-meta">Project memory lives at <code>~/.claude/projects/&lt;project&gt;/memory/</code>; global memory at <code>~/.claude/CLAUDE.md</code> + <code>~/.claude/rules/</code>.</p>
+
+    <h2>Three kinds of memory</h2>
+    <p>
+      Memory is split into three kinds rather than one undifferentiated pile. The kind is
+      <strong>declared by the author at the moment of writing</strong>, never guessed afterward.
+    </p>
+    <table>
+      <thead><tr><th>Kind</th><th>Holds</th><th>Decays?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Semantic</strong></td><td>Timeless facts, preferences, identity, naming conventions — the standing knowledge of who you are and how your world is named.</td><td>Re-validated periodically</td></tr>
+        <tr><td><strong>Procedural</strong></td><td>How-to knowledge: workflow rules <em>plus the reasoning behind them</em>, including lessons learned from incidents.</td><td>Re-validated periodically</td></tr>
+        <tr><td><strong>Episodic</strong></td><td>Dated records of what happened in a specific work session; time-anchored.</td><td>Never decays</td></tr>
+      </tbody>
+    </table>
+    <p>
+      The split lands where independent memory science already landed (the episodic/semantic and
+      declarative/procedural distinctions, carried onto language agents), which is reassurance that the
+      shape is convergent rather than invented. A fourth "reflective" type was deliberately dropped:
+      reflection is a <em>process</em>, and its output already belongs in Procedural (it rides the
+      <code>feedback_</code> provenance prefix).
+    </p>
+
+    <div class="callout note">
+      <div class="label">Operational vs contextual</div>
+      <p>Memory straddles brain-stem's central axis. <strong>Semantic + Procedural are operational</strong>
+      — they govern how the assistant behaves. <strong>Episodic is contextual</strong> — it records
+      what happened. The <a href="context-library.html">project binder</a> then continues that
+      contextual job outside the formal memory structure. Part of that binder now loads on its own: a
+      generated project-context card (the situating card, <code>_situating.md</code>) is auto-loaded at
+      session start alongside memory and placed before the assistant's first turn — a machine-derived
+      summary of the project's plans, their combined status, the active focus, and the latest handoff. See
+      <a href="project-binder.html">the project-binder page</a> for how it is generated and what it carries.</p>
+    </div>
+
+    <h2>Two scopes</h2>
+    <table>
+      <thead><tr><th>Scope</th><th>Where it lives</th><th>Loaded</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Project</strong></td><td><code>~/.claude/projects/&lt;project&gt;/memory/</code> — per-topic notes organized by the triad, plus one index</td><td>at the start of every session <em>in that project</em></td></tr>
+        <tr><td><strong>Global</strong></td><td><code>~/.claude/CLAUDE.md</code> (personal preferences, hand-edited only) and <code>~/.claude/rules/</code> (native rules folder)</td><td>at the start of <em>every</em> session</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Which project memory you get is keyed to your launch directory — its git repo root, else the
+      folder itself — so a different project automatically gets a different memory area, with no roster
+      to maintain. (See <a href="session-loading.html">What loads each session</a>.)
+    </p>
+
+    <div class="sysmap">
+      <div class="band band-univ">
+        <div class="band-tag">Global memory — loads at the start of every session, everywhere</div>
+        <div class="band-row two">
+          <div class="smnode univ"><b>~/.claude/CLAUDE.md</b><small>Your personal preferences — hand-edited only; no automated process writes here.</small></div>
+          <div class="smnode univ"><b>~/.claude/rules/</b><small>Standing rules that govern all future work — and the destination a globalized project memory is promoted into.</small></div>
+        </div>
+      </div>
+      <div class="band band-proj">
+        <div class="band-tag">Project memory — loads only inside this project</div>
+        <div class="hubwrap">
+          <div class="smnode hub"><b>MEMORY.md — the hot index</b><small>A small read-replica table of contents, auto-loaded at the start of the session. Each line is a one-line pointer; it points →</small></div>
+          <div class="ptrcards">
+            <div class="ptrcard"><b>Semantic</b><small>Timeless facts, preferences, identity, naming conventions — the standing knowledge of who you are and how your world is named. Topic files, read on demand.</small></div>
+            <div class="ptrcard"><b>Procedural</b><small>How-to knowledge: workflow rules plus the reasoning behind them, including lessons learned. Topic files, read on demand.</small></div>
+            <div class="ptrcard"><b>Episodic</b><small>Dated records of what happened, time-anchored — one append-only chronicle, not a file per session.</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="figcap">Global memory loads everywhere; project memory loads only in its project, reached through one small hot index. The full detail behind each pointer is read on demand — so the cap (next section) bites on the index, never the detail.</p>
+
+    <h2>How it loads — the hot index and the cap</h2>
+    <p>
+      The native constraint is exact and unforgiving: Claude&nbsp;Code auto-loads a memory file but
+      reads only the <strong>first 200 lines or the first 25,600 bytes (~25&nbsp;KB), whichever comes
+      first</strong> — and anything past either limit is <strong>silently dropped</strong>, with no
+      error and no truncation marker. There is no include mechanism to reach past it.
+    </p>
+    <p>
+      So <code>MEMORY.md</code> is built as a <strong>hot index</strong> — a read-replica table of
+      contents. Each line is a one-line pointer; the full detail sits in per-topic files read on
+      demand. The cap bites on the small index, not the detail, which is exactly why the index has to
+      stay small. The <strong>byte cap governs</strong> — a dense, fact-first index hits 25&nbsp;KB
+      before it hits 200 lines.
+    </p>
+
+    <h3>Keeping the index loadable</h3>
+    <p>Two pieces of machinery watch the same cap (both read it from one config slot, so they never drift):</p>
+    <ul>
+      <li><strong>A write-time guard</strong> (advisory) — just before a memory-index write lands, it
+      checks the caps and, if a write would breach one, injects a warning naming the breached limit —
+      then <em>lets the write proceed</em>. It never blocks.</li>
+      <li><strong>A budget monitor</strong> (record-only) — after a session, it grades the index
+      GREEN&nbsp;(&lt;75%) / YELLOW&nbsp;(75–89%) / RED&nbsp;(≥90% of the byte cap), counting lines both
+      raw and with comments stripped and gating on whichever is larger, so hiding bulk in comments buys
+      no headroom. It records; it prunes nothing.</li>
+    </ul>
+    <div class="callout warn">
+      <div class="label">Documented, not yet built</div>
+      <p>The planned overflow path — a <strong>cold-spill</strong> that relocates the coldest
+      non-episodic entries (Procedural first, then Semantic, never Episodic) to an on-demand
+      <code>MEMORY-archive.md</code>, leaving a pointer in the index — is <strong>designed but not yet
+      implemented</strong>. It is volume-gated (built when a real index nears the cap), not
+      calendar-based, and the config records this honestly. Today, the guard warns and the monitor
+      grades; the spill itself is future work.</p>
+    </div>
+
+    <h2>How memory is written and classified</h2>
+    <p>Every memory note carries two labels, fixed at write time:</p>
+    <table>
+      <thead><tr><th>Label</th><th>Says</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr><td>Provenance prefix (filename)</td><td>where the fact came from</td><td><code>user_</code> · <code>feedback_</code> · <code>project_</code> · <code>reference_</code> · <code>episode_</code></td></tr>
+        <tr><td>Retrieval <code>type:</code> (header)</td><td>which kind it is</td><td><code>semantic</code> · <code>procedural</code> · <code>episodic</code></td></tr>
+      </tbody>
+    </table>
+    <p>
+      The prefix implies a default kind (<code>user_</code>/<code>reference_</code> → semantic;
+      <code>feedback_</code> → procedural; <code>episode_</code> → episodic), but the declared
+      <code>type:</code> is the source of truth. The contract for these fields is a
+      <strong>shipped schema</strong> (<code>schemas/memory-schema.json</code>), enforced by the
+      advisory write-time guard — the assistant that learned the fact states its kind directly; no
+      hidden classifier guesses after the fact. The librarian only <em>validates</em> (flags a note
+      with no index pointer, a stale note, an over-budget index); it never re-sorts sections or
+      re-derives a note's type.
+    </p>
+
+    <div class="callout note">
+      <div class="label">Episodic memory is a single chronicle</div>
+      <p>Episodic memory is the one fully-automatic tier: at session close, a hook appends
+      <strong>one harvested row</strong> — anchor, files touched, next-session pointer, a short summary
+      — to a single append-only <code>episodic-chronicle.md</code>, with no model call. It does not
+      create a file per session. The <code>## Episodic</code> section of <code>MEMORY.md</code> is a
+      single pointer line to that chronicle.</p>
+    </div>
+
+    <h2>Curation and promotion</h2>
+    <ul>
+      <li><strong>Staleness</strong> — non-episodic notes carry a <code>last_validated</code> date and
+      are flagged for re-validation on a 180-day interval (expired at 360); episodic never decays. All
+      <strong>propose-only</strong> — nothing is deleted automatically.</li>
+      <li><strong>Globalize</strong> — a project memory marked <code>scope: global</code> can be
+      promoted up into <code>~/.claude/rules/</code>, transformed into a schema-validated rule. It is
+      <strong>propose-by-default</strong> (an explicit confirm applies it), idempotent, and writes
+      <strong>only</strong> to <code>rules/</code> — <em>never</em> to <code>CLAUDE.md</code>, which
+      stays hand-edited.</li>
+    </ul>
+
+    <h2>Three layers of reach</h2>
+    <table>
+      <thead><tr><th>Layer</th><th>What</th><th>Effort</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1</strong></td><td><code>MEMORY.md</code> + <code>rules/</code> + <code>CLAUDE.md</code>, auto-loaded at start. The foundation is fully functional on this layer alone.</td><td>Zero</td></tr>
+        <tr><td><strong>2</strong></td><td>The optional <code>claude-mem</code> plugin — recommended but not part of the install — auto-injects recent observations and is searchable on request.</td><td>Opt-in</td></tr>
+        <tr><td><strong>3</strong></td><td>Raw session transcripts — highest effort, read only when you explicitly ask.</td><td>On request</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Why this design</h2>
+    <table>
+      <thead><tr><th>Choice</th><th>The reasoning</th></tr></thead>
+      <tbody>
+        <tr><td>A small hot index + cold topic files</td><td>The native ~25&nbsp;KB/200-line cap with no include mechanism <em>forces</em> this shape — it's optimal by constraint.</td></tr>
+        <tr><td>Three declared kinds</td><td>Classification at write-time resists the noise that sinks catch-everything memory; it converges with established memory science.</td></tr>
+        <tr><td>Classification declared, never inferred</td><td>The author knows the kind; a separate after-the-fact classifier would silently misfile.</td></tr>
+        <tr><td>Globalize writes only to <code>rules/</code></td><td><code>CLAUDE.md</code> is yours to hand-edit; no automated process may write it.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Reference</h2>
+    <ul>
+      <li><code>~/.claude/projects/&lt;project&gt;/memory/MEMORY.md</code> — the auto-loaded hot index (fixed Semantic → Procedural → Episodic order) + per-topic detail files.</li>
+      <li><code>schemas/memory-schema.json</code> — the shipped frontmatter contract (the three-kind enum, required <code>last_validated</code>).</li>
+      <li><code>~/.claude/CLAUDE.md</code> + <code>~/.claude/rules/</code> — the two global surfaces; <code>rules/</code> is the globalize destination.</li>
+      <li>The byte-first write-time guard and the post-session budget monitor — both read the cap thresholds from one config slot.</li>
+      <li><code>episodic-chronicle.md</code> — the single append-only episodic record, fed one row per session by a SessionEnd hook.</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · The memory model.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

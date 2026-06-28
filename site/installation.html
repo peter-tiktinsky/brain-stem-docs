@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Install &amp; upgrade guide · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Getting started · the complete install &amp; upgrade runbook</p>
+    <h1>Install &amp; upgrade guide</h1>
+    <p class="lede">
+      This page takes you from nothing to a working brain-stem setup, and is the canonical reference for every
+      path the <a href="getting-started.html">quickstart</a> skips — installing over existing files, upgrading
+      in place, and what happens to your data across versions. The core path is three moves: <strong>install</strong>
+      the foundation, run <strong><code>/onboard</code></strong> once, then <strong>open your vault</strong>.
+    </p>
+    <p class="page-meta">Nothing here is magic. Installation is a careful, recorded file copy — preview-first, and every consequential step asks before it acts.</p>
+
+    <h2>Before you begin</h2>
+    <p>You need four things in place. Each is a one-time setup that lives outside brain-stem itself.</p>
+    <table>
+      <thead><tr><th>You need</th><th>What it is</th><th>How to check</th></tr></thead>
+      <tbody>
+        <tr><td><strong>macOS</strong></td><td>brain-stem targets a personal Mac. It is not built for other operating systems or shared servers.</td><td>You are on a Mac.</td></tr>
+        <tr><td><strong>Claude&nbsp;Code</strong></td><td>Anthropic's command-line program that runs the Claude assistant in your terminal. brain-stem is a layer <em>on top of</em> it.</td><td>Typing <code>claude</code> opens it. <a href="https://www.anthropic.com/claude-code">Install instructions</a>.</td></tr>
+        <tr><td><strong>git</strong></td><td>The standard tool for downloading and version-tracking code.</td><td><code>git --version</code> prints a version.</td></tr>
+        <tr><td><strong>jq</strong></td><td>A small tool for reading the structured data the installer prints. The install also checks for <code>python3</code>, <code>plutil</code>, <code>sqlite3</code>, and <code>shasum</code>, and refuses to proceed if any are missing.</td><td><code>jq --version</code> prints a version (<code>brew install jq</code> if not).</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Step 1 — Install the foundation</h2>
+    <p>
+      "Installing" means copying brain-stem out of its downloaded folder and into the one directory
+      Claude&nbsp;Code reads from when it starts up — by convention <code>~/.claude</code> in your home folder.
+      Download the project and run the installer:
+    </p>
+    <pre>git clone https://github.com/peter-tiktinsky/brain-stem.git
+cd brain-stem
+bash install.sh | jq .</pre>
+
+    <div class="callout key">
+      <div class="label">The safety property: the bare command writes nothing</div>
+      <p><strong><code>bash install.sh</code> on its own installs nothing.</strong> It prints an <strong>action
+      plan</strong> — a structured list naming every folder it would create and every directory of files it would
+      copy, with a reason for each — and then exits, having written <strong>zero files</strong>. This is a <em>dry run</em>: a
+      rehearsal that changes nothing, and it is always safe to run. Piping through <code>jq .</code> formats the
+      plan so you can read it comfortably.</p>
+    </div>
+
+    <p>
+      The dry run is safe even on a home that already has an older brain-stem in it — it does not treat your
+      existing files as an error. The plan's <code>file_dispositions</code> field lists each managed file an
+      install would touch and how: <code>replace</code> (take the new version), <code>new-ship</code> (a file
+      that did not exist yet), or <code>sidecar</code> (take the new version, but first save a copy of your
+      edited one alongside it). When you have read the plan and want to proceed, name the install target and
+      re-run the <strong>same</strong> command with one word added:
+    </p>
+    <pre>export CLAUDE_HOME=~/.claude
+bash install.sh --apply</pre>
+
+    <p>
+      <code>--apply</code> is the explicit opt-in that turns the rehearsal into the real install. The design
+      makes the safe thing (preview) the default and the consequential thing (writing files) something you ask
+      for by name. <strong><code>--apply</code> requires you to set <code>CLAUDE_HOME</code> explicitly</strong> —
+      the installer refuses to guess where to write and hard-stops (exit code&nbsp;10) if it is unset. As it
+      copies, it also writes a <strong>receipt</strong> of every file it laid down, with a tamper-evident
+      fingerprint for each, to <code>~/.claude/governance/foundation-manifest.json</code>. That receipt is what
+      later lets the system detect tampering and lets an uninstall remove only its own files.
+    </p>
+
+    <h3>Installing into a folder that already has files</h3>
+    <p>
+      If <code>~/.claude</code> already contains content that did not come from brain-stem, the installer
+      <strong>stops and refuses</strong> rather than overwrite it. The dry run tells you <em>everything</em> it
+      would need from you in one pass, under a <code>required_overrides</code> field — instead of failing on the
+      first one and making you re-run to discover the next:
+    </p>
+    <pre>bash install.sh | jq '.required_overrides'</pre>
+    <p>
+      To proceed past those guards on a real install, add the overrides it named. The most common is the
+      overwrite-risk acknowledgement, passed as a flag (no typing prompt — this is what lets the install run
+      unattended):
+    </p>
+    <pre>export CLAUDE_HOME=~/.claude
+bash install.sh --apply --force-install --i-understand-overwrite-risk --backup-dir &lt;path&gt;</pre>
+    <p>
+      <code>--i-understand-overwrite-risk</code> confirms you accept the overwrite; <code>--backup-dir&nbsp;&lt;path&gt;</code>
+      names a folder where the installer first copies anything it is about to overwrite, so nothing is lost. If
+      your plan directory (<code>~/.claude-plans</code>) already contains plans, the plan will also ask for
+      <code>--retrofit-existing</code> — a one-word acknowledgement that you know those plans are there. <strong>The
+      installer never touches your plans;</strong> the flag just confirms you have seen them. These overrides
+      apply only to a real <code>--apply</code> install — the dry run never needs them, it just reports them.
+    </p>
+
+    <h2>Step 2 — Run <code>/onboard</code></h2>
+    <p>
+      Installing put all the moving parts in place, but the system still does not know <em>you</em>.
+      <strong>Onboarding is the one-time guided setup that personalizes everything.</strong> Start a
+      Claude&nbsp;Code session and type one command:
+    </p>
+    <pre>/onboard</pre>
+    <p>
+      A short two-part interview follows: <strong>Section&nbsp;A</strong> is a confirmation card of facts it
+      already looked up (your name and email from git, your timezone, a proposed vault location) — accept or
+      correct, no typing required; <strong>Section&nbsp;B</strong>, in your own words, is who you are and how you
+      want the assistant to work. From your answers it writes a settings file, your personal
+      <code>~/.claude/CLAUDE.md</code> preferences, and your <strong>vault</strong>. The full walkthrough — every
+      output, how your vault is built, the optional add-ons, and how setup protects your files from a careless
+      second run — is on <a href="onboarding.html">Onboarding</a>.
+    </p>
+
+    <h2>Step 3 — Open your vault</h2>
+    <p>
+      When onboarding finishes building your vault, it prints a clear next action:
+    </p>
+    <div class="callout note">
+      <div class="label">The hand-off</div>
+      <p>Open it in Obsidian (<em>Open folder as vault</em>) → select your vault path. Confirm when done.</p>
+    </div>
+    <p>
+      <a href="https://obsidian.md">Obsidian</a> is a free note-taking app that treats a folder of plain-text
+      notes as a connected knowledge base; brain-stem uses it as the human-facing window into your vault. (You
+      do not strictly need it — the vault is just plain files — but it is the intended way to browse it.) Open
+      the folder onboarding built, and you are set up.
+    </p>
+
+    <h2>Upgrading an existing install</h2>
+    <p>
+      If brain-stem is already installed and a newer version has been released, you do <strong>not</strong>
+      uninstall and start over. You upgrade in place — with the <strong>same</strong> entrypoint you used to
+      install. There is no separate upgrade command to learn.
+    </p>
+    <p><strong>1 — Get the new source.</strong> Go to the folder you cloned earlier and pull the latest code:</p>
+    <pre>cd brain-stem
+git pull</pre>
+
+    <div class="callout warn">
+      <div class="label">If <code>git pull</code> reports "divergent branches" or a "(forced update)"</div>
+      <p>An older clone may not be able to fast-forward if the published history has since been rewritten.
+      Realign it to the published history — this
+      discards any local commits on your clone (you have no reason to have any) but <strong>never touches your
+      installed <code>~/.claude</code> or your vault</strong>:</p>
+      <pre>git fetch origin
+git reset --hard origin/main</pre>
+      <p>(Or simply delete the folder and <code>git clone</code> again.) This is a one-time fixup; pulls after it
+      are ordinary fast-forwards.</p>
+    </div>
+
+    <p><strong>2 — Preview the upgrade (writes nothing).</strong> Run the installer as a dry run:</p>
+    <pre>bash install.sh | jq .</pre>
+    <p>
+      On an existing install this prints a write-free <strong>upgrade plan</strong>: <code>file_dispositions</code>
+      lists every managed file the upgrade would touch and what it would do — <code>replace</code>,
+      <code>new-ship</code>, or <code>sidecar</code> (take the new version, but first save a copy of any file you
+      had edited alongside it as <code>&lt;file&gt;.foundation-local</code>). The preview exits cleanly and
+      changes nothing, even if your current files are older than the new ones.
+    </p>
+    <p><strong>3 — Apply the upgrade.</strong> When the plan looks right, set the target and re-run with
+    <code>--apply</code>. Because an upgrade replaces your merged <code>settings.json</code>, pass
+    <code>--backup-dir</code> so the installer first saves whatever it is about to overwrite (it hard-stops with
+    exit code&nbsp;53 if a replace is pending and no backup directory is given):</p>
+    <pre>export CLAUDE_HOME=~/.claude
+bash install.sh --apply --backup-dir ~/.claude-upgrade-backup</pre>
+    <p>
+      This delivers <strong>every</strong> changed managed file to the new version — including whole shipped
+      directories (the skills, the orchestrator, the installer support files, the vault seed) that earlier
+      versions could miss on an older install. Files you edited yourself are never lost: each is updated with
+      your copy saved alongside as <code>&lt;file&gt;.foundation-local</code>, so your changes are preserved and
+      clearly flagged.
+    </p>
+
+    <div class="callout key">
+      <div class="label">It fails loud, not silent — and re-running fixes it</div>
+      <p>Before recording an upgrade as finished, the installer verifies that every managed file it shipped
+      actually reached the new version. If any file is still stale, it stops with a non-zero exit code
+      (<strong>56</strong> — "delivery shortfall"), writes no completion stamp, and leaves the upgrade marked
+      unfinished. There is nothing to clean up: run <code>bash install.sh --apply</code> again and it picks up
+      where it left off and converges. A short, recoverable failure is by design always preferred over a silent,
+      incomplete "success."</p>
+    </div>
+
+    <div class="callout note">
+      <div class="label">One thing the preview does not relax on a real apply</div>
+      <p>The <em>preview</em> is relaxed about your files differing from the shipped version — that difference is
+      the whole point of an upgrade. A real <code>--apply</code> is stricter: if it detects that brain-stem's own
+      files were edited in place, it still refuses to overwrite them silently and asks you to confirm by passing
+      <code>--force-install</code> and typing the <code>I-UNDERSTAND-OVERWRITE-RISK</code> phrase (exactly as on a
+      first install into a folder that already has files). The relaxed behavior is preview-only.</p>
+    </div>
+
+    <h2>Version migrations — what happens to your data</h2>
+    <p>
+      Some releases change <em>where</em> or <em>how</em> your data is stored. When they do, the upgrade
+      <strong>moves your existing data into the new shape automatically</strong> during <code>--apply</code> — you
+      never hand-migrate anything, and nothing is deleted.
+    </p>
+    <p>
+      The general rule: <strong>a migration preserves your data and moves it for you.</strong> If a release
+      introduces one, its release notes will say exactly what moved, and the upgrade will carry it out during
+      <code>--apply</code> — so an upgrade across any version holds no surprises.
+    </p>
+
+    <div class="callout note">
+      <div class="label">Removing brain-stem instead</div>
+      <p>If you ever want to remove it, run <code>bash uninstall.sh</code> from your cloned <code>brain-stem</code>
+      folder with <code>CLAUDE_HOME</code> set (the uninstaller is not copied into <code>~/.claude</code>). It backs
+      everything up first, then removes only the untouched files it originally installed — any file you edited, and
+      your vault, are preserved. The full story is on <a href="uninstalling.html">Uninstalling</a> and
+      <a href="packaging-runtime.html">Packaging &amp; runtime</a>.</p>
+    </div>
+
+    <h2>Where to go next</h2>
+    <ul>
+      <li><a href="onboarding.html">Onboarding</a> — the detailed <code>/onboard</code> walkthrough, including how to safely re-run it.</li>
+      <li><a href="getting-started.html">Getting started</a> — the quickstart and the feature overview.</li>
+      <li><a href="packaging-runtime.html">Packaging &amp; runtime</a> — how the install is recorded, reversed, and where its working data lives.</li>
+      <li><a href="faq.html">FAQ</a> — the short answers to the most common install-safety questions.</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Install &amp; upgrade guide.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

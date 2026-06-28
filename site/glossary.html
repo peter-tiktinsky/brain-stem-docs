@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glossary · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Reference · every coined term in one place</p>
+    <h1>Glossary</h1>
+    <p class="lede">
+      Every coined word you&rsquo;ll meet across this site, in plain language. The terms split into three
+      groups by <strong>what kind of thing they name</strong>: capabilities of <strong>Claude&nbsp;Code</strong>
+      (the platform brain-stem builds on), pieces of <strong>brain-stem</strong> (what this system adds on top),
+      and <strong>general</strong> ideas from knowledge management, AI, and software that the docs lean on.
+    </p>
+    <p class="page-meta">A reference appendix. Skim a group, or search the page for a single term.</p>
+
+    <div class="callout key">
+      <div class="label">How to read the three groups</div>
+      <p><strong>Claude&nbsp;Code</strong> terms are native to the engine — they exist whether or not you run
+      brain-stem. <strong>brain-stem</strong> terms are things this layer introduces by wiring those native
+      pieces together. <strong>General</strong> terms are established concepts from the wider world the design
+      borrows. When a brain-stem idea is built directly on a Claude&nbsp;Code primitive, its definition says so.</p>
+    </div>
+
+    <h2>Claude&nbsp;Code — the platform underneath</h2>
+    <p>Native to the engine brain-stem runs on. These exist out of the box, before any personalization.</p>
+    <table>
+      <thead><tr><th>Term</th><th>What it means</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Claude&nbsp;Code</strong></td><td>The AI engine brain-stem runs on top of. It owns skills, rules, settings, and memory; brain-stem owns the vault, plans, binders, and the Library.</td></tr>
+        <tr><td><strong><code>CLAUDE.md</code></strong></td><td>A guide file Claude&nbsp;Code automatically reads the moment you launch a session from a folder, so it loads that folder&rsquo;s context without you pasting anything.</td></tr>
+        <tr><td><strong>context window</strong> <span class="muted">(working window)</span></td><td>The finite amount of conversation the assistant can hold at once before it has to trim.</td></tr>
+        <tr><td><strong>compaction</strong></td><td>When a long session fills the window and Claude&nbsp;Code summarizes the history, permanently discarding the verbatim detail.</td></tr>
+        <tr><td><strong>hook</strong></td><td>A script Claude&nbsp;Code runs automatically at a lifecycle moment (before a write, at session start or end, on each message). brain-stem hangs most of its behavior on these.</td></tr>
+        <tr><td><strong><code>PreToolUse</code> hook</strong></td><td>The single point where Claude&nbsp;Code lets a script intercept a file write and answer allow or deny. brain-stem adds a third answer — advise.</td></tr>
+        <tr><td><strong>auto-loaded memory file</strong> <span class="muted">(the cap)</span></td><td>The one memory file Claude&nbsp;Code reads at session start, hard-capped at the first ~25&nbsp;KB / 200 lines, with everything past it silently dropped.</td></tr>
+        <tr><td><strong>plan mode</strong></td><td>Claude&nbsp;Code&rsquo;s native mode for working out a plan, which brain-stem replaces with a durable plan tree.</td></tr>
+        <tr><td><strong>skill / slash command</strong></td><td>A named capability you trigger by typing a slash command (e.g. <code>/new-plan</code>) in a session.</td></tr>
+        <tr><td><strong>print mode / headless</strong> <span class="muted">(<code>claude -p</code>)</span></td><td>A non-interactive run that executes one instruction and exits — used for orchestrated and scheduled work.</td></tr>
+        <tr><td><strong>settings / permissions</strong></td><td>Global and per-project config that Claude&nbsp;Code merges, where a project&rsquo;s &ldquo;deny&rdquo; overrides a global &ldquo;allow.&rdquo;</td></tr>
+        <tr><td><strong>routines</strong> <span class="muted">(<code>/schedule</code>, <code>/loop</code>)</span></td><td>Claude&nbsp;Code&rsquo;s own cloud-scheduling features, distinct from brain-stem&rsquo;s local macOS scheduling.</td></tr>
+        <tr><td><strong>claude-mem</strong></td><td>An optional Claude&nbsp;Code plugin (not part of the install) that auto-injects recent observations and is searchable on request.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>brain-stem — what this system adds</h2>
+    <p>Pieces brain-stem introduces by wiring Claude&nbsp;Code&rsquo;s empty extension points into one enforced system.</p>
+    <table>
+      <thead><tr><th>Term</th><th>What it means</th></tr></thead>
+      <tbody>
+        <tr><td><strong>brain-stem</strong></td><td>The personalization layer that builds and tends your vault on top of Claude&nbsp;Code, wiring its empty extension points into one enforced system.</td></tr>
+        <tr><td><strong>the vault</strong> <span class="muted">(brain)</span></td><td>The single plain-Markdown Obsidian folder, named <code>brain</code>, that you browse everything through — mostly shortcuts to real homes elsewhere on disk.</td></tr>
+        <tr><td><strong>the librarian</strong></td><td>The automatic routine Claude runs that quietly tends the vault, rebuilding every generated index, list, and binder page from the real files so they can&rsquo;t go stale.</td></tr>
+        <tr><td><strong>write-time governance</strong></td><td>The discipline of checking each file against the conventions at the exact moment it&rsquo;s written, rather than trusting anyone to remember the rules later.</td></tr>
+        <tr><td><strong>the governance engine</strong></td><td>brain-stem&rsquo;s rulebook, consulted on every file write inside the vault.</td></tr>
+        <tr><td><strong>the doorman</strong></td><td>The guard script that runs on every write and emits one of three verdicts.</td></tr>
+        <tr><td><strong>allow / advise / deny</strong></td><td>The three write verdicts: allow proceeds silently, advise proceeds but injects a reminder, deny blocks the write. Advise is the everyday workhorse; deny is reserved for structural corruption.</td></tr>
+        <tr><td><strong>the eight pillars</strong></td><td>The eight slices of policy the rulebook is organized into, spanning the single document, across-documents, and writers-and-lifecycles.</td></tr>
+        <tr><td><strong>the foundation &amp; the overlay</strong></td><td>The sealed, never-edited shipped rulebook (<code>foundation-master.json</code>) plus your separate extension layer (<code>overlay-master.json</code>), deep-merged at every write so upgrades never clobber your additions.</td></tr>
+        <tr><td><strong><code>/govern register</code></strong></td><td>The single audited command (six kinds) that writes every personalization into your overlay or scaffolds a work project. You usually describe what you want and Claude runs it.</td></tr>
+        <tr><td><strong><code>_override_reason</code></strong></td><td>The mandatory free-text note an overlay rule must carry to override a shipped rule; without it the write is denied.</td></tr>
+        <tr><td><strong>file-type contract</strong></td><td>The per-document-type rulebook governing a type&rsquo;s required fields, allowed values, where it may live, and its body shape and size caps.</td></tr>
+        <tr><td><strong>compliance tiers</strong> <span class="muted">(Strict / Standard / Minimal)</span></td><td>The per-type setting that decides what a failed contract does: deny the write (Strict, for machine-emitted files), advise at session close (Standard, for your own notes), or skip validation (Minimal).</td></tr>
+        <tr><td><strong>write-shape</strong></td><td>The contract field that controls how a file may be written (create-only, replace, append-template, prepend-row), so a regeneration can&rsquo;t silently destroy a generated or append-only file.</td></tr>
+        <tr><td><strong>mandatory <code>_index.md</code></strong></td><td>The rule that every non-exempt folder must hold an auto-generated contents index, so a folder is never an opaque pile Claude must read child-by-child.</td></tr>
+        <tr><td><strong>doc-dependency</strong> <span class="muted">(cascade advisory)</span></td><td>A registered coupling between files that must change together; at write time the engine names the related files (it never blocks) and a session-close audit re-checks them.</td></tr>
+        <tr><td><strong>survivorship</strong></td><td>The guarantee that your hand-edit always wins over an automated regeneration, detected by a two-signal check (a frontmatter marker plus content-hash drift).</td></tr>
+        <tr><td><strong>the plan tree</strong></td><td>The writable, plain-text store of all long-running work at <code>~/.claude-plans/</code>, placed outside Claude&nbsp;Code&rsquo;s guarded config folder and surfaced as <code>Plans/</code>.</td></tr>
+        <tr><td><strong>the quartet</strong></td><td>The four core files every plan holds: <code>spec.md</code> (fixed goal), <code>manifest.json</code> (source of truth), <code>tasks.md</code> (generated checklist), and <code>handoff.md</code> (session diary).</td></tr>
+        <tr><td><strong><code>manifest.json</code></strong> <span class="muted">(source of truth)</span></td><td>The plan&rsquo;s real task list and status in checkable structured data, recorded so an AI can&rsquo;t fake completion. Everything else about the plan is generated from it.</td></tr>
+        <tr><td><strong><code>handoff.md</code></strong></td><td>The plan&rsquo;s add-only session diary, newest entry on top, whose &ldquo;Next session&rdquo; line lets a fresh session resume cold.</td></tr>
+        <tr><td><strong>forgeable checkbox</strong></td><td>The failure mode brain-stem designs against: an AI claiming it ticked a box it never actually completed.</td></tr>
+        <tr><td><strong>completed / verified / closed</strong></td><td>The three earned-done stages: completed is a human claim, verified is machine-stamped only by a real validation pass, and closed is structurally refused unless the plan is already verified.</td></tr>
+        <tr><td><strong>master plan &amp; sub-plans</strong></td><td>The opt-in structure for a too-large effort: a coordinating master containing sub-plans that are each a full plan, numbered in execution order, that never talk to each other and only publish status upward.</td></tr>
+        <tr><td><strong>the idea funnel</strong> <span class="muted">(inbox / backlog / triage)</span></td><td>The cheap-capture pipeline where an idea lands in <code>_inbox/</code> with no plan number, surfaces in the generated <code>_backlog.md</code>, gets classified (novel / duplicate / overlap / deferred), and only graduates into a numbered plan if it earns it.</td></tr>
+        <tr><td><strong>ideation brief</strong></td><td>The optional &ldquo;Session 0&rdquo; file capturing why a plan exists — the original idea, the research, and the go/no-go — written before the spec locks in.</td></tr>
+        <tr><td><strong>the project binder</strong></td><td>The per-project roll-up page (surfaced as <code>Projects/</code>) that auto-gathers every plan naming the same project, so work spread across many plans stays coherent. It indexes the plans, it doesn&rsquo;t copy them.</td></tr>
+        <tr><td><strong><code>hub.md</code></strong> <span class="muted">(the cover)</span></td><td>The binder&rsquo;s one hand-maintained, pointer-only home page, scaffolded once from a template and then yours to curate.</td></tr>
+        <tr><td><strong>situating card</strong> <span class="muted">(<code>_situating.md</code>)</span></td><td>The generated orientation card (plan roster, project status, active focus, latest handoff) that auto-loads at the start of every session in a project so the assistant self-orients before its first reply.</td></tr>
+        <tr><td><strong>the three generated binder indexes</strong></td><td><code>research-index.md</code>, <code>decision-log.md</code>, and <code>handoff-chronicle.md</code>, each re-derived by the librarian from all of a project&rsquo;s plans so they can&rsquo;t drift.</td></tr>
+        <tr><td><strong>the Library</strong> <span class="muted">(Wiki)</span></td><td>The permanent, universal reference shelf of short one-idea articles that any project can reuse, surfaced as <code>Wiki/</code>; the opposite of a project&rsquo;s own research.</td></tr>
+        <tr><td><strong>the Workshop</strong></td><td>The ephemeral, rule-free scratch bench for in-progress research; never auto-loaded, has no vault view, and is read only when a piece is promoted out of it.</td></tr>
+        <tr><td><strong>promotion / scrub</strong></td><td>The propose-then-apply step that turns a finished project finding into a reusable Library article by stripping its project-specific names and dates, while keeping the unchanged original beside it in <code>_raw/</code>.</td></tr>
+        <tr><td><strong>the moment-of-need Library check</strong></td><td>A quiet message-time check that, when your request looks like research, surfaces a one-line pointer to any Library article you already have, so you reuse instead of redo.</td></tr>
+        <tr><td><strong>the hot index</strong> <span class="muted">(<code>MEMORY.md</code>)</span></td><td>The small read-replica table of contents auto-loaded at session start; each line points to a per-topic detail file read on demand, keeping the load under the native byte cap.</td></tr>
+        <tr><td><strong>globalize</strong></td><td>Promoting a project memory marked <code>scope: global</code> up into the global <code>rules/</code> folder as a schema-validated rule, by explicit confirmation, never touching the hand-edited <code>CLAUDE.md</code>.</td></tr>
+        <tr><td><strong>the orchestrator</strong></td><td>The propose-and-gate dispatcher that reads a plan&rsquo;s manifest, walks its tasks in dependency order, and runs each in a fresh print-mode session under human-gated supervision. It never edits the plan&rsquo;s own files.</td></tr>
+        <tr><td><strong>HITL / HOTL</strong></td><td>The two supervision gates: human-in-the-loop halts irreversible or live-mutation work for explicit approval; human-on-the-loop lets reversible work proceed under watch.</td></tr>
+        <tr><td><strong>circuit-breaker</strong></td><td>The orchestrator safeguard that halts new dispatches after two silent failures in a row (a task reporting success while nothing actually changed).</td></tr>
+        <tr><td><strong>checkpoint</strong> <span class="muted">(Session Continuity Block)</span></td><td>The small fixed-schema autosave of where a session is (plan, task, next steps), written just before compaction and re-injected at the next session start.</td></tr>
+        <tr><td><strong>context pressure</strong> <span class="muted">(the pressure ladder)</span></td><td>How full the working window is as a percent, driving an escalating ladder of checkpoint prompts (autosave &rarr; nudge &rarr; mandate &rarr; a stop-gate that refuses to end on a stale checkpoint).</td></tr>
+        <tr><td><strong>the session registry</strong></td><td>The machine-local shared whiteboard each open session registers in, so concurrent sessions can see each other and get warned before two edit the same file.</td></tr>
+        <tr><td><strong>session close</strong> <span class="muted">(deregister + integrity sweep)</span></td><td>The end-of-session cleanup: an always-on part that removes your session from the registry and runs an integrity pass, plus an explicit <code>/librarian session-close</code> that also offers a backup.</td></tr>
+        <tr><td><strong>the decision-quality protocol</strong></td><td>A decision-time nudge that fires when the assistant is about to pose a real fork-in-the-road choice, insisting it first run a research pass (re-read goals, check neighbors, read live state, add one unconsidered option).</td></tr>
+        <tr><td><strong>the vault-writer system</strong></td><td>The machinery that turns outside information (email, transcripts, scrapes) into structured vault assets on its own, shipping the safe-writing parts while you supply the connectors.</td></tr>
+        <tr><td><strong>vault-writer</strong> <span class="muted">(writer)</span></td><td>Any registered automated system that saves content into your vault without you typing it; each gets a reference page under <code>Vault Writers/</code>.</td></tr>
+        <tr><td><strong>writer-reconciler</strong></td><td>The sole program allowed to write a destination file, enforced with an OS lock; it de-duplicates by content hash, picks a winner, and writes atomically so two runs never collide.</td></tr>
+        <tr><td><strong>connector</strong></td><td>A user-built script that fetches and shapes a source, then emits a packet for the pipeline to apply; it never writes a destination file itself.</td></tr>
+        <tr><td><strong>staging packet</strong></td><td>The ephemeral content-addressed JSON file (named by the SHA-256 of its body) that holds captured content, where it should land, and its output type — deleted once applied.</td></tr>
+        <tr><td><strong>doc-amender</strong> <span class="muted">(LLM-reasoning lane)</span></td><td>The opt-in path where a registered prompt runs a model to merge incoming content intelligently, but only composes a packet — the reconciler still does the actual writing.</td></tr>
+        <tr><td><strong>fan-in / fan-out</strong></td><td>Fan-in routes several writers into one de-duplicating destination; fan-out lets a single writer update many files in one run, every change logged to an append-only manifest.</td></tr>
+        <tr><td><strong>the Work folder</strong></td><td>The governed home for non-code projects under <code>~/work</code> (surfaced as <code>Work/</code>), one folder per project launched from inside it, kept outside the vault so rebuilds never touch your deliverables.</td></tr>
+        <tr><td><strong>workstream</strong></td><td>A sub-folder inside a master work project that holds one parallel stream&rsquo;s deliverables and reference; an organizational unit only, never its own launch point.</td></tr>
+        <tr><td><strong>shame-slug</strong></td><td>An auto-generated filler folder name like <code>async-wiggling-donut</code>, denied at write time because a plan needs a descriptive slug that names the actual work.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>General terms</h2>
+    <p>Established ideas from knowledge management, AI, and software that the design borrows or builds on.</p>
+    <table>
+      <thead><tr><th>Term</th><th>What it means</th></tr></thead>
+      <tbody>
+        <tr><td><strong>second brain</strong></td><td>The established idea of a personal knowledge store kept beside your work (capture, organize, retrieve); brain-stem&rsquo;s contrast case, which it folds into the &ldquo;first brain&rdquo; instead.</td></tr>
+        <tr><td><strong>Obsidian</strong></td><td>The optional notes app the vault opens in. The vault is plain folders and text and works with or without it.</td></tr>
+        <tr><td><strong>Markdown</strong></td><td>The plain-text formatting used for every readable file in the vault, so any tool can read it.</td></tr>
+        <tr><td><strong>frontmatter</strong></td><td>The small YAML block at the top of a file that declares what it is (type, tags, status) and that the system reads on every write to decide if it&rsquo;s well-formed.</td></tr>
+        <tr><td><strong>symlink</strong> <span class="muted">(shortcut)</span></td><td>A signpost to a folder that actually lives elsewhere on disk; it shows up in the vault for browsing, but the real files stay in their own home.</td></tr>
+        <tr><td><strong>RAG</strong> <span class="muted">(retrieval-augmented generation)</span></td><td>The common &ldquo;store it and search it&rdquo; AI-memory approach whose retrieval accuracy dilutes as the corpus grows; a pattern brain-stem deliberately avoids.</td></tr>
+        <tr><td><strong>semantic / procedural / episodic memory</strong></td><td>The three memory-science kinds brain-stem adopts: timeless facts, how-to knowledge with its reasoning, and dated records of what happened.</td></tr>
+        <tr><td><strong>ADR</strong> <span class="muted">(architecture decision record)</span></td><td>A short note recording one decision — what was chosen, the options weighed, and why — that supersedes rather than overwrites the old one. brain-stem uses them for any meaningful choice, not just technical ones.</td></tr>
+        <tr><td><strong>idempotent</strong></td><td>A process you can safely run twice with no extra effect — the property that lets concurrent session cleanups never trample each other.</td></tr>
+        <tr><td><strong>atomic write</strong> <span class="muted">(atomic rename)</span></td><td>Writing to a temp file then renaming it into place, so a file is either fully updated or untouched and two writers never corrupt it.</td></tr>
+        <tr><td><strong>content hash</strong> <span class="muted">(SHA-256, content-addressed)</span></td><td>Naming or de-duplicating a piece of content by a fingerprint computed from the content itself, so identical inputs collapse to one.</td></tr>
+        <tr><td><strong>deduplication</strong></td><td>Collapsing the same captured item arriving more than once into a single record, done by content hash and keyed destinations.</td></tr>
+        <tr><td><strong>schema</strong> <span class="muted">(schema-validated)</span></td><td>A declared contract for a file&rsquo;s fields that the system checks a write against before accepting it.</td></tr>
+        <tr><td><strong>sentinel markers</strong></td><td>Hidden marker lines that fence off the region of a file a machine regenerates, so generated content and your hand-written prose coexist in one file.</td></tr>
+        <tr><td><strong>kebab-case / slug</strong></td><td>A lowercase identifier of letters, digits, and hyphens (no spaces or mixed case) used for every filename and id so consumers can normalize them.</td></tr>
+        <tr><td><strong>fail-open</strong></td><td>Designing the guard to degrade toward letting you work (allowing the write) when something is missing or corrupt, never toward locking you out.</td></tr>
+        <tr><td><strong>launchd</strong></td><td>macOS&rsquo;s built-in scheduler, which brain-stem uses to run capture jobs and timed dispatches locally.</td></tr>
+        <tr><td><strong>SQLite</strong></td><td>A lightweight database kept as a single file on disk — one of the shapes captured content can land in for later querying.</td></tr>
+      </tbody>
+    </table>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Glossary.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

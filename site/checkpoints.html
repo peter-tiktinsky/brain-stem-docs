@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkpoints · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Sessions · keeping your place</p>
+    <h1>Checkpoints</h1>
+    <p class="lede">
+      A long session fills its working window, the platform compacts the history into a summary, and the
+      verbatim detail is <strong>gone</strong>. A checkpoint is the autosave for your train of thought: a
+      small structured file that captures where you are, so a compacted session can pick up exactly where
+      it left off.
+    </p>
+    <p class="page-meta">One file per session: <code>~/.local/state/brain-stem/sessions/&lt;session-id&gt;/checkpoint.md</code>.</p>
+
+    <h2>Context pressure — the fuel gauge</h2>
+    <p>
+      Context pressure is just how full the working window is, as a percent. The fuller the tank, the more
+      urgently the system insists you save your place. It's a ladder, not a single alarm:
+    </p>
+    <div class="flow">
+      <div class="fstep"><b>~35% · autosave</b><small>a lightweight checkpoint is written silently, if none is fresh</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>~45% · gentle nudge</b><small>"checkpoint at your next natural break"</small></div>
+      <div class="farr">›</div>
+      <div class="fstep gate"><b>~48% · mandate</b><small>"checkpoint now before responding" — re-fires every message until fresh</small></div>
+      <div class="farr">›</div>
+      <div class="fstep cap"><b>~48–90% · stop-gate</b><small>refuses to let the session end on a stale or missing checkpoint</small></div>
+    </div>
+    <div class="flow-branch">
+      <div class="fb"><b>The stop-gate, precisely →</b> in the ~48–80% band the checkpoint must be fresh (&lt;10&nbsp;min) to stop; in ~80–90% it must merely exist; above ~90% a safety valve always lets you stop (the window's too full to keep working anyway).</div>
+    </div>
+
+    <h2>What a checkpoint holds — the Continuity Block</h2>
+    <p>
+      The checkpoint follows a fixed schema, the <strong>Session Continuity Block</strong>. Nothing is
+      silently skipped — a field that can't be filled is marked <code>[MISSING]</code> rather than dropped.
+      The first three fields are written as plain single lines on purpose: the pre-compaction hook
+      <em>counts</em> them to recognize a freshly written rich checkpoint and avoid clobbering it.
+    </p>
+    <pre># Session Continuity Block
+plan_id:        the active plan
+phase:          where in it
+task_id:        current task + status
+## completed_steps     what's done this session
+## files_modified      absolute paths touched
+## key_decisions       choices made + why
+## next_steps          the ordered resume
+## ac_status           acceptance-criteria checklist
+## current_blocker     the live blocker, if any
+context_pct_at_checkpoint:   the gauge at write time</pre>
+
+    <h2>Three writers, one file, freshest wins</h2>
+    <p>
+      Three things can write the checkpoint, and they have a precedence so the richest snapshot always
+      survives — all target the same file:
+    </p>
+    <table>
+      <thead><tr><th>Writer</th><th>When</th><th>Richness</th></tr></thead>
+      <tbody>
+        <tr><td><code>/session-checkpoint</code> skill</td><td>On request, or auto-fired by the nudge/mandate</td><td>Richest — the full block</td></tr>
+        <tr><td>The per-message hook</td><td>~35% autosave, only if none is fresh</td><td>Lightweight</td></tr>
+        <tr><td>The pre-compaction hook</td><td>Just before compaction, only if none is fresh</td><td>Mechanical fallback — no model call</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout key">
+      <div class="label">Why save and restore are split across two moments</div>
+      <p>The <strong>save</strong> must happen <em>at compaction</em> — that's the last moment before detail
+      is trimmed. But the <strong>restore</strong> can't: the platform doesn't allow a script to inject
+      context back into the conversation at the compaction moment. So restore happens at the
+      <em>next session start</em> — the harness restarts the session marked "compact," the start hook reads
+      the checkpoint back in verbatim, and rotates the old one to a dated archive (a move, not a delete, so
+      prior state is kept as history). It's the write-ahead-log recovery pattern, forced by which moments
+      may inject context.</p>
+      <p>That restore is about this work thread — which plan, which task. Separately, a second hook runs at
+      every session start (not only after a compaction) and loads a short project-orientation card: the
+      plan roster, the project's overall status, the active focus, and the latest handoff headline — so the
+      session also knows what project it is in and where that project stands. The two answer different
+      questions; the card lives with the <a href="project-binder.html">project binder</a>.</p>
+    </div>
+
+    <h2>Reference</h2>
+    <ul>
+      <li>Checkpoint file — <code>~/.local/state/brain-stem/sessions/&lt;session-id&gt;/checkpoint.md</code> (one per session).</li>
+      <li>Writers — the <code>/session-checkpoint</code> skill (richest; atomic write + verify; failure mode is block-and-log), <code>prompt-context.sh</code> (~35% autosave + nudges), <code>pre-compact-checkpoint.sh</code> (fallback extract).</li>
+      <li>Stop-gate — <code>stop-checkpoint-check.sh</code> uses exit code 2 to keep a session going until the checkpoint is fresh.</li>
+      <li>Thresholds — the warn/mandate percents are settings-driven; the stop-gate bands are fixed in hook code (the R-26 session-continuity rule set).</li>
+      <li>Project orientation at session start — <code>session-start-project-context.sh</code> (the newest SessionStart hook) loads the project's situating card (<code>_situating.md</code>) as context before the first turn, on every session start; advisory and fails open. Distinct from the checkpoint: the checkpoint carries this work thread's state, the card carries project-wide orientation. See <a href="project-binder.html">The project binder</a> for the card's content and lifecycle.</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Checkpoints.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

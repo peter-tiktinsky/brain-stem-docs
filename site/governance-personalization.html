@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Governance personalization · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">System personalization · extending the rulebook</p>
+    <h1>Governance personalization</h1>
+    <p class="lede">
+      brain-stem ships sealed, but it is built to be shaped to <em>your</em> work. A new folder, a new kind of
+      document, a whole template for a kind of project, an automated feed that keeps a structure current —
+      every personalization lands through <strong>one governed, audited seam</strong>. The shipped rulebook is
+      never edited, so you can take an upgrade without losing a thing you added.
+    </p>
+    <p class="page-meta">The seam is the overlay (<code>governance/overlay-master.json</code>); <code>/govern register</code> is the only door into it.</p>
+
+    <h2>One seam for everything personal</h2>
+    <p>
+      The shipped rulebook — <code>foundation-master.json</code>, the composed
+      <a href="governance-engine.html">eight pillars</a> — is read-only. You never edit it. Your changes live
+      in a separate <strong>overlay</strong>, and at write time the engine deep-merges foundation + overlay into
+      the live rulebook the guard consults. The overlay has <strong>one slot per pillar</strong> (plus a small
+      slot for machine-local settings like your timezone), so any kind of rule has a place to go.
+    </p>
+    <p>
+      You don't hand-edit the overlay either. Every change flows through <code>/govern register</code>, a single
+      locked, schema-validated, audit-logged path — each registration is recorded in an append-only action log.
+      Two guarantees fall out of this shape:
+    </p>
+    <ul>
+      <li><strong>Your changes survive an upgrade.</strong> Because they live in the overlay and not in the
+      shipped file, you can take a new foundation version and your extensions merge straight back on top — and
+      the system always knows which rules are yours.</li>
+      <li><strong>Overriding a shipped rule requires a stated reason.</strong> Adding a brand-new rule just
+      merges in. But an overlay entry that would <em>shadow</em> a foundation rule has to carry an inline
+      <code>_override_reason</code> — a mandatory free-text note, not a cryptographic signature. Without it the
+      write is <strong>denied</strong>. (The only bypass is a single-use, write-time escape hatch at the guard —
+      it clears one write and one write only; there is no permanent off-switch.)</li>
+    </ul>
+    <div class="callout key">
+      <div class="label">Why a seam, not edits</div>
+      <p>Hand-editing the shipped rulebook would make upgrades impossible and blur the line between what you
+      changed and what came in the box. The overlay keeps that line bright: foundation stays pristine and
+      reproducible, your layer stays distinguishable and portable, and a collision can only be resolved with a
+      reason on the record.</p>
+    </div>
+
+    <h2>Where the rulebook comes from</h2>
+    <p>
+      The eight pillars don't arrive as eight files you wire together. They are composed —
+      <strong>at release time</strong> — into one sealed bundle, <code>foundation-master.json</code>, with one
+      slot per pillar. The composition is deterministic (same inputs produce a byte-identical output; the
+      version is a content hash that excludes build timestamps). You never build it; the installer ships only
+      the composed artifact, and your overlay merges on top.
+    </p>
+    <p>
+      The picture is simplest as <strong>two sources merging into one</strong>: the sealed rulebook that ships,
+      and the overlay you own. They deep-merge at every write into the single live rulebook the guard consults.
+    </p>
+    <div class="flow">
+      <div class="fstep mark"><b>Shipped foundation</b><small>8 pillars + file-type contracts, composed at release into <code>foundation-master.json</code> — deterministic, sealed, never edited</small></div>
+      <div class="farr">＋</div>
+      <div class="fstep univ"><b>Your overlay</b><small><code>overlay-master.json</code> — your folders, file types, writers, and overrides, written only via <code>/govern register</code></small></div>
+      <div class="farr">→</div>
+      <div class="fstep gate"><b>Deep-merged at every write</b><small>your overlay wins a collision — but only with a stated <code>_override_reason</code></small></div>
+      <div class="farr">→</div>
+      <div class="fstep"><b>The live rulebook</b><small>what the guard consults on every single write</small></div>
+    </div>
+    <p class="figcap">Two sources — the sealed foundation and your overlay — deep-merge into the one rulebook the guard consults; your layer wins a collision only with a reason on the record.</p>
+
+    <h2>The door: <code>/govern register</code></h2>
+    <p>
+      Every personalization flows through one command, <code>/govern register</code> — though, as on the work
+      folder, you rarely type it yourself: you describe what you want, and Claude runs the right registration. It
+      writes through one locked, validated, audit-logged path, and it has <strong>six kinds</strong> — five
+      register a governable asset, and the sixth sets up a work project.
+    </p>
+    <table>
+      <thead><tr><th><code>--kind</code></th><th>Registers</th><th>Lands in</th></tr></thead>
+      <tbody>
+        <tr><td><code>folder</code></td><td>a new top-level vault folder (and any file it must contain)</td><td>a path-routing rule + mandatory-files; updates the vault map in <code>CLAUDE.md</code></td></tr>
+        <tr><td><code>file-type</code></td><td>a new document type and its contract — structure, fields, where it may live</td><td>the file-type-contracts slot</td></tr>
+        <tr><td><code>tag-extension</code></td><td>a new tag dimension and its values</td><td>the tagging-taxonomy slot</td></tr>
+        <tr><td><code>writer</code></td><td>a new automated vault-writing system</td><td>a writer-reference under <code>Vault Writers/</code></td></tr>
+        <tr><td><code>doc-amender-prompt</code></td><td>a new guided doc-amendment prompt (the opt-in LLM lane)</td><td>a create-only prompt asset</td></tr>
+        <tr><td><code>project</code></td><td>a new <code>~/work</code> project workspace — the work-folder on-ramp</td><td>the project scaffold + a vault-view routing rule</td></tr>
+      </tbody>
+    </table>
+    <p>
+      A <strong>file-type contract</strong> is the most common thing you'll register: it governs a type's
+      frontmatter (required fields and allowed values), where files of that type may live and how they're named,
+      and its write shape — optionally its body structure too. Plans are deliberately <em>not</em> a register
+      kind; new plans go through <a href="plans.html"><code>/new-plan</code></a>. Setting up a work project gets
+      its own walkthrough — see <a href="work-folder-guidebook.html">the work-folder guidebook</a>.
+    </p>
+
+    <h3>How a registration actually runs</h3>
+    <p>
+      No registration writes blindly. Every one moves through the same three beats, and you hold the gate in the
+      middle:
+    </p>
+    <div class="flow">
+      <div class="fstep"><b>Propose</b><small>Claude emits the proposed rule — the exact fields it would add — and flags any collision with a shipped rule. Nothing is written yet.</small></div>
+      <div class="farr">→</div>
+      <div class="fstep gate"><b>You redline</b><small>You approve or edit it field by field. A change that shadows a shipped rule must carry a stated <code>_override_reason</code>, or it's denied.</small></div>
+      <div class="farr">→</div>
+      <div class="fstep mark"><b>Commit</b><small>The validated change is applied atomically and recorded — one row per affected pillar — in an append-only action log.</small></div>
+    </div>
+    <p>
+      You can also <strong>skip</strong>: decline to register and let the underlying write proceed, with the skip
+      itself recorded in the same log. Registration is an offer at the moment of a write, never a wall.
+    </p>
+
+    <div class="callout key">
+      <div class="label">What makes the path safe</div>
+      <p>
+        Every overlay change runs through a single locked, schema-validated mutation path. The change is checked
+        against the overlay schema before it lands; it's applied under a lock with an atomic rename, so a
+        multi-rule registration either lands whole or not at all; and every action — committed, rejected, or
+        skipped — appends a row to an immutable action log (<code>governance-action-log.jsonl</code>). On any
+        validation or write failure the registration <strong>blocks and logs</strong> rather than leaving a
+        half-formed rule behind. New assets are create-only, and the project scaffold refuses to clobber a
+        non-empty directory.
+      </p>
+    </div>
+
+    <p class="page-meta">
+      What <code>/govern register</code> deliberately does <em>not</em> do: there is no <code>list</code>,
+      <code>audit</code>, or <code>unregister</code> verb. Inspecting what you've registered and catching drift
+      is the <strong>librarian's parity audit</strong> — a separate capability. And there is no permanent way to
+      switch off a shipped rule: overriding one takes a reason every time, and the single one-off escape hatch
+      (<code>R52_FORCE_OVERRIDE</code>) clears one write at the guard, not a setting on this command.
+    </p>
+
+    <h2>One foundation, any user profile</h2>
+    <p>
+      People reach for Claude Code to do drastically different work, and no two setups look alike. A few real
+      shapes:
+    </p>
+    <ul>
+      <li>A <strong>designer</strong> using Claude Code for UI/UX work keeps design assets, component notes, and
+      house style rules together in a project directory.</li>
+      <li>A <strong>consultant</strong> runs several client engagements at once — each its own project directory,
+      with its own statements of work and correspondence.</li>
+      <li>A <strong>lead engineer</strong> spans both worlds, juggling coding repositories alongside
+      project-management directories across one Claude setup.</li>
+    </ul>
+    <p>
+      brain-stem doesn't pick a side. It's the common foundation underneath all of these, and it bends to any
+      <strong>user profile</strong> in two ways: you <strong>extend its native capabilities</strong> to fit your
+      work, and you <strong>layer your own structures on top</strong> without disrupting anything that shipped.
+      Both land through the one governed seam you've already met — and nothing you add ever edits the foundation.
+    </p>
+    <p>
+      Taken together, those additions are your own <strong>overlay package</strong> — the shape of your work,
+      captured. You build it through four moves:
+    </p>
+    <div class="card-grid two">
+      <div class="card">
+        <div class="kicker">1 · Your folders</div>
+        <h3>Shape the directory</h3>
+        <p>Add the folders your work actually needs — a folder per client and an <code>SoW/</code> directory for
+        the consultant, an <code>assets/</code> library for the designer. brain-stem indexes each one as you go.</p>
+      </div>
+      <div class="card">
+        <div class="kicker">2 · Your document types</div>
+        <h3>Teach it your kinds of file</h3>
+        <p>Register the documents you actually work in — a statement of work, a design spec, a status report —
+        each with its own rules for fields, naming, and where it lives. From then on they're governed like
+        anything brain-stem ships.</p>
+      </div>
+      <div class="card">
+        <div class="kicker">3 · Your templates</div>
+        <h3>Seed your own starting points</h3>
+        <p>Drop in starting skeletons for those documents — a blank SoW, an empty design brief — that you then
+        own and edit. Nothing is seeded for you by default; this space is reserved for what you bring.</p>
+      </div>
+      <div class="card">
+        <div class="kicker">4 · Your reusable package</div>
+        <h3>Bundle it to reuse</h3>
+        <p>Capture the whole setup — folders, rules, and templates — as one package you can re-apply to your next
+        project of the same kind, or hand to a teammate. Your overlay, your profile, portable.</p>
+      </div>
+    </div>
+    <div class="callout key">
+      <div class="label">The guarantee: your layer never touches what shipped</div>
+      <p>Build out a whole profile — new folders, your own document types, your templates, an automated feed — and
+      the only files that change are the ones under your project and in your overlay. <strong>No shipped
+      foundation file is modified:</strong> not the master rulebook, not a contract, not a skill or a hook. That's
+      exactly what keeps your setup portable and an upgrade safe — your layer merges straight back on top of the
+      next version, every time. A test asserts both halves at once: a real working setup is produced, and the
+      foundation is left byte-for-byte unchanged.</p>
+    </div>
+
+    <h2>Feeds that fill the structure for you</h2>
+    <p>
+      Personalization isn't only static shape. You can register an automated <strong>vault-writer</strong>
+      through this same seam (<code>/govern register --kind writer</code>) — a feed that keeps a structure
+      current by writing into it on a schedule. It's the same discipline as every other extension: a registered
+      declaration, governed and audited. The deep treatment of how that pipeline works — staging, the single
+      reconciler, output types, the optional reasoning lane — lives in
+      <a href="vault-writers.html">the vault-writer system</a>.
+    </p>
+
+    <h2>Reference</h2>
+    <ul>
+      <li><code>governance/overlay-master.json</code> — your extension layer; one slot per pillar plus a
+      machine-local settings slot. Written only via <code>/govern register</code>, through a locked,
+      audit-logged mutation path; every action recorded in an append-only log.</li>
+      <li><code>_override_reason</code> — the mandatory inline reason on any overlay entry that shadows a shipped
+      foundation rule; a shadowing write without it is denied (the single-use, write-time escape hatch aside,
+      there is no permanent bypass). It is a free-text note, not a signature.</li>
+      <li><code>/govern register</code> — six kinds: <code>folder</code> · <code>file-type</code> ·
+      <code>tag-extension</code> · <code>writer</code> · <code>doc-amender-prompt</code> (the five governable
+      assets) plus <code>project</code> (the work-folder on-ramp). Each runs propose → redline → commit (or skip),
+      schema-validated and recorded in an append-only action log. No <code>list</code> / <code>audit</code> /
+      <code>unregister</code> verb — inspection and drift-catching are the librarian's parity audit.</li>
+      <li>The four ways to build your own <strong>overlay package</strong> — your folders · your document types ·
+      your templates · bundled for reuse. Every one lands in your overlay or your project, never the foundation;
+      a test asserts a full setup leaves the shipped foundation byte-unchanged.</li>
+      <li>A <strong>vault-writer</strong> — registered via <code>/govern register --kind writer</code>; a
+      writer-reference under <code>Vault Writers/</code> declares its kind, its destinations, and each
+      destination's output type (markdown · JSON · database). See
+      <a href="vault-writers.html">the vault-writer system</a>.</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Governance personalization.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

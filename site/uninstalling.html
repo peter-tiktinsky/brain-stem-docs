@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uninstalling · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Getting started · removing brain-stem cleanly</p>
+    <h1>Uninstalling</h1>
+    <p class="lede">
+      Removing brain-stem is one command. The important thing to understand first is what it will and will not
+      touch — because the uninstaller is deliberately careful: it removes <strong>only the untouched files it
+      originally installed</strong>, backs everything up before it starts, and leaves your notes and any file you
+      edited alone.
+    </p>
+    <p class="page-meta">For <em>why</em> uninstall behaves this way, see <a href="packaging-runtime.html">Packaging &amp; runtime</a>.</p>
+
+    <h2>The command</h2>
+    <p>Run the uninstaller from the brain-stem project you cloned, pointing it at your install with <code>CLAUDE_HOME</code>:</p>
+    <pre>CLAUDE_HOME=~/.claude bash uninstall.sh</pre>
+    <p>That is the whole operation. There is no separate confirmation flag to learn. The uninstaller is not copied into your install — it stays in the project repo — and it refuses to run unless <code>CLAUDE_HOME</code> tells it which install to remove. What happens next is described below so there are no surprises.</p>
+
+    <h2>What it does, step by step</h2>
+    <div class="flow">
+      <div class="fstep gate"><b>1 · Verify</b><small>confirm this is really a brain-stem install, via the provenance log</small></div>
+      <div class="farr">›</div>
+      <div class="fstep proj"><b>2 · Back up</b><small>copy the whole install folder to a timestamped backup first</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>3 · Stop jobs</b><small>stop only background jobs in the <code>com.brain-stem</code> name-space</small></div>
+      <div class="farr">›</div>
+      <div class="fstep mark"><b>4 · Remove</b><small>file by file — remove untouched originals, keep anything you edited</small></div>
+    </div>
+
+    <ol>
+      <li><strong>It checks that this is really a brain-stem install.</strong> The installer left a dated record
+      (a <em>provenance log</em>) in <code>~/.claude/logs/</code> proving an install happened and naming the
+      folder it wrote to. The uninstaller reads that record and confirms the folder you are removing matches.
+      <strong>If there is no install record, it refuses</strong> — you should not "reverse" an install that was
+      never made.</li>
+      <li><strong>It backs everything up first.</strong> Before removing a single file, it copies the entire
+      install folder into a timestamped backup named <code>.pre-uninstall-&lt;timestamp&gt;/</code>. This is the
+      safety net: even an unexpected outcome is fully recoverable from that copy.</li>
+      <li><strong>It stops brain-stem's background jobs — and only those.</strong> Every scheduled job brain-stem
+      creates is named starting with <code>com.brain-stem</code>. The uninstaller stops and removes only jobs in
+      that reserved name-space. If it ever finds a job whose name merely <em>looks</em> similar but sits outside
+      that prefix, it aborts rather than risk stopping something unrelated (your backup stays intact).</li>
+      <li><strong>It removes files one at a time, checking each.</strong> For every file the install originally
+      laid down, the uninstaller re-computes that file's <em>fingerprint</em> (a signature of its exact contents)
+      and compares it to the receipt recorded at install time:
+        <ul>
+          <li><strong>Unchanged</strong> — exactly as shipped → it is removed.</li>
+          <li><strong>Edited by you</strong> — the contents differ → it is <strong>kept</strong>.</li>
+        </ul>
+        So your personal edits survive by default. The uninstaller only deletes files it is certain you never touched.</li>
+    </ol>
+
+    <h2>What is preserved</h2>
+    <div class="card-grid two">
+      <div class="card">
+        <div class="kicker">Kept</div>
+        <h3>Your vault &amp; your edits</h3>
+        <p>Your notes folder is yours; uninstall does not delete it. And any shipped file you changed is left in
+        place — never silently deleted.</p>
+      </div>
+      <div class="card">
+        <div class="kicker">Kept</div>
+        <h3>Your working data &amp; the record</h3>
+        <p>Accumulated working data lives apart from the program — durable data under
+        <code>~/.local/share/brain-stem</code>, disposable state under <code>~/.local/state/brain-stem</code> —
+        so removing the program does not endanger it. The <code>~/.claude/logs/</code> provenance log is kept too,
+        so there is always a trail of what happened.</p>
+      </div>
+    </div>
+
+    <h2>Good to know</h2>
+    <div class="callout warn">
+      <div class="label">There is no dry-run / preview for uninstall</div>
+      <p>Unlike the installer — whose default <em>is</em> a write-free preview — the uninstaller does not show you
+      a plan first. The mandatory backup taken in step&nbsp;2 is the safety mechanism instead. Expect it to back
+      everything up, not to rehearse.</p>
+    </div>
+    <ul>
+      <li><strong>If something looks wrong afterward,</strong> everything the uninstaller removed is in the
+      <code>.pre-uninstall-&lt;timestamp&gt;/</code> backup folder it made before starting. Nothing is gone for good.</li>
+      <li><strong>Reinstalling later</strong> is the same first-time path as before: clone, preview,
+      <code>--apply</code>. See the <a href="installation.html">Install &amp; upgrade guide</a>.</li>
+    </ul>
+
+    <h2>Where to go next</h2>
+    <ul>
+      <li><a href="installation.html">Install &amp; upgrade guide</a> — install and upgrade, the other side of this operation.</li>
+      <li><a href="packaging-runtime.html">Packaging &amp; runtime</a> — the full story of how the install is recorded and reversed, and why uninstall is built this way.</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Uninstalling.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

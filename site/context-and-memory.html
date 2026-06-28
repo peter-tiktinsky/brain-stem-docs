@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Context and memory · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Context &amp; memory · the map</p>
+    <h1>Context and memory</h1>
+    <p class="lede">
+      Out of the box, Claude&nbsp;Code starts every session blank. brain-stem fixes that by keeping durable
+      knowledge in plain-text files on disk — and there are <strong>two kinds</strong> of it, answering two
+      different questions. This page is the map that ties them together; the deep dives that follow take
+      each apart.
+    </p>
+    <p class="page-meta">The organizing model: <strong>operational vs contextual</strong> knowledge, each at <strong>project or universal</strong> scope.</p>
+
+    <h2>Two kinds of durable knowledge</h2>
+    <p>
+      Everything the assistant carries between sessions answers one of two questions — and that split is
+      the whole model:
+    </p>
+    <ul>
+      <li><strong>Operational knowledge — how to behave.</strong> Your preferences, conventions, workflow
+      rules and the lessons behind them. <em>You author it.</em> It is the operating governance you set.</li>
+      <li><strong>Contextual knowledge — what the work is and where it stands.</strong> The reference that
+      frames a topic, and the record of what's been done. <em>It accumulates as you work.</em></li>
+    </ul>
+    <p>Each kind also has a <strong>scope</strong> — to one project, or universally. Two questions, two answers each:</p>
+
+    <table class="quadrant">
+      <thead><tr><th></th><th>Operational — how to act</th><th>Contextual — what &amp; where</th></tr></thead>
+      <tbody>
+        <tr>
+          <th>Project</th>
+          <td>Semantic &amp; procedural <a href="memory-model.html">memory</a></td>
+          <td>Episodic memory + the <a href="project-binder.html">project binder</a></td>
+        </tr>
+        <tr>
+          <th>Universal</th>
+          <td>Global rules + <code>CLAUDE.md</code></td>
+          <td class="hl">The <a href="context-library.html">Library</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout note">
+      <div class="label">A third pillar: the structural blueprint</div>
+      <p>The matrix above holds the <em>knowledge</em>. One more durable surface frames the
+      <em>work itself</em>: the <a href="plans.html">plan tree</a> — spec, manifest, tasks, handoff. It's
+      neither operational nor contextual; it's the project's blueprint, authored by you and the system
+      together. So the honest picture is <strong>three pillars</strong> — operational, contextual, and
+      structural — not a tidy 2×2.</p>
+    </div>
+
+    <h2>"Context" is the filing cabinet, not the desk</h2>
+    <p>
+      The word is overloaded, so be precise: <strong>context</strong> here means the durable material on
+      disk that frames the work and persists across sessions — the <em>filing cabinet</em>. That is
+      <strong>not</strong> the assistant's <strong>working window</strong>, the finite attention it holds
+      during one live conversation — the <em>desk</em>. Durable context is loaded onto the desk at session
+      start; the desk is wiped clean when the session ends. Everything on this page is about the cabinet.
+    </p>
+
+    <h2>Where each surface sits</h2>
+    <p>The full inventory of what persists — seven durable surfaces plus the plan blueprint:</p>
+    <table>
+      <thead><tr><th>Surface</th><th>Kind · scope</th><th>What it carries</th><th>Reaches a session</th></tr></thead>
+      <tbody>
+        <tr><td><code>CLAUDE.md</code> + global <code>rules/</code></td><td>Operational · universal</td><td>Your standing preferences and rules, everywhere</td><td>always-on</td></tr>
+        <tr><td>Semantic &amp; procedural memory</td><td>Operational · project</td><td>How to act in <em>this</em> project, and why</td><td>always-on (small index)</td></tr>
+        <tr><td>Episodic memory</td><td>Contextual · project</td><td>What happened, session by session</td><td>always-on (one pointer)</td></tr>
+        <tr><td>The <a href="project-binder.html">project binder</a></td><td>Contextual · project</td><td>Research, decisions, handoffs rolled up — plus a generated situating card (plan roster, status, active focus, latest handoff)</td><td>situating card always-on; cover and rest on demand</td></tr>
+        <tr><td><code>claude-mem</code> (optional)</td><td>Contextual · project</td><td>Granular observations, if installed</td><td>on demand</td></tr>
+        <tr><td>The Library</td><td>Contextual · universal</td><td>Reusable reference for any project</td><td>moment-of-need only</td></tr>
+        <tr><td>The Workshop</td><td>Staging</td><td>Raw, in-progress research</td><td>never auto-loaded</td></tr>
+        <tr><td>The plan tree</td><td>Structural · project</td><td>The blueprint: spec · manifest · tasks · handoff</td><td>active plan's goal auto-injected at start; detail on demand</td></tr>
+      </tbody>
+    </table>
+
+    <h2>How it loads — small always-on, large on-demand</h2>
+    <p>
+      The working window is finite, so access is tiered by cost. Nothing that loads automatically is large;
+      the heavy reference and the full project record sit one deliberate step away.
+    </p>
+    <table>
+      <thead><tr><th>Tier</th><th>What</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Always-on</strong></td><td><code>CLAUDE.md</code>, rules, the small project-memory index, the episodic pointer, the project's situating card (<code>_situating.md</code>), and the active plan's goal anchor (its spec head)</td></tr>
+        <tr><td><strong>On-demand</strong></td><td>the binder cover and indexes, a Library article, a plan's detail — read when the work reaches for it</td></tr>
+        <tr><td><strong>Never auto-loaded</strong></td><td>the Workshop scratch bench — read only when research is promoted</td></tr>
+      </tbody>
+    </table>
+
+    <h2>The two insights that make this one story</h2>
+    <ul>
+      <li><strong>"Memory" is not one thing — it straddles the line.</strong> Of memory's three kinds,
+      <em>semantic</em> and <em>procedural</em> are operational (they govern behavior), while
+      <em>episodic</em> is contextual (it records what happened). The project binder then continues that
+      contextual job <em>outside</em> the formal memory structure — episodic memory and the binder doing
+      the same work, one inside the memory system and one beside it.</li>
+      <li><strong>Project state stacks at three granularities.</strong> To answer "where do we sit?", three
+      contextual surfaces work coarse-to-fine: <em>episodic memory</em> gives the high-level "what we did
+      last session"; the <em>project binder</em> holds the mid-level roll-up; and <em>claude-mem</em>, if
+      installed, supplies the granular observations.</li>
+    </ul>
+
+    <div class="callout key">
+      <div class="label">Why this split — and why it survives</div>
+      <p>The load-bearing principle: <strong>auto-generated and user-authored surfaces survive;
+      hand-maintained status rots.</strong> Operational surfaces last because <em>you</em> own and update
+      them; contextual surfaces last because the system <em>derives</em> them. A hand-maintained
+      "project status" file would rot the moment attention slipped. The three-kind memory split also
+      converges with independent memory science (the episodic/semantic and declarative/procedural
+      distinctions) — convergent, not invented.</p>
+    </div>
+
+    <h2>Go deeper</h2>
+    <div class="card-grid">
+      <a class="card" href="context-library.html"><div class="kicker">Two layers</div><h3>Dual context layers</h3><p>Workshop (ephemeral staging) and Library (reusable universal reference) — and how content promotes between them.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="memory-model.html"><div class="kicker">Remember</div><h3>The memory model</h3><p>Three kinds of memory, two scopes, the hot index under a hard cap, and how facts globalize.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="session-loading.html"><div class="kicker">At launch</div><h3>What loads each session</h3><p>Exactly what context assembles at session start from the launch directory, and what stays on-demand.</p><div class="spacer"></div><div class="more">Read →</div></a>
+      <a class="card" href="context-memory-rationale.html"><div class="kicker">Why these choices</div><h3>Why: context &amp; memory</h3><p>Research and design rationale behind the memory split, the context-library choices, and the load tiers.</p><div class="spacer"></div><div class="more">Read →</div></a>
+    </div>
+
+    <h2>Reference</h2>
+    <ul>
+      <li>Operational · universal — <code>~/.claude/CLAUDE.md</code> + <code>~/.claude/rules/</code>.</li>
+      <li>Project memory — <code>~/.claude/projects/&lt;project&gt;/memory/</code> (semantic, procedural, episodic).</li>
+      <li>The project binder — <code>~/.claude-plans/_projects/&lt;project&gt;/</code> → <code>Projects/</code>.</li>
+      <li>The Library — <code>~/.claude-plans/_library/</code> → <code>Wiki/</code>; the Workshop is ephemeral and never surfaced.</li>
+      <li>The plan tree — <code>~/.claude-plans/</code> → <code>Plans/</code>.</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Context and memory.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

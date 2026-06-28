@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plans · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=17">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Surface · from idea to verified</p>
+    <h1>Plans</h1>
+    <p class="lede">
+      A plan is how a multi-step effort is stored on disk and shepherded from a raw idea to a finished,
+      <strong>verified</strong>, signed-off result. The whole tree lives in <code>~/.claude-plans</code>,
+      a deliberate parallel to Claude&nbsp;Code's own plans folder, with a structure chosen against
+      researched best practices. That one relocation is what makes the funnel, the binder, and the
+      orchestrator possible.
+    </p>
+    <p class="page-meta">Surfaced in the vault as <code>Plans/</code>; rolled up per project into <code>Projects/</code>.</p>
+
+    <h2 id="why">Why a parallel plan tree — and why it's concrete</h2>
+    <p>
+      Claude&nbsp;Code treats its own config folder (<code>~/.claude/**</code>) as <strong>sensitive</strong>
+      and guards it — writes and edits there fail unreliably. A plan tree has to be written to constantly:
+      re-rendering <code>tasks.md</code>, regenerating indexes, scrubbing research into the Library.
+      <strong>A store you cannot reliably write to is not a store.</strong> The vault itself is no good
+      either — files in a sync boundary fail silently. So the tree lives <em>outside</em> the guarded
+      folder, at <code>~/.claude-plans</code>, and a single <code>Plans/</code> symlink makes the whole
+      thing browsable in your notes app.
+    </p>
+    <p>
+      This is not an ad-hoc convention. brain-stem researched best practices in plan organization and
+      execution and adopted a structure that <strong>converges with the field's own answers</strong>
+      (the evidence is in the next section). Native Claude&nbsp;Code contributes almost nothing here on its
+      own — no enforced quartet, no lifecycle, no source-of-truth control file, no funnel, no binder, no
+      orchestrator. Plans is the one pillar brain-stem adopts as a <strong>methodology</strong> rather than
+      receives as a platform feature, and the parallel folder is what gives that methodology somewhere to
+      live.
+    </p>
+    <div class="callout key">
+      <div class="label">The same folder setup powers two consolidations</div>
+      <p>Because the plan tree is a writable, governed, plain-text store, brain-stem can roll it up two
+      ways at once. <strong>Per-project binders</strong> (<code>Projects/</code>) consolidate one project's
+      context across all its plans. And the one store Claude maintains <em>universally</em> across every
+      project — the <strong>Library</strong> (<code>Wiki/</code>) — consolidates reusable context promoted
+      out of those plans. (There is no separate "universal binder"; the universal store is the
+      <a href="context-library.html">Library</a>.) Binders for project context, the Library for universal
+      context, both derived from the same tree.</p>
+    </div>
+
+    <h2>The quartet — and why it's best-practice</h2>
+    <p>
+      Each plan is a numbered folder holding four files with sharply separated jobs (plus an optional
+      fifth, the ideation brief — the "Session&nbsp;0" research record).
+    </p>
+    <table>
+      <thead><tr><th>File</th><th>Job</th><th>Owner</th></tr></thead>
+      <tbody>
+        <tr><td><code>spec.md</code></td><td>The goal and constraints — the north star. Fixed once set.</td><td>Human-authored</td></tr>
+        <tr><td><code>manifest.json</code></td><td><strong>The source of truth</strong> — status plus the structured task list, schema-validated.</td><td>Machine-validated</td></tr>
+        <tr><td><code>tasks.md</code></td><td>The human-readable to-do — a <em>generated render</em> of the manifest, between sentinel markers.</td><td>Machine-rendered</td></tr>
+        <tr><td><code>handoff.md</code></td><td>Append-only, newest-first session diary; its <code>Next session:</code> line carries the resume.</td><td>Appended per session</td></tr>
+      </tbody>
+    </table>
+    <div class="callout note">
+      <div class="label">The manifest is the spreadsheet; tasks.md is its export</div>
+      <p>Because <code>tasks.md</code> is generated from the manifest between sentinel markers, hand-edits
+      inside those markers are overwritten on the next render. Change status in the manifest; read it in
+      <code>tasks.md</code>. As the design doc puts it: <em>done is recorded in the spreadsheet, not
+      penciled onto the printout.</em></p>
+    </div>
+    <div class="callout key">
+      <div class="label">Why this shape — the evidence</div>
+      <p>None of this is a private invention, which is the strongest signal it's right. The
+      <strong>forgeable-checkbox</strong> failure (an agent claiming it ticked a box it didn't) and the
+      <strong>up-only reporting</strong> rule both track the documented failure modes of unsupervised
+      multi-agent systems (a published <em>multi-agent failure taxonomy</em>). The
+      <strong>completed-versus-verified</strong> distinction is standard project-management practice (the
+      <em>PMI&nbsp;/&nbsp;PMBOK</em> separation of <em>verified</em> from <em>accepted</em> deliverables).
+      And a <strong>structured source of truth rendered into a human list</strong> — not the reverse — is
+      the lesson agentic-coding tools settled on independently (the <code>tasks.json</code>-style pattern).
+      The design converges with those external answers rather than departing from them.</p>
+    </div>
+
+    <h2>Beyond the quartet: research and decisions</h2>
+    <p>
+      A plan folder gives the quartet two governed companions — used both <em>before</em> execution (during
+      planning) and <em>during</em> execution at human gates:
+    </p>
+    <ul>
+      <li><strong>Research — <code>_research/</code>.</strong> Durable findings, each declared in the
+      manifest's <code>research_artifacts[]</code> (with a status of <code>active</code> /
+      <code>finalized</code> / <code>deferred</code>). A <code>finalized</code> finding is the stock the
+      <a href="context-library.html">Library</a> promotes from, and every finding rolls into the binder's
+      research index.</li>
+      <li><strong>Decisions — the ADR ledger.</strong> A per-plan <code>decisions/</code> folder of
+      immutable decision records (each <code>Context</code> · <code>Decision</code> ·
+      <code>Consequences</code>), declared in <code>decision_records[]</code>. A decision never changes in
+      place — a new ADR <em>supersedes</em> the old one, forward-linked. On resume, Claude reloads the
+      non-superseded ADRs straight from the manifest pointer, not from spec archaeology.</li>
+    </ul>
+
+    <h2>From idea to verified — the funnel</h2>
+    <p>
+      Read the whole arc in one picture: an idea is shaped into a plan, the plan is prepared, then executed
+      under human gates, and "done" is <em>earned</em>, not declared. Each phase is detailed in its own
+      section below; this is the map.
+    </p>
+    <div class="sysmap">
+      <div class="phases">
+        <div class="phase">
+          <div class="phase-h">① Shape the idea</div>
+          <div class="smnode"><b>Capture</b><small>an idea → the inbox, cheaply (no number burned)</small></div>
+          <div class="smnode"><b>Triage</b><small>novel · duplicate · overlap · deferred</small></div>
+          <div class="smnode"><b>Research</b><small>feasibility → an ideation brief</small></div>
+          <div class="smnode"><b>Graduate</b><small>→ a numbered plan + the quartet</small></div>
+        </div>
+        <div class="chev">›</div>
+        <div class="phase">
+          <div class="phase-h">② Prepare the plan</div>
+          <div class="smnode"><b>Draft &amp; refine</b><small>spec authored; tasks in the manifest — with Claude</small></div>
+          <div class="smnode cap"><b>+ research &amp; decisions</b><small>added beside the quartet</small></div>
+          <div class="smnode"><b>Ready</b><small>status: planned</small></div>
+        </div>
+        <div class="chev">›</div>
+        <div class="phase">
+          <div class="phase-h">③ Orchestrate</div>
+          <div class="smnode orch"><b>Execution &amp; scheduling</b><small>→ <a href="orchestration.html">Orchestration &amp; scheduling</a></small></div>
+        </div>
+        <div class="chev">›</div>
+        <div class="phase">
+          <div class="phase-h">④ Earn done</div>
+          <div class="smnode"><b>completed</b><small>a human claim</small></div>
+          <div class="smnode cap"><b>verified</b><small>machine-stamped by a real check</small></div>
+          <div class="smnode"><b>closed</b><small>refused unless verified</small></div>
+        </div>
+      </div>
+      <div class="uptag">▲ Throughout, each plan's research, decisions, and handoffs roll up into the project binder</div>
+    </div>
+
+    <h2>Stage one — the planning lifecycle (idea → formal plan)</h2>
+    <p>
+      Not every idea deserves a numbered plan on day one. The funnel keeps capture cheap and spends
+      structure only on ideas that earn it. A number is never burned until graduation.
+    </p>
+    <div class="flow">
+      <div class="fstep"><b>Capture</b><small>an idea lands in <code>_inbox/&lt;slug&gt;.md</code> — cheap, no number</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Backlog</b><small>it surfaces in the generated <code>_backlog.md</code></small></div>
+      <div class="farr">›</div>
+      <div class="fstep gate"><b>Triage</b><small>novel · duplicate · overlap · deferred</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Research</b><small>feasibility → an ideation brief: proceed · defer · merge · kill</small></div>
+      <div class="farr">›</div>
+      <div class="fstep mark"><b>Graduate</b><small>→ a numbered plan folder + the full quartet</small></div>
+    </div>
+    <div class="flow-branch">
+      <div class="fb"><b>Capture &amp; triage —</b> an idea note (<code>/backlog-triage</code>) is classified against what already exists, so duplicates and overlaps are caught before they become plans.</div>
+      <div class="fb"><b>Research-first —</b> <code>/backlog-research</code> reads your vault, your tools, and outside best practices, then writes the ideation brief and a recommendation.</div>
+      <div class="fb"><b>Graduate —</b> <code>/new-plan</code> (or research's <code>--promote</code>) scaffolds the numbered folder through one shared mechanical path; the idea note is retired.</div>
+    </div>
+    <p>
+      Ideas carry their own short status — <code>new</code> → <code>triaged</code> → <code>briefed</code> —
+      a separate vocabulary from a plan's lifecycle. The backlog itself is generated and owned by the
+      librarian: the funnel skills only edit the underlying idea notes, and the table is re-derived from
+      them. The <strong>human gates</strong> here are the classification call at triage and the go/no-go on
+      the research recommendation.
+    </p>
+
+    <h2>Stage two — preparing the plan</h2>
+    <p>
+      A freshly graduated plan is scaffolded but thin. Preparation is where you and Claude flesh it out,
+      and the file ownership stays strict the whole way:
+    </p>
+    <ul>
+      <li><strong>You author the spec</strong> — the goal and constraints, fixed once set.</li>
+      <li><strong>Tasks live in the manifest</strong> — you expand the structured task list there; the
+      machine regenerates <code>tasks.md</code> from it between the sentinels (your edits outside the
+      sentinels are preserved).</li>
+      <li><strong>Each session appends a handoff</strong> — newest-first, carrying the resume pointer.</li>
+      <li><strong>Research and decisions accrue beside the quartet</strong> — feasibility research lands in
+      <code>_research/</code> and planning decisions in the ADR ledger, both declared in the manifest, both
+      well before any code is written.</li>
+    </ul>
+    <p>
+      The plan moves through its early states as this settles: <code>researching</code> →
+      <code>planned</code>. When the spec is firm and the tasks are real, it's ready to execute — the
+      <strong>human gate</strong> of plan readiness.
+    </p>
+
+    <p>How a plan is executed and scheduled &rarr; <a href="orchestration.html">Orchestration &amp; scheduling</a>.</p>
+
+    <h2>Earning done — completed, verified, closed</h2>
+    <p>
+      The lifecycle's load-bearing guard is the difference between a claim and a fact. Verification is not
+      a checkbox — it's an <strong>independent pass</strong>: a separate, read-only verifier returns a
+      pass/fail verdict, and the status is stamped
+      <code>verified</code> only when that real check confirms the work.
+    </p>
+    <div class="flow">
+      <div class="fstep"><b>in-progress</b></div>
+      <div class="farr">›</div>
+      <div class="fstep gate"><b>completed</b><small>a human claim</small></div>
+      <div class="farr">›</div>
+      <div class="fstep mark"><b>verified</b><small>machine-stamped by a real check — never typed in</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>closed</b><small>structurally refused unless verified</small></div>
+      <div class="farr">›</div>
+      <div class="fstep term"><b>archived</b><small>filed away by the librarian</small></div>
+    </div>
+    <div class="flow-branch">
+      <div class="fb"><b>paused ⇄ in-progress —</b> work can pause (with a reason) and resume without losing its place.</div>
+      <div class="fb"><b>superseded —</b> any non-archived plan can be retired as superseded (terminal).</div>
+    </div>
+    <div class="callout key">
+      <div class="label">Completed ≠ verified ≠ closed</div>
+      <p><strong>Completed</strong> is a human claim. <strong>Verified</strong> is stamped only by a real
+      validation pass — never typed in by a person. <strong>Closed</strong> is structurally refused at
+      write-time unless the plan is already verified. <em>Done is not something you get to declare.</em>
+      (Archiving is later still, driven by librarian volume, not a calendar date.)</p>
+    </div>
+
+    <h2>Rolling up into the project binder</h2>
+    <p>
+      As a plan is worked, completed, and verified, its durable output populates <strong>up</strong> into
+      the project binder — automatically, with no roster to maintain. Each plan names its project; every
+      plan naming that project is gathered, sub-plans grouped by lineage.
+    </p>
+    <div class="sysmap">
+      <div class="band band-sess">
+        <div class="band-tag">A plan, as it's worked → completed → verified</div>
+        <div class="band-row">
+          <div class="smnode"><b>_research/</b><small>findings declared in the manifest</small></div>
+          <div class="smnode"><b>decisions/</b><small>the immutable ADR ledger</small></div>
+          <div class="smnode"><b>handoff.md</b><small>the session diary</small></div>
+        </div>
+      </div>
+      <div class="uptag">▲ re-derived into the binder automatically — at session-close and on each librarian pass</div>
+      <div class="band band-proj">
+        <div class="band-tag">The project binder — surfaced as Projects/&lt;project&gt;/</div>
+        <div class="hubwrap">
+          <div class="smnode hub"><b>hub.md — the cover (hand-maintained)</b><small>the curated cover, read on demand; points to the generated pages below</small></div>
+          <div class="ptrcards">
+            <div class="ptrcard"><b>research-index.md</b><small>Generated — every plan's findings, rolled into one index, with a symlink farm back to each <code>_research/</code>.</small></div>
+            <div class="ptrcard"><b>decision-log.md</b><small>Generated — every plan's ADRs in one list; superseded records forward-linked, never dropped.</small></div>
+            <div class="ptrcard"><b>handoff-chronicle.md</b><small>Generated — one block per session, newest-first, each carrying its <code>Next session:</code> line.</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="figcap">The cover (<code>hub.md</code>) is the one hand-maintained page; the research index, decision log, and handoff chronicle are <strong>generated</strong> — re-derived from the plans automatically, at session-close and on each librarian pass, so the binder is a reading surface, not a system dependency.</p>
+    <p>This section is the roll-up <em>mechanism</em> — how a plan's output populates upward. The binder
+    itself, in full — every page, how a project is identified, and how research promotes on into the
+    universal Library — has its own page: <a href="project-binder.html">The project binder</a>.</p>
+
+    <h2>Flat plans and master plans</h2>
+    <p>
+      Most plans are <strong>flat</strong>: one numbered folder, one quartet, one status — the right shape
+      for a single coherent effort you can hold in one spec. Flat is the <strong>default</strong>, and a
+      flat plan <strong>never silently grows</strong> into something bigger; you opt into more structure
+      explicitly, only when you need it.
+    </p>
+    <p>
+      When an effort is too large for one spec — several workstreams or phases that each deserve their own
+      goal, tasks, and tracking, but that have to be coordinated — it becomes a <strong>master plan</strong>
+      that coordinates a set of <strong>sub-plans</strong>. The difference is real, not cosmetic:
+    </p>
+
+    <div class="card-grid two">
+      <div class="card">
+        <div class="kicker">The default</div>
+        <h3>A flat plan</h3>
+        <p>One quartet, one lifecycle status. The whole effort lives in a single spec and task list. Reach
+        for it whenever the work fits in one coherent plan — which is most of the time.</p>
+      </div>
+      <div class="card">
+        <div class="kicker">Opt-in, for scale</div>
+        <h3>A master + sub-plans</h3>
+        <p>A coordinating master, plus sub-plans that are each a <strong>first-class plan</strong> — own
+        quartet, own 8-state status, numbered in <em>execution</em> order. Reach for it when one spec
+        can't honestly hold the whole effort.</p>
+      </div>
+    </div>
+
+    <p>On disk, a master is a plan whose folder <em>contains</em> its sub-plans, each a full plan in its own right:</p>
+    <pre>~/.claude-plans/
+└── 42-rebuild-search/            the MASTER (type: master) — its own quartet
+    ├── spec.md  manifest.json  tasks.md  handoff.md
+    ├── 01-index-schema/          sub-plan 01 (type: sub-plan) — its own quartet
+    ├── 02-query-rewrite/         sub-plan 02 — runs after 01 (ordering held by the master)
+    └── 03-ranking/               sub-plan 03
+                                  └ sub-plans numbered in EXECUTION order, not creation order</pre>
+
+    <h3>The invariants that keep it honest</h3>
+    <p>
+      The structure earns its keep through three strict rules — the same orchestrator-worker discipline the
+      multi-agent research points to as what keeps decomposed work from collapsing:
+    </p>
+    <ul>
+      <li><strong>Sub-plans never talk to each other.</strong> A sub-plan carries no dependency edge to a
+      sibling; any cross-sub ordering is held <em>by the master</em>. (No sibling chatter — the coupling
+      that sinks unsupervised multi-agent systems.)</li>
+      <li><strong>Subs publish status upward only.</strong> Each sub owns and updates its own status; it
+      never reaches into the master. The master <em>pulls</em>, never the reverse.</li>
+      <li><strong>The master's roll-up is generated, never hand-typed.</strong> The master's summary of its
+      sub-plans is a derived read-replica, regenerated by the librarian from each sub's real published
+      status — the same trust class as a generated index. You cannot pencil in a sub's progress on the
+      master.</li>
+    </ul>
+
+    <div class="callout key">
+      <div class="label">Why it exists — and why it's exactly what the orchestrator walks</div>
+      <p>A master plan is the <strong>orchestrator-worker pattern made structural</strong>: a big effort
+      decomposed into independently-governed pieces, coordinated from one place, with no peer-to-peer
+      coupling. That isn't just tidy — it's <em>executable</em>. Because the master holds the dependency
+      ordering and each sub is a real plan with real tasks, the
+      <a href="orchestration.html">orchestrator</a> can walk a master as a <strong>dependency graph</strong>,
+      running its sub-plans in execution order behind the same human gates. A flat plan gives you one
+      tracked effort; a master gives you a coordinated, gate-able <em>program</em> of them — which is why
+      the structure exists at all, and why you only pay for it when the scale demands it.</p>
+    </div>
+
+    <h2>Reference</h2>
+    <ul>
+      <li><code>~/.claude-plans/&lt;plan&gt;/</code> — a plan folder: <code>spec.md</code>, <code>manifest.json</code> (source of truth), <code>tasks.md</code> (generated), <code>handoff.md</code> (append-only), optional <code>00-ideation-brief.md</code>; plus <code>_research/</code> (declared in <code>research_artifacts[]</code>) and <code>decisions/</code> (the ADR ledger, <code>decision_records[]</code>).</li>
+      <li><code>~/.claude-plans/_inbox/</code> + <code>_backlog.md</code> — the idea funnel: cheap capture (no number) → a librarian-generated backlog → triage (<code>/backlog-triage</code>) → research (<code>/backlog-research</code>) → graduate (<code>/new-plan</code>).</li>
+      <li><strong>Status lifecycle</strong> — <code>researching → planned → in-progress ⇄ paused → completed → verified → closed → archived</code> (+ <code>superseded</code>). <code>verified</code> is machine-stamped; <code>closed</code> is write-time-refused unless verified.</li>
+      <li><strong>Execution &amp; scheduling</strong> — how a plan is run, the propose-and-gate dispatch model, HITL/HOTL gates, and scheduling: see <a href="orchestration.html">Orchestration &amp; scheduling</a>.</li>
+      <li><strong>The project binder</strong> — <code>~/.claude-plans/_projects/&lt;project&gt;/</code> → <code>Projects/</code>: hand-maintained <code>hub.md</code> + generated <code>_situating.md</code> (the situating card, loaded each session), <code>research-index.md</code>, <code>decision-log.md</code>, <code>handoff-chronicle.md</code>, and a <code>research/</code> symlink farm.</li>
+      <li>The vault <code>Plans/</code> symlink — the whole tree, browsable in your notes app.</li>
+    </ul>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Plans.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>
