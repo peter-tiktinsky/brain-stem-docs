@@ -117,26 +117,15 @@ body {
 /* first band sits directly under the brand — no divider above it */
 .brand-repo + .nav-band { margin-top: 18px; padding-top: 0; border-top: none; }
 
-/* the core documentation set — the "Architecture and Capabilities" gateway band
-   plus its seven sections (Orientation … System personalization), boxed as one unit */
+/* the core documentation set (Orientation … System personalization) — marked by a
+   subtle red rail down the left, beneath the "Architecture and Capabilities" band */
 .nav-core {
-  margin: 26px 0 6px;
-  padding: 6px 12px 14px;
-  border: 1px solid var(--line-strong);
-  border-left: 3px solid var(--clay);
-  border-radius: 12px;
-  background: rgba(177,83,46,.045);
+  margin: 10px 0 6px;
+  padding-left: 12px;
+  border-left: 2px solid var(--clay);
 }
-.nav-core .nav-band {
-  margin: 14px 6px 2px;
-  padding-top: 0;
-  border-top: none;
-  font-size: 11px;
-  color: var(--clay-deep);
-}
-.nav-core .nav-band + .nav-group { margin-top: 8px; }
 .nav-core .nav-group { margin-top: 18px; }
-.nav-core .nav-group h4 { color: var(--ink-soft); }
+.nav-core .nav-group:first-child { margin-top: 2px; }
 
 /* ---------- typography ---------- */
 h1, h2, h3 { font-family: var(--serif); color: var(--ink); line-height: 1.18; }

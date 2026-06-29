@@ -2,8 +2,8 @@
    Each page carries <aside class="sidebar" id="site-nav"></aside>; this fills it
    and marks the current page active. Add/rename pages here only.
    The first link in each group is that section's intro page (used by nav-foot.js).
-   Groups flagged core:true are wrapped in a single .nav-core callout — the core
-   documentation set under the "Architecture and Capabilities" gateway band. */
+   Groups flagged core:true share a red left rail (.nav-core) marking the core
+   documentation set; the "Architecture and Capabilities" band sits above it. */
 (function () {
   const groups = [
     { title: 'Getting started', band: 'Getting started', links: [
@@ -74,9 +74,9 @@
   let lastBand = null, inCore = false;
   for (const g of groups) {
     if (inCore && !g.core) { html += '</div>'; inCore = false; }
-    if (g.core && !inCore) { html += '<div class="nav-core">'; inCore = true; }
     if (g.band && g.band !== lastBand) { html += '<p class="nav-band">' + g.band + '</p>'; }
     lastBand = g.band || null;
+    if (g.core && !inCore) { html += '<div class="nav-core">'; inCore = true; }
     html += '<nav class="nav-group">';
     // a band whose label equals the section title doubles as the header (Getting started, Reference)
     if (g.band !== g.title) {
