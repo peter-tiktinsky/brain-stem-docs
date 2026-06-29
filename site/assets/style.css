@@ -101,7 +101,7 @@ body {
 }
 .nav-group a:hover { background: rgba(177,83,46,.08); color: var(--clay-deep); }
 .nav-group a.active { background: var(--clay); color: #fff; }
-/* meta-band grouping the architecture/capability sections in the sidebar */
+/* red section bands — Getting started, Architecture and Capabilities, Reference */
 .nav-band {
   font-family: var(--sans);
   font-size: 10.5px;
@@ -114,33 +114,29 @@ body {
   border-top: 1px solid var(--line-strong);
 }
 .nav-band + .nav-group { margin-top: 12px; }
-/* lighter sub-label inside the Documentation band (the architecture sections) */
-.nav-subband {
-  font-family: var(--sans);
-  font-size: 9.5px;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  font-weight: 700;
-  color: var(--muted);
-  margin: 18px 8px 2px;
-  padding-top: 11px;
-  border-top: 1px dashed var(--line-strong);
+/* first band sits directly under the brand — no divider above it */
+.brand-repo + .nav-band { margin-top: 18px; padding-top: 0; border-top: none; }
+
+/* the core documentation set — the "Architecture and Capabilities" gateway band
+   plus its seven sections (Orientation … System personalization), boxed as one unit */
+.nav-core {
+  margin: 26px 0 6px;
+  padding: 6px 12px 14px;
+  border: 1px solid var(--line-strong);
+  border-left: 3px solid var(--clay);
+  border-radius: 12px;
+  background: rgba(177,83,46,.045);
 }
-.nav-subband + .nav-group { margin-top: 10px; }
-/* Orientation marked as the gateway into the Documentation block */
-.nav-start h4 { color: var(--clay-deep); }
-.nav-tag {
-  display: inline-block;
-  margin-left: 7px;
-  padding: 1px 6px;
-  font-size: 8.5px;
-  letter-spacing: .06em;
-  font-weight: 700;
+.nav-core .nav-band {
+  margin: 14px 6px 2px;
+  padding-top: 0;
+  border-top: none;
+  font-size: 11px;
   color: var(--clay-deep);
-  background: var(--clay-soft);
-  border-radius: 10px;
-  vertical-align: middle;
 }
+.nav-core .nav-band + .nav-group { margin-top: 8px; }
+.nav-core .nav-group { margin-top: 18px; }
+.nav-core .nav-group h4 { color: var(--ink-soft); }
 
 /* ---------- typography ---------- */
 h1, h2, h3 { font-family: var(--serif); color: var(--ink); line-height: 1.18; }
