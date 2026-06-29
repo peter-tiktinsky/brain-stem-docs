@@ -17,40 +17,22 @@
     <p class="lede">
       The second-brain idea — even its AI versions — is a <strong>store you keep beside your
       work</strong>: capture, organize, retrieve later. brain-stem keeps that promise — a dedicated,
-      governed place to capture knowledge — but changes where it lives. The store isn't beside the
-      work; it's <strong>folded into the first brain</strong>, connected to the faculties Claude
-      already has so it's used automatically.
+      governed place to capture knowledge — but changes where it lives: not beside the work, but
+      <strong>folded into the first brain</strong>, wired to the faculties Claude already has so it's
+      used automatically, not on your discipline.
     </p>
     <p class="page-meta">The one-page case for adopting · the full case — decision by decision, with
     citations — lives on <a href="research-rationale.html">the research rationale</a>.</p>
 
-    <div class="callout key">
-      <div class="label">The foundation — Claude Code gives you the slots; brain-stem fills them</div>
-      <p>Claude&nbsp;Code is deliberately a near-blank platform. It <em>exposes</em> the extension
-      points — a folder it reads on launch, a small file it auto-loads into memory, scripts that run
-      before a write or when a session starts, a place to drop commands — but it leaves them empty. Out
-      of the box the assistant doesn't know who you are, remembers nothing between sessions, and has no
-      opinion about what a well-formed file looks like. brain-stem is the layer that wires those slots
-      into a complete, opinionated, enforced system — the nervous system that connects the brain to the
-      body. The second-brain argument below is what that connection adds up to.</p>
-    </div>
-
     <p>
-      Framed another way: brain-stem is the operational foundation for a personalized Claude Code.
-      Almost every component — the context layer, the session model, the governance engine, the
-      project scaffold — is something a serious user would eventually need a strong version of anyway.
-      Building each from scratch costs enormous time. Without a coherent foundation the tax is
-      constant: Claude mistakes you keep correcting, manual work you keep repeating, friction on every
-      session handoff. The pillars below are where that tax accumulates — and what wiring them
-      together actually buys.
-    </p>
-
-    <h2>Claude can already do all of this — that's the point</h2>
-    <p>
-      Nothing here is about giving Claude a new superpower. Claude natively has the capabilities — it can
-      read your files, remember, plan, research, and write. The problem is that the slots that would wire
-      those capabilities together sit <strong>empty</strong>: out of the box each one runs alone, ungoverned,
-      and only when you set it up by hand. brain-stem is what connects them.
+      And it doesn't stop at the knowledge store. Claude&nbsp;Code ships <em>every</em> other faculty the
+      same way the memory slot ships — present but empty: planning and project management, write-time
+      governance, session continuity, automated capture, and the ability to make any of it yours. Each is
+      a capability Claude already has, or a hook it leaves open — left to run alone and wired up by hand,
+      if at all. brain-stem fills every one of those slots and connects them, so what you get isn't a
+      better store bolted onto the same unimproved tools but <strong>one unified operating system</strong> —
+      one that doesn't just store and manage context better, it optimizes every capability
+      Claude&nbsp;Code offers, each tuned to what actually works and integrated with the rest.
     </p>
     <p>
       The table below is the whole argument in one place, grouped by the <strong>six parts of the system</strong>
@@ -264,6 +246,24 @@
     </table>
     <p class="page-meta">Each pillar's full case — the alternatives weighed and the evidence behind every
     choice — is laid out on <a href="research-rationale.html">the research rationale</a>.</p>
+    <h2>Why this beats a traditional second brain</h2>
+    <p>
+      Traditional second-brain architecture is optimized for <em>capture</em> and <em>storage</em>, and
+      structurally neglects the three things that actually keep a knowledge system trustworthy and
+      usable over its life:
+    </p>
+    <ul>
+      <li><strong>Governance</strong> — machine-enforced rules about what's well-formed and what gets kept.</li>
+      <li><strong>Curation</strong> — keeping signal high as the store grows, and keeping indexes current.</li>
+      <li><strong>Loading discipline</strong> — deciding what reaches a session versus what waits.</li>
+    </ul>
+    <p>
+      Capture is cheap and self-rewarding; the other three are work, so they get skipped — and the
+      store drifts, fills with noise, and is abandoned. Bolting an AI on top <em>accelerates</em> the
+      rot, because the AI now writes too, and retrieves indiscriminately from the ungoverned pile.
+      brain-stem's bet is to build governance, curation, and loading discipline in as the foundation —
+      to make them the connective tissue rather than chores you remember.
+    </p>
     <div class="callout key">
       <div class="label">The category difference</div>
       <p>brain-stem absolutely gives you a place to capture knowledge — most of it automated, the rest
@@ -271,6 +271,14 @@
       separate database you maintain and point at, but storage, recall, governance, and continuity
       <strong>wired into how Claude loads and runs</strong> — part of the brain, not bolted on beside
       it. The second brain's promise, delivered inside the first.</p>
+    </div>
+    <div class="callout note">
+      <div class="label">The most human thing it does</div>
+      <p>A person carries a lesson from one job to the next. Out-of-the-box Claude can't: a lesson
+      learned in one project directory is gone the moment you launch elsewhere. brain-stem promotes
+      project learning into universal rules and reference — so what Claude learns in one arena is
+      available in all of them. That single capability is the difference between a tool you re-teach
+      and a body that grows.</p>
     </div>
 
     <h2>None of it is arbitrary</h2>
@@ -291,34 +299,6 @@
       to be reshaped, because they are the ones where reshaping is safe. The full per-pillar evidence — the
       two kinds of "optimal," the design principles, and every alternative weighed — is on
       <a href="research-rationale.html">the research rationale</a>.</p>
-    </div>
-
-    <h2>Why "store it and search it" isn't enough</h2>
-    <p>
-      Traditional second-brain architecture is optimized for <em>capture</em> and <em>storage</em>, and
-      structurally neglects the three things that actually keep a knowledge system trustworthy and
-      usable over its life:
-    </p>
-    <ul>
-      <li><strong>Governance</strong> — machine-enforced rules about what's well-formed and what gets kept.</li>
-      <li><strong>Curation</strong> — keeping signal high as the store grows, and keeping indexes current.</li>
-      <li><strong>Loading discipline</strong> — deciding what reaches a session versus what waits.</li>
-    </ul>
-    <p>
-      Capture is cheap and self-rewarding; the other three are work, so they get skipped — and the
-      store drifts, fills with noise, and is abandoned. Bolting an AI on top <em>accelerates</em> the
-      rot, because the AI now writes too, and retrieves indiscriminately from the ungoverned pile.
-      brain-stem's bet is to build governance, curation, and loading discipline in as the foundation —
-      to make them the connective tissue rather than chores you remember.
-    </p>
-
-    <div class="callout note">
-      <div class="label">The most human thing it does</div>
-      <p>A person carries a lesson from one job to the next. Out-of-the-box Claude can't: a lesson
-      learned in one project directory is gone the moment you launch elsewhere. brain-stem promotes
-      project learning into universal rules and reference — so what Claude learns in one arena is
-      available in all of them. That single capability is the difference between a tool you re-teach
-      and a body that grows.</p>
     </div>
 
     <h2>The five differentiators that carry the case</h2>
