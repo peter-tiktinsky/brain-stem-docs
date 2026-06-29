@@ -287,6 +287,45 @@ td.cap { background: var(--surface-alt); border-right: 1px solid var(--line-stro
 td.cap strong { font-size: 14px; color: var(--ink); }
 td.cap .cap-desc { display: block; font-size: 12.4px; color: var(--ink-soft); margin-top: 5px; line-height: 1.4; font-style: italic; }
 
+/* ---------- collapsible pillar sections (the capability comparison) ----------
+   class is "pillar-fold", NOT "pillar" — the governance-engine cards own ".pillar"
+   (bg + border + shadow); colliding on it framed every section. */
+details.pillar-fold {
+  border-radius: var(--radius);
+  margin: 8px 0;
+  overflow: hidden;
+}
+details.pillar-fold > summary {
+  display: block;
+  list-style: none;
+  cursor: pointer;
+  position: relative;
+  padding: 10px 56px 10px 16px;
+  background: var(--surface-alt);
+}
+details.pillar-fold > summary::-webkit-details-marker { display: none; }
+details.pillar-fold > summary::after {
+  content: "\25B8";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--clay);
+  font-size: 40px;
+  line-height: 1;
+  transition: transform .15s ease;
+}
+details.pillar-fold[open] > summary::after { transform: translateY(-50%) rotate(90deg); }
+details.pillar-fold[open] > summary { border-bottom: 1px solid var(--line); }
+details.pillar-fold > summary:hover { background: #ebe4d6; }
+details.pillar-fold > summary:hover::after { color: var(--clay-deep); }
+details.pillar-fold > summary:focus-visible { outline: 2px solid var(--clay); outline-offset: -2px; }
+.pillar-fold .g-name { font-family: var(--sans); text-transform: uppercase; letter-spacing: .08em; font-size: 12px; font-weight: 700; color: var(--clay); }
+.pillar-fold .g-desc { display: block; font-family: var(--serif); font-size: 14.5px; color: var(--ink-soft); margin-top: 3px; max-width: 70ch; }
+.pillar-fold > table { margin: 0; border: none; border-radius: 0; }
+.pillar-fold > table td code { overflow-wrap: anywhere; }
+.pillar-fold > .callout { margin: 16px; }
+
 /* inline muted qualifier — e.g. a parenthetical after a glossary term */
 .muted { color: var(--muted); font-weight: 400; font-size: 0.9em; }
 

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The governance engine · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=20">
+<link rel="stylesheet" href="assets/style.css?v=26">
 </head>
 <body>
 <div class="layout">
@@ -45,7 +45,7 @@
       <div class="fstep"><b>Checked against the rulebook</b><small>one of three verdicts is returned ↓</small></div>
     </div>
     <div class="flow-branch">
-      <div class="fb"><b>Outside the vault →</b> allowed untouched — a code repo or <code>~/work</code> is audited later, never blocked here.</div>
+      <div class="fb"><b>Outside the vault →</b> allowed untouched — a code repo or unregistered folder is audited later, not blocked here. A <strong>registered Work project</strong> is the exception: remapped onto the vault view and governed at the write.</div>
     </div>
     <div class="verdicts">
       <div class="verdict ok"><div class="vh">Allow</div><p>The write proceeds, silently — a well-formed write that needs no comment.</p></div>
@@ -191,19 +191,22 @@
 
     <h2>Where the guard acts — and where it can't</h2>
     <p>
-      The guard's document-governance branches are <strong><code>VAULT_ROOT</code>-gated</strong>: they only fire on a
+      The guard's document-governance branches are <strong><code>VAULT_ROOT</code>-gated</strong>: they fire on a
       write whose path is inside the vault. This is deliberate — it keeps the engine from firing
-      spurious advisories on every file on disk. (The plan-lifecycle branch is the main exception — it
-      governs the plans tree at its own root, <code>~/.claude-plans/</code>, not the vault.)
+      spurious advisories on every file on disk. Two surfaces extend that boundary: the plan-lifecycle branch
+      governs the plans tree at its own root (<code>~/.claude-plans/</code>), and a write into a
+      <strong>registered Work project</strong> is remapped onto its vault-view path
+      (<code>Work/&lt;project&gt;/…</code>) so the same write-time governance runs on it.
     </p>
-    <div class="callout warn">
-      <div class="label">The Work area is governed at audit time</div>
-      <p>Because the gate is the vault root, writes to the <a href="work-surface.html">Work area</a>
-      (which lives outside the vault) are <strong>never write-time governed</strong>. The work product you
-      author there is covered instead by an audit-time backstop — a session-close parity check — which
-      also catches cross-file drift that a single-write guard structurally cannot see. The one wrinkle: the
-      system keeps a couple of navigation files in the Work area current for you (a what-lives-where map
-      and folder indexes), but it never machine-writes your actual deliverables.</p>
+    <div class="callout note">
+      <div class="label">Work projects: write-time once registered, audit-time until then</div>
+      <p>A write into a <strong>registered</strong> <a href="work-surface.html">Work project</a> is remapped
+      onto the vault view and governed at the write, exactly like the vault — the same frontmatter and
+      placement checks, and the cross-document cascade. An <strong>unregistered</strong> work folder (and any
+      code repo) stays outside the write-time gate: it's covered by an audit-time backstop instead — a
+      session-close parity check that also catches cross-file drift a single-write guard structurally can't
+      see. So new work stays frictionless until you <code>/govern register</code> it, and is governed at the
+      write once you do.</p>
     </div>
 
     <div class="callout note">
@@ -220,7 +223,7 @@
         <tr><td>Enforce at write-time via a hook</td><td>A standing written rule degrades over sessions; a hook fires regardless of the assistant's cooperation.</td></tr>
         <tr><td>Advise as the default verdict</td><td>Most policy should be taught, not blocked — blocking is reserved for structural corruption.</td></tr>
         <tr><td>Compose pillars into a sealed, generated master</td><td>One reproducible bundle to ship and reason about; edits live in the source pillars (see <a href="governance-personalization.html">Governance personalization</a>).</td></tr>
-        <tr><td>Gate on the vault root; audit outside it</td><td>Avoids spurious advisories everywhere; the Work area and code repos are covered by audit, not write-time blocking.</td></tr>
+        <tr><td>Gate on the vault root and registered Work projects; audit elsewhere</td><td>Avoids spurious advisories on every file on disk; a registered Work project is remapped onto the vault view and governed at the write, while code repos and unregistered folders get the audit-time backstop.</td></tr>
       </tbody>
     </table>
 
@@ -229,7 +232,7 @@
       <li><code>governance/foundation-master.json</code> — the composed, sealed rulebook (one slot per pillar). Generated; edit the source pillars.</li>
       <li><code>governance/file-type-contracts/*.json</code> — the per-document-type contracts (one per type).</li>
       <li><code>hooks/pre-write-guard.sh</code> — the doorman that emits allow / advise / deny; <code>VAULT_ROOT</code>-gated.</li>
-      <li>The session-close parity audit — the audit-time backstop covering the Work area and cross-file drift.</li>
+      <li>The session-close parity audit — the audit-time backstop covering code repos, unregistered work folders, and cross-file drift.</li>
       <li>Extending and overriding the rulebook (the overlay seam and <code>/govern register</code>) — see <a href="governance-personalization.html">Governance personalization</a>.</li>
     </ul>
 

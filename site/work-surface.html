@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Project organization · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=20">
+<link rel="stylesheet" href="assets/style.css?v=26">
 </head>
 <body>
 <div class="layout">
@@ -95,9 +95,10 @@
       (<code>type</code>, <code>tags</code>, <code>updated</code>, <code>project</code>,
       <code>status</code>&nbsp;[draft·delivered·superseded], <code>audience</code>&nbsp;[internal·external])
       and <strong>no body structure at all</strong> — because a brief, a memo, a deck source, and a
-      multi-page report share no common shape. Governance is <strong>audit-time</strong>: deliverables
-      are authored outside the vault root, so they're validated on a scoped librarian pass rather than
-      blocked at write time.
+      multi-page report share no common shape. Governance follows the vault's split: in a
+      <strong>registered</strong> Work project the six required fields' presence is checked at the write,
+      while their enum values, body structure, and cross-file parity are reconciled by a scoped librarian
+      pass at session close; an unregistered folder is audit-time only until you register it.
     </p>
 
     <p>The base structure is a floor, not a ceiling — you add whatever folders the project needs and Claude reads whatever structure it finds. Setting one up, step by step, with worked flat and multi-workstream examples: <a href="work-folder-guidebook.html">The work-folder guidebook</a>.</p>
