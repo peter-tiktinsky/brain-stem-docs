@@ -749,18 +749,120 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
 .vx-gloss dt { font-family: var(--sans); font-weight: 700; font-size: 13.5px; color: var(--clay-deep); margin-top: 13px; }
 .vx-gloss dd { margin: 2px 0 0; font-size: 14.3px; color: var(--ink-soft); line-height: 1.5; }
 
-/* ---------- responsive ---------- */
+/* ---------- responsive / mobile ----------
+   ≤820px the sidebar leaves the document flow. With JS (mobile.js stamps
+   html.has-mnav) it becomes an off-canvas drawer behind the top bar's labeled
+   Menu button; without JS it falls back to the stacked block above the content
+   so navigation is never unreachable. Desktop rendering is untouched — every
+   rule below lives inside the media query or targets JS-injected elements. */
+
+/* top-bar / drawer chrome (elements injected by mobile.js; hidden on desktop) */
+.mnav-bar, .mnav-backdrop, .mnav-close { display: none; }
+
 @media (max-width: 820px) {
-  .layout { flex-direction: column; }
-  .sidebar {
+  html { scroll-padding-top: 66px; }   /* anchor jumps clear the sticky top bar */
+  /* stretch, not flex-start: in column direction the cross axis is horizontal,
+     and flex-start would let .content size to fit-content wider than the screen */
+  .layout { flex-direction: column; align-items: stretch; }
+  .content { width: 100%; padding: 26px 20px 72px; }
+
+  /* -- top bar: brand + labeled menu button, the always-visible entry point -- */
+  .mnav-bar {
+    position: sticky; top: 0; z-index: 80;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface-alt);
+    border-bottom: 1px solid var(--line-strong);
+    padding: 0 8px 0 18px;
+    min-height: 54px;
+  }
+  .mnav-brand {
+    font-family: var(--serif); font-size: 20px; font-weight: 600;
+    color: var(--ink); letter-spacing: .2px;
+    text-decoration: none; border-bottom: none;
+    padding: 12px 0;
+  }
+  .mnav-toggle {
+    display: inline-flex; align-items: center; gap: 9px;
+    min-height: 44px; min-width: 44px; padding: 8px 14px;
+    background: transparent; border: none; border-radius: 10px;
+    font-family: var(--sans); font-size: 12.5px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--clay-deep);
+    cursor: pointer;
+  }
+  .mnav-toggle:hover, .mnav-toggle:active { background: var(--clay-soft); }
+  .mnav-icon { position: relative; display: block; width: 17px; height: 2px; border-radius: 2px; background: currentColor; }
+  .mnav-icon::before, .mnav-icon::after {
+    content: ""; position: absolute; left: 0; width: 17px; height: 2px;
+    border-radius: 2px; background: currentColor;
+  }
+  .mnav-icon::before { top: -5px; }
+  .mnav-icon::after { top: 5px; }
+
+  /* -- off-canvas drawer (JS present) -- */
+  html.has-mnav .sidebar {
+    position: fixed; top: 0; left: 0; z-index: 90;
+    width: min(320px, 86vw); min-width: 0;
+    height: 100vh; height: 100dvh;
+    border-right: 1px solid var(--line-strong);
+    padding: 54px 20px 40px;
+    transform: translateX(-103%);
+    visibility: hidden;                /* closed drawer leaves the tab order */
+    transition: transform .22s ease, visibility 0s linear .22s;
+  }
+  html.has-mnav body.nav-open .sidebar {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform .22s ease;
+    box-shadow: 0 8px 40px rgba(42,38,32,.28);
+  }
+  html.has-mnav .mnav-backdrop {
+    display: block; position: fixed; inset: 0; z-index: 85;
+    background: rgba(42,38,32,.45);
+    opacity: 0; pointer-events: none;
+    transition: opacity .22s ease;
+  }
+  html.has-mnav body.nav-open .mnav-backdrop { opacity: 1; pointer-events: auto; }
+  html.has-mnav body.nav-open { overflow: hidden; }    /* scroll-lock behind the drawer */
+  html.has-mnav .mnav-close {
+    display: inline-flex; align-items: center; justify-content: center;
+    position: absolute; top: 6px; right: 6px;
+    width: 44px; height: 44px;
+    background: transparent; border: none; border-radius: 10px;
+    color: var(--ink-soft); font-size: 26px; line-height: 1; cursor: pointer;
+  }
+  html.has-mnav .mnav-close:hover, html.has-mnav .mnav-close:active { background: rgba(177,83,46,.12); color: var(--clay-deep); }
+
+  /* -- no-JS fallback: the old stacked sidebar block above the content -- */
+  html:not(.has-mnav) .sidebar {
     position: static; width: 100%; min-width: 0; height: auto;
     border-right: none; border-bottom: 1px solid var(--line);
     padding: 18px 20px;
   }
-  .content { padding: 32px 22px 64px; }
+
+  /* -- comfortable touch targets (≥44px rows) -- */
+  .nav-group a { padding: 11px 12px; font-size: 15px; }
+  .section-jump a { padding: 9px 14px; }
+  .vx-row { padding: 7px 11px 7px 10px; }
+
+  /* -- fluid type on the small screen; measures stay readable -- */
+  h1 { font-size: clamp(28px, 3.4vw + 16px, 34px); }
+  h2 { font-size: clamp(22px, 2vw + 15px, 24px); margin: 40px 0 12px; }
+  h3 { font-size: 18.5px; }
+  .lede { font-size: 17px; }
+
+  /* -- wide tables scroll sideways instead of crushing their columns -- */
+  table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  th, td { padding: 10px 12px; min-width: 120px; }
+  code { overflow-wrap: anywhere; }
+
+  /* -- vault explorer stacks its two panes -- */
   .vx { flex-direction: column; min-height: 0; }
   .vx-tree { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); max-height: 340px; }
   .vx-detail { padding: 18px 18px 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.has-mnav .sidebar, html.has-mnav .mnav-backdrop { transition: none; }
 }
 
 /* sidebar GitHub repo link (replaces the documentation sub-label) */
