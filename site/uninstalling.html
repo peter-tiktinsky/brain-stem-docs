@@ -80,6 +80,16 @@
       </div>
     </div>
 
+    <div class="callout note">
+      <div class="label">The project registry is part of the install — so it is removed</div>
+      <p>brain-stem keeps a small registry of the projects (spokes) you have registered. Unlike your notes and
+      your own edits, that registry is <strong>brain-stem's own state, not content you authored</strong> — it
+      lives inside the install, so a full uninstall removes it along with everything else brain-stem laid down.
+      (An <em>upgrade</em> does the opposite and preserves it.) If you reinstall later you start with the empty
+      starter registry and re-register your projects — the projects themselves, on disk under
+      <code>~/work/</code>, are never touched.</p>
+    </div>
+
     <h2>Good to know</h2>
     <div class="callout warn">
       <div class="label">There is no dry-run / preview for uninstall</div>

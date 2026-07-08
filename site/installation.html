@@ -207,6 +207,23 @@ bash install.sh --apply --backup-dir ~/.claude-upgrade-backup</pre>
       <code>--apply</code> — so an upgrade across any version holds no surprises.
     </p>
 
+    <div class="callout key">
+      <div class="label">Upgrading never resets what you populated</div>
+      <p>brain-stem keeps a small <strong>registry of the projects</strong> (it calls them "spokes") you have
+      registered — for example a work project under <code>~/work/</code>. That registry is
+      <strong>seeded once, when brain-stem is first installed, and is never overwritten on a later
+      upgrade</strong>, so your registered projects survive every upgrade untouched. A fresh install still gets
+      the starter registry it needs; only the re-seed on upgrade is suppressed.</p>
+    </div>
+    <p>
+      One migration ships with brain-stem: a one-time reconciliation of older plans to the current
+      project-identity scheme. It is deliberately narrow — it can <strong>only rescue a plan's older-style
+      title</strong> into the current field, and it <strong>never rewrites which project a plan belongs
+      to</strong>. If it is ever launched from a location brain-stem does not recognize, it says so loudly and
+      stops rather than proceeding on a guess, so it can never reassign a correctly-labelled plan to the wrong
+      project. On a standard install it either has nothing to do or performs only that harmless title rescue.
+    </p>
+
     <div class="callout note">
       <div class="label">Removing brain-stem instead</div>
       <p>If you ever want to remove it, run <code>bash uninstall.sh</code> from your cloned <code>brain-stem</code>
