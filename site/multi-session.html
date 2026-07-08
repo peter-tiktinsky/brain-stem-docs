@@ -39,8 +39,11 @@
     </table>
     <p>
       Writes to the registry are lock-guarded and atomic (temp file, then rename), so two sessions updating
-      it at once never corrupt it. It lives in machine-local state, <strong>not the vault</strong> — it's
-      bookkeeping for the running programs, not knowledge.
+      it at once never corrupt it. The guarantee covers the two <em>different</em> routines that touch it — a
+      session <strong>registering</strong> itself and the background <strong>cleanup</strong> that reaps exited
+      sessions — because both take the <strong>same single mutual-exclusion lock</strong>, so a cleanup and a
+      registration running at the same moment can no longer clobber each other. It lives in machine-local
+      state, <strong>not the vault</strong> — it's bookkeeping for the running programs, not knowledge.
     </p>
 
     <h2>Peer awareness and the same-file warning</h2>

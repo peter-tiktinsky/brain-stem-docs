@@ -90,6 +90,13 @@
     </div>
     <p class="flow-note">The binder and work-surface refreshes are scoped to the project you're closing in — they regenerate exactly the context the next session in that project loads at start.</p>
     <div class="callout note">
+      <div class="label">Close-time surfaces a plan-lifecycle lag</div>
+      <p>The drift check does one more thing worth calling out: if a project's <strong>parent</strong> plan is
+      marked finished while a <strong>child</strong> plan under it is still left open, the close
+      <strong>surfaces that lag</strong> instead of letting it drift on unnoticed — so a parent never quietly
+      finishes over an unfinished child.</p>
+    </div>
+    <div class="callout note">
       <div class="label">Advisory, never wedged</div>
       <p>The whole flow is <strong>advisory</strong>: a chore that fails is logged and the flow continues,
       and the close <strong>always exits cleanly</strong>. It never blocks you and never leaves a session

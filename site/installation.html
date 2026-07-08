@@ -195,6 +195,28 @@ bash install.sh --apply --backup-dir ~/.claude-upgrade-backup</pre>
       first install into a folder that already has files). The relaxed behavior is preview-only.</p>
     </div>
 
+    <div class="callout note">
+      <div class="label">Adopting the Bases starter views on a vault you already have</div>
+      <p>
+        brain-stem ships three starter <strong>Obsidian Bases</strong> views — Bases is Obsidian's built-in,
+        table-driven way to browse notes by their frontmatter, and these views read the typed frontmatter cohort
+        directly (see <a href="knowledge-graph.html">Knowledge graph &amp; external AI</a>). A <em>fresh</em>
+        onboarding seeds them into your new vault automatically; an <strong>upgrade never reaches into your
+        vault</strong>, so on a vault you already have you add them once, by hand:
+      </p>
+      <ol>
+        <li>Copy the three view files — <code>all-durable-by-type</code>, a per-status board, and a
+        recently-updated-with-summaries view — from your install into your vault:
+        <pre>mkdir -p &lt;your-vault&gt;/Bases
+cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
+        <li>In Obsidian (<strong>version 1.9.10 or newer</strong>), enable the <strong>Bases</strong> core plugin
+        under <em>Settings → Core plugins</em>.</li>
+        <li>Open any <code>.base</code> file to render it. The views light up as soon as your notes carry the
+        cohort fields (<code>type</code>, <code>status</code>, <code>updated</code>, <code>description</code>) —
+        run the frontmatter auto-fixer over existing notes first if you want them populated straight away.</li>
+      </ol>
+    </div>
+
     <h2>Version migrations — what happens to your data</h2>
     <p>
       Some releases change <em>where</em> or <em>how</em> your data is stored. When they do, the upgrade

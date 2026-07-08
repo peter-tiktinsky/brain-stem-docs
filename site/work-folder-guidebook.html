@@ -167,14 +167,26 @@
     </div>
     <p>
       Growing or reshaping the project later works the same way: describe the change and Claude runs the right
-      registration for you. To add another workstream to a master, or to promote a stream into its own top-level
-      project after you move it, the registrations it reaches for are:
+      registration for you. To add another workstream to a master, to add a shared top-level folder that is
+      <em>not</em> a workstream, or to promote a stream into its own top-level project after you move it, the
+      registrations it reaches for are:
     </p>
     <pre><code># grow a master with another stream
 /govern register --kind project --under &lt;project&gt; --add-sub &lt;name&gt;
 
+# add a plain top-level folder that is NOT a sub-project — a home for reference
+# or deliverables shared across the spoke, not owned by any one workstream
+/govern register --kind project --under &lt;project&gt; --add-folder &lt;name&gt;
+
 # promote a stream to its own top-level project (after you move it)
 /govern register --kind project --adopt</code></pre>
+    <p>
+      <code>--add-folder</code> is the lightweight one: it mints a <strong>plain top-level folder</strong>
+      inside the spoke and a vault-view rule so writes into it are governed — but it is <em>not</em> a
+      sub-project, so it carries no <code>deliverables/</code>&nbsp;/&nbsp;<code>reference/</code> shape of its
+      own and does not register a project of its own. Use it for material that belongs to the whole spoke rather
+      than to a single workstream. (The names <code>deliverables</code> and <code>reference</code> are reserved
+      for the sub-project shape, so they are refused here.)</p>
 
     <h2>Worked example 1 — a flat project</h2>
     <p>

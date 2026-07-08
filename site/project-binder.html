@@ -107,6 +107,17 @@
       status file kept current by a person rots the moment attention moves on, but a generated index is
       correct on every pass with no upkeep.
     </p>
+    <div class="callout key">
+      <div class="label">Bounded and exact — what the generated surfaces guarantee</div>
+      <p>Because these pages are re-derived rather than hand-kept, brain-stem holds them to a few strict
+      guarantees. The <strong>situating card is length-bounded</strong> — a compact orientation, never a
+      whole-file dump — so the one page loaded at every session start stays cheap. The
+      <strong>handoff chronicle</strong> recognizes every legitimate session-heading shape, so a
+      correctly-written entry is never silently dropped or mis-sorted. The <strong>decision log</strong> links
+      a decision only within its own plan's numbering — it never cross-links to an identically-numbered
+      decision in a <em>different</em> plan. And the <strong>latest-handoff pointer is refreshed on every
+      write</strong>, so it never points at a stale session.</p>
+    </div>
     <div class="callout note">
       <div class="label">A reading surface, not a system dependency</div>
       <p>Because the generated pages — the three indices and the orientation card — re-derive from the
