@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Knowledge graph &amp; external AI · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=27">
+<script src="assets/mobile.js?v=1"></script>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">Context &amp; memory · interoperability</p>
+    <h1>Knowledge graph &amp; external AI</h1>
+    <p class="lede">
+      Every durable note in your vault carries a small, <strong>typed set of frontmatter fields</strong> — the
+      cohort. That cohort is the substrate that makes the same vault navigable for humans (Obsidian), legible to
+      Claude, and portable to outside AI tools (search, retrieval, graph) — <strong>without</strong> committing you
+      to a heavyweight knowledge-graph product. This page explains what ships, what you can bolt on, and how to
+      serve your vault to an external AI when you want to.
+    </p>
+    <p class="page-meta">Where the frontmatter substrate ends and the ecosystem begins — a three-layer model, of which the foundation owns only the first.</p>
+
+    <h2>The three layers</h2>
+    <p>
+      Think of the path from "notes in a folder" to "a corpus an AI can reason over" as three layers. The
+      foundation ships <strong>only Layer 0</strong> and points at good, off-the-shelf choices for the rest — so you
+      are never locked into a single vendor or a schema you did not choose.
+    </p>
+    <div class="flow">
+      <div class="fstep mark"><b>Layer 0 — Substrate</b><small>A minimal, typed frontmatter cohort on every durable note. Shipped, mandatory-but-gentle. This is what the foundation owns.</small></div>
+      <div class="farr">→</div>
+      <div class="fstep"><b>Layer 1 — Enrichment</b><small>Optional Obsidian plugins that add typed relations and embeddings. Documented, you opt in, not bundled.</small></div>
+      <div class="farr">→</div>
+      <div class="fstep gate"><b>Layer 2 — Serving</b><small>An off-the-shelf server or exporter that hands the vault to an external AI. Documented, you choose, not built.</small></div>
+    </div>
+
+    <h2>Layer 0 — the typed cohort (what ships)</h2>
+    <p>
+      A durable note carries seven fields. They are small on purpose: enough structure to be useful to every
+      consumer at once, light enough that you are never filling in boilerplate.
+    </p>
+    <ul>
+      <li><b>type</b> — what kind of note this is (an index, a deliverable, a reference article, …).</li>
+      <li><b>description</b> — a one-line summary. It becomes a card subtitle in Obsidian and a relevance
+        pre-filter for retrieval, so a tool can skim your vault without reading every file.</li>
+      <li><b>created</b> and <b>updated</b> — real dates, in <code>YYYY-MM-DD</code> form.</li>
+      <li><b>tags</b> — a controlled, prefixed vocabulary (a list, not a string).</li>
+      <li><b>id</b> — a stable, readable slug that survives moves and renames, so an export or a server can
+        reconcile a note to the same identity over time.</li>
+      <li><b>schema_version</b> — an integer, so a future format change can target exactly the notes that need it.</li>
+    </ul>
+    <p>
+      Values are <strong>type-checked at write time</strong> by a lightweight format rule (a date looks like a date;
+      tags are a list; the id is a slug; the version is an integer). That check <em>warns</em>, it does not block —
+      the point is a nudge, not a wall. Obsidian's own property editor is seeded to match (dates render as dates,
+      tags and aliases as lists) so the UI agrees with the governed shape. And because the cohort is just
+      frontmatter, <strong>Obsidian Bases</strong> reads it directly: the foundation ships starter Bases views
+      (all-durable-by-type, a per-status board, and a recently-updated view with the description as the card
+      subtitle) that light up the moment your notes carry the fields — no plugin beyond Bases required.
+    </p>
+
+    <h3>How notes become compliant — three cooperating mechanisms</h3>
+    <p>
+      You should almost never have to fill the cohort in by hand. Three mechanisms cooperate so it happens
+      organically:
+    </p>
+    <ul>
+      <li><b>Forward governance.</b> A note created <em>through the system</em> — by Claude, by the workspace
+        scaffolder, by the write-time hooks — is stamped compliant at creation: <code>created</code> today, a
+        generated immutable <code>id</code>, a <code>schema_version</code>, and a description drafted for you
+        (from the note's own first heading or opening line, at no AI cost; a cheap one-line model pass only when
+        that heuristic is weak).</li>
+      <li><b>An opt-in auto-fixer.</b> For notes that already exist — including ones you hand-wrote directly in
+        Obsidian — a shipped capability backfills the cohort on demand: <code>created</code> from the file's first
+        commit date (or its birth date), a generated id, the version, and a drafted description. It runs in a
+        preview mode first, so you see every proposed value before anything is written, and you can trigger it as
+        part of an upgrade.</li>
+      <li><b>A gentle default.</b> Because the first two make notes compliant on their own, the shipped default
+        only <em>warns</em> on a missing field. Any vault can dial itself up to hard-block once its backfill is
+        done — that is a per-vault choice, not a default imposed on everyone.</li>
+    </ul>
+    <p>
+      Scope is <strong>location-based</strong>: the cohort applies to every note inside the vault, including
+      folders symlinked in (like your work surface). Machine files the system parks outside the vault (logs,
+      state) are out of scope by location, not by type.
+    </p>
+
+    <h2>Layer 1 — enrichment (you opt in)</h2>
+    <p>
+      Two categories of Obsidian plugin turn the flat cohort into something more graph-shaped. The foundation
+      <strong>endorses</strong> them and does not bundle them, so you stay in control of what runs in your vault:
+    </p>
+    <ul>
+      <li><b>Typed relations</b> — a plugin such as <b>Breadcrumbs</b> reads relationship fields in your
+        frontmatter (parent, up, next) and renders a real navigable graph and breadcrumb trails over them.</li>
+      <li><b>Semantic similarity</b> — a plugin such as <b>Smart Connections</b> computes embeddings so "related
+        notes" is by meaning, not just by link. It complements the cohort; it does not depend on it.</li>
+    </ul>
+
+    <h2>Layer 2 — serving the vault to an external AI</h2>
+    <p>
+      When you want an outside AI assistant to answer questions <em>over your vault</em>, you serve it — you do not
+      rebuild it. Two shapes cover almost everyone.
+    </p>
+
+    <h3>Live queries — an MCP server over the vault</h3>
+    <p>
+      The Model Context Protocol (MCP) lets an AI client call tools against your vault: search frontmatter, follow
+      links, read a note. The recommended default is the <b>cyanheads <code>obsidian-mcp-server</code></b> — it
+      works directly against the vault's files and frontmatter, which is exactly what the cohort makes queryable,
+      and it does not require Obsidian to be running.
+    </p>
+    <ul>
+      <li>If you specifically want a <b>permalink / AI-memory</b> model (stable note URLs an assistant can cite and
+        write back to), <b>basic-memory</b> is the better fit.</li>
+      <li>Avoid making <b>mcp-obsidian</b> your default: it drives the app through the Local REST API plugin, so it
+        needs that plugin installed <em>and</em> Obsidian open — more moving parts for the common case.</li>
+    </ul>
+
+    <h3>Batch corpora — a CLI exporter for RAG / GraphRAG</h3>
+    <p>
+      For retrieval-augmented generation or a graph pipeline, you do not need a live server — you need a clean,
+      one-shot export. A CLI exporter walks the vault and emits a corpus (the note bodies plus their cohort
+      frontmatter as structured metadata) that a RAG or GraphRAG toolchain ingests. Because every note already
+      carries <code>type</code>, <code>description</code>, <code>id</code>, and dates, the export needs no
+      per-tool adapter — the metadata a retriever wants is already there.
+    </p>
+
+    <h3>Interchange formats — only at the boundary</h3>
+    <p>
+      Formats like schema.org / JSON-LD (and the broader Open Knowledge Foundation vocabularies) are for
+      <em>publishing</em> and <em>exchange</em>, not for how your notes are shaped day to day. Map to them at a
+      publish or export boundary if a downstream system asks for them; keep your native frontmatter simple and
+      human-first everywhere else. This keeps the vault legible to you and to Obsidian while still being able to
+      speak a formal vocabulary when it has to.
+    </p>
+
+    <div class="callout">
+      <p><b>The through-line.</b> Own Layer 0 well — a small typed cohort, applied consistently — and every other
+      layer becomes a choice rather than a rebuild. Humans get Bases views, Claude gets legible context, and an
+      external AI gets a corpus it can serve, all from the same seven fields.</p>
+    </div>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">
+      brain-stem · documentation · Knowledge graph &amp; external AI.
+    </div>
+  </main>
+</div>
+
+<script src="assets/nav.js?v=21"></script>
+<script src="assets/nav-foot.js"></script>
+</body>
+</html>

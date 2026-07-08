@@ -24,6 +24,7 @@
       ['context-library.html', 'Dual context layers'],
       ['memory-model.html', 'The memory model'],
       ['session-loading.html', 'What loads each session'],
+      ['knowledge-graph.html', 'Knowledge graph &amp; external AI'],
       ['context-memory-rationale.html', 'Why: context &amp; memory'],
     ]},
     { title: 'Project management', band: 'Architecture and Capabilities', core: true, links: [
