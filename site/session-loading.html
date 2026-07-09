@@ -70,7 +70,7 @@
       <p>The first three — rules, settings, and memory — are <strong>Claude&nbsp;Code's own</strong>
       loading behavior; brain-stem rides on them and keeps them organized. The genuinely net-new piece
       is the fourth: the project's <strong>situating card</strong>, generated from its plans and loaded
-      automatically at start (the curated cover page, <code>hub.md</code>, is read on demand behind it).</p>
+      automatically at start (the binder's deeper indexes are read on demand behind it).</p>
     </div>
 
     <h2>What loads from your project directory</h2>
@@ -87,7 +87,7 @@
         <tr><td><strong>Behavioral rules</strong></td><td>global rules + that project's own rules</td></tr>
         <tr><td><strong>Permissions</strong></td><td>global ⊕ project settings (project deny wins)</td></tr>
         <tr><td><strong>Memory</strong></td><td>the project's memory area, keyed to the directory</td></tr>
-        <tr><td><strong>Project orientation</strong></td><td>the project's situating card (<code>_situating.md</code>), loaded at start; the cover <code>hub.md</code> is read on demand</td></tr>
+        <tr><td><strong>Project orientation</strong></td><td>the project's situating card (<code>_situating.md</code>), loaded at start; the binder's indexes are read on demand</td></tr>
         <tr><td><strong>Always-on machinery</strong></td><td>the session machinery (next sections)</td></tr>
       </tbody>
     </table>
@@ -96,21 +96,19 @@
     <p>
       The one project-scoped thing brought into view from the <strong>start</strong> is a small generated
       <strong>situating card</strong>: the project's plan roster, its overall status, the active focus,
-      and the latest handoff headline — derived from the project's plans and loaded into the session
-      automatically, before your first message, so the assistant self-orients with no reading step. It is
-      kept small on purpose, so it costs almost nothing to load. The project's curated home page,
-      <code>hub.md</code>, sits behind it and is <strong>read on demand</strong> — a map, not a payload:
-      open it when you want the full pointer-only index, and the heavy material behind each pointer is
-      read <strong>only when the work reaches for it</strong>.
+      and a latest-handoff pointer for each active plan — derived from the project's plans and loaded into
+      the session automatically, before your first message, so the assistant self-orients with no reading
+      step. It is kept small on purpose, so it costs almost nothing to load — a map, not a payload: beyond
+      its own orientation lines it carries pointers into the rest of the project's binder, and the heavy
+      material behind each pointer is read <strong>only when the work reaches for it</strong>.
     </p>
 
     <div class="hubwrap" style="margin:22px 0;">
-      <div class="smnode hub"><b>hub.md — the curated cover, read on demand</b><small>the project's pointer-only home page; open it to bring the whole project into view without loading its contents</small></div>
+      <div class="smnode hub"><b>_situating.md — the generated cover, loaded at session start</b><small>the project's machine-derived orientation card; its pointers bring the whole project into view without loading its contents</small></div>
       <div class="ptrcards">
         <div class="ptrcard"><b>Research index</b><small>Every research note the project has produced, organized by plan — its accumulated findings.</small></div>
         <div class="ptrcard"><b>Decision log</b><small>A running record of the choices made and why — so settled decisions aren't re-litigated.</small></div>
         <div class="ptrcard"><b>Handoff chronicle</b><small>Session-by-session notes of what was done and what's next, newest first — any session resumes cleanly.</small></div>
-        <div class="ptrcard"><b>Library references</b><small>Links to the universal Library articles this project drew on or contributed to.</small></div>
         <div class="ptrcard"><b>Deliverables</b><small>The project's finished work product (the Work binder) — briefs, docs, and reports for non-coding projects.</small></div>
       </div>
     </div>
@@ -130,7 +128,7 @@
       <tbody>
         <tr><td><strong>Always-on</strong></td><td>rules, settings, the small memory index, and the project's situating card</td><td>at session start</td></tr>
         <tr><td><strong>Moment-of-need</strong></td><td>a one-line "there may already be reference on this" hint</td><td>when a request looks like research</td></tr>
-        <tr><td><strong>On-demand</strong></td><td>the cover <code>hub.md</code>, research, decisions, handoffs, library articles, deliverables</td><td>when a pointer is followed</td></tr>
+        <tr><td><strong>On-demand</strong></td><td>the binder's indexes, research, decisions, handoffs, library articles, deliverables</td><td>when a pointer is followed</td></tr>
         <tr><td><strong>Never auto-loaded</strong></td><td>the scratch Workshop</td><td>read only when research is promoted</td></tr>
       </tbody>
     </table>
@@ -138,7 +136,7 @@
     <div class="callout key">
       <div class="label">The throughline</div>
       <p>Small, high-value context loads up front; everything heavy waits behind a pointer. The launch
-      directory decides <em>which</em> project's small-and-up-front set you get — and the home page is
+      directory decides <em>which</em> project's small-and-up-front set you get — and the situating card is
       the bridge from that small set to everything else the project holds.</p>
     </div>
 
@@ -147,8 +145,7 @@
       <li>Global rules + a project's own rules — concatenated behavioral context (native Claude&nbsp;Code loading).</li>
       <li>Global settings deep-merged with a project's settings — project "deny" wins (native).</li>
       <li>The project memory area, keyed to the launch directory's git root (else the folder itself).</li>
-      <li>The project's situating card (<code>_situating.md</code>) — a small generated status card (plan roster, aggregate status, active focus, latest handoff headline) loaded into every session automatically at start, so the assistant self-orients with no reading step.</li>
-      <li>The project's home page <code>hub.md</code> — the curated, pointer-only cover, read on demand.</li>
+      <li>The project's situating card (<code>_situating.md</code>) — a small generated status card (plan roster, aggregate status, active focus, latest-handoff pointers) loaded into every session automatically at start, so the assistant self-orients with no reading step; its pointers open the rest of the binder on demand.</li>
       <li>Session machinery — memory review, the active plan's goal, peer-session awareness, and the moment-of-need library hint.</li>
     </ul>
 

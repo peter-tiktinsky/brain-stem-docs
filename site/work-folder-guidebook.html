@@ -83,8 +83,8 @@
     <p>
       The <code>CLAUDE.md</code> carries a small machine-maintained block — a "what lives where" directory map
       the system keeps current as the folder grows — plus a pointer to the project's binder. It does
-      <strong>not</strong> import a cover page; in this layout there is no <code>hub.md</code> in your work
-      folder at all.
+      <strong>not</strong> import a cover page; there is no cover file in your work
+      folder at all — the project's cover is its binder's generated situating card, over in the plan tree.
     </p>
     <h3>A master project — a thin top, then one folder per stream</h3>
     <pre><code>~/work/&lt;project&gt;/
@@ -103,9 +103,10 @@
     <div class="callout note">
       <div class="label">Where the cover page actually lives</div>
       <p>
-        The one cover page for the project — its <code>hub.md</code> — is <strong>not</strong> in your work
-        folder. It's minted in the project's binder over in the plan tree
-        (<code>~/.claude-plans/_projects/&lt;project&gt;/hub.md</code>) at registration. The
+        The one cover page for the project — its situating card (<code>_situating.md</code>) — is <strong>not</strong> in your work
+        folder. It lives in the project's binder over in the plan tree
+        (<code>~/.claude-plans/_projects/&lt;project&gt;/_situating.md</code>), generated from the project's
+        plans and loaded automatically at the start of every session. The
         <code>_index.md</code> files in <code>deliverables/</code> and <code>reference/</code> and the work-map
         block in <code>CLAUDE.md</code> are the first files the system ever generates inside <code>~/work/</code>;
         everything else there is yours to write.
@@ -135,7 +136,7 @@
       <div class="farr">→</div>
       <div class="fstep gate"><b>2 · Claude proposes</b><small>It picks the right registration and proposes the structure — flat, or master with a first stream — for you to redline field by field. Nothing is written to disk yet.</small></div>
       <div class="farr">→</div>
-      <div class="fstep mark"><b>3 · It registers</b><small>On your go-ahead it scaffolds the folder, mints the project's binder hub and the <code>_index.md</code> files, and adds a vault-view routing rule — so the project is governed from its very first file.</small></div>
+      <div class="fstep mark"><b>3 · It registers</b><small>On your go-ahead it scaffolds the folder, establishes the project's binder home and mints the <code>_index.md</code> files, and adds a vault-view routing rule — so the project is governed from its very first file.</small></div>
     </div>
     <p class="flow-note">Under the hood that's <code>/govern register --kind project --layout flat</code> (or <code>--layout master --first-sub &lt;name&gt;</code> for the master shape) — but you never have to type it. You ask; Claude runs it.</p>
 

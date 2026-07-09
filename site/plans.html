@@ -255,7 +255,7 @@
       <div class="band band-proj">
         <div class="band-tag">The project binder — surfaced as Projects/&lt;project&gt;/</div>
         <div class="hubwrap">
-          <div class="smnode hub"><b>hub.md — the cover (hand-maintained)</b><small>the curated cover, read on demand; points to the generated pages below</small></div>
+          <div class="smnode hub"><b>_situating.md — the cover (generated · loaded each session)</b><small>the binder's machine-derived cover; points to the generated pages below</small></div>
           <div class="ptrcards">
             <div class="ptrcard"><b>research-index.md</b><small>Generated — every plan's findings, rolled into one index, with a symlink farm back to each <code>_research/</code>.</small></div>
             <div class="ptrcard"><b>decision-log.md</b><small>Generated — every plan's ADRs in one list; superseded records forward-linked, never dropped.</small></div>
@@ -264,7 +264,7 @@
         </div>
       </div>
     </div>
-    <p class="figcap">The cover (<code>hub.md</code>) is the one hand-maintained page; the research index, decision log, and handoff chronicle are <strong>generated</strong> — re-derived from the plans automatically, at session-close and on each librarian pass, so the binder is a reading surface, not a system dependency.</p>
+    <p class="figcap">The cover (<code>_situating.md</code>) and the research index, decision log, and handoff chronicle are all <strong>generated</strong> — re-derived from the plans automatically, at session-close and on each librarian pass, so the binder is a reading surface, not a system dependency.</p>
     <p>This section is the roll-up <em>mechanism</em> — how a plan's output populates upward. The binder
     itself, in full — every page, how a project is identified, and how research promotes on into the
     universal Library — has its own page: <a href="project-binder.html">The project binder</a>.</p>
@@ -342,7 +342,7 @@
       <li><code>~/.claude-plans/_inbox/</code> + <code>_backlog.md</code> — the idea funnel: cheap capture (no number) → a librarian-generated backlog → triage (<code>/backlog-triage</code>) → research (<code>/backlog-research</code>) → graduate (<code>/new-plan</code>).</li>
       <li><strong>Status lifecycle</strong> — <code>researching → planned → in-progress ⇄ paused → completed → verified → closed → archived</code> (+ <code>superseded</code>). <code>verified</code> is machine-stamped; <code>closed</code> is write-time-refused unless verified.</li>
       <li><strong>Execution &amp; scheduling</strong> — how a plan is run, the propose-and-gate dispatch model, HITL/HOTL gates, and scheduling: see <a href="orchestration.html">Orchestration &amp; scheduling</a>.</li>
-      <li><strong>The project binder</strong> — <code>~/.claude-plans/_projects/&lt;project&gt;/</code> → <code>Projects/</code>: hand-maintained <code>hub.md</code> + generated <code>_situating.md</code> (the situating card, loaded each session), <code>research-index.md</code>, <code>decision-log.md</code>, <code>handoff-chronicle.md</code>, and a <code>research/</code> symlink farm.</li>
+      <li><strong>The project binder</strong> — <code>~/.claude-plans/_projects/&lt;project&gt;/</code> → <code>Projects/</code>: all generated — <code>_situating.md</code> (the situating card, the binder's cover, loaded each session), <code>research-index.md</code>, <code>decision-log.md</code>, <code>handoff-chronicle.md</code>, and a <code>research/</code> symlink farm.</li>
       <li>The vault <code>Plans/</code> symlink — the whole tree, browsable in your notes app.</li>
     </ul>
 
