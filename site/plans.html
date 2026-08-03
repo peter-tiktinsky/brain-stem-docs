@@ -13,11 +13,11 @@
   <aside class="sidebar" id="site-nav"></aside>
 
   <main class="content">
-    <p class="eyebrow">Surface · from idea to verified</p>
+    <p class="eyebrow">Surface · from idea to done</p>
     <h1>Plans</h1>
     <p class="lede">
       A plan is how a multi-step effort is stored on disk and shepherded from a raw idea to a finished,
-      <strong>verified</strong>, signed-off result. The whole tree lives in <code>~/.claude-plans</code>,
+      <strong>independently checked</strong>, signed-off result. The whole tree lives in <code>~/.claude-plans</code>,
       a deliberate parallel to Claude&nbsp;Code's own plans folder, with a structure chosen against
       researched best practices. That one relocation is what makes the funnel, the binder, and the
       orchestrator possible.
@@ -91,8 +91,9 @@
       <strong>forgeable-checkbox</strong> failure (an agent claiming it ticked a box it didn't) and the
       <strong>up-only reporting</strong> rule both track the documented failure modes of unsupervised
       multi-agent systems (a published <em>multi-agent failure taxonomy</em>). The
-      <strong>completed-versus-verified</strong> distinction is standard project-management practice (the
-      <em>PMI&nbsp;/&nbsp;PMBOK</em> separation of <em>verified</em> from <em>accepted</em> deliverables).
+      <strong>claim-versus-independent-check</strong> distinction is standard project-management practice (the
+      <em>PMI&nbsp;/&nbsp;PMBOK</em> separation of <em>verified</em> from <em>accepted</em> deliverables):
+      a plan&rsquo;s record is a claim until an independent read-only pass checks it against the artifacts.
       And a <strong>structured source of truth rendered into a human list</strong> — not the reverse — is
       the lesson agentic-coding tools settled on independently (the <code>tasks.json</code>-style pattern).
       The design converges with those external answers rather than departing from them.</p>
@@ -116,7 +117,7 @@
       non-superseded ADRs straight from the manifest pointer, not from spec archaeology.</li>
     </ul>
 
-    <h2>From idea to verified — the funnel</h2>
+    <h2>From idea to done — the funnel</h2>
     <p>
       Read the whole arc in one picture: an idea is shaped into a plan, the plan is prepared, then executed
       under human gates, and "done" is <em>earned</em>, not declared. Each phase is detailed in its own
@@ -146,9 +147,8 @@
         <div class="chev">›</div>
         <div class="phase">
           <div class="phase-h">④ Earn done</div>
-          <div class="smnode"><b>completed</b><small>a human claim</small></div>
-          <div class="smnode cap"><b>verified</b><small>machine-stamped by a real check</small></div>
-          <div class="smnode"><b>closed</b><small>refused unless verified</small></div>
+          <div class="smnode"><b>completed</b><small>the single terminal done-state, completion-timestamped</small></div>
+          <div class="smnode cap"><b>independent checks</b><small>read-only passes audit the record against the artifacts</small></div>
         </div>
       </div>
       <div class="uptag">▲ Throughout, each plan's research, decisions, and handoffs roll up into the project binder</div>
@@ -206,45 +206,49 @@
 
     <p>How a plan is executed and scheduled &rarr; <a href="orchestration.html">Orchestration &amp; scheduling</a>.</p>
 
-    <h2>Earning done — completed, verified, closed</h2>
+    <h2>Earning done — six statuses, one terminal</h2>
     <p>
-      The lifecycle's load-bearing guard is the difference between a claim and a fact. Verification is not
-      a checkbox — it's an <strong>independent pass</strong>: a separate, read-only verifier returns a
-      pass/fail verdict, and the status is stamped
-      <code>verified</code> only when that real check confirms the work.
+      The lifecycle's load-bearing guard is the difference between a claim and a fact. The status model is
+      deliberately small — <strong>six statuses</strong>, and only vocabulary the system actually enforces:
+      statuses that asserted guarantees no machinery delivered were retired outright rather than left as
+      theater. A plan ends at <code>completed</code> (stamped with a completion timestamp on the record) or
+      <code>superseded</code>. Done-integrity does not come from extra status words — it comes from the
+      <strong>manifest being the source of truth</strong>, every human-readable list being generated from
+      it, and <strong>independent read-only verification passes</strong> that audit the record against the
+      artifacts on disk.
     </p>
     <div class="flow">
+      <div class="fstep"><b>researching</b></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>planned</b></div>
+      <div class="farr">›</div>
       <div class="fstep"><b>in-progress</b></div>
       <div class="farr">›</div>
-      <div class="fstep gate"><b>completed</b><small>a human claim</small></div>
-      <div class="farr">›</div>
-      <div class="fstep mark"><b>verified</b><small>machine-stamped by a real check — never typed in</small></div>
-      <div class="farr">›</div>
-      <div class="fstep"><b>closed</b><small>structurally refused unless verified</small></div>
-      <div class="farr">›</div>
-      <div class="fstep term"><b>archived</b><small>filed away by the librarian</small></div>
+      <div class="fstep term"><b>completed</b><small>the terminal done-state — completion-timestamped</small></div>
     </div>
     <div class="flow-branch">
       <div class="fb"><b>paused ⇄ in-progress —</b> work can pause (with a reason) and resume without losing its place.</div>
-      <div class="fb"><b>superseded —</b> any non-archived plan can be retired as superseded (terminal).</div>
+      <div class="fb"><b>superseded —</b> the other terminal: a plan retired because another plan replaced it.</div>
     </div>
     <div class="callout key">
-      <div class="label">Completed ≠ verified ≠ closed</div>
-      <p><strong>Completed</strong> is a human claim. <strong>Verified</strong> is stamped only by a real
-      validation pass — never typed in by a person. <strong>Closed</strong> is structurally refused at
-      write-time unless the plan is already verified. <em>Done is not something you get to declare.</em>
-      (Archiving is later still, driven by librarian volume, not a calendar date.)</p>
+      <div class="label">A claim, checked — not a stack of status words</div>
+      <p><strong>Completed</strong> is a claim on the record — and the record is checkable, because the
+      manifest is the source of truth and independent read-only passes audit it against what is actually
+      on disk. A status you could set without any machinery behind it would be theater, which is exactly
+      why the old decorative stages were retired. <em>Done is not something you get to declare twice.</em>
+      (Archival is a display-only view filter in the rendered indexes — older completed plans are tucked
+      out of sight without any status change.)</p>
     </div>
 
     <h2>Rolling up into the project binder</h2>
     <p>
-      As a plan is worked, completed, and verified, its durable output populates <strong>up</strong> into
+      As a plan is worked and completed, its durable output populates <strong>up</strong> into
       the project binder — automatically, with no roster to maintain. Each plan names its project; every
       plan naming that project is gathered, sub-plans grouped by lineage.
     </p>
     <div class="sysmap">
       <div class="band band-sess">
-        <div class="band-tag">A plan, as it's worked → completed → verified</div>
+        <div class="band-tag">A plan, as it's worked → completed</div>
         <div class="band-row">
           <div class="smnode"><b>_research/</b><small>findings declared in the manifest</small></div>
           <div class="smnode"><b>decisions/</b><small>the immutable ADR ledger</small></div>
@@ -339,8 +343,8 @@
     <h2>Reference</h2>
     <ul>
       <li><code>~/.claude-plans/&lt;plan&gt;/</code> — a plan folder: <code>spec.md</code>, <code>manifest.json</code> (source of truth), <code>tasks.md</code> (generated), <code>handoff.md</code> (append-only), optional <code>00-ideation-brief.md</code>; plus <code>_research/</code> (declared in <code>research_artifacts[]</code>) and <code>decisions/</code> (the ADR ledger, <code>decision_records[]</code>).</li>
-      <li><code>~/.claude-plans/_inbox/</code> + <code>_backlog.md</code> — the idea funnel: cheap capture (no number) → a librarian-generated backlog → triage (<code>/backlog-triage</code>) → research (<code>/backlog-research</code>) → graduate (<code>/new-plan</code>).</li>
-      <li><strong>Status lifecycle</strong> — <code>researching → planned → in-progress ⇄ paused → completed → verified → closed → archived</code> (+ <code>superseded</code>). <code>verified</code> is machine-stamped; <code>closed</code> is write-time-refused unless verified.</li>
+      <li><code>~/.claude-plans/_inbox/</code> + <code>_backlog.md</code> — the idea funnel: cheap capture (no number) → a librarian-generated backlog → triage (<code>/backlog-triage</code>) → research (<code>/backlog-research</code>) → graduate (<code>/new-plan</code>). The inbox is a <strong>ledger</strong>: each captured idea records its owning project and disposition target in machine-readable form at capture, and a settled ledger plus an inbox index close the loop — so the backlog can answer which ideas are fully settled and which are still owed an outcome.</li>
+      <li><strong>Status lifecycle</strong> — <code>researching → planned → in-progress ⇄ paused → completed</code> (terminal, completion-timestamped), or <code>superseded</code> (terminal). Archival is a display-only view filter in the rendered indexes, not a status.</li>
       <li><strong>Execution &amp; scheduling</strong> — how a plan is run, the propose-and-gate dispatch model, HITL/HOTL gates, and scheduling: see <a href="orchestration.html">Orchestration &amp; scheduling</a>.</li>
       <li><strong>The project binder</strong> — <code>~/.claude-plans/_projects/&lt;project&gt;/</code> → <code>Projects/</code>: all generated — <code>_situating.md</code> (the situating card, the binder's cover, loaded each session), <code>research-index.md</code>, <code>decision-log.md</code>, <code>handoff-chronicle.md</code>, and a <code>research/</code> symlink farm.</li>
       <li>The vault <code>Plans/</code> symlink — the whole tree, browsable in your notes app.</li>

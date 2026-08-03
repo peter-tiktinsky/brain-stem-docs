@@ -445,7 +445,7 @@
       id: 'plans', label: 'Plans', kind: 'symlink', origin: 'symlink', target: '~/.claude-plans',
       one: 'One window onto everything you&rsquo;re running — every project, plus the raw ideas not yet promoted to one.',
       why: 'This is where multi-session work gets a permanent home that survives the end of any one conversation. Without it, a multi-week project lives only in your chat history and your head — you re-explain the goal every session and lose track of what&rsquo;s actually done versus merely claimed-done. The plan tree is the spine that lets you pick an initiative back up weeks later and know exactly where it stands.',
-      what: 'A shortcut into all your long-running work at <code>~/.claude-plans/</code>. Inside: one numbered folder per project, three list pages the librarian keeps current (<code>_index.md</code>, <code>_backlog.md</code>, <code>_archive.md</code>), and an <code>_inbox/</code> where new ideas wait. A fresh install starts empty.',
+      what: 'A shortcut into all your long-running work at <code>~/.claude-plans/</code>. Inside: one numbered folder per project, two list pages the librarian keeps current (<code>_index.md</code>, <code>_backlog.md</code>), and an <code>_inbox/</code> where new ideas wait. A fresh install starts empty.',
       from: 'Appears at install, empty. It fills from the planning commands — you jot ideas with <code>/backlog-triage</code>, turn good ones into plans with <code>/backlog-research</code> or <code>/new-plan</code>, then flesh them out.',
       clar: ['Not a to-do app — each numbered folder is a full project with its own goal, task list, research, and history.', 'This same outside-the-vault folder also holds your binders (via Projects) and the Library (via Wiki); they&rsquo;re siblings of your plans, not shown twice here.'],
       tips: ['Plan numbers are handed out in creation order and never reused, so &ldquo;plan 87&rdquo; means the same thing forever.'],
@@ -454,9 +454,9 @@
         id: 'plan-index', label: '_index.md', kind: 'file', origin: 'generated',
         one: 'The master list of every plan, grouped by where it stands.',
         why: 'Without it you&rsquo;d open dozens of plan folders one by one just to answer &ldquo;what am I working on, and what stage is each at?&rdquo; This answers it in one read — and because it&rsquo;s generated from each plan&rsquo;s real recorded stage, it can&rsquo;t quietly fall out of date the way a hand-kept list would.',
-        what: 'One auto-built page listing every plan grouped by stage — being researched, planned, in progress, done, verified, closed. Big initiatives split into pieces show those nested underneath.',
+        what: 'One auto-built page listing every plan grouped by stage — being researched, planned, in progress, paused, done. Older finished plans are tucked into a collapsed archive view on the same page rather than a separate file. Big initiatives split into pieces show those nested underneath.',
         from: 'Rebuilt by the librarian from all your plan folders; always matches what&rsquo;s really there.',
-        clar: ['Claude maintains this, not you — the next rebuild overwrites hand-edits.', '&ldquo;Done,&rdquo; &ldquo;verified,&rdquo; and &ldquo;closed&rdquo; are different stages: done = finished, verified = actually checked, closed = wrapped and put to rest.'],
+        clar: ['Claude maintains this, not you — the next rebuild overwrites hand-edits.', 'A finished plan shows as &ldquo;completed&rdquo; — the single done-state, stamped with a completion timestamp; &ldquo;superseded&rdquo; marks a plan replaced by another. Archival is just a display filter here, not a status.'],
         tips: []
       }, {
         id: 'backlog', label: '_backlog.md', kind: 'file', origin: 'generated',
@@ -466,14 +466,6 @@
         from: 'Rebuilt by the librarian. To change an item, change the idea note or the plan it came from.',
         clar: ['The not-yet-started queue only — the instant you start something, it leaves this page for <code>_index.md</code>.'],
         tips: ['A companion cleanup pass (<code>/backlog-hygiene</code>) keeps this fresh — flagging stale items and filing away ones that are actually done.']
-      }, {
-        id: 'archive', label: '_archive.md', kind: 'file', origin: 'generated',
-        one: 'The record of finished, retired plans — the plan tree&rsquo;s long-term memory.',
-        why: 'Without an archive, finished plans either pile up forever on your active list (drowning out current work) or get deleted (losing the history of what you built and why). This keeps the active list short while the full history stays one click away — so months later you can still answer &ldquo;didn&rsquo;t we already build something like this?&rdquo;',
-        what: 'An auto-kept log of plans you&rsquo;ve finished and filed away. A plan isn&rsquo;t archived the moment you finish it: it first sits &ldquo;closed,&rdquo; and moves here only once a batch of closed plans has built up and one has been closed for a while.',
-        from: 'The librarian moves a closed plan here once a handful have piled up and it&rsquo;s rested a while — accumulation plus a cooling-off, not a calendar rule.',
-        clar: ['Triggered by a batch of closed plans plus a cooling-off rest — NOT a fixed &ldquo;30 days later&rdquo; rule.', 'Archived means filed away, not deleted — the plan&rsquo;s folder and full history still exist.'],
-        tips: []
       }, {
         id: 'inbox', label: '_inbox/', kind: 'folder', origin: 'authored',
         one: 'The no-commitment holding pen for raw ideas, before any becomes a plan.',
@@ -600,7 +592,7 @@
         }, {
           id: 'pm-sub', label: '01-&lt;sub-plan&gt;/', kind: 'folder', origin: 'authored',
           one: 'One sub-plan — a full plan in its own right, numbered for its place in the running order.',
-          why: 'A sub-plan is a complete plan, not a checklist line: it has its own goal, task list, and history, and earns its own &ldquo;verified.&rdquo; That is what lets a huge effort stay trustworthy — each piece is checked on its own terms — while the master keeps the pieces in order.',
+          why: 'A sub-plan is a complete plan, not a checklist line: it has its own goal, task list, and history, and earns its own &ldquo;completed.&rdquo; That is what lets a huge effort stay trustworthy — each piece is checked on its own terms — while the master keeps the pieces in order.',
           what: 'A numbered sub-folder (<code>01-</code>, <code>02-</code>, … in execution order) holding a full plan: its own four-file quartet (spec, manifest, tasks, handoff), plus optional research and decisions just like the flat plan above. It carries a <code>parent_plan</code> pointer to the master and publishes its status up.',
           from: 'Seeded by <code>/new-plan --master</code> (the first sub) or <code>--add-subplan</code> (each later one); then worked like any plan.',
           clar: ['A full plan, not a task — its own spec, manifest, tasks, and handoff (shown below).', 'The number is execution order within the master (01, 02, …), distinct from the master&rsquo;s own creation-order number.'],

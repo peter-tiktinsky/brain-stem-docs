@@ -238,13 +238,24 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
       the starter registry it needs; only the re-seed on upgrade is suppressed.</p>
     </div>
     <p>
-      One migration ships with brain-stem: a one-time reconciliation of older plans to the current
-      project-identity scheme. It is deliberately narrow — it can <strong>only rescue a plan's older-style
-      title</strong> into the current field, and it <strong>never rewrites which project a plan belongs
-      to</strong>. If it is ever launched from a location brain-stem does not recognize, it says so loudly and
-      stops rather than proceeding on a guess, so it can never reassign a correctly-labelled plan to the wrong
-      project. On a standard install it either has nothing to do or performs only that harmless title rescue.
+      Migrations ship as a small numbered chain; at upgrade, <code>--apply</code> runs the ones newer than
+      your installed version, in order, and each is <strong>idempotent</strong> — safe to re-run, a second
+      pass changes nothing. The v1.13.0 release added three:
     </p>
+    <ul>
+      <li><strong>Overlay list shapes.</strong> Normalizes the dimension-prefix lists in your overlay
+      customization file to the one array shape every reader expects; an already-correct entry is left
+      byte-untouched.</li>
+      <li><strong>Plan status vocabulary.</strong> Converges your existing plans to the six-status
+      lifecycle, mapping each retired status to <code>completed</code> in place. The rewrite is
+      content-preserving, and every plan file it changes is first snapshotted to a <code>.pre-0006</code>
+      pre-image file beside it — so the change is recoverable file-by-file.</li>
+      <li><strong>Retired-surface cleanup.</strong> Removes files this release retired from your install,
+      verifying each against the shipped baseline first. A copy you modified is <strong>never
+      deleted</strong> — it is renamed aside with a <code>.foundation-retired</code> suffix so nothing of
+      yours is lost. It also un-wires the one retired hook entry from your settings so it cannot error at
+      session end.</li>
+    </ul>
 
     <div class="callout note">
       <div class="label">Removing brain-stem instead</div>

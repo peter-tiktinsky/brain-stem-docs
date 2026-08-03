@@ -72,12 +72,12 @@
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>Machine-stamp "verified"; treat "completed" as a claim; refuse "closed" without "verified"</td>
+          <td>Treat "completed" as a claim to be checked: the manifest is the source of truth, and independent read-only verification passes audit it against the artifacts on disk</td>
           <td>Letting a person mark a project done</td>
-          <td>"Done" must be unforgeable: a status you can set without a check is a claim, and a
-          deterministic hook acts on it regardless of whether the work landed
+          <td>"Done" must be checkable: a status you can set without a check is a claim, and unchecked
+          claims invite gaming
           <a class="cite" href="research-rationale.html#cite-specgaming">spec-gaming</a>.
-          The verified-vs-accepted line is standard project management
+          The claim-versus-independent-check line is standard project management
           <a class="cite" href="research-rationale.html#cite-pmbok">PMI/PMBOK</a>.</td>
           <td><span class="pill ok">convergence</span></td>
         </tr>
