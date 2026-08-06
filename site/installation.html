@@ -238,9 +238,13 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
       the starter registry it needs; only the re-seed on upgrade is suppressed.</p>
     </div>
     <p>
-      Migrations ship as a small numbered chain; at upgrade, <code>--apply</code> runs the ones newer than
-      your installed version, in order, and each is <strong>idempotent</strong> — safe to re-run, a second
-      pass changes nothing. The v1.13.0 release added three:
+      Migrations ship as a small numbered chain; at upgrade, <code>--apply</code> runs every migration
+      your install has <strong>not yet applied</strong> — each successful run is recorded, and anything
+      absent from that record (up to the target version) is selected, in order. Each is
+      <strong>idempotent</strong> — safe to re-run, a second pass changes nothing. The selection rule is
+      deliberate: even if a past upgrade advanced your version stamp without actually running a
+      migration, the next <code>--apply</code> picks it up and heals the install. The v1.13.0 release
+      added three:
     </p>
     <ul>
       <li><strong>Overlay list shapes.</strong> Normalizes the dimension-prefix lists in your overlay
@@ -256,6 +260,16 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
       yours is lost. It also un-wires the one retired hook entry from your settings so it cannot error at
       session end.</li>
     </ul>
+    <p>
+      The v1.13.1 release adds one more: <strong>legacy state-directory cleanup</strong> — it removes the
+      old <code>hooks/state/</code> directory from your install home, and only when that directory is
+      verifiably empty; one that still contains anything is preserved untouched. v1.13.1 also fixed a
+      defect in the upgrade lane itself (the v1.13.0 upgrade could fail to deliver that release's own
+      migrations while still advancing the version stamp) — upgrading heals an affected install
+      automatically, and the
+      <a href="https://github.com/peter-tiktinsky/brain-stem/blob/main/docs/release-notes-v1.13.1.md">v1.13.1
+      release notes</a> carry a one-line post-upgrade check to confirm.
+    </p>
 
     <div class="callout note">
       <div class="label">Removing brain-stem instead</div>
