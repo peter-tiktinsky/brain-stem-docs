@@ -79,10 +79,12 @@ context_pct_at_checkpoint:   the gauge at write time</pre>
       <p>The <strong>save</strong> must happen <em>at compaction</em> — that's the last moment before detail
       is trimmed. But the <strong>restore</strong> can't: the platform doesn't allow a script to inject
       context back into the conversation at the compaction moment. So restore happens at the
-      <em>next session start</em> — the harness restarts the session marked "compact," the start hook reads
-      the checkpoint back in verbatim, and rotates the old one to a dated archive (a move, not a delete, so
-      prior state is kept as history). It's the write-ahead-log recovery pattern, forced by which moments
-      may inject context.</p>
+      <em>next session start</em> — the harness restarts the session marked "compact," and the start hook reads
+      the checkpoint back in verbatim, leaving the file in place so the saved state survives the boundary.
+      Archiving happens later, at the next checkpoint write: the outgoing checkpoint is copied to a dated
+      archive before the new one replaces it (a copy first, then the swap — so a failed archive never loses
+      the outgoing content, and prior state is kept as history). It's the write-ahead-log recovery pattern,
+      forced by which moments may inject context.</p>
       <p>That restore is about this work thread — which plan, which task. Separately, a second hook runs at
       every session start (not only after a compaction) and loads a short project-orientation card: the
       plan roster, the project's overall status, the active focus, and the latest handoff headline — so the

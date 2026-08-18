@@ -54,7 +54,7 @@
         <tr><td>Name</td><td>Your git settings (<code>git config --global user.name</code>)</td></tr>
         <tr><td>Email</td><td>Your git settings (<code>git config --global user.email</code>)</td></tr>
         <tr><td>Timezone</td><td>Your operating system</td></tr>
-        <tr><td>Vault location</td><td>A proposed default folder for your new vault</td></tr>
+        <tr><td>Vault location</td><td>Your configured vault location if one already exists — otherwise the field reads "decide at build time"; setup never invents a folder for you</td></tr>
       </tbody>
     </table>
     <p>
@@ -92,7 +92,7 @@
       <tbody>
         <tr><td><strong>A settings file</strong></td><td>A small, structured record of your answers — name, email, timezone, vault location, role, preferences</td><td><code>~/.claude/user-manifest.json</code></td></tr>
         <tr><td><strong>A personal-preferences file</strong></td><td>A plain instructions file the assistant reads at the start of <em>every</em> session</td><td><code>~/.claude/CLAUDE.md</code></td></tr>
-        <tr><td><strong>A brain vault</strong></td><td>A fresh, pre-built notes folder, ready to open in Obsidian</td><td>a folder you chose (default under <code>Documents/</code>)</td></tr>
+        <tr><td><strong>A brain vault</strong></td><td>A fresh, pre-built notes folder, ready to open in Obsidian</td><td>the folder you chose — there is no preset default; if you left the location open at onboarding, the vault build asks you to say where rather than guess</td></tr>
       </tbody>
     </table>
     <p>

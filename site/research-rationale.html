@@ -114,8 +114,8 @@
       </div>
       <div class="pillar">
         <div class="ph"><span class="pn">4</span><h3>Structural, not disciplinary</h3></div>
-        <p class="keeps">Guarantees — an index stays current, a hand-edit always wins, "verified" is real — are enforced by machinery, not by anyone remembering to be careful.</p>
-        <p class="row"><b>Chosen over</b> convention and good intentions — indexes are regenerated not hand-tended, and "verified" is machine-stamped so "done" cannot be forged.</p>
+        <p class="keeps">Guarantees — an index stays current, a hand-edit always wins, "done" is checkable — are enforced by machinery, not by anyone remembering to be careful.</p>
+        <p class="row"><b>Chosen over</b> convention and good intentions — indexes are regenerated not hand-tended, and "done" is a claim held honest by independent read-only checks, with the plan's control file as the sole status record.</p>
         <p class="row"><b>Grounded in</b> <a class="cite" href="#cite-issue33603">prose-rule decay #33603</a> <a class="cite" href="#cite-pmbok">PMI/PMBOK</a></p>
         <p class="vrow"><span class="pill ok">convergence</span></p>
       </div>
@@ -143,7 +143,7 @@
     <div class="pillar-map">
       <div class="card-grid two">
         <a class="card" href="context-memory-rationale.html"><div class="kicker">Section</div><h3>Context &amp; memory</h3><p>The memory model and the dual context layers — why memory splits three ways and loads as one small index.</p><div class="spacer"></div><div class="more">Read →</div></a>
-        <a class="card" href="project-management-rationale.html"><div class="kicker">Section</div><h3>Project management</h3><p>Plans, orchestration, and the binder — control-file-is-truth, machine-stamped "verified," a human-gated runner.</p><div class="spacer"></div><div class="more">Read →</div></a>
+        <a class="card" href="project-management-rationale.html"><div class="kicker">Section</div><h3>Project management</h3><p>Plans, orchestration, and the binder — control-file-is-truth, done-as-a-checkable-claim, a human-gated runner.</p><div class="spacer"></div><div class="more">Read →</div></a>
         <a class="card" href="governance-rationale.html"><div class="kicker">Section</div><h3>Write-time governance</h3><p>The doorman at every write, and the guards that keep your hand-edits winning.</p><div class="spacer"></div><div class="more">Read →</div></a>
         <a class="card" href="session-management-rationale.html"><div class="kicker">Section</div><h3>Session management</h3><p>Surviving a finite, lossily-compacted working window, and deciding before asking.</p><div class="spacer"></div><div class="more">Read →</div></a>
         <a class="card" href="automated-capture-rationale.html"><div class="kicker">Section</div><h3>Automated capture</h3><p>One reconciler, survivorship, and content-addressed writes into a shared structure.</p><div class="spacer"></div><div class="more">Read →</div></a>
@@ -170,7 +170,7 @@
         <tr id="cite-memgpt"><td><a href="https://arxiv.org/abs/2310.08560" target="_blank" rel="noopener">MemGPT — <em>Towards LLMs as Operating Systems</em> (arXiv:2310.08560)</a></td><td>Small-core-plus-large-archive tiering; the curated-store principle</td></tr>
         <tr id="cite-mast"><td><a href="https://arxiv.org/abs/2503.13657" target="_blank" rel="noopener">MAST — <em>Multi-Agent System Failure Taxonomy</em>, in Cemri et&nbsp;al., "Why Do Multi-Agent LLM Systems Fail?" (arXiv:2503.13657)</a></td><td>The human-gated plan runner; inter-agent-misalignment (coordination) is ~37% of multi-agent failures — the second-largest of three categories</td></tr>
         <tr id="cite-lostmiddle"><td><a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener">Liu et&nbsp;al., "Lost in the Middle: How Language Models Use Long Contexts" (TACL 2023, arXiv:2307.03172)</a></td><td>Attention degrades in long contexts — the single-read budget</td></tr>
-        <tr id="cite-specgaming"><td><a href="https://arxiv.org/abs/2410.06491" target="_blank" rel="noopener">Specification-gaming literature (arXiv:2410.06491, 2406.10162)</a></td><td>"Done is a claim, not a fact" — machine-stamped <code>verified</code></td></tr>
+        <tr id="cite-specgaming"><td><a href="https://arxiv.org/abs/2410.06491" target="_blank" rel="noopener">Specification-gaming literature (arXiv:2410.06491, 2406.10162)</a></td><td>"Done is a claim, not a fact" — independent read-only checks on the done-claim</td></tr>
         <tr id="cite-aries"><td><a href="https://dl.acm.org/doi/10.1145/128765.128770" target="_blank" rel="noopener">ARIES write-ahead-logging recovery (Mohan et&nbsp;al.)</a></td><td>Checkpoint-then-resume convergence (Sessions)</td></tr>
         <tr id="cite-kleppmann"><td><a href="https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html" target="_blank" rel="noopener">Kleppmann, "How to do distributed locking"</a></td><td>A cross-machine lock is a phantom — machine-local coordination state (Packaging, Sessions)</td></tr>
       </tbody>
@@ -181,7 +181,7 @@
       <thead><tr><th>Reference</th><th>Grounds</th></tr></thead>
       <tbody>
         <tr id="cite-saltzer"><td><a href="https://web.mit.edu/Saltzer/www/publications/protection/" target="_blank" rel="noopener">Saltzer &amp; Schroeder (1975) — complete-mediation &amp; fail-safe-defaults</a></td><td>The every-write doorman; the canon fail-open deliberately pulls against</td></tr>
-        <tr id="cite-pmbok"><td><a href="https://www.pmi.org/pmbok-guide-standards" target="_blank" rel="noopener">PMI / PMBOK — verified vs. accepted deliverables</a></td><td>The "completed ≠ verified" distinction in Plans</td></tr>
+        <tr id="cite-pmbok"><td><a href="https://www.pmi.org/pmbok-guide-standards" target="_blank" rel="noopener">PMI / PMBOK — verified vs. accepted deliverables</a></td><td>The claim-versus-independent-check distinction in Plans</td></tr>
         <tr id="cite-singlewriter"><td><a href="https://mechanical-sympathy.blogspot.com/2011/09/single-writer-principle.html" target="_blank" rel="noopener">Single Writer Principle (concurrency design)</a></td><td>The sole-writer reconciler (Vault)</td></tr>
         <tr id="cite-cas"><td><a href="https://git-scm.com/book/en/v2/Git-Internals-Git-Objects" target="_blank" rel="noopener">Content-addressable storage + POSIX atomic <code>rename(2)</code> (Git's object model)</a></td><td>Content-hash staging packets (Vault)</td></tr>
         <tr id="cite-crdt"><td><a href="https://crdt.tech/" target="_blank" rel="noopener">Operational-transformation / CRDT survivorship literature</a></td><td>Two-signal survivorship — the human edit always wins</td></tr>

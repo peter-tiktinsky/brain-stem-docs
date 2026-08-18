@@ -95,8 +95,8 @@
       <tbody>
         <tr>
           <td>Always-on capture (the writer pipeline)</td>
-          <td>The two foundation jobs — the writer-reconciler and the doc-amender — ship as launchd templates with a renderer; you render and bootstrap them as launchd jobs in a documented post-install step (not automatically at onboarding).</td>
-          <td><span class="pill advise">You bootstrap it</span></td>
+          <td>The two foundation jobs — the writer-reconciler and the doc-amender — ship as launchd templates with a renderer; install stages them, and the next session you open in a real (logged-in) desktop context detects any staged-but-not-yet-loaded job and bootstraps it automatically. The documented manual bootstrap step remains as the fallback for headless installs.</td>
+          <td><span class="pill advise">Bootstraps itself</span></td>
         </tr>
         <tr>
           <td>Run a plan or a task once at a future time</td>

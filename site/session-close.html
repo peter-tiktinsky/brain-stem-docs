@@ -76,7 +76,7 @@
     <div class="flow">
       <div class="fstep"><b>Re-check conventions</b><small>frontmatter, naming, placement, staleness</small></div>
       <div class="farr">›</div>
-      <div class="fstep"><b>Refresh indexes</b><small>the plan list and writer catalogs</small></div>
+      <div class="fstep"><b>Refresh indexes</b><small>the plan list, the cross-project backlog, and writer catalogs</small></div>
       <div class="farr">›</div>
       <div class="fstep"><b>Refresh the binder</b><small>append the handoff; re-derive the project's research, decision, and handoff indexes; refresh its situating card</small></div>
       <div class="farr">›</div>
@@ -87,6 +87,8 @@
       <div class="fstep"><b>Cascade renames</b><small>renamed files surfaced as a dry-run proposal</small></div>
       <div class="farr">›</div>
       <div class="fstep"><b>Reconcile + drift</b><small>registry sweep + plan-trinity drift check</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Due maintenance</b><small>the periodic sweeps whose cadence has come around — close is what runs them</small></div>
     </div>
     <p class="flow-note">The binder and work-surface refreshes are scoped to the project you're closing in — they regenerate exactly the context the next session in that project loads at start.</p>
     <div class="callout note">
@@ -132,7 +134,7 @@
         <tr><td>Remove your session from the registry</td><td>On a clean end, immediately; if abandoned, auto-reaped when stale (~30 min)</td><td>Yes</td></tr>
         <tr><td>Background reconcile (only if a peer left work pending)</td><td>Always</td><td>Yes — and runs the full sweep itself when last out</td></tr>
         <tr><td>Write the session's episodic-memory row</td><td>Always</td><td>(already written; close backfills its summary)</td></tr>
-        <tr><td>Re-check conventions · refresh indexes · re-sync masters · flag drift</td><td>On a clean exit (the integrity pass)</td><td>Yes</td></tr>
+        <tr><td>Re-check conventions · refresh indexes (including the backlog) · re-sync masters · flag drift · run due maintenance</td><td>On a clean exit (the integrity pass)</td><td>Yes</td></tr>
         <tr><td>Refresh the project binder + work-surface indexes (active project)</td><td>On a clean exit (the integrity pass)</td><td>Yes</td></tr>
         <tr><td>Cascade-rename proposal (dry-run)</td><td>On a clean exit (the integrity pass)</td><td>Yes</td></tr>
         <tr><td>Write the session-close receipt log</td><td>On a clean exit (the integrity pass)</td><td>Yes</td></tr>
@@ -159,9 +161,11 @@
       <p>Two things. First, <strong>backup is never automatic</strong> — only a manual close offers
       <code>/librarian backup</code>; nothing commits or pushes on your behalf, so the working state isn't
       backed up until you run it yourself. Second, the automatic integrity pass runs on a <em>clean</em>
-      exit; if a session <strong>crashes</strong> before it fires, the housekeeping is deferred until the
-      next session's start-up backstop catches it — and it always runs against <em>current</em> state,
-      never retroactively for the crashed session's specific changes.</p>
+      exit; if a session <strong>crashes</strong> before it fires, the housekeeping waits until the next
+      session's start-up backstop catches it. That recovery close is <em>session-attributed</em>: the
+      backstop reads which session crashed — and, when the registry row recorded one, the project
+      directory it was working in — and threads both into the close, so the crashed session's own
+      records are reconciled, not whichever project the rescuing session happens to open in.</p>
     </div>
     <p>
       The practical takeaway: closing the window loses no work and still tidies the vault; running

@@ -370,7 +370,7 @@
     <ol>
       <li><strong>Matcher resolution.</strong> The matcher pillar names which contract this path triggers; no matcher → no body contract applies (the file still validates against the type registry at write time).</li>
       <li><strong>Write-shape.</strong> The declared shape records what the file permits — <code>create-only</code> forbids overwrites, <code>append-template</code> forbids wholesale replacement, <code>replace</code> regenerates as a unit. A write that violates the shape surfaces as audit drift; create-only files route their edits through the file's amender by convention.</li>
-      <li><strong>Size limits.</strong> A declared <code>size_limits.max_lines</code> is an audit-time check, not a write-time block — the runtime's only synchronous line cap is a single hardcoded hub-file guard.</li>
+      <li><strong>Size limits.</strong> A declared <code>size_limits.max_lines</code> is an audit-time check, not a write-time block — the runtime ships no synchronous line cap at all.</li>
       <li><strong>Required / prohibited sections.</strong> The contract's required and prohibited headers are reconciled by the coverage walk; the runtime ships no write-time body-structure guard.</li>
       <li><strong>Frontmatter coupling.</strong> Contract-declared frontmatter requirements and <code>frontmatter_enums</code> are the one body-contract layer checked at the write — a <code>vault-writer</code> whose <code>writer_kind</code> or <code>status</code> falls outside the enum is <span class="pill deny">denied</span> by the guard; other types' contract enums are reconciled at audit time.</li>
     </ol>

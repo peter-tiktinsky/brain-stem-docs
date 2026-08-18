@@ -58,7 +58,7 @@
     <table>
       <thead><tr><th>Moment</th><th>What fires</th></tr></thead>
       <tbody>
-        <tr><td><strong>Session start</strong></td><td>Register the session in the coordination registry; if this is a restart <em>after</em> compaction, read the saved checkpoint back in and rotate the old one to a dated archive. Also, for any session launched from a registered project (a coding repo or a non-coding Work project), an always-on hook auto-loads the project's situating card as context before the first turn — so the session already knows what the project is and where things stand.</td></tr>
+        <tr><td><strong>Session start</strong></td><td>Register the session in the coordination registry; if this is a restart <em>after</em> compaction, read the saved checkpoint back in — the file stays in place, and is archived to a dated copy only at the next checkpoint write, so prior state is kept as history. Also, for any session launched from a registered project (a coding repo or a non-coding Work project), an always-on hook auto-loads the project's situating card as context before the first turn — so the session already knows what the project is and where things stand.</td></tr>
         <tr><td><strong>Each message</strong></td><td>Compute context pressure, check checkpoint freshness, emit escalating nudges, and surface peer-session overlap warnings.</td></tr>
         <tr><td><strong>Stop (attempting to exit)</strong></td><td>The stop-gate refuses to let a busy session end on a stale or missing checkpoint.</td></tr>
         <tr><td><strong>Before compaction</strong></td><td>Preserve a fresh rich checkpoint, or mechanically extract a fallback one — no model call.</td></tr>

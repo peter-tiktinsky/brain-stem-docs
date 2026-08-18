@@ -108,8 +108,9 @@ bash install.sh --apply --force-install --i-understand-overwrite-risk --backup-d
     <pre>/onboard</pre>
     <p>
       A short two-part interview follows: <strong>Section&nbsp;A</strong> is a confirmation card of facts it
-      already looked up (your name and email from git, your timezone, a proposed vault location) — accept or
-      correct, no typing required; <strong>Section&nbsp;B</strong>, in your own words, is who you are and how you
+      already looked up (your name and email from git, your timezone, and your vault location if one is already
+      configured — otherwise that field simply reads "decide at build time"; setup never invents a location
+      for you) — accept or correct, no typing required; <strong>Section&nbsp;B</strong>, in your own words, is who you are and how you
       want the assistant to work. From your answers it writes a settings file, your personal
       <code>~/.claude/CLAUDE.md</code> preferences, and your <strong>vault</strong>. The full walkthrough — every
       output, how your vault is built, the optional add-ons, and how setup protects your files from a careless
@@ -243,8 +244,8 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
       absent from that record (up to the target version) is selected, in order. Each is
       <strong>idempotent</strong> — safe to re-run, a second pass changes nothing. The selection rule is
       deliberate: even if a past upgrade advanced your version stamp without actually running a
-      migration, the next <code>--apply</code> picks it up and heals the install. The v1.13.0 release
-      added three:
+      migration, the next <code>--apply</code> picks it up and heals the install. Three migrations
+      arrived together with the six-status plan-lifecycle release:
     </p>
     <ul>
       <li><strong>Overlay list shapes.</strong> Normalizes the dimension-prefix lists in your overlay
@@ -261,14 +262,14 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
       session end.</li>
     </ul>
     <p>
-      The v1.13.1 release adds one more: <strong>legacy state-directory cleanup</strong> — it removes the
+      A follow-up patch adds one more: <strong>legacy state-directory cleanup</strong> — it removes the
       old <code>hooks/state/</code> directory from your install home, and only when that directory is
-      verifiably empty; one that still contains anything is preserved untouched. v1.13.1 also fixed a
-      defect in the upgrade lane itself (the v1.13.0 upgrade could fail to deliver that release's own
+      verifiably empty; one that still contains anything is preserved untouched. The same patch also fixed
+      a defect in the upgrade lane itself (an upgrade could fail to deliver its own release's new
       migrations while still advancing the version stamp) — upgrading heals an affected install
-      automatically, and the
-      <a href="https://github.com/peter-tiktinsky/brain-stem/blob/main/docs/release-notes-v1.13.1.md">v1.13.1
-      release notes</a> carry a one-line post-upgrade check to confirm.
+      automatically, and
+      <a href="https://github.com/peter-tiktinsky/brain-stem/blob/main/docs/release-notes-v1.13.1.md">that
+      patch's release notes</a> carry a one-line post-upgrade check to confirm.
     </p>
 
     <div class="callout note">

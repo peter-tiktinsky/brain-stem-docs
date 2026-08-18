@@ -21,7 +21,7 @@
       never pressure-tested. The decision-quality protocol catches those moments and insists the research
       happens <strong>before</strong> the question is asked.
     </p>
-    <p class="page-meta">A decision-time check on the moment the assistant poses a choice — advisory today, with a stricter mode held in reserve.</p>
+    <p class="page-meta">A decision-time check on the moment the assistant poses a choice — blocking by default, with an advisory mode available as an override.</p>
 
     <h2>The problem it solves</h2>
     <p>
@@ -42,7 +42,7 @@
       <div class="farr">›</div>
       <div class="fstep gate"><b>Is it substantive?</b><small>option-shaped — multiple real options, or decision keywords like "approach / which path / should we"</small></div>
       <div class="farr">›</div>
-      <div class="fstep mark"><b>Nudge to research first</b><small>surface a reminder to run the research pass before committing</small></div>
+      <div class="fstep mark"><b>Held until researched</b><small>the question is refused until the research pass has run and the question says so</small></div>
     </div>
     <div class="flow-branch">
       <div class="fb"><b>Skipped when →</b> it's a plain yes/no, or the question is already annotated as research-complete — those pass straight through, silently.</div>
@@ -68,12 +68,13 @@
     <p>The recommendation may still be one of the originals — but it has to survive that pass.</p>
 
     <div class="callout note">
-      <div class="label">Advisory now, blocking held in reserve</div>
-      <p>Today the protocol is <strong>Phase&nbsp;1 — advisory</strong>: it nudges and lets the question
-      through. A stricter <strong>Phase&nbsp;2 — blocking</strong> exists but is <strong>opt-in</strong>,
-      not the default: it would <em>refuse</em> a substantive question until it's annotated as
-      research-complete. Shipping advisory-first, with telemetry, is deliberate — the blocking mode earns
-      its promotion only once the data shows the heuristic fires cleanly.</p>
+      <div class="label">Blocking by default, advisory as the override</div>
+      <p>The shipped default is <strong>Phase&nbsp;2 — blocking</strong>: a substantive question is
+      <em>refused</em> until it's annotated as research-complete, so the pass genuinely happens before you
+      see the options. A gentler <strong>Phase&nbsp;1 — advisory</strong> mode — nudge and let the question
+      through — remains available as an environment-flag override for anyone who prefers the softer posture.
+      The protocol shipped advisory-first while telemetry accumulated; blocking earned its promotion to the
+      default once the data showed the heuristic firing cleanly.</p>
     </div>
 
     <h2>Why it lives in the sessions section</h2>
@@ -87,8 +88,8 @@
     <h2>Reference</h2>
     <ul>
       <li>The guard — <code>pre-asq-guard.sh</code>, a decision-time check on the structured-question tool; a substance heuristic (option count + description length, or decision keywords) with yes/no and annotated questions skipped.</li>
-      <li>The annotation — a <code>research_complete:</code> marker is the signal that the pass has been run; it lets a substantive question through (and, in the blocking mode, is required).</li>
-      <li>Phases — Phase&nbsp;1 (advisory nudge) is shipped and on by default; Phase&nbsp;2 (blocking) is opt-in via an environment flag.</li>
+      <li>The annotation — a <code>research_complete:</code> marker is the signal that the pass has been run; under the default blocking mode it is required before a substantive question goes through.</li>
+      <li>Phases — Phase&nbsp;2 (blocking) is the shipped default; Phase&nbsp;1 (advisory nudge) remains available as an environment-flag override.</li>
       <li>Telemetry — every firing appends to <code>decision-quality-events.jsonl</code>; successful passes can surface in a plan's handoff chronicle.</li>
     </ul>
 
