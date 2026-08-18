@@ -306,9 +306,9 @@
     <pre>~/.claude-plans/
 └── 42-rebuild-search/            the MASTER (type: master) — its own quartet
     ├── spec.md  manifest.json  tasks.md  handoff.md
-    ├── 01-index-schema/          sub-plan 01 (type: sub-plan) — its own quartet
-    ├── 02-query-rewrite/         sub-plan 02 — runs after 01 (ordering held by the master)
-    └── 03-ranking/               sub-plan 03
+    ├── 01-index-schema/          the 01 sub-plan (type: sub-plan) — its own quartet
+    ├── 02-query-rewrite/         the 02 sub-plan — runs after 01 (ordering held by the master)
+    └── 03-ranking/               the 03 sub-plan
                                   └ sub-plans numbered in EXECUTION order, not creation order</pre>
 
     <h3>The invariants that keep it honest</h3>
