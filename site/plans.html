@@ -182,6 +182,17 @@
       them. The <strong>human gates</strong> here are the classification call at triage and the go/no-go on
       the research recommendation.
     </p>
+    <p>
+      Not every idea graduates — and the funnel is honest about the ones that don't. When a note reaches a
+      terminal resolution instead (done another way, folded into an existing plan, dropped on purpose), it
+      is stamped with that resolution and <strong>moved out of the inbox</strong> into a
+      <code>_settled/</code> subfolder, so the inbox holds live ideas only. A note settled by your judgment
+      rather than by machinery goes through the librarian's <code>inbox-settle</code> capability — dry-run
+      by default, strict resolution vocabulary, and it refuses to settle the same note twice. When a plan
+      absorbs several notes, the plan's manifest records the absorbed notes from its side too, so the
+      settled ledger can derive the whole story from three sources: graduations, absorptions, and
+      terminally-resolved notes.
+    </p>
 
     <h2>Stage two — preparing the plan</h2>
     <p>
@@ -268,7 +279,7 @@
         </div>
       </div>
     </div>
-    <p class="figcap">The cover (<code>_situating.md</code>) and the research index, decision log, and handoff chronicle are all <strong>generated</strong> — re-derived from the plans automatically, at session-close and on each librarian pass, so the binder is a reading surface, not a system dependency.</p>
+    <p class="figcap">The cover (<code>_situating.md</code>) and the research index, decision log, and handoff chronicle are all <strong>generated</strong> — re-derived from the plans automatically, at session-close and on each librarian pass, so the binder is a reading surface, not a system dependency. Every reference these generated pages write is a plain <strong>relative Markdown link that resolves</strong> in any editor or viewer — and when files move, the links are repaired automatically.</p>
     <p>This section is the roll-up <em>mechanism</em> — how a plan's output populates upward. The binder
     itself, in full — every page, how a project is identified, and how research promotes on into the
     universal Library — has its own page: <a href="project-binder.html">The project binder</a>.</p>
@@ -343,7 +354,7 @@
     <h2>Reference</h2>
     <ul>
       <li><code>~/.claude-plans/&lt;plan&gt;/</code> — a plan folder: <code>spec.md</code>, <code>manifest.json</code> (source of truth), <code>tasks.md</code> (generated), <code>handoff.md</code> (append-only), optional <code>00-ideation-brief.md</code>; plus <code>_research/</code> (declared in <code>research_artifacts[]</code>) and <code>decisions/</code> (the ADR ledger, <code>decision_records[]</code>).</li>
-      <li><code>~/.claude-plans/_inbox/</code> + <code>_backlog.md</code> — the idea funnel: cheap capture (no number) → a librarian-generated backlog → triage (<code>/backlog-triage</code>) → research (<code>/backlog-research</code>) → graduate (<code>/new-plan</code>). The inbox is a <strong>ledger</strong>: each captured idea records its owning project and disposition target in machine-readable form at capture, and a settled ledger plus an inbox index close the loop — so the backlog can answer which ideas are fully settled and which are still owed an outcome.</li>
+      <li><code>~/.claude-plans/_inbox/</code> + <code>_backlog.md</code> — the idea funnel: cheap capture (no number) → a librarian-generated backlog → triage (<code>/backlog-triage</code>) → research (<code>/backlog-research</code>) → graduate (<code>/new-plan</code>). The inbox is a <strong>ledger</strong>: each captured idea records its owning project and disposition target in machine-readable form at capture, and a settled ledger plus an inbox index close the loop — so the backlog can answer which ideas are fully settled and which are still owed an outcome. <strong>Settled means settled:</strong> a note that reaches a terminal resolution is stamped and moved to <code>_inbox/_settled/</code> in the same run, so the inbox folder holds live ideas only (notes settled before this model stay where they are — the ledger and index link both populations at their real locations). The settled ledger derives from three sources — graduations, the absorbed-notes lists plans record, and terminally-resolved notes — with a note&rsquo;s own richer record winning when both exist.</li>
       <li><strong>Status lifecycle</strong> — <code>researching → planned → in-progress ⇄ paused → completed</code> (terminal, completion-timestamped), or <code>superseded</code> (terminal). Archival is a display-only view filter in the rendered indexes, not a status.</li>
       <li><strong>Execution &amp; scheduling</strong> — how a plan is run, the propose-and-gate dispatch model, HITL/HOTL gates, and scheduling: see <a href="orchestration.html">Orchestration &amp; scheduling</a>.</li>
       <li><strong>The project binder</strong> — <code>~/.claude-plans/_projects/&lt;project&gt;/</code> → <code>Projects/</code>: all generated — <code>_situating.md</code> (the situating card, the binder's cover, loaded each session), <code>research-index.md</code>, <code>decision-log.md</code>, <code>handoff-chronicle.md</code>, and a <code>research/</code> symlink farm.</li>

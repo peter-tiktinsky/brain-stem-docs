@@ -452,9 +452,9 @@
       link: { href: 'plans.html', label: 'Plans' },
       children: [{
         id: 'plan-index', label: '_index.md', kind: 'file', origin: 'generated',
-        one: 'The master list of every plan, grouped by where it stands.',
+        one: 'The master list of every plan — one table, one row per plan.',
         why: 'Without it you&rsquo;d open dozens of plan folders one by one just to answer &ldquo;what am I working on, and what stage is each at?&rdquo; This answers it in one read — and because it&rsquo;s generated from each plan&rsquo;s real recorded stage, it can&rsquo;t quietly fall out of date the way a hand-kept list would.',
-        what: 'One auto-built page listing every plan grouped by stage — being researched, planned, in progress, paused, done. Older finished plans are tucked into a collapsed archive view on the same page rather than a separate file. Big initiatives split into pieces show those nested underneath.',
+        what: 'One auto-built page listing every plan as a single flat table — the plan, its status, its project, and any sub-plans — so every row carries its stage and its owner (the older duplicated grouped views are gone). Older finished plans are tucked into a collapsed archive view on the same page rather than a separate file. Big initiatives split into pieces show those nested in the row.',
         from: 'Rebuilt by the librarian from all your plan folders; always matches what&rsquo;s really there.',
         clar: ['Claude maintains this, not you — the next rebuild overwrites hand-edits.', 'A finished plan shows as &ldquo;completed&rdquo; — the single done-state, stamped with a completion timestamp; &ldquo;superseded&rdquo; marks a plan replaced by another. Archival is just a display filter here, not a status.'],
         tips: []
@@ -470,9 +470,9 @@
         id: 'inbox', label: '_inbox/', kind: 'folder', origin: 'authored',
         one: 'The no-commitment holding pen for raw ideas, before any becomes a plan.',
         why: 'This makes capturing an idea effortless and commitment-free — you jot it in seconds and sort it later. Without it, every fleeting idea would force an upfront decision (&ldquo;is this worth a whole numbered project?&rdquo;), so you&rsquo;d either over-commit to half-baked ideas or, far more likely, never write them down.',
-        what: 'A folder where each new idea lands as one quick note, passing through three stages as you sort it — new, triaged, briefed. An idea here costs nothing and uses no plan number; numbers are handed out only when an idea graduates into a real plan. Empty on a fresh install.',
+        what: 'A folder where each new idea lands as one quick note, passing through three stages as you sort it — new, triaged, briefed. An idea here costs nothing and uses no plan number; numbers are handed out only when an idea graduates into a real plan. Ideas that reach their end WITHOUT becoming a plan don&rsquo;t linger either: the note is stamped with its resolution and moved into a <code>_settled/</code> subfolder, so this folder holds live ideas only. Empty on a fresh install.',
         from: 'Created the first time you capture an idea with <code>/backlog-triage</code>.',
-        clar: ['An idea here is NOT a plan yet — no number, no task list; a candidate waiting to be sorted.', 'You decide nothing when you drop an idea here — capture first, judge later.'],
+        clar: ['An idea here is NOT a plan yet — no number, no task list; a candidate waiting to be sorted.', 'You decide nothing when you drop an idea here — capture first, judge later.', 'Settling by hand has a sanctioned path — the librarian&rsquo;s <code>inbox-settle</code> capability stamps and moves a note under an explicit apply flag, and refuses to settle the same note twice.'],
         tips: [],
         children: [{
           id: 'inbox-item', label: '&lt;slug&gt;.md', kind: 'file', origin: 'authored',
