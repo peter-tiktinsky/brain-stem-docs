@@ -95,16 +95,18 @@
     <h2>How it loads — the hot index and the cap</h2>
     <p>
       The native constraint is exact and unforgiving: Claude&nbsp;Code auto-loads a memory file but
-      reads only the <strong>first 200 lines or the first 25,600 bytes (~25&nbsp;KB), whichever comes
-      first</strong> — and anything past either limit is <strong>silently dropped</strong>, with no
-      error and no truncation marker. There is no include mechanism to reach past it.
+      reads only the <strong>first 200 lines or the first 25,000 UTF-16 code units of the stripped text
+      (roughly 25&nbsp;KB of plain prose), whichever comes first</strong> — anything past either limit is
+      <strong>dropped</strong>, and the harness appends a short visible warning in its place. There is no
+      include mechanism to reach past it. The cap is stated here in the unit the harness actually measures;
+      brain-stem's governance mandate, its write-time guard, and the memory-index template all say the same.
     </p>
     <p>
       So <code>MEMORY.md</code> is built as a <strong>hot index</strong> — a read-replica table of
       contents. Each line is a one-line pointer; the full detail sits in per-topic files read on
       demand. The cap bites on the small index, not the detail, which is exactly why the index has to
-      stay small. The <strong>byte cap governs</strong> — a dense, fact-first index hits 25&nbsp;KB
-      before it hits 200 lines.
+      stay small. The <strong>size cap governs</strong> — a dense, fact-first index hits the 25,000-unit
+      ceiling before it hits 200 lines.
     </p>
 
     <h3>Keeping the index loadable</h3>

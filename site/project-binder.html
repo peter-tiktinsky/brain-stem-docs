@@ -85,6 +85,14 @@
       </tbody>
     </table>
 
+    <p>
+      The binder directory also holds one small non-page: the <strong><code>.active-plan</code> pointer</strong>,
+      written when you arm one of the project's plans for build. Its placement here — rather than at the plans
+      root — is what keeps arming <strong>per project</strong>: the armed plan's spec is injected only into
+      sessions launched from this project's directory, and a project with no pointer receives no spec at all.
+      See <a href="plans.html">Plans</a> for the arming step.
+    </p>
+
     <h2>Generated, not tended — how the binder stays correct</h2>
     <p>
       Every page in the binder is generated — <strong>nobody hand-tends any of them.</strong>

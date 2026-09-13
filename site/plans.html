@@ -215,6 +215,19 @@
       <strong>human gate</strong> of plan readiness.
     </p>
 
+    <h3>Arming a plan for build — scoped to the project that armed it</h3>
+    <p>
+      When a plan is ready to execute you <strong>arm</strong> it: a small pointer names it as the plan under
+      build, and from then on its spec is injected into sessions as the authority a brief must defer to. The
+      pointer lives inside the project's own binder directory — <code>_projects/&lt;spoke&gt;/.active-plan</code>
+      — and every reader resolves it through one shared library. That placement is what scopes it: two projects
+      arm at the same time without contention; a session receives the spec of the plan armed in the project it
+      was launched from, and nothing else; and a session in a project with nothing armed receives nothing at all,
+      so the largest hook payload brain-stem ships no longer loads into every session on the machine. An older
+      corpus-wide pointer at the plans root is still honoured as a read-only fallback so nothing breaks on the way
+      over, but nothing writes it any more.
+    </p>
+
     <p>How a plan is executed and scheduled &rarr; <a href="orchestration.html">Orchestration &amp; scheduling</a>.</p>
 
     <h2>Earning done — six statuses, one terminal</h2>

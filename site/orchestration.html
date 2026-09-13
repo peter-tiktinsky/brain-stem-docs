@@ -95,7 +95,7 @@
       <tbody>
         <tr>
           <td>Always-on capture (the writer pipeline)</td>
-          <td>The two foundation jobs — the writer-reconciler and the doc-amender — ship as launchd templates with a renderer; install stages them, and the next session you open in a real (logged-in) desktop context detects any staged-but-not-yet-loaded job and bootstraps it automatically. The documented manual bootstrap step remains as the fallback for headless installs.</td>
+          <td>The two foundation jobs — the writer-reconciler and the doc-amender — ship as launchd templates with a renderer; install stages them, and the next session you open in a real (logged-in) desktop context detects any staged-but-not-yet-loaded job and bootstraps it automatically. The documented manual bootstrap step remains as the fallback for headless installs. Out of the box neither job touches anything beyond your machine: the reconciler never calls a model, and the doc-amender runs one only for a prompt-guided writer you register.</td>
           <td><span class="pill advise">Bootstraps itself</span></td>
         </tr>
         <tr>

@@ -86,8 +86,21 @@
 
     <div class="faq">
       <h3>Does it phone home or send my data anywhere?</h3>
-      <p>No. brain-stem's own code performs <strong>no network egress</strong> — no telemetry, no analytics, no
-      "phone home." The only logs it writes are local files on your machine.</p>
+      <p>No. brain-stem runs entirely on your own machine and makes <strong>no automatic network calls</strong> —
+      no telemetry, no analytics, no "phone home." Its only background presence is two small
+      <code>launchd</code> jobs (a writer-reconciler and a document-amender) that watch a local staging folder;
+      out of the box neither touches anything beyond your machine. The only logs it writes are local files.</p>
+      <p>The only network activity is something <strong>you</strong> explicitly start, and only ever to a
+      destination you control: the <code>/librarian backup</code> capability, run by hand, pushes to the git
+      remote you configured; onboarding, if the GitHub CLI is installed and signed in, makes read-only calls to
+      your own GitHub account to pre-fill your name and email; and the document-amender job is the one path by
+      which brain-stem could ever call an AI model without a session open — and it does so only if you configure
+      it to. The job is installed and loaded by default, but the shipped writer registry defines no writer for it
+      to act on, so it composes nothing and makes no network call. Only if you add a writer fan-in entry with a
+      prompt-guided amendment strategy and author its prompt does the job, when a packet for that writer lands,
+      run Claude&nbsp;Code non-interactively (<code>claude -p</code>) to compose the amendment — that packet's
+      content goes to the same Anthropic service, under the same account, that Claude&nbsp;Code itself already
+      uses. The companion writer-reconciler job never calls a model.</p>
       <p class="faq-link"><a href="https://github.com/peter-tiktinsky/brain-stem/blob/main/SECURITY.md#scope-of-trust">→ Security: Scope of trust</a></p>
     </div>
 

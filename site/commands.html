@@ -127,6 +127,17 @@
         converts a corpus of wiki-style <code>[[links]]</code> to plain relative Markdown links — the ruled
         grammar every machine-written index now uses — so your own older files can join the convention.
       </p>
+      <p>
+        Three more are the shipped answer to questions you would otherwise guess at.
+        <strong><code>managed-surface-census</code></strong> hashes every installed file against the install
+        receipt and reports any divergence as a finding — it also runs on the daily cadence, so a fork surfaces
+        within a day whatever caused it (<a href="packaging-runtime.html#managed">Managed surfaces</a>).
+        <strong><code>context-budget-index</code></strong> renders what the always-on context actually cost in
+        the last session — every rules file, every <code>CLAUDE.md</code>, every spilled hook output — against
+        declared thresholds. <strong><code>rules-compact</code></strong> trims a rule whose enforcement already
+        lives in a deterministic hook down to a short stub naming that hook, and refuses when the rule is not
+        marked up for it (<a href="session-loading.html">What loads each session</a>).
+      </p>
       <p class="cmd-more">The cleanup chain it runs: <a href="session-close.html">Session close</a></p>
     </div>
 

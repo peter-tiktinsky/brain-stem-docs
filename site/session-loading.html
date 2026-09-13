@@ -42,7 +42,8 @@
         <div class="kicker">1 · Rules</div>
         <h3>Behavioral rules</h3>
         <p>The global rules always load; the project's own rules — found by walking up from your launch
-        directory — are added on top. <span class="page-meta">(Claude&nbsp;Code's own behavior.)</span></p>
+        directory — are added on top. brain-stem seeds four short entries into the global set and measures the
+        whole tier (see below). <span class="page-meta">(Claude&nbsp;Code's own behavior.)</span></p>
       </div>
       <div class="card">
         <div class="kicker">2 · Permissions</div>
@@ -139,6 +140,32 @@
       directory decides <em>which</em> project's small-and-up-front set you get — and the situating card is
       the bridge from that small set to everything else the project holds.</p>
     </div>
+
+    <h2>The always-on set is small by design — and measured</h2>
+    <p>
+      Everything in the always-on tier is paid for on every session start and on every subagent spawn, whether or
+      not the session needs it, so brain-stem keeps its own contribution to that tier deliberately small. The
+      installer seeds <strong>four</strong> always-on rule entries into your global rules directory — the
+      project-binder pointer, the pre-research library check, the work-project registration on-ramp, and the
+      durable-artifact routing convention — totalling about 2.4&nbsp;KB; they were rewritten to about a third of
+      their former size, with their guidance unchanged. The rules README is <em>not</em> seeded there, because
+      the harness loads every markdown file in that directory as an instruction; its canonical copy is installed
+      with the templates instead, and the write-time advisory that guides rules authoring points at it. A former
+      bounded-spoke rule is retired outright, because the session-start hook that warns when you launch from your
+      home directory delivers the same guidance at exactly the moment it applies. If a plan is armed in the
+      launch project, its spec is the one further payload that joins the tier — and only there.
+    </p>
+    <p>
+      The budget is a number, not a guess. A hook on the instructions-loaded event records the size of every
+      instruction file the harness reports loading, the session-end hook counts any hook output that overran the
+      harness's 10,000-character cap and was spilled to disk instead of delivered, and the librarian capability
+      <code>context-budget-index</code> renders those measurements against declared per-surface thresholds with
+      warning and red bands (the thresholds live in the shipped governance bundle, so your overlay can tune them).
+      And a rule that only restates what a deterministic hook already enforces can be <strong>compacted</strong>:
+      the <code>rules-compact</code> capability trims it to a short stub naming the enforcing hook, records the
+      link in the rules schema's <code>enforced_by</code> field, and refuses any rule that lacks the keep-and-why
+      markers it needs — so a rule is never emptied by accident.
+    </p>
 
     <h2>Reference</h2>
     <ul>

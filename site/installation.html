@@ -154,27 +154,58 @@ git reset --hard origin/main</pre>
       are ordinary fast-forwards.</p>
     </div>
 
-    <p><strong>2 — Preview the upgrade (writes nothing).</strong> Run the installer as a dry run:</p>
-    <pre>bash install.sh | jq .</pre>
+    <p><strong>2 — Preview the upgrade (writes nothing).</strong> Run the installer on its upgrade lane:</p>
+    <pre>bash install.sh --upgrade | jq .</pre>
     <p>
-      On an existing install this prints a write-free <strong>upgrade plan</strong>: <code>file_dispositions</code>
+      <code>--upgrade</code> is the one-command lane. It first <strong>asserts that an install is already
+      there</strong> (on a machine with none it fails rather than quietly becoming a first install), detects the
+      installed version and the shape of your setup, and <strong>resolves the install home itself</strong> from
+      the existing version stamp — you no longer export <code>CLAUDE_HOME</code> for an upgrade (an exported
+      value is still honoured). It then prints the full <strong>upgrade plan</strong>: <code>file_dispositions</code>
       lists every managed file the upgrade would touch and what it would do — <code>replace</code>,
       <code>new-ship</code>, or <code>sidecar</code> (take the new version, but first save a copy of any file you
-      had edited alongside it as <code>&lt;file&gt;.foundation-local</code>). The preview exits cleanly and
-      changes nothing, even if your current files are older than the new ones.
+      had edited alongside it as <code>&lt;file&gt;.foundation-local</code>) — together with the exact apply
+      command it recommends for your setup. The preview exits cleanly and changes nothing, even if your current
+      files are older than the new ones.
     </p>
-    <p><strong>3 — Apply the upgrade.</strong> When the plan looks right, set the target and re-run with
-    <code>--apply</code>. Because an upgrade replaces your merged <code>settings.json</code>, pass
-    <code>--backup-dir</code> so the installer first saves whatever it is about to overwrite (it hard-stops with
-    exit code&nbsp;53 if a replace is pending and no backup directory is given):</p>
-    <pre>export CLAUDE_HOME=~/.claude
-bash install.sh --apply --backup-dir ~/.claude-upgrade-backup</pre>
+    <p><strong>3 — Apply the upgrade.</strong> When the plan looks right, add one word:</p>
+    <pre>bash install.sh --upgrade --apply</pre>
     <p>
-      This delivers <strong>every</strong> changed managed file to the new version — including whole shipped
-      directories (the skills, the orchestrator, the installer support files, the vault seed) that earlier
-      versions could miss on an older install. Files you edited yourself are never lost: each is updated with
-      your copy saved alongside as <code>&lt;file&gt;.foundation-local</code>, so your changes are preserved and
-      clearly flagged.
+      That is the whole procedure. There is no per-release flag recipe to reconstruct — the installer owns the
+      decision of which guards apply to your setup. On a <strong>verified prior install</strong> (the version
+      stamp's recorded manifest fingerprint matches the manifest on disk, so the home is provably the install the
+      stamp describes and not an arbitrary populated folder) the lane relaxes three guards that exist to protect a
+      first install:
+    </p>
+    <ul>
+      <li><strong>The home-directory guard becomes a warning.</strong> Content in your install home that brain-stem
+      did not ship is your own runtime exhaust; the upgrade writes only the paths its manifest enumerates and
+      leaves everything else untouched, so it warns instead of demanding the overwrite acknowledgement.</li>
+      <li><strong>The plan-directory guard waives itself.</strong> A plan tree already under
+      <code>~/.claude-plans</code> was minted by the product; the upgrade never modifies it, so
+      <code>--retrofit-existing</code> is no longer asked for.</li>
+      <li><strong>The backup directory is derived.</strong> Because an upgrade replaces your merged
+      <code>settings.json</code>, a backup is still taken first — into a timestamped folder under
+      <code>~/.claude-backups/</code> that the installer names for you (pass <code>--backup-dir</code> only to
+      override it).</li>
+    </ul>
+    <p>
+      One thing the lane <strong>never</strong> relaxes: if it detects that brain-stem's own files were edited
+      in place, it still refuses to overwrite them silently and asks you to confirm by passing
+      <code>--force-install</code> with the <code>I-UNDERSTAND-OVERWRITE-RISK</code> acknowledgement (exactly as
+      on a first install into a folder that already has files). And the relaxations are gated on the verification
+      itself: if the stamp is absent, unreadable, or its fingerprint does not match, the lane <strong>fails
+      closed</strong> into the full ceremony — an explicit <code>CLAUDE_HOME</code>, an explicit backup directory,
+      and every override a first install would ask for. A plain <code>bash install.sh --apply</code> without
+      <code>--upgrade</code> still works and behaves exactly as it always has.
+    </p>
+    <p>
+      The apply delivers <strong>every</strong> changed managed file to the new version — including whole shipped
+      directories (the skills, the orchestrator, the installer support files, the vault seed). Files you edited
+      yourself are never lost: each is updated with your copy saved alongside as
+      <code>&lt;file&gt;.foundation-local</code>, so your changes are preserved and clearly flagged. And once the
+      install is live, editing one of its managed files draws an in-flight advisory and a daily census reports any
+      divergence, whatever caused it — see <a href="packaging-runtime.html#managed">Managed surfaces</a>.
     </p>
 
     <div class="callout key">
@@ -182,18 +213,10 @@ bash install.sh --apply --backup-dir ~/.claude-upgrade-backup</pre>
       <p>Before recording an upgrade as finished, the installer verifies that every managed file it shipped
       actually reached the new version. If any file is still stale, it stops with a non-zero exit code
       (<strong>56</strong> — "delivery shortfall"), writes no completion stamp, and leaves the upgrade marked
-      unfinished. There is nothing to clean up: run <code>bash install.sh --apply</code> again and it picks up
-      where it left off and converges. A short, recoverable failure is by design always preferred over a silent,
-      incomplete "success."</p>
-    </div>
-
-    <div class="callout note">
-      <div class="label">One thing the preview does not relax on a real apply</div>
-      <p>The <em>preview</em> is relaxed about your files differing from the shipped version — that difference is
-      the whole point of an upgrade. A real <code>--apply</code> is stricter: if it detects that brain-stem's own
-      files were edited in place, it still refuses to overwrite them silently and asks you to confirm by passing
-      <code>--force-install</code> and typing the <code>I-UNDERSTAND-OVERWRITE-RISK</code> phrase (exactly as on a
-      first install into a folder that already has files). The relaxed behavior is preview-only.</p>
+      unfinished. There is nothing to clean up: run <code>bash install.sh --upgrade --apply</code> again and it
+      picks up where it left off and converges (a half-delivered home still verifies as the stamped install, so
+      the re-run stays on the one-command lane). A short, recoverable failure is by design always preferred over
+      a silent, incomplete "success."</p>
     </div>
 
     <div class="callout note">
@@ -271,6 +294,52 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
       <a href="https://github.com/peter-tiktinsky/brain-stem/blob/main/docs/release-notes-v1.13.1.md">that
       patch's release notes</a> carry a one-line post-upgrade check to confirm.
     </p>
+    <p>
+      The release that introduced the one-command upgrade lane needed no migration of its own. The release after
+      it ships <strong>two</strong> — both automatic, both idempotent, both recoverable — and this is exactly what
+      each does and what it will never do:
+    </p>
+    <ul>
+      <li><strong>Task-status vocabulary</strong> (<code>0009-task-status-vocabulary</code>, over your plans
+      corpus). Every plan manifest carries a task ledger and each task a status; the declared vocabulary is five
+      values — <code>not-started</code>, <code>in-progress</code>, <code>blocked</code>, <code>done</code>,
+      <code>cut</code> — with the last two as the terminal pair. Plans authored earlier carry eight legacy
+      spellings, and each reader had its own idea of which were terminal, so the same task could read as settled
+      to one reader and open to another. The migration maps them forward: <code>complete</code>,
+      <code>completed</code> and <code>closed</code> become <code>done</code>; <code>pending</code> and
+      <code>planned</code> become <code>not-started</code>; <code>needs-revision</code> becomes
+      <code>blocked</code>; <code>deferred</code> and <code>retired</code> become <code>cut</code>. It touches the
+      task axis only — a plan's own status field is a different vocabulary and is left byte-identical — and maps
+      only those eight exact spellings; every other value is left byte-unchanged and the migration keeps going
+      rather than aborting. Before any manifest is changed its original bytes are copied once to a
+      <code>.pre-0009</code> pre-image file beside it, and because the mapping is convergent, simply re-running
+      the upgrade re-converges the corpus. The pre-image files are recovery artifacts, safe to delete once you
+      have verified the upgrade.</li>
+      <li><strong>Rules refresh</strong> (<code>0010-class-a-rules-refresh</code>, over your rules directory).
+      The installer seeds its rule entries preserve-on-exist — it never overwrites a rules file that is already
+      there — so a shortened seed could never reach an install that is already seeded, and a seed the installer
+      stops writing would never be removed. This migration is the only delivery path for both, and every arm of
+      it acts only on a file it recognises as bytes brain-stem itself wrote, checked against a shipped table of
+      every body ever seeded: it replaces a seeded entry that still matches an older shipped body with the current
+      shortened one; it retires the rules README when it matches a shipped seed, and otherwise preserves your
+      content as <code>rules/README.md.foundation-retired</code>, a name the harness does not load; and it retires
+      the former bounded-spoke rule when it matches. A file that matches no seed is left exactly as it is, with an
+      advisory naming it. A missing entry is a no-op, because the seeder runs earlier in the same upgrade and has
+      already written the current body. If the recognition table or a hashing tool is unavailable, the whole
+      migration degrades to a no-op rather than guessing.</li>
+    </ul>
+
+    <div class="callout key">
+      <div class="label">Confirm the migrations landed — the post-apply self-check</div>
+      <p>The version stamp records every migration that ran. After the apply, check that both ids are listed
+      (<code>CLAUDE_HOME</code> is your install home, <code>~/.claude</code> by convention):</p>
+      <pre>jq -r '.migrations_applied[]' "$CLAUDE_HOME/governance/.installed-state.json"</pre>
+      <p>If either <code>0009-task-status-vocabulary</code> or <code>0010-class-a-rules-refresh</code> is
+      missing, run <code>bash install.sh --upgrade --apply</code> once more — the runner selects any migration
+      whose id is not yet in that list and heals the install. No manual step is ever needed. And if you had
+      edited a seeded rule entry, the rules refresh leaves your file alone and names it in an advisory; compare
+      it against the shortened body at your convenience.</p>
+    </div>
 
     <div class="callout note">
       <div class="label">Removing brain-stem instead</div>

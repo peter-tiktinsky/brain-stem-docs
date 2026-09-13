@@ -122,7 +122,10 @@
       an opt-in <strong>LLM-reasoning lane</strong>: you can register an operator-authored prompt
       (a <code>doc-amender-prompt</code>) that runs through <code>claude -p</code> to merge an incoming packet
       into a destination intelligently. Even then it stays inside the safety model — the prompt <strong>composes
-      a packet, it never writes the final file</strong>; the reconciler still does that. Think of it as:
+      a packet, it never writes the final file</strong>; the reconciler still does that. The lane's job is
+      installed and loaded with the rest of capture, but it is idle out of the box: the shipped writer registry
+      defines no writer for it to act on, so it composes nothing and makes no network call until you register a
+      writer fan-in entry with a prompt-guided amendment strategy and author its prompt. Think of it as:
       deterministic by default, model in the loop only where you decide it earns its keep.
     </p>
     <div class="card-grid two">
