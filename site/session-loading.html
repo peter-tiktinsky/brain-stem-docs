@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>What loads each session · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=27">
+<link rel="stylesheet" href="assets/style.css?v=32">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -20,13 +20,16 @@
       <strong>assembled from the directory you launched in</strong>. The launch directory selects the
       rules, the permissions, the memory, and the project's situating card, every time.
     </p>
-    <p class="page-meta">The launch directory is the single input; everything project-scoped is derived from it.</p>
+    <p class="page-meta">The launch directory is the input; everything project-scoped is resolved from it, through the anchor registry for brain-stem's own surfaces.</p>
 
     <h2>The launch directory is the project</h2>
     <p>
       When you start Claude&nbsp;Code inside a folder, that folder <em>is</em> the project's identity.
-      There is no roster of projects to maintain — the location you started in selects everything
-      project-scoped, read fresh each session.
+      Claude&nbsp;Code's own tiers — rules, permissions, memory — need no roster at all; brain-stem's
+      project-scoped surfaces resolve that folder through an anchor registry you add a project to once,
+      with <code>/govern register --kind project</code>, before the first write. Either way the location
+      you started in selects everything project-scoped, read fresh each session, and a directory under no
+      registered anchor falls through to a shared catch-all.
     </p>
     <table>
       <thead><tr><th>Project kind</th><th>Launched from</th></tr></thead>
@@ -62,14 +65,14 @@
         <h3>The project's situating card</h3>
         <p>A small generated card — the project's plan roster, status, active focus, and latest handoff —
         is loaded into the session automatically, so it self-orients before your first message.
-        brain-stem's net-new addition, and the subject of the rest of this page.</p>
+        A brain-stem specific addition, and the subject of the rest of this page.</p>
       </div>
     </div>
 
     <div class="callout note">
       <div class="label">What's brain-stem, what's not</div>
       <p>The first three — rules, settings, and memory — are <strong>Claude&nbsp;Code's own</strong>
-      loading behavior; brain-stem rides on them and keeps them organized. The genuinely net-new piece
+      loading behavior; brain-stem rides on them and keeps them organized. The genuinely brain-stem specific piece
       is the fourth: the project's <strong>situating card</strong>, generated from its plans and loaded
       automatically at start (the binder's deeper indexes are read on demand behind it).</p>
     </div>
@@ -104,7 +107,7 @@
       material behind each pointer is read <strong>only when the work reaches for it</strong>.
     </p>
 
-    <div class="hubwrap" style="margin:22px 0;">
+    <div class="hubwrap">
       <div class="smnode hub"><b>_situating.md — the generated cover, loaded at session start</b><small>the project's machine-derived orientation card; its pointers bring the whole project into view without loading its contents</small></div>
       <div class="ptrcards">
         <div class="ptrcard"><b>Research index</b><small>Every research note the project has produced, organized by plan — its accumulated findings.</small></div>
@@ -183,7 +186,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=21"></script>
+<script src="assets/nav.js?v=25"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

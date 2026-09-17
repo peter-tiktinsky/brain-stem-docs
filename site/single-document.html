@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The single document · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=27">
+<link rel="stylesheet" href="assets/style.css?v=32">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -26,7 +26,7 @@
 
     <div class="callout key">
       <div class="label">One contract, composed from two files — read on every write</div>
-      <p>Each rule below is read the same way. At every write the engine merges
+      <p>Each rule below is read the same way. At every write the assistant makes with its Edit and Write tools — a file put on disk by a shell command is not checked — the engine merges
       <code>foundation-master.json</code> (the defaults every adopter receives) with
       <code>overlay-master.json</code> (your extensions, empty on a fresh install) and applies the union as
       the live contract. Foundation provides the baseline; your overlay extends the type registry, adds tag
@@ -62,16 +62,54 @@
       <tbody>
         <tr><td><strong>Strict</strong></td><td>Write is <span class="pill deny">denied</span>; the missing fields are named.</td><td>System-emitted files — scaffold output, captured content, scraper output, anything written by a skill without a human in the loop.</td></tr>
         <tr><td><strong>Standard</strong></td><td>Write proceeds; an <span class="pill advise">advisory</span> surfaces at session close.</td><td>User-authored content — your own notes, references, planning docs.</td></tr>
-        <tr><td><strong>Minimal</strong></td><td>Write proceeds without validation.</td><td>Explicit opt-out — legacy imports, paste-buffer scratch, archived content outside the active lifecycle.</td></tr>
+        <tr><td><strong>Minimal</strong></td><td>Declared in the registry as allow-through.</td><td>No shipped type carries it — the split that fires at the write is Strict versus Standard.</td></tr>
       </tbody>
     </table>
     <p>
       Foundation types are all Strict because they're machine-emitted; the user-authored types you register
-      typically run at Standard. To drop a single file to Minimal, add <code>tier: minimal</code> to its
-      frontmatter. The tiering is why the system can be uncompromising about generated files — which a human
+      typically run at Standard. The tiering is why the system can be uncompromising about generated files — which a human
       never sees and which downstream tools depend on — while staying gentle about the note you're actively
       writing. Blocking a person's save over a missing field would be hostile and would only train you to
       switch the guard off.
+    </p>
+
+    <h3>The identity cohort — and how a note comes to carry it</h3>
+    <p>
+      Beyond the per-type baseline, the registry declares a small <strong>identity cohort</strong> that the
+      user-facing content types share: <code>description</code> (a one-line summary, at most 200 characters),
+      <code>created</code>, <code>id</code> (a stable slug derived from the file's path) and
+      <code>schema_version</code>. Which types require it is declared per type, not assumed: the index,
+      reference, deliverable and note types carry the full set; a log, a writer record or an ideation brief
+      does not; plan artifacts and memory files run their own registries with their own required sets. The
+      cohort's job is identity and orientation — for you, for Claude, and for any outside reader
+      (<a href="knowledge-graph.html">Knowledge-graph extendability</a>).
+    </p>
+    <p>You almost never fill it in by hand. Three mechanisms cooperate:</p>
+    <ul>
+      <li><strong>Stamped at creation.</strong> A note written through Claude&nbsp;Code inside the vault is
+      stamped by the post-write hook with whichever of the four fields it lacks: <code>created</code> is
+      <em>derived</em> (an in-band modified date, else the file's first git commit date, else today, labelled
+      as a bootstrap date) and never re-stamped once present; <code>id</code> is a slug of the path;
+      <code>schema_version</code> is the current integer; <code>description</code> is drafted from the first
+      heading or opening line, with no model call (a model-drafted description exists as an opt-in switch and
+      is off by default). Memory files, folder indexes and logs are excluded; they have their own writers.</li>
+      <li><strong>Backfilled on demand.</strong> For notes that already exist, the librarian's frontmatter
+      capability proposes the same four fields for any file missing them, using the first git commit date or
+      the file's birth date for <code>created</code>. Its check mode reports; its fix mode writes; you can
+      pass <code>--frontmatter-fix</code> to an upgrade to run the backfill once the new files land. Run it
+      in check mode first and read the findings before you let it write.</li>
+      <li><strong>Warned, not blocked.</strong> A missing cohort field surfaces as an advisory on every tier,
+      including Strict, because the first two mechanisms make the note compliant on their own. The value
+      formats are checked the same way (a date must look like a date, <code>tags</code> must be a list,
+      <code>id</code> a slug, <code>schema_version</code> an integer) and the check is advisory too. What a
+      Strict type still <em>denies</em> is a missing field outside the cohort — a deliverable without its
+      project, status and audience, for example.</li>
+    </ul>
+    <p>
+      Scope is decided by location, not by a list of names: the check applies to Markdown written under the
+      vault root, and a registered work project's files are mapped onto the vault view before the check so
+      they are governed too. Files the system parks outside the vault — logs, runtime state — are out of scope
+      because of where they live.
     </p>
 
     <h3>The foundation type registry</h3>
@@ -104,17 +142,17 @@
       cluster folder carries both the matching frontmatter field <em>and</em> the matching tag. Foundation
       ships the <em>shape</em> of these rules; your overlay's <code>path_routing</code> rules (declared at
       onboarding) define the cluster grammar — the path glob, the required lineage fields, the required tags,
-      the tier, and any exempt sub-paths. A file under a cluster path without its lineage fields surfaces a
-      placement advisory at write-time and at audit-time.</p>
+      the tier, and any exempt sub-paths. Those clauses are declarations: nothing in the write path or the audit
+      walk evaluates them, so pairing the field with the tag is a convention you keep rather than a check that
+      fires.</p>
     </div>
 
     <h3>How it operates — the write-time sequence</h3>
     <p>When you write a vault file, the frontmatter pillar runs these checks in order:</p>
     <ol>
       <li><strong>Type allowlist.</strong> The <code>type:</code> must be in the merged registry. On a Strict-tier write an unknown type is <span class="pill deny">denied</span>, the error naming the allowed types and pointing to <code>/govern register</code>; a Standard-tier write proceeds with a warning.</li>
-      <li><strong>Required fields.</strong> The universal three plus the per-type list must all be present. Missing fields on a Strict type are denied with the list of what to add.</li>
+      <li><strong>Required fields.</strong> The type's own required fields must all be present. Missing fields on a Strict type are denied with the list of what to add.</li>
       <li><strong>Folder placement.</strong> If the type declares an expected folder, a mismatch surfaces an <span class="pill advise">advisory</span> (never a block) — cross-folder reference docs and customized structures legitimately diverge.</li>
-      <li><strong>Folder-lineage fields.</strong> If the path matches an overlay lineage rule, the required fields and tags must be present — denied at Strict, advised at Standard.</li>
     </ol>
     <p>The librarian's coverage audits then walk the vault periodically and surface recurring drift — types whose required fields you keep declining, folders accumulating placement advisories, two files both claiming to provide one capability. Those surface at session close; you triage.</p>
 
@@ -148,34 +186,36 @@
     <h3>The grammar, and two classes of dimension</h3>
     <p>
       Every tag matches <code>#dimension/value</code> — a registered dimension prefix, then a kebab-case value
-      (the full shape is <code>^#[a-z][a-z0-9-]*/[a-z0-9][a-z0-9-]*$</code>). A tag that fails the regex, or
-      whose dimension isn't in the allowlist, is <span class="pill deny">denied</span> at write time, the
-      denial enumerating the offenders so you can pick from the vocabulary, omit the tag, or register a new
-      dimension. The flat freeform tag is rejected by construction — the dimension prefix is what keeps related
-      values clustered and queryable.
+      (the full shape is <code>^#[a-z][a-z0-9-]*/[a-z0-9][a-z0-9-]*$</code>). A tag whose dimension isn't in
+      the allowlist is <span class="pill deny">denied</span> at write time, the denial naming the offending
+      tags and the prefixes you may use, so you can pick from the vocabulary, omit the tag, or register a new
+      dimension; the value half of the shape is a convention the write gate does not check. The flat freeform
+      tag is rejected by construction — the dimension prefix is what keeps related values clustered and
+      queryable.
     </p>
     <table>
       <thead><tr><th>Class</th><th>What it is</th><th>Who stewards it · foundation ships</th></tr></thead>
       <tbody>
         <tr><td><strong>System-utility</strong></td><td>Machine-emitted dimensions whose values are operational, not subjective.</td><td>Skills, hooks, crons. Foundation ships <code>#status/*</code> and <code>#log/*</code> — cap-exempt.</td></tr>
-        <tr><td><strong>User-facing</strong></td><td>Dimensions you populate as you author and curate.</td><td>You. Foundation ships only the shape and the cap; your overlay seeds the concrete axes at onboarding.</td></tr>
+        <tr><td><strong>User-facing</strong></td><td>Dimensions you populate as you author and curate.</td><td>You. Foundation ships <code>#project/*</code> and <code>#library/*</code>; your overlay adds further axes at onboarding.</td></tr>
       </tbody>
     </table>
     <p>
       The split exists because the two classes drift differently. System-utility values come from skills with
       stable vocabularies, so fragmenting them into near-match variants would split the operational graph; they're
-      governed by a <strong>log-subtype registry</strong> with two protections — a <strong>near-match denial</strong>
-      (a value within Levenshtein distance 2 of an existing canonical is refused with a <em>"did you mean…?"</em>)
+      governed by a <strong>log-subtype registry</strong> with two protections — an <strong>audit-time
+      canonicality pass</strong> (the librarian reports any <code>#log/*</code> or <code>#status/*</code> value
+      with no registry entry, and flags two registered subtypes sitting within a couple of edits of each other)
       and explicit first-emission registration when a skill first emits a subtype. User-facing values come from you
       and grow with your work, so locking them at install time would force the foundation to guess your domain.
     </p>
 
     <div class="callout key">
-      <div class="label">The 25-value cap is structural, not aspirational</div>
-      <p>Distinct values across all user-facing dimensions stay under <strong>25</strong>. An advisory fires
-      at 80% (≥ 20 active values), surfacing consolidation candidates; raising the cap needs a deliberate
-      <code>tagging_cap_override</code> with a written reason — the system denies a silent widening. The
-      ceiling is the working-memory limit on faceted vocabularies: past it, decision fatigue produces
+      <div class="label">The 25-value cap, and why the number is 25</div>
+      <p>Distinct values across all user-facing dimensions stay under <strong>25</strong>, and raising that
+      ceiling is a deliberate <code>tagging_cap_override</code> carrying a written reason. Both are governance
+      declarations you hold to: nothing in the shipped tree tallies your distinct values or refuses a
+      widening. The ceiling is the working-memory limit on faceted vocabularies: past it, decision fatigue produces
       variant-creation rather than canonical-term selection, the vocabulary fragments, and your own recall
       collapses. The number isn't arbitrary; it's the point where a controlled vocabulary stops being one.</p>
     </div>
@@ -183,17 +223,17 @@
     <p>
       One more coupling: the <strong>folder-mirrors-tag invariant</strong>. A file in a structural cluster
       folder carries the cluster's <code>#dimension/value</code> tag, just as it carries the matching lineage
-      field. The frontmatter pillar enforces the field side; tagging enforces the tag side; together they keep
-      the folder hierarchy and the taxonomy aligned, so moving a file across clusters moves both.
+      field. Both sides are conventions rather than gates — the frontmatter check reads the type registry, not
+      a cluster rule, and the tag check tests only the dimension prefix — and kept, they keep the folder
+      hierarchy and the taxonomy aligned, so moving a file across clusters moves both.
     </p>
 
     <h3>How it operates — the write-time sequence</h3>
     <ol>
-      <li><strong>Grammar.</strong> Every tag must match the hierarchical regex; failures are denied.</li>
-      <li><strong>Dimension allowlist.</strong> Every dimension must be in the merged allowlist; unknowns are denied with a registration suggestion.</li>
-      <li><strong>System-utility canonical-value check.</strong> Tags under <code>#log/*</code> or <code>#status/*</code> must match a registry value; near-matches are denied.</li>
+      <li><strong>Dimension allowlist.</strong> Every dimension must be in the merged allowlist; unknowns are denied, the message naming the offending tags and the prefixes you may use.</li>
+      <li><strong>System-utility canonical-value check.</strong> Values under <code>#log/*</code> and <code>#status/*</code> pass the write; the librarian compares them against the log-subtype registry at audit time and reports the ones with no entry.</li>
       <li><strong>Tag presence.</strong> A non-exempt file with no tag surfaces an <span class="pill advise">advisory</span> — it flags a potential graph orphan at capture, and never blocks.</li>
-      <li><strong>Cap watch.</strong> The librarian counts distinct user-facing values at audit time; 80% usage surfaces a consolidation prompt.</li>
+      <li><strong>Coverage watch.</strong> The librarian's tag-coverage audit walks the vault and reports files with no <code>tags</code> field and tags carrying an unrecognized dimension prefix.</li>
     </ol>
 
     <h3>Common anti-patterns</h3>
@@ -201,8 +241,8 @@
       <thead><tr><th>Anti-pattern</th><th>What goes wrong</th><th>Better path</th></tr></thead>
       <tbody>
         <tr><td>Freeform tags (<code>#urgent</code>)</td><td>The grammar denies the write; the flat namespace would fragment anyway.</td><td>Register the dimension first via <code>/govern register --kind tag-extension</code>.</td></tr>
-        <tr><td>Inventing <code>#log/*</code> / <code>#status/*</code> values inline</td><td>The near-match check denies it; these dimensions are skill-owned, not user-authored.</td><td>Let the owning skill register the subtype; user operational tags belong in a user-facing dimension.</td></tr>
-        <tr><td>Raising the 25-cap silently</td><td>A silent widening isn't sanctioned — the <code>tagging_cap_override</code> requires a written rationale; the cap reflects working-memory research.</td><td>Triage first (the 80% advisory surfaces retire-candidates); if you genuinely need it, raise it with a written rationale.</td></tr>
+        <tr><td>Inventing <code>#log/*</code> / <code>#status/*</code> values inline</td><td>The write gate lets it through — it carries a registered prefix — and the drift surfaces later as an unregistered-value finding; these dimensions are skill-owned, not user-authored.</td><td>Let the owning skill register the subtype; user operational tags belong in a user-facing dimension.</td></tr>
+        <tr><td>Raising the 25-cap silently</td><td>A silent widening isn't sanctioned — the <code>tagging_cap_override</code> carries a written rationale by rule; the cap reflects working-memory research.</td><td>Triage the vocabulary first and retire the values nothing queries; if you genuinely need the room, raise the cap with a written rationale.</td></tr>
         <tr><td>Duplicating a field's lifecycle in a tag</td><td>A tag mirrors <code>status:</code> for query convenience; the two drift.</td><td>Let the post-write hook mirror the canonical field into a tag; don't dual-author.</td></tr>
       </tbody>
     </table>
@@ -225,16 +265,17 @@
 
     <h3>The vault-root structure and slug grammar</h3>
     <p>
-      A fresh brain-stem vault is deliberately lean at the top. The scaffolder seeds exactly <strong>one
-      real folder</strong> — <code>Vault Writers/</code> — authors the vault-root <code>CLAUDE.md</code>
-      contract, and wires a set of <strong>symlink shortcuts</strong> to surfaces that live <em>outside</em>
-      the vault. Everything else is yours to create as your work needs it.
+      A fresh brain-stem vault is deliberately lean at the top. The scaffolder seeds <strong>two real
+      folders</strong> — <code>Vault Writers/</code> and <code>Bases/</code> — authors the vault-root
+      <code>CLAUDE.md</code> contract, and wires a set of <strong>symlink shortcuts</strong> to surfaces that
+      live <em>outside</em> the vault. Everything else is yours to create as your work needs it.
     </p>
     <table>
       <thead><tr><th>At the vault root</th><th>What it is</th></tr></thead>
       <tbody>
-        <tr><td><code>Vault Writers/</code></td><td>The one seeded folder — the catalog of systems that write into the vault.</td></tr>
-        <tr><td><code>CLAUDE.md</code></td><td>The vault's top-level contract — the one permitted bare file.</td></tr>
+        <tr><td><code>Vault Writers/</code></td><td>The catalog of systems that write into the vault.</td></tr>
+        <tr><td><code>Bases/</code></td><td>Starter Obsidian Bases views over the typed frontmatter — a by-type list, a recent-notes view, and a status board.</td></tr>
+        <tr><td><code>CLAUDE.md</code></td><td>The vault's orientation document — the one permitted bare file.</td></tr>
         <tr><td><code>Plans/</code> <span class="pill muted">symlink</span></td><td>→ your plan tree (<code>~/.claude-plans</code>).</td></tr>
         <tr><td><code>Skills/</code> <span class="pill muted">symlink</span></td><td>→ your skills directory.</td></tr>
         <tr><td><code>Wiki/</code> <span class="pill muted">symlink</span></td><td>→ the universal Library.</td></tr>
@@ -263,33 +304,34 @@
       <p>A gitignore pattern that should match at any depth (<code>Tags/</code>, <code>node_modules/</code>,
       <code>.DS_Store</code>) needs the <code>**/</code> prefix. Bare-name patterns match only at repo root;
       deeper instances slip past — a production-scale bare-name bypass once leaked ~100 operational files into
-      a reference deployment. The rule ships as inline comments in the foundation <code>.gitignore</code> today
-      and promotes to a pre-commit hook if drift recurs.</p>
+      a reference deployment. The rule ships in the naming pillar — the <code>**/</code> pattern grammar
+      plus the ignore defaults the foundation applies to its own repo — with a pre-commit hook as the
+      declared promotion path if drift recurs.</p>
     </div>
 
     <h3>Plan slug discipline</h3>
-    <p>Plan-tree files under <code>~/.claude-plans/</code> carry the strictest naming contract in the vault. Three rules fire at write time:</p>
+    <p>Plan-tree files under <code>~/.claude-plans/</code> carry the strictest naming contract in the vault. Two rules fire at write time, and a third is checked when <code>/new-plan</code> creates the directory:</p>
     <ul>
       <li><strong><code>NN-</code> numeric prefix</strong> — creation-order, never backfilled; the next plan takes one above the highest existing prefix, and gaps from retired plans stay as gaps.</li>
       <li><strong>Status marker</strong> — a <code>**Status:**</code> bullet, a <code>status:</code> field, or a <code>status</code> key in <code>manifest.json</code>; a plan with none is denied (the index walker would file it under "Unknown").</li>
-      <li><strong>Shame-slug rejection</strong> — auto-generated filler like <code>async-wiggling-donut</code> is denied; a plan needs a descriptive slug that names the actual work.</li>
+      <li><strong>Shame-slug rejection</strong> — <code>/new-plan</code> refuses auto-generated filler like <code>async-wiggling-donut</code> (<code>--force-slug</code> overrides); a plan needs a descriptive slug that names the actual work.</li>
     </ul>
     <p>
       Two sanctioned paths handle all three in one flow: <code>/new-plan</code> (ad-hoc scaffolding of the
       canonical quartet + manifest) and <code>/backlog-research</code> (the same, research-first). Hand-writing
       a plan directory usually fails one of the rules; a per-write <code>PLAN_STATUS_OK=1</code> override
-      exists for the rare deliberate case and lands in the audit log. Sub-task files at depth ≥ 3 additionally
-      carry a <code>parent_plan:</code> field so plan-tree walkers resolve ancestry without parsing paths —
-      drift there is an audit-time finding, not a write-time block, so an in-flight reorganization isn't
-      trapped by the gate.
+      exists for the rare deliberate case and lands in the audit log. Sub-plan artifacts at depth ≥ 3
+      additionally carry a <code>parent_plan:</code> field so plan-tree walkers resolve ancestry without
+      parsing paths — a sub-plan's root artifacts are denied without it, while the wider population of files
+      beneath them is reconciled at audit time, so an in-flight reorganization isn't trapped by the gate.
     </p>
 
     <h3>How it operates — the write-time sequence</h3>
     <ol>
       <li><strong>Root-or-exempt.</strong> A vault-root file must be in a documented root or the single-file exemption set; a new root path surfaces a placement advisory.</li>
-      <li><strong>Slug grammar.</strong> Every slug — filename, folder, <code>id</code> — follows the kebab <code>[a-z0-9-]</code> convention; the only write-time slug checks are the plan-tree gate (next) and the tag-grammar deny, while ordinary filenames carry the convention without a write-time block.</li>
-      <li><strong>Plan-tree rules.</strong> A write under the plan tree checks the prefix, the status marker, the shame-slug regex (these three deny), and the <code>parent_plan:</code> lineage (audit-only).</li>
-      <li><strong>Path-routing match.</strong> A write to a user-defined folder validates against your overlay's <code>path_routing</code> rule — lineage fields, tags, tier.</li>
+      <li><strong>Slug grammar.</strong> Every slug — filename, folder, <code>id</code> — follows the kebab <code>[a-z0-9-]</code> convention; the only write-time slug checks are the plan-tree gate (next) and the tag dimension deny, while ordinary filenames carry the convention without a write-time block.</li>
+      <li><strong>Plan-tree rules.</strong> A write under the plan tree checks the <code>NN-</code> prefix and the status marker (both deny), and denies a sub-plan root artifact at depth ≥ 3 that omits <code>parent_plan:</code>.</li>
+      <li><strong>Path-routing match.</strong> A write to a folder outside the documented set is matched against the declared folder patterns and draws a registration advisory; the lineage fields, tags and tier a rule declares are not evaluated at the write.</li>
     </ol>
 
     <!-- ============ FILE-TYPE CONTRACTS ============ -->
@@ -309,9 +351,10 @@
 
     <div class="callout key">
       <div class="label">The matcher / parameter split</div>
-      <p>A contract has two pieces in two pillars. The <strong>matcher</strong> declares <em>which writes
-      trigger this contract</em> (it lives in a sibling pillar — mandatory-files for vault mandates, plans for
-      plan-tree files). The <strong>contract</strong> declares <em>what the body must look like</em>:
+      <p>A contract has two pieces, declared apart from each other. The <strong>matcher</strong> declares <em>which
+      writes trigger this contract</em> and lives outside the contract — in a sibling pillar (mandatory-files
+      for vault mandates, plans for plan-tree files), or in the hook or skill that emits the file; a couple of
+      contracts name no matcher at all. The <strong>contract</strong> declares <em>what the body must look like</em>:
       <code>write_shape</code>, <code>size_limits</code>, <code>required_sections</code>,
       <code>prohibited_sections</code>, <code>frontmatter_enums</code>, and any structured-body rules. The
       split lets one contract be reused across matchers and lets a matcher swap parameters without rewriting
@@ -321,11 +364,11 @@
     </div>
 
     <h3>The write-shape enum</h3>
-    <p>Every contract carries a <code>write_shape</code> — the single most protective field, because it's what stops a regeneration from destroying a generated file.</p>
+    <p>Every contract carries a <code>write_shape</code> — the field that states what a write may do to that file: create it once, replace it wholesale, append to it, or prepend a row.</p>
     <table>
       <thead><tr><th>Shape</th><th>What it permits</th><th>Default class of files</th></tr></thead>
       <tbody>
-        <tr><td><code>create-only</code></td><td>Initial write succeeds; later overwrites are <span class="pill deny">denied</span>. Edits go through the file's amender.</td><td>Generated registration records: writer descriptors, ADRs, ideation briefs, the vault-root <code>CLAUDE.md</code>.</td></tr>
+        <tr><td><code>create-only</code></td><td>The file is written once and later writes must not overwrite it.</td><td>Generated registration records: writer descriptors, ADRs, ideation briefs, the vault-root <code>CLAUDE.md</code>.</td></tr>
         <tr><td><code>replace</code></td><td>Full-file replacement on every write; prior content is snapshotted for diff-review.</td><td>Files regenerated as a unit: <code>_index.md</code>, <code>manifest.json</code>, <code>tasks.md</code>, deliverables, Library articles.</td></tr>
         <tr><td><code>append-template</code></td><td>Writes must append a templated block; the contract carries the template and any sentinel markers.</td><td>Append-only records: <code>handoff.md</code>, <code>spec.md</code> sub-sections.</td></tr>
         <tr><td><code>prepend-row-newest-first</code></td><td>Writes prepend a new row to a sentinel-fenced table, newest first; the surrounding prose is untouched.</td><td>The episodic chronicle (the memory log).</td></tr>
@@ -366,28 +409,28 @@
     </div>
 
     <h3>How it operates — the contract checks</h3>
-    <p>Unlike the first three pillars, the body contract is not a write-time block. The matcher resolves which contract a path triggers, and the body rules below are reconciled by the librarian's coverage audits at session close; the one piece checked at the write is the frontmatter coupling.</p>
+    <p>Unlike the first three pillars, the body contract is almost never a write-time block. The matcher resolves which contract a path triggers; two narrow rules are checked at the write — the contract's frontmatter coupling, and the section schema of a plan-tree <code>handoff.md</code> — and the rest of the body rules below are declarations the tools that write each file honour.</p>
     <ol>
       <li><strong>Matcher resolution.</strong> The matcher pillar names which contract this path triggers; no matcher → no body contract applies (the file still validates against the type registry at write time).</li>
-      <li><strong>Write-shape.</strong> The declared shape records what the file permits — <code>create-only</code> forbids overwrites, <code>append-template</code> forbids wholesale replacement, <code>replace</code> regenerates as a unit. A write that violates the shape surfaces as audit drift; create-only files route their edits through the file's amender by convention.</li>
-      <li><strong>Size limits.</strong> A declared <code>size_limits.max_lines</code> is an audit-time check, not a write-time block — the runtime ships no synchronous line cap at all.</li>
-      <li><strong>Required / prohibited sections.</strong> The contract's required and prohibited headers are reconciled by the coverage walk; the runtime ships no write-time body-structure guard.</li>
-      <li><strong>Frontmatter coupling.</strong> Contract-declared frontmatter requirements and <code>frontmatter_enums</code> are the one body-contract layer checked at the write — a <code>vault-writer</code> whose <code>writer_kind</code> or <code>status</code> falls outside the enum is <span class="pill deny">denied</span> by the guard; other types' contract enums are reconciled at audit time.</li>
+      <li><strong>Write-shape.</strong> The declared shape records what the file permits — <code>create-only</code> forbids overwrites, <code>append-template</code> forbids wholesale replacement, <code>replace</code> regenerates as a unit. It is a declaration the writing tool reads, not a check the guard runs; create-only files route their edits through the file's amender by convention.</li>
+      <li><strong>Size limits.</strong> A declared <code>size_limits.max_lines</code> is a stated ceiling in the contract, not a write-time block — the runtime ships no synchronous line cap at all.</li>
+      <li><strong>Required / prohibited sections.</strong> One body-structure rule does fire at the write: a new session heading in a plan-tree <code>handoff.md</code> must match the contract's section schema or the write is <span class="pill deny">denied</span> (<code>HANDOFF_SECTION_SCHEMA_OK=1</code> overrides). The other contracts' required and prohibited headers are not checked at the write.</li>
+      <li><strong>Frontmatter coupling.</strong> Contract-declared frontmatter requirements and <code>frontmatter_enums</code> are checked at the write — a <code>vault-writer</code> whose <code>writer_kind</code> or <code>status</code> falls outside the enum is <span class="pill deny">denied</span> by the guard; other types' contract enums are reconciled at audit time.</li>
     </ol>
 
     <!-- ============ SYNTHESIS ============ -->
     <h2>How the four pillars check one write</h2>
-    <p>A single write to one vault file is checked against all four pillars in sequence — type, then fields, then placement, then tags, then body. The strict-tier checks deny; the rest teach.</p>
+    <p>A single write to one vault file runs the four pillars in sequence — type, then fields, then placement, then tags, then the two body rules the guard checks at the write. The strict-tier checks deny; the rest teach.</p>
     <div class="flow">
       <div class="fstep"><b>Type allowlist</b><small>the <code>type:</code> is in the merged registry — unknown type denied at Strict</small></div>
       <div class="farr">›</div>
-      <div class="fstep"><b>Required fields</b><small>universal three + per-type list present</small></div>
+      <div class="fstep"><b>Required fields</b><small>the type's own required list present</small></div>
       <div class="farr">›</div>
-      <div class="fstep gate"><b>Placement &amp; lineage</b><small>folder pattern and cluster lineage fields/tags</small></div>
+      <div class="fstep gate"><b>Placement</b><small>the path matched against the documented folder patterns</small></div>
       <div class="farr">›</div>
-      <div class="fstep"><b>Tag grammar</b><small>every tag matches the dimension/value regex and a known dimension</small></div>
+      <div class="fstep"><b>Tag dimension</b><small>every tag carries a registered dimension prefix</small></div>
       <div class="farr">›</div>
-      <div class="fstep mark"><b>Body contract</b><small>write-shape, size limits, required sections</small></div>
+      <div class="fstep mark"><b>Body contract</b><small>frontmatter enums, and a plan-tree handoff's section schema</small></div>
     </div>
     <p class="figcap">One write, four pillars — identity and labels first, body shape last. Most checks advise; deny is reserved for structural corruption.</p>
 
@@ -403,7 +446,7 @@
         <tr><td>Deny only structural corruption; advise the rest</td><td>Blocking a save over a missing tag is hostile and trains people to disable the guard. Deny is reserved for an unknown type or a malformed required field.</td></tr>
       </tbody>
     </table>
-    <p class="page-meta">Every choice here is anchored to either a platform constraint or a convergent pattern unrelated fields rediscovered — never to taste. The full per-decision evidence, with citations, is on <a href="research-rationale.html#governance">the research rationale</a>.</p>
+    <p class="page-meta">Every choice here is anchored to either a platform constraint or a convergent pattern unrelated fields rediscovered — never to taste. The full per-decision evidence, with citations, is on <a href="research-rationale.html#pillars">the research rationale</a>.</p>
 
     <h2>Reference</h2>
     <ul>
@@ -421,7 +464,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=21"></script>
+<script src="assets/nav.js?v=25"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Why: project management · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=27">
+<title>From idea to durable execution · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=32">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -14,52 +14,55 @@
 
   <main class="content">
     <p class="eyebrow">Project management · rationale</p>
-    <h1>Why these choices — project management</h1>
+    <h1>From idea to durable execution</h1>
     <p class="lede">
-      The decision tables behind the project management section: why the plan structure is shaped the
-      way it is, why the project binder generates itself, and why project identity is resolved from
-      the launch directory rather than a hand-maintained roster.
+      Baseline Claude&nbsp;Code can persist plans and tasks and coordinate agents, but those primitives do not
+      form a durable lifecycle from raw idea through research, decision, execution, verification, and reuse.
+      Without one control model, duplicate ideas survive, evidence separates from the work, and status becomes
+      difficult to trust across sessions. brain-stem supplies <strong>a reconciled inbox-to-plan path, an executable
+      control file, independent verification, and a generated project binder</strong>.
     </p>
-    <p class="page-meta">
-      Rationale depth · extracted from the research rationale spine. Citations link to the
-      <a href="research-rationale.html#citations">central citation register</a> on that page;
-      the register is not duplicated here.
-    </p>
+    <p class="page-meta">Decision rationale · citations resolve to the <a href="research-rationale.html#citations">central source register</a>.</p>
 
-    <div class="callout note">
-      <div class="label">How to read this page</div>
-      <p>Two groups of decisions live here: the <strong>plans &amp; orchestration</strong> pillar,
-      and three decisions from the <strong>context &amp; library</strong> pillar that directly shape
-      the project binder. Each row is "brain-stem chose X over Y because Z." Citations are
-      cross-page links to the full register on
-      <a href="research-rationale.html#citations">research-rationale.html</a> — click any to reach
-      the source entry. Plans is the one honest asterisk in the system: Claude&nbsp;Code never forces
-      you to run a formal multi-step project, so the whole structure is an opt-in methodology
-      rather than a necessity. The asterisk is only about whether you need the activity at all;
-      the rigor behind the design is the same caliber as the rest.</p>
+    <div class="callout key">
+      <div class="label">Native primitives</div>
+      <p>The implementation builds on persisted plans and tasks plus parallel-work models, including
+      experimental agent teams. See
+      <a href="https://code.claude.com/docs/en/claude-directory">application data</a> and
+      <a href="https://code.claude.com/docs/en/agents">parallel agents</a>.</p>
     </div>
+    <p class="decision-key"><strong>Decision key:</strong> <span class="pill">constraint</span> platform-shaped · <span class="pill ok">convergence</span> independently supported · <span class="pill muted">local parameter</span> exact implementation choice not independently determined.</p>
 
-    <!-- ============ PLANS & ORCHESTRATION ============ -->
-    <p class="pillar-band">Plans &amp; orchestration</p>
-    <h2 class="lead" id="plans">Plans &amp; orchestration</h2>
+    <p class="pillar-band">Project management</p>
+
+    <!-- ============ MIRROR: work-surface.html ============ -->
+    <h2 id="work-surface">Project organization</h2>
     <p>
-      A "plan" is a project run as a tracked, multi-step thing on disk: a folder per project, a fixed
-      goal, a task list with dependencies, a lifecycle status, and — when you want it — a runner that
-      executes the tasks with a human in the loop. This is the <strong>odd-one-out pillar</strong>:
-      Claude&nbsp;Code never forces you to run a project this way, so the whole structure is an
-      <strong>opt-in methodology</strong> rather than a necessity — the one honest asterisk. But once
-      you adopt it, the shape is not a matter of taste; every rule lands on the answer the field
-      reached independently, which the repo calls <strong>convergence-grade</strong>. The design
-      exists to remove two failure modes seen everywhere: the agent claims work is done when it
-      isn't, and parallel work-streams tangle.
+      Project organization anchors <strong>the two kinds of work a project can hold</strong>: coding
+      work lives in code repositories, where Claude&nbsp;Code is already at home, and non-coding work
+      gets its own durable, governed home under <code>~/work/</code>. Both surfaces receive the full
+      brain-stem treatment — memory, the project knowledge base, plans, the library, governance — and
+      both roll up into the project binder. The organizing decisions that are brain-stem's own
+      (<strong>project identity by launch directory</strong>, automatic binder membership) sit with
+      the binder section below.
     </p>
-    <table>
+    <p class="system-link"><strong>Deep dive:</strong> <a href="work-surface.html">project organization</a> — code repositories and Work folders, and how each rolls up into the binder.</p>
+
+    <h2 id="plans">Plans</h2>
+    <p>
+      A brain-stem plan is built for durable execution: it is both <strong>an execution contract and a durable
+      node in the context graph</strong> — it carries a fixed goal, machine-readable state, tasks and
+      dependencies, research, decisions, and a handoff. Formal multi-step planning remains opt-in; many
+      tasks do not need it. When work does earn that structure, the design aims to prevent <strong>false
+      completion, forgotten direction, and one-off research that disappears when execution ends</strong>.
+    </p>
+    <table class="decision">
       <thead>
         <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td>Make the control file the truth; generate the to-do list from it</td>
+          <td>Make <strong>the control file the truth</strong>; generate the to-do list from it</td>
           <td>Tracking completion in a hand-edited markdown checkbox</td>
           <td>That is exactly where real tools' bugs cluster — Kiro's agent reported a box ticked
           that wasn't <a class="cite" href="research-rationale.html#cite-kiro">Kiro issues</a>, and
@@ -72,7 +75,7 @@
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>Treat "completed" as a claim to be checked: the manifest is the source of truth, and independent read-only verification passes audit it against the artifacts on disk</td>
+          <td>Treat "completed" as <strong>a claim to be checked</strong>: the manifest is the source of truth, and independent read-only verification passes audit it against the artifacts on disk</td>
           <td>Letting a person mark a project done</td>
           <td>"Done" must be checkable: a status you can set without a check is a claim, and unchecked
           claims invite gaming
@@ -82,28 +85,7 @@
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>Forbid sub-plan peers from talking — everything routes through the master</td>
-          <td>An agent-teams model where teammates message each other directly</td>
-          <td>Free all-to-all coordination recreates the tangled web that is a leading cause of
-          multi-agent failure — ~37% of failures are inter-agent-misalignment (coordination) failures
-          <a class="cite" href="research-rationale.html#cite-mast">MAST</a>. The master/sub flow
-          maps onto the orchestrator-worker pattern: workers report up only
-          <a class="cite" href="research-rationale.html#cite-cc-subagents">CC sub-agents</a>.</td>
-          <td><span class="pill">constraint</span></td>
-        </tr>
-        <tr>
-          <td>A human-gated runner that proposes and waits</td>
-          <td>A fully autonomous, unattended daemon</td>
-          <td>No task fires without a human reasoning or approval point — irreversible tasks halt for
-          approval (human-in-the-loop), reversible ones proceed under supervision. An unsupervised
-          runner inherits documented multi-agent failure rates
-          <a class="cite" href="research-rationale.html#cite-mast">MAST</a>; it is built on the
-          platform's headless mode
-          <a class="cite" href="research-rationale.html#cite-cc-headless">headless mode</a>.</td>
-          <td><span class="pill ok">convergence</span></td>
-        </tr>
-        <tr>
-          <td>Keep decisions as first-class, immutable, supersession-tracked records</td>
+          <td>Keep decisions as <strong>first-class, immutable, supersession-tracked records</strong></td>
           <td>Burying decisions in spec prose, or adding dedicated ADR tooling</td>
           <td>Recording the rejected options is what makes a record valuable later
           <a class="cite" href="research-rationale.html#cite-nygard">Nygard ADR</a>
@@ -118,73 +100,126 @@
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>Capture ideas cheaply; mint a project number only at graduation</td>
-          <td>Minting a project number for every stray idea</td>
-          <td>A number per idea burns a permanent slot on each of dozens of discarded ones and makes
-          the numbered space meaningless. The four-file quartet maps onto and exceeds the SDD tools
+          <td>Capture ideas cheaply, attribute them to a project, and <strong>mint a plan number only at graduation</strong></td>
+          <td>Minting a formal plan for every stray idea, or keeping an unstructured scratch list</td>
+          <td>A project-aware inbox lets an idea evolve without premature ceremony. Triage compares it with
+          existing ideas and plans, merges overlap, records contradictions, and moves settled items out of
+          the live queue; generated project and universal rosters keep the backlog visible. On graduation,
+          the four-file quartet maps onto and exceeds the SDD tools
           <a class="cite" href="research-rationale.html#cite-kiroflow">AWS Kiro</a>
           <a class="cite" href="research-rationale.html#cite-speckit">Spec-Kit</a> with a
           machine-parseable manifest and write-time enforcement.</td>
-          <td><span class="pill muted">design judgment</span></td>
-        </tr>
-        <tr>
-          <td>Enforce through Claude&nbsp;Code's own hooks, in three layers</td>
-          <td>Prose standing-instructions, a single write-time blocker, or an async-only reconciler</td>
-          <td>Hooks fire regardless of whether the model cooperates; prose decays over sessions
-          <a class="cite" href="research-rationale.html#cite-issue33603">#33603</a>
-          <a class="cite" href="research-rationale.html#cite-issue56393">#56393</a>.
-          A single blocker can't see cross-file invariants; an async-only sweep leaves a
-          spec-gaming window. Every write goes through one doorman — complete mediation
-          <a class="cite" href="research-rationale.html#cite-saltzer">Saltzer &amp; Schroeder</a>.</td>
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>An append-only handoff journal that carries the resume pointer</td>
-          <td>Relying on the assistant to remember its state across a long session</td>
-          <td>The context window is finite and compaction trims in-the-moment detail away
-          <a class="cite" href="research-rationale.html#cite-cc-context">CC context-window</a>,
-          so durable state must live on disk where a post-compaction session cold-starts off the
-          top block.</td>
-          <td><span class="pill">constraint</span></td>
+          <td><strong>Bind research and decisions to the plan</strong>, then promote only reusable findings</td>
+          <td>Leaving findings in transcripts, or repeating the same research in each project</td>
+          <td>Plan-local research remains attributable to the work that needed it and rolls into the project
+          binder. Immutable decision records preserve prior directives and rejected options. A pre-research
+          Library check can reuse universal material, while a scrubbed promotion path lets genuinely general
+          findings serve later projects without carrying project-specific residue.</td>
+          <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>Ship dispatch governance as a minimum-viable safe envelope first</td>
-          <td>Shipping all six dispatch surfaces at once</td>
-          <td>Three surfaces (pre-dispatch scoping, brief-lint, circuit-breaker) are the minimum
-          safe envelope; budget caps, a standalone verifier, and mechanical retry are gated to ship
-          once post-release telemetry confirms the envelope holds. The independent human gate has been
-          in scope from the first release.</td>
-          <td><span class="pill muted">design judgment</span></td>
+          <td>An <strong>append-only handoff journal</strong> that carries the semantic resume pointer</td>
+          <td>Relying only on a resumable transcript or compacted conversation summary</td>
+          <td>Claude Code saves sessions and re-injects several native context surfaces after compaction,
+          but the context window is finite and compaction still replaces verbatim history with a summary
+          <a class="cite" href="research-rationale.html#cite-cc-context">CC context-window</a>,
+          so brain-stem stores the plan, task, decisions, blockers, and next action explicitly in the project
+          record rather than asking a generic summary to preserve their exact shape.</td>
+          <td><span class="pill">constraint</span></td>
         </tr>
       </tbody>
     </table>
 
-    <!-- ============ PROJECT BINDER ============ -->
-    <p class="pillar-band">Project binder</p>
-    <h2 class="lead" id="binder">Project binder &amp; context</h2>
+    <p class="system-link"><strong>Deep dive:</strong> <a href="plans.html">plans</a> — the lifecycle from idea to done, with completion checked by independent passes rather than self-declared.</p>
+
+    <h2 id="orchestration">Orchestration &amp; scheduling</h2>
     <p>
-      Three decisions from the context &amp; library pillar belong here because they govern how the
-      project binder is maintained and how project context reaches a session. All three serve the same
-      goal: keeping project state correct with no manual upkeep. The load-bearing thread is the same
-      one that runs through the whole context pillar — <em>auto-generated surfaces survive while
-      hand-maintained ones rot</em>.
+      When a ready plan runs, orchestration keeps parallel work untangled and completion honest: the
+      manifest, dependencies, scoped worker briefs, circuit-breaker, and independent verification give
+      orchestration helpers explicit state and failure controls rather than asking autonomous workers to
+      infer the plan from prose alone — and <strong>a human stays in the loop at every irreversible step</strong>.
     </p>
-    <table>
+    <table class="decision">
       <thead>
         <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td>The project binder is generated, never hand-written; membership is automatic</td>
+          <td>Route brain-stem sub-plan reporting <strong>through the master</strong></td>
+          <td>Using Claude Code's agent-team model with direct teammate messaging for this workflow</td>
+          <td>Claude Code now supports direct inter-agent messaging in <a class="cite" href="research-rationale.html#cite-agentteams">experimental agent teams</a>, so this is
+          a deliberate brain-stem governance choice rather than a platform limitation. For manifest-driven
+          plans, bounded report-up edges reduce the tangled web that is a leading cause of
+          multi-agent failure — ~37% of failures are inter-agent-misalignment (coordination) failures
+          <a class="cite" href="research-rationale.html#cite-mast">MAST</a>. The master/sub flow
+          maps onto the orchestrator-worker pattern, while native agent teams remain available when direct
+          peer coordination is the better fit
+          <a class="cite" href="research-rationale.html#cite-cc-subagents">CC sub-agents</a>.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>A <strong>human-gated runner that proposes and waits</strong></td>
+          <td>A fully autonomous, unattended daemon</td>
+          <td>No task fires without a human reasoning or approval point — irreversible tasks halt for
+          approval (human-in-the-loop), reversible ones proceed under supervision. An unsupervised
+          runner inherits documented multi-agent failure rates
+          <a class="cite" href="research-rationale.html#cite-mast">MAST</a>; it is built on the
+          platform's headless mode
+          <a class="cite" href="research-rationale.html#cite-cc-headless">headless mode</a>.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td><strong>Enforce through Claude&nbsp;Code's own hooks, in three layers</strong></td>
+          <td>Prose standing-instructions, a single write-time blocker, or an async-only reconciler</td>
+          <td>Hooks fire regardless of whether the model cooperates; prose decays over sessions
+          <a class="cite" href="research-rationale.html#cite-issue33603">#33603</a>
+          <a class="cite" href="research-rationale.html#cite-issue56393">#56393</a>.
+          A single blocker can't see cross-file invariants; an async-only sweep leaves a
+          spec-gaming window. Every Edit and Write goes through one doorman — complete mediation
+          over that surface
+          <a class="cite" href="research-rationale.html#cite-saltzer">Saltzer &amp; Schroeder</a>.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>Require a <strong>minimum safe dispatch envelope</strong> and evidence-gate additional controls</td>
+          <td>Requiring every possible dispatch control regardless of demonstrated need</td>
+          <td>Pre-dispatch scoping, brief-lint, a circuit-breaker, and an independent human gate address
+          known coordination and false-completion risks. Budget caps, a standalone verifier, and mechanical
+          retry belong only where telemetry shows that their added complexity closes a real gap.</td>
+          <td><span class="pill ok">convergence</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="system-link"><strong>Deep dive:</strong> <a href="orchestration.html">orchestration &amp; scheduling</a> — the propose-and-gate runner, worker dispatch, and the scheduling substrate.</p>
+
+    <h2 id="binder">The project binder</h2>
+    <p>
+      The project binder turns plan output into project orientation. The decisions below govern how the
+      binder is maintained and how project context reaches a session, and all three serve the same
+      goal: keeping project state correct <strong>with no manual upkeep</strong>. The load-bearing thread is the same
+      one that runs through the whole context pillar — <em>auto-generated surfaces survive while
+      hand-maintained ones rot</em>.
+    </p>
+    <table class="decision">
+      <thead>
+        <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>The project binder is <strong>generated, never hand-written</strong>; membership is automatic</td>
           <td>A hand-maintained "project status" file and membership roster</td>
           <td>A status file kept current by a person rots the moment attention moves on. Deriving
-          the binder from the project's plans keeps it correct with no upkeep — the central rot mode
+          the binder from the project's plans keeps it correct with no upkeep — the <a class="cite" href="research-rationale.html#cite-rjmurillo">central rot mode</a>
           the system exists to kill, mirroring PARA's active-binder split
           <a class="cite" href="research-rationale.html#cite-para">PARA</a>.</td>
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>A generated, automatically-loaded situating card (<code>_situating.md</code>) as the eager project-orientation surface</td>
+          <td>A <strong>generated, automatically-loaded situating card</strong> (<code>_situating.md</code>) as the eager project-orientation surface</td>
           <td>Relying on a hand-curated cover page as the eager session-start surface — a file nothing automatically writes, so every fresh project would begin with a guaranteed read-miss</td>
           <td>The session-start context channel is the only way to inject project orientation before
           the model's first turn without user action. The card is regenerated atomically every session
@@ -192,13 +227,14 @@
           latest-handoff pointers — so there is nothing hand-maintained to rot, and it is kept
           small so it never competes for the context window. The card is the binder's one
           cover; the deeper indexes behind it stay read-on-demand.</td>
-          <td><span class="pill">constraint</span> <span class="pill ok">convergence</span></td>
+          <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>Project identity is the launch directory, with no declared roster</td>
-          <td>A declared membership list</td>
-          <td>A hand-maintained roster drifts the moment you forget to update it; reading identity
-          from where you launched means nothing to keep in sync. Johnny.Decimal is flagged an
+          <td>Project identity is <strong>the launch directory</strong>, resolved through a tool-maintained anchor registry</td>
+          <td>A hand-edited membership list</td>
+          <td>A hand-edited roster drifts the moment you forget to update it; registering a project
+          writes its launch-directory anchor for you, and a directory under no registered anchor
+          degrades to a shared catch-all rather than mis-attributing. Johnny.Decimal is flagged an
           anti-pattern precisely because fixed addresses fight auto-membership binders
           <a class="cite" href="research-rationale.html#cite-johnny">Johnny.Decimal</a>.</td>
           <td><span class="pill ok">convergence</span></td>
@@ -206,12 +242,18 @@
       </tbody>
     </table>
 
+    <p class="system-link"><strong>Deep dive:</strong> <a href="project-binder.html">the project binder</a> — the per-project roll-up, its generated cover, and how it loads at session start.</p>
+
+    <p class="system-link"><strong>System connection:</strong> plan outputs populate the binder and Library;
+    governance keeps them retrievable; session start injects their situating card; session close refreshes their
+    state and navigation.</p>
+
     <div id="site-foot-nav"></div>
-    <div class="foot">brain-stem · documentation · Why: project management.</div>
+    <div class="foot">brain-stem · rationale · idea to durable execution.</div>
   </main>
 </div>
 
-<script src="assets/nav.js?v=21"></script>
+<script src="assets/nav.js?v=25"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

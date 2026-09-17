@@ -6,25 +6,24 @@
    documentation set; the "Architecture and Capabilities" band sits above it. */
 (function () {
   const groups = [
-    { title: 'Getting started', band: 'Getting started', links: [
-      ['getting-started.html', 'Getting started'],
-      ['installation.html', 'Install &amp; upgrade guide'],
-      ['onboarding.html', 'Onboarding'],
-      ['uninstalling.html', 'Uninstalling'],
-      ['packaging-runtime.html', 'Packaging &amp; runtime'],
-    ]},
-    { title: 'Orientation', band: 'Architecture and Capabilities', core: true, links: [
+    { title: 'Orientation', band: 'Orientation', links: [
       ['index.html', 'Introduction'],
       ['vault-explorer.html', 'Explore your brain'],
       ['value-add.html', 'Why brain-stem'],
       ['research-rationale.html', 'The research rationale'],
+    ]},
+    { title: 'Getting started', band: 'Getting started', links: [
+      ['getting-started.html', 'Quickstart'],
+      ['onboarding.html', 'Onboarding'],
+      ['installation.html', 'Install &amp; upgrade guide'],
+      ['uninstalling.html', 'Uninstalling'],
+      ['packaging-runtime.html', 'Packaging &amp; runtime'],
     ]},
     { title: 'Context &amp; memory', band: 'Architecture and Capabilities', core: true, links: [
       ['context-and-memory.html', 'Context &amp; memory'],
       ['context-library.html', 'Dual context layers'],
       ['memory-model.html', 'The memory model'],
       ['session-loading.html', 'What loads each session'],
-      ['knowledge-graph.html', 'Knowledge graph &amp; external AI'],
       ['context-memory-rationale.html', 'Why: context &amp; memory'],
     ]},
     { title: 'Project management', band: 'Architecture and Capabilities', core: true, links: [
@@ -59,12 +58,16 @@
       ['system-personalization.html', 'System personalization'],
       ['governance-personalization.html', 'Governance personalization'],
       ['work-folder-guidebook.html', 'The work-folder guidebook'],
+      ['knowledge-graph.html', 'Knowledge-graph extendability'],
       ['personalization-rationale.html', 'Why: system personalization'],
     ]},
     { title: 'Reference', band: 'Reference', links: [
       ['commands.html', 'Commands'],
       ['glossary.html', 'Glossary'],
       ['faq.html', 'FAQ'],
+      ['troubleshooting.html', 'Troubleshooting'],
+      ['configuration.html', 'Configuration'],
+      ['https://github.com/peter-tiktinsky/brain-stem/blob/main/CHANGELOG.md', 'Release notes ↗'],
     ]},
   ];
   window.BS_GROUPS = groups;

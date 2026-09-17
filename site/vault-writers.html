@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The vault-writer system · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=27">
+<link rel="stylesheet" href="assets/style.css?v=32">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -25,24 +25,25 @@
 
     <h2>The pipeline, end to end</h2>
     <p>
-      Whatever the source — an email, a meeting transcript, a scrape — the path into your vault is always the
-      same shape. A connector does the fetching and shaping, then hands the result to a pipeline that does the
-      writing. The connector never writes a destination file itself; it <strong>emits a packet</strong>, and a
-      single program applies it.
+      Whatever the source — an email, a meeting transcript, a scrape — the front of the path is always the
+      same shape: a connector does the fetching and shaping. Where the write happens is a per-destination
+      choice. By default the connector writes the destination file itself; a destination can instead opt into
+      <strong>staged</strong> posture, and then the connector <strong>emits a packet</strong> and a single
+      program applies it.
     </p>
     <div class="flow">
       <div class="fstep"><b>Source</b><small>Email, transcript, scrape — pulled by a connector you register.</small></div>
       <div class="farr">→</div>
       <div class="fstep gate"><b>Staging packet</b><small>A content-addressed JSON packet, named by the SHA-256 of its body. Holds the body + where it should land + an output type.</small></div>
       <div class="farr">→</div>
-      <div class="fstep mark"><b>Writer-reconciler</b><small>The sole writer. De-duplicates by content hash, picks the winner, and writes atomically — under an OS lock so two runs never collide.</small></div>
+      <div class="fstep mark"><b>Writer-reconciler</b><small>The writer on the staged path. De-duplicates by content hash, picks the winner, and writes atomically — under an OS lock so two runs never collide.</small></div>
       <div class="farr">→</div>
       <div class="fstep"><b>Destination(s)</b><small>A note, a JSON file, or a SQLite table — plus an append-only manifest row recording the write.</small></div>
     </div>
     <p>
-      Two properties of that middle step do a lot of work. First, the <strong>writer-reconciler is the only
-      thing that writes a destination</strong> — enforced with an exclusive lock, not just by convention — so
-      you never get two processes racing on the same file. Second, <strong>your hand-edits always win</strong>:
+      Two properties of that middle step do a lot of work. First, on the staged path the
+      <strong>writer-reconciler is what writes the destination</strong>, and an exclusive lock serializes its
+      runs — so you never get two of them racing on the same file. Second, <strong>your hand-edits always win</strong>:
       if you've edited a file the system also maintains, a two-signal check (a frontmatter marker plus a
       content-hash drift) detects it and the reconciler preserves your edit instead of clobbering it.
     </p>
@@ -122,8 +123,9 @@
       an opt-in <strong>LLM-reasoning lane</strong>: you can register an operator-authored prompt
       (a <code>doc-amender-prompt</code>) that runs through <code>claude -p</code> to merge an incoming packet
       into a destination intelligently. Even then it stays inside the safety model — the prompt <strong>composes
-      a packet, it never writes the final file</strong>; the reconciler still does that. The lane's job is
-      installed and loaded with the rest of capture, but it is idle out of the box: the shipped writer registry
+      a packet, it never writes the final file</strong>; the reconciler still does that. The lane's skill and its
+      scheduled-job template are installed with the rest of capture, but the job is only rendered and loaded
+      when you run the render step, and it is idle even then: the shipped writer registry
       defines no writer for it to act on, so it composes nothing and makes no network call until you register a
       writer fan-in entry with a prompt-guided amendment strategy and author its prompt. Think of it as:
       deterministic by default, model in the loop only where you decide it earns its keep.
@@ -153,7 +155,7 @@
     <div class="flow">
       <div class="fstep"><b>Today</b><small>Pull action items from email. Trivial to start.</small></div>
       <div class="farr">→</div>
-      <div class="fstep"><b>Add a source</b><small>Also pull them from meeting transcripts — no duplication to worry about, because you fan both into the same de-duplicating destination.</small></div>
+      <div class="fstep"><b>Add a source</b><small>Also pull them from meeting transcripts — and point both at one destination keyed on the item's identity, so the same item arriving twice collapses instead of duplicating.</small></div>
       <div class="farr">→</div>
       <div class="fstep"><b>Tomorrow</b><small>Want a dashboard instead of a sheet? Reuse the SQLite the system already built for you.</small></div>
     </div>
@@ -182,7 +184,7 @@
       <tbody>
         <tr>
           <td>Writer registration (<code>/govern register --kind writer</code>); staging packets; the
-          single writer-reconciler; the SQLite manifest; raw retention; fan-in and fan-out; the deterministic
+          staged lane's single writer-reconciler; the SQLite manifest; raw retention; fan-in and fan-out; the deterministic
           composer and the opt-in LLM lane.</td>
           <td>The fetchers themselves (e.g. a Gmail or Granola connector — the source labels are registration
           names, not shipped code); any source-to-workstream routing logic; a custom file-type contract for the
@@ -191,8 +193,8 @@
       </tbody>
     </table>
     <p>
-      You register a writer, declare where its packets should land and in what shape, and the substrate takes
-      it from there. A single agentic writer can <strong>fan out</strong> to many destination files at once —
+      You register a writer and declare where its output should land and in what shape; for a destination you
+      stage, the substrate takes it from there. A single agentic writer can <strong>fan out</strong> to many destination files at once —
       appending where things should append, updating where they should update — and every applied change is
       recorded in the append-only manifest, which is your immutable audit trail of what the system did.
     </p>
@@ -213,7 +215,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=21"></script>
+<script src="assets/nav.js?v=25"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

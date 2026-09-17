@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Across documents &amp; folders · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=27">
+<link rel="stylesheet" href="assets/style.css?v=32">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -28,26 +28,28 @@
     <h2>Mandatory files — nothing is left unlabeled</h2>
     <div class="callout note">
       <div class="label">The gap in native Claude&nbsp;Code</div>
-      <p>Claude&nbsp;Code auto-loads exactly <strong>one</strong> <code>CLAUDE.md</code> at session start, and
-      otherwise reads only the files you point it at. It has no per-folder index discipline — so a folder is
+      <p>Claude&nbsp;Code auto-loads the <code>CLAUDE.md</code> chain at session start — your working
+      folder's, every ancestor folder's, and your user-level one — and otherwise reads only the files you
+      point it at. It has no per-folder index discipline — so a folder is
       an <strong>opaque leaf</strong>: to learn what's in it, Claude must read every child file, and past
       about ten files that becomes token-prohibitive. Nothing guarantees the vault's contract documents are
       even present. The mandatory-files pillar makes the orientation documents exist by construction and stay
       current without anyone tending them.</p>
     </div>
     <p>
-      A mandatory file is one the foundation declares must exist. The vault has two mandates — one at vault
-      root (<code>CLAUDE.md</code>) and one per folder (<code>_index.md</code>) — and both are
-      <strong>structural</strong>: the system creates and maintains them on your behalf rather than depending
-      on you to remember. The intent is that the contract documents are present by construction; you never hit
-      a missing-index advisory on a folder you wrote to last week.
+      A mandatory file is one the foundation declares must exist. Two of them shape this page — one at vault
+      root (<code>CLAUDE.md</code>) and one per folder (<code>_index.md</code>) — and they are kept very
+      differently. The per-folder <code>_index.md</code> is <strong>structural</strong>: the system creates and
+      maintains it on your behalf rather than depending on you to remember, so you never hit a missing-index
+      advisory on a folder you wrote to last week. The vault-root <code>CLAUDE.md</code> is created once, at
+      setup, and then left alone — nothing rewrites it, and no maintenance layer keeps it current.
     </p>
 
     <h3>The two mandates</h3>
     <table>
       <thead><tr><th>Mandate</th><th>What it is</th><th>How it's kept</th></tr></thead>
       <tbody>
-        <tr><td><code>CLAUDE.md</code> at vault root</td><td>The vault's top-level contract — the first document Claude reads, naming the operational conventions, surfacing the spokes, and orienting any session.</td><td>A <code>create-only</code> file-type contract; your edits are honored through the contract's amender, never a wholesale overwrite.</td></tr>
+        <tr><td><code>CLAUDE.md</code> at vault root</td><td>The vault's orientation document — a compact map of the folder structure, plus an optional <em>Vault-Specific Rules</em> section you may leave empty. The operational conventions are hook-enforced and deliberately kept out of the file.</td><td>A <code>create-only</code> file-type contract: setup renders it once, and the only later write the system makes is the folder-registration append — registering a new folder adds that folder's row to the structure tree. Every other edit is yours to make by hand.</td></tr>
         <tr><td><code>_index.md</code> per folder</td><td>The folder's hub — one-read orientation for Claude, and a navigation table of contents for you.</td><td>Bootstrapped and reconciled by the librarian's <code>index-maintain</code> sweep across general vault folders; under a registered Work surface, the live post-write hook also bootstraps one on the first write into that folder.</td></tr>
       </tbody>
     </table>
@@ -62,11 +64,12 @@
     </p>
 
     <h3>The exempt set, and extending it</h3>
-    <p>The exempt set is a <em>positive list</em> — only enumerated paths are exempt; any other folder carries the mandate. Foundation ships exactly one exemption:</p>
+    <p>The exempt set is a <em>positive list</em> — only enumerated paths are exempt; any other folder carries the mandate. Foundation ships five exemptions, and they are exactly the vault-root symlink surfaces: each points outside the vault at a tree with its own rules, so the general sweep prunes it at the root.</p>
     <table>
       <thead><tr><th>Exempt path</th><th>Why</th></tr></thead>
       <tbody>
         <tr><td><code>Work/**</code></td><td>An external-root symlink surface (your deliverable work area, outside the vault root) handed to dedicated Work-scoped machinery rather than the general vault sweep. The live post-write hook bootstraps an <code>_index.md</code> on the first write into a <em>registered</em> Work subtree, and a dedicated Work-scoped pass (<code>work-index-maintain</code>) mints one inside the <code>deliverables/</code> and <code>reference/</code> folders under each work project; the project roots and the <code>~/work/</code> root itself stay index-free. The vault-wide <code>index-maintain</code> sweep skips <code>Work/**</code> by default, de-exempting only the Work subdirs you've registered.</td></tr>
+        <tr><td><code>Plans/**</code>, <code>Projects/**</code>, <code>Wiki/**</code>, <code>Skills/**</code></td><td>The other four symlink surfaces at the vault root. The indexes inside them are minted by registered librarian writers — the plan navigation index, the inbox funnel index, the library topic and root indexes, the skill catalog — rather than by the mandate bootstrap, and the contents themselves answer to their own contracts. Descending them with the general vault sweep would produce a flood of false positives, so it prunes them at the top level and keeps only their existence in view.</td></tr>
       </tbody>
     </table>
     <p>
@@ -90,12 +93,12 @@
       <div class="pillar">
         <div class="ph"><span class="pn">2</span><h3>Periodic sweep</h3></div>
         <p class="keeps">What the live hook missed still gets caught.</p>
-        <p class="row"><b>How</b>A librarian capability walks the vault on <code>/librarian full</code> and on a schedule — hand-created folders never written to, files added by direct filesystem edits, row-ordering drift. Mechanical: it fixes what's derivable, flags what isn't.</p>
+        <p class="row"><b>How</b>A librarian capability walks the vault on <code>/librarian full</code> and on a schedule — hand-created folders never written to, files added by direct filesystem edits, rows whose line counts or types have moved. Mechanical: it fixes what's derivable, flags what isn't.</p>
       </div>
       <div class="pillar">
         <div class="ph"><span class="pn">3</span><h3>Deep audit</h3></div>
         <p class="keeps">Author intent is reviewed, never silently rewritten.</p>
-        <p class="row"><b>How</b>The same capability run <code>--deep</code> emits an opt-in semantic report on description quality and ordering. It's the only layer that touches meaning, so it stays opt-in.</p>
+        <p class="row"><b>How</b>The same capability run <code>--deep</code> emits an opt-in semantic report with two findings: a row whose description doesn't match the file it names, and a contents table with no sentinel region to regenerate against. It's the only layer that reads meaning, so it stays opt-in.</p>
       </div>
     </div>
     <div class="callout key">
@@ -121,9 +124,9 @@
     <table>
       <thead><tr><th>Anti-pattern</th><th>What goes wrong</th><th>Better path</th></tr></thead>
       <tbody>
-        <tr><td>Hand-authoring <code>_index.md</code> on a new folder</td><td>The bootstrap mints the index anyway — the sweep on a general folder, the live hook on a registered Work write — and may race a hand-authored one.</td><td>Let the bootstrap create it; edit afterward through the amender.</td></tr>
+        <tr><td>Hand-authoring <code>_index.md</code> on a new folder</td><td>Nothing races you — both bootstraps fire only on a folder with no index at all. But a hand-built contents table carrying no sentinel markers can't be regenerated, so the deep audit flags it instead of keeping it current.</td><td>Let the bootstrap create it, then edit the file directly — everything outside the sentinel markers is preserved verbatim.</td></tr>
         <tr><td>Deleting <code>_index.md</code> to suppress the mandate</td><td>The next <code>index-maintain</code> sweep re-bootstraps it (as does the next write inside a registered Work subtree); the sweep also flags the deletion.</td><td>If the folder is genuinely indexless by design, register the exemption — the waiver lands with rationale.</td></tr>
-        <tr><td>Editing the contents-enum table by hand</td><td>The live-sync may overwrite your edits on the next reconcile.</td><td>The table is mechanical (presence, line counts, types); edit descriptions and ordering through the amender, which preserves them.</td></tr>
+        <tr><td>Editing the mechanical columns by hand</td><td>The sweep regenerates the rows between the sentinel markers, so a hand-set line count or type is replaced the next time it runs.</td><td>Presence, line counts and types belong to the sweep; descriptions and row order are yours — edit them in place, and the sweep flags rather than rewrites them.</td></tr>
         <tr><td>Trusting the Tier-1 hook alone</td><td>It misses folders never written to, and direct filesystem edits bypass it entirely.</td><td>Run the <code>index-maintain</code> sweep periodically — the three tiers are layered for a reason.</td></tr>
       </tbody>
     </table>
@@ -141,7 +144,7 @@
     <p>
       A doc-dependency is a coupling between files whose content is bound by design — a destination fed by
       several writers, two docs that mirror the same authoritative content, a record that should track a
-      change elsewhere. The core mechanism is a write-time advisory: at every write the engine checks whether
+      change elsewhere. The core mechanism is a write-time advisory: at every write the assistant makes with its editing tools, the engine checks whether
       the target appears in the registry and, if it does, injects <em>"this write touches a registered
       dependency — here are the related files"</em> alongside the write decision. It never blocks. Its job is
       to put the coupling in front of you at the moment of edit, when the cost to keep both sides synchronized
@@ -153,8 +156,8 @@
     <table>
       <thead><tr><th>Mechanism</th><th>Rule / kind</th><th>What it does</th></tr></thead>
       <tbody>
-        <tr><td><strong>Cascade advisory</strong></td><td><code>R-54</code></td><td>When an upstream doc declared in the registry is edited, its declared downstream consumers/mirrors should follow — the hook names them in the same session and the session-close audit re-checks. <span class="pill advise">advise</span></td></tr>
-        <tr><td><strong>Broken-wikilink advisory</strong></td><td><code>R-48</code></td><td>A file written with a <code>[[target]]</code> wikilink to a non-existent target surfaces the broken target(s) at write time, pointing you to repair it or create the file. <span class="pill advise">advise</span></td></tr>
+        <tr><td><strong>Cascade advisory</strong></td><td><code>doc_dependencies</code> cascade</td><td>When an upstream doc declared in the registry is edited, its declared downstream consumers/mirrors should follow — the hook names them in the same session, at the moment of the edit. <span class="pill advise">advise</span></td></tr>
+        <tr><td><strong>Broken-wikilink advisory</strong></td><td><code>[[wikilink]]</code> target check</td><td>A file written with a <code>[[target]]</code> wikilink to a non-existent target surfaces the broken target(s) at write time, pointing you to repair it or create the file. <span class="pill advise">advise</span></td></tr>
         <tr><td><strong>Writer fan-in entry</strong></td><td><code>kind: writer-fan-in</code></td><td>The one active registered kind — a destination fed by several named writers. The doc-amender consults the entry's amendment strategy to merge each emission, so it can actually act for you (see <a href="vault-writers.html">the vault-writer system</a>).</td></tr>
       </tbody>
     </table>
@@ -186,7 +189,7 @@
       is the forward path. The doc-dependency cascade is the <strong>thin advisory rail</strong> that catches
       the edges a fan-out doesn't cover — most importantly, a human hand-editing one of the coupled files.
       Both point at the same property: when one document changes, the documents bound to it don't silently
-      drift. The <code>writer-fan-in</code> entry is the registry's link to that pipeline; the R-54 cascade
+      drift. The <code>writer-fan-in</code> entry is the registry's link to that pipeline; the cascade
       advisory and the entity-mirror parity registry cover the rest.</p>
     </div>
 
@@ -195,7 +198,7 @@
       <li><strong>Registry match.</strong> The engine reads the merged registry and checks whether the target matches a registered <code>entries[]</code> relationship — by its <code>primary</code> path, one of its declared <code>mirrors</code>, or a <code>primary_dir</code> prefix. The entity-mirror edges (a <code>SKILL.md</code>, a plan <code>spec.md</code>, a memory file) are <em>not</em> part of this write-time match — their parity is checked at audit time, not here.</li>
       <li><strong>Advisory composition.</strong> Any matched <code>entries[]</code> relationship composes the cascade advisory naming the related files. Acting <em>for</em> you on a writer-fan-in entry — the doc-amender merging each emission by the entry's registered strategy — is a separate pipeline run, not something the write hook dispatches.</li>
       <li><strong>Advisory emission.</strong> If any match fired, the advisory rides along with the write decision — the write proceeds, but the related-files list now travels with the session.</li>
-      <li><strong>Session-close audit.</strong> The librarian re-checks every advisory the session surfaced; if a related file went un-touched, it records a <em>cascade-pending</em> finding for review.</li>
+      <li><strong>Session-close waiver audit.</strong> The librarian's close chain audits the cascade-waiver log — the waivers you filed to proceed without touching a related file — and flags ad-hoc and repeat use for review.</li>
     </ol>
     <p>
       When you want to proceed without touching the related file, a <strong>cascade waiver</strong>
@@ -222,11 +225,13 @@
       <p>Both pillars on this page are shaped by one platform property: the pre-write hook fires once per tool
       call, and the payload carries <strong>exactly one file path</strong>. It cannot inspect a multi-file
       change set — so "these files must change together" can only ever be <em>advisory</em> at write time.
-      Real cross-file enforcement happens at two later boundaries: the commit boundary, and a
-      <strong>session-close parity audit</strong> that re-checks every advisory the session surfaced. This
-      isn't something a future version engineers away; it's a property of where the platform lets a guard
-      stand. The design response is the same in both pillars — <em>advise</em> at the write, and back it with
-      a periodic audit a single-write guard structurally cannot be.</p>
+      What catches the rest comes later, and is narrower than a general cross-file check: the commit, where
+      git groups a change set atomically and your own discipline decides what goes into it — no hook stands
+      there — and the librarian's close chain, which runs <strong>per-entity parity checks</strong> over the
+      relationships the foundation already knows about, plus an audit of the waivers you filed. This isn't
+      something a future version engineers away; it's a property of where the platform lets a guard stand.
+      The design response is the same in both pillars — <em>advise</em> at the write, and back it with
+      periodic audits a single-write guard structurally cannot be.</p>
     </div>
 
     <h2>Why this design</h2>
@@ -238,16 +243,16 @@
         <tr><td>Three layered maintenance tiers</td><td>The live hook misses never-written folders and out-of-band edits; the sweep catches them; the deep audit reviews meaning. No single layer closes the gap.</td></tr>
         <tr><td>Sentinel-fence the machine's region</td><td>The sweep replaces only the text between <code>&lt;!-- … --&gt;</code> markers and refuses to write if they're missing, so machine and human prose coexist in one note.</td></tr>
         <tr><td>Surface dependencies at the moment of edit</td><td>The cost to keep two coupled files in sync is lowest while you're already editing one. An advisory there beats discovering the drift weeks later.</td></tr>
-        <tr><td>Advise at write time; enforce at audit time</td><td>A pre-write hook sees one file, so a cross-file rule can't be a write-time block. The session-close parity audit is the backstop a single-write guard structurally cannot be.</td></tr>
+        <tr><td>Advise at write time; audit afterwards</td><td>A pre-write hook sees one file, so a cross-file rule can't be a write-time block. The close chain's per-entity parity checks and its waiver audit are the backstop a single-write guard structurally cannot be.</td></tr>
       </tbody>
     </table>
-    <p class="page-meta">The "regenerate, never hand-tend" and "structural, not disciplinary" choices are the categorical difference brain-stem bets on against off-the-shelf second brains. The full case, with citations, is on <a href="research-rationale.html#vault">the research rationale</a>.</p>
+    <p class="page-meta">The "regenerate, never hand-tend" and "structural, not disciplinary" choices are the categorical difference brain-stem bets on against off-the-shelf second brains. The full case, with citations, is on <a href="research-rationale.html#pillars">the research rationale</a>.</p>
 
     <h2>Reference</h2>
     <ul>
       <li><code>governance/foundation-master.json</code> — the <code>mandatory_files</code> and <code>doc_dependencies</code> slots.</li>
       <li><code>governance/file-type-contracts/_index.md.json</code>, <code>CLAUDE.md.json</code> — the body contracts the two mandates ride on.</li>
-      <li>The librarian's <code>index-maintain</code> sweep and the session-close <strong>parity audit</strong> — the periodic and audit-time backstops.</li>
+      <li>The librarian's <code>index-maintain</code> sweep, and the close chain's <strong>per-entity parity checks</strong> and cascade-waiver audit — the periodic and audit-time backstops.</li>
       <li>The overlay slots — <code>mandatory_files</code> (exemption path globs) and <code>doc_dependencies</code> (your registered relationships) — extended directly, not via a <code>/govern register</code> kind (the five governable-asset kinds are <code>writer</code>, <code>folder</code>, <code>file-type</code>, <code>tag-extension</code>, <code>doc-amender-prompt</code>; the sixth mode, <code>project</code>, is the work-spoke on-ramp).</li>
       <li><a href="single-document.html">The single document</a> — the per-file pillars these build on. · <a href="vault-writers.html">the vault-writer system</a> — the fan-out forward path.</li>
     </ul>
@@ -259,7 +264,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=21"></script>
+<script src="assets/nav.js?v=25"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>
