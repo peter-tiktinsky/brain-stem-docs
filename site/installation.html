@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Install &amp; upgrade guide · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
-<script src="assets/mobile.js?v=1"></script>
+<title>Install &amp; Upgrade Guide · Brain Stem</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
 <div class="layout">
@@ -14,9 +14,9 @@
 
   <main class="content">
     <p class="eyebrow">Getting started · the complete install &amp; upgrade runbook</p>
-    <h1>Install &amp; upgrade guide</h1>
+    <h1>Install &amp; Upgrade Guide</h1>
     <p class="lede">
-      This page takes you from nothing to a working brain-stem setup, and is the canonical reference for every
+      This page takes you from nothing to a working Brain Stem setup, and is the canonical reference for every
       path the <a href="getting-started.html">quickstart</a> skips — installing over existing files, upgrading
       in place, and what happens to your data across versions. The core path is three moves: <strong>install</strong>
       the foundation, run <strong><code>/onboard</code></strong> once, then <strong>open your vault</strong>.
@@ -24,12 +24,12 @@
     <p class="page-meta">Nothing here is magic. Installation is a careful, recorded file copy — preview-first, and every consequential step asks before it acts.</p>
 
     <h2 id="before">Before you begin</h2>
-    <p>You need four things in place. Each is a one-time setup that lives outside brain-stem itself.</p>
+    <p>You need four things in place. Each is a one-time setup that lives outside Brain Stem itself.</p>
     <table>
       <thead><tr><th>You need</th><th>What it is</th><th>How to check</th></tr></thead>
       <tbody>
-        <tr><td><strong>macOS</strong></td><td>brain-stem targets a personal Mac. It is not built for other operating systems or shared servers.</td><td>You are on a Mac.</td></tr>
-        <tr><td><strong>Claude&nbsp;Code</strong></td><td>Anthropic's command-line program that runs the Claude assistant in your terminal. brain-stem is a layer <em>on top of</em> it.</td><td>Typing <code>claude</code> opens it. <a href="https://www.anthropic.com/claude-code">Install instructions</a>.</td></tr>
+        <tr><td><strong>macOS</strong></td><td>Brain Stem targets a personal Mac. It is not built for other operating systems or shared servers.</td><td>You are on a Mac.</td></tr>
+        <tr><td><strong>Claude&nbsp;Code</strong></td><td>Anthropic's command-line program that runs the Claude assistant in your terminal. Brain Stem is a layer <em>on top of</em> it.</td><td>Typing <code>claude</code> opens it. <a href="https://www.anthropic.com/claude-code">Install instructions</a>.</td></tr>
         <tr><td><strong>git</strong></td><td>The standard tool for downloading and version-tracking code.</td><td><code>git --version</code> prints a version.</td></tr>
         <tr><td><strong>jq</strong></td><td>A small tool for reading the structured data the installer prints. The install also checks for <code>python3</code>, <code>plutil</code>, <code>sqlite3</code>, and <code>shasum</code>, and refuses to proceed if any are missing.</td><td><code>jq --version</code> prints a version (<code>brew install jq</code> if not).</td></tr>
       </tbody>
@@ -37,7 +37,7 @@
 
     <h2 id="step1">Step 1 — Install the foundation</h2>
     <p>
-      "Installing" means copying brain-stem out of its downloaded folder and into the one directory
+      "Installing" means copying Brain Stem out of its downloaded folder and into the one directory
       Claude&nbsp;Code reads from when it starts up — by convention <code>~/.claude</code> in your home folder.
       Download the project and run the installer:
     </p>
@@ -55,12 +55,12 @@ bash install.sh | jq .</pre>
     </div>
 
     <p>
-      The dry run is safe even on a home that already has an older brain-stem in it — it does not treat your
+      The dry run is safe even on a home that already has an older Brain Stem in it — it does not treat your
       existing files as an error. The plan's <code>file_dispositions</code> field lists each managed file an
       install would touch and how — nine dispositions in all, the ones you see most being <code>replace</code>
       (take the new version), <code>new-ship</code> (a file that did not exist yet), and <code>sidecar</code>
       (take the new version, but first save a copy of your edited one alongside it). On a home with no
-      brain-stem in it yet the list is empty, because there is nothing to reconcile.
+      Brain Stem in it yet the list is empty, because there is nothing to reconcile.
       When you have read the plan and want to proceed, name the install target and
       re-run the <strong>same</strong> command with one word added:
     </p>
@@ -79,7 +79,7 @@ bash install.sh --apply</pre>
 
     <h3 id="existing-files">Installing into a folder that already has files</h3>
     <p>
-      If <code>~/.claude</code> already contains content that did not come from brain-stem, the installer
+      If <code>~/.claude</code> already contains content that did not come from Brain Stem, the installer
       <strong>stops and refuses</strong> rather than overwrite it. The dry run tells you <em>everything</em> it
       would need from you in one pass, under a <code>required_overrides</code> field — instead of failing on the
       first one and making you re-run to discover the next:
@@ -129,14 +129,14 @@ bash install.sh --apply --force-install --i-understand-overwrite-risk --backup-d
     </div>
     <p>
       <a href="https://obsidian.md">Obsidian</a> is a free note-taking app that treats a folder of plain-text
-      notes as a connected knowledge base; brain-stem uses it as the human-facing window into your vault. (You
+      notes as a connected knowledge base; Brain Stem uses it as the human-facing window into your vault. (You
       do not strictly need it — the vault is just plain files — but it is the intended way to browse it.) Open
       the folder onboarding built, and you are set up.
     </p>
 
     <h2 id="upgrade">Upgrading an existing install</h2>
     <p>
-      If brain-stem is already installed and a newer version has been released, you do <strong>not</strong>
+      If Brain Stem is already installed and a newer version has been released, you do <strong>not</strong>
       uninstall and start over. You upgrade in place — with the <strong>same</strong> entrypoint you used to
       install. There is no separate upgrade command to learn. The
       <a href="https://github.com/peter-tiktinsky/brain-stem/blob/main/CHANGELOG.md">release notes</a>
@@ -183,7 +183,7 @@ git reset --hard origin/main</pre>
       first install:
     </p>
     <ul>
-      <li><strong>The home-directory guard becomes a warning.</strong> Content in your install home that brain-stem
+      <li><strong>The home-directory guard becomes a warning.</strong> Content in your install home that Brain Stem
       did not ship is your own runtime exhaust; the upgrade writes only the paths its manifest enumerates and
       leaves everything else untouched, so it warns instead of demanding the overwrite acknowledgement.</li>
       <li><strong>The plan-directory guard waives itself.</strong> A plan tree already under
@@ -195,7 +195,7 @@ git reset --hard origin/main</pre>
       override it).</li>
     </ul>
     <p>
-      One thing the lane <strong>never</strong> relaxes: if it detects that brain-stem's own files were edited
+      One thing the lane <strong>never</strong> relaxes: if it detects that Brain Stem's own files were edited
       in place, it still refuses to overwrite them silently and asks you to confirm by passing
       <code>--force-install</code> with the <code>I-UNDERSTAND-OVERWRITE-RISK</code> acknowledgement (exactly as
       on a first install into a folder that already has files). And the relaxations are gated on the verification
@@ -227,7 +227,7 @@ git reset --hard origin/main</pre>
     <div class="callout note">
       <div class="label">Adopting the Bases starter views on a vault you already have</div>
       <p>
-        brain-stem ships three starter <strong>Obsidian Bases</strong> views — Bases is Obsidian's built-in,
+        Brain Stem ships three starter <strong>Obsidian Bases</strong> views — Bases is Obsidian's built-in,
         table-driven way to browse notes by their frontmatter, and these views read the typed frontmatter cohort
         directly (see <a href="knowledge-graph.html">Knowledge-graph extendability</a>). A <em>fresh</em>
         onboarding seeds them into your new vault automatically; an <strong>upgrade never reaches into your
@@ -261,9 +261,9 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
 
     <div class="callout key">
       <div class="label">Upgrading never resets what you populated</div>
-      <p>brain-stem keeps a small <strong>registry of the projects</strong> (it calls them "spokes") you have
+      <p>Brain Stem keeps a small <strong>registry of the projects</strong> (it calls them "spokes") you have
       registered — for example a work project under <code>~/work/</code>. That registry is
-      <strong>seeded once, when brain-stem is first installed, and is never overwritten on a later
+      <strong>seeded once, when Brain Stem is first installed, and is never overwritten on a later
       upgrade</strong>, so your registered projects survive every upgrade untouched. A fresh install still gets
       the starter registry it needs; only the re-seed on upgrade is suppressed.</p>
     </div>
@@ -325,7 +325,7 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
       The installer seeds its rule entries preserve-on-exist — it never overwrites a rules file that is already
       there — so a shortened seed could never reach an install that is already seeded, and a seed the installer
       stops writing would never be removed. This migration is the only delivery path for both, and every arm of
-      it acts only on a file it recognises as bytes brain-stem itself wrote, checked against a shipped table of
+      it acts only on a file it recognises as bytes Brain Stem itself wrote, checked against a shipped table of
       every body ever seeded: it replaces a seeded entry that still matches an older shipped body with the current
       shortened one; it retires the rules README when it matches a shipped seed, and otherwise preserves your
       content as <code>rules/README.md.foundation-retired</code>, a name the harness does not load; and it retires
@@ -348,7 +348,7 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
     </div>
 
     <div class="callout note">
-      <div class="label">Removing brain-stem instead</div>
+      <div class="label">Removing Brain Stem instead</div>
       <p>If you ever want to remove it, run <code>bash uninstall.sh</code> from your cloned <code>brain-stem</code>
       folder with <code>CLAUDE_HOME</code> set (the uninstaller is not copied into <code>~/.claude</code>). It copies your install to a backup first — everything except <code>.git</code> and <code>projects/</code> — then removes
       only the untouched files it originally installed. Any file you edited, and your vault, are preserved; the two
@@ -359,12 +359,13 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
 
     <div id="site-foot-nav"></div>
     <div class="foot">
-      brain-stem · documentation · Install &amp; upgrade guide.
+      Brain Stem · documentation · Install &amp; Upgrade Guide.
     </div>
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=26"></script>
 <script src="assets/nav-foot.js"></script>
+<script src="assets/toc.js?v=2"></script>
 </body>
 </html>

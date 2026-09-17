@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Uninstalling · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
-<script src="assets/mobile.js?v=1"></script>
+<title>Uninstalling · Brain Stem</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
 <div class="layout">
@@ -13,10 +13,10 @@
   <aside class="sidebar" id="site-nav"></aside>
 
   <main class="content">
-    <p class="eyebrow">Getting started · removing brain-stem cleanly</p>
+    <p class="eyebrow">Getting started · removing Brain Stem cleanly</p>
     <h1>Uninstalling</h1>
     <p class="lede">
-      Removing brain-stem is one command. The important thing to understand first is what it will and will not
+      Removing Brain Stem is one command. The important thing to understand first is what it will and will not
       touch — because the uninstaller is deliberately careful: inside the folders it installed it removes
       <strong>only the untouched files it originally laid down</strong>, it copies your install to a backup before
       it starts, and it leaves your notes alone. The exception is the two top-level configuration files,
@@ -26,13 +26,13 @@
     <p class="page-meta">For <em>why</em> uninstall behaves this way, see <a href="packaging-runtime.html">Packaging &amp; runtime</a>.</p>
 
     <h2>The command</h2>
-    <p>Run the uninstaller from the brain-stem project you cloned, pointing it at your install with <code>CLAUDE_HOME</code>:</p>
+    <p>Run the uninstaller from the Brain Stem project you cloned, pointing it at your install with <code>CLAUDE_HOME</code>:</p>
     <pre>CLAUDE_HOME=~/.claude bash uninstall.sh</pre>
     <p>That is the whole operation. There is no separate confirmation flag to learn. The uninstaller is not copied into your install — it stays in the project repo — and it refuses to run unless <code>CLAUDE_HOME</code> tells it which install to remove. What happens next is described below so there are no surprises.</p>
 
     <h2>What it does, step by step</h2>
     <div class="flow">
-      <div class="fstep gate"><b>1 · Verify</b><small>confirm this is really a brain-stem install, via the provenance log</small></div>
+      <div class="fstep gate"><b>1 · Verify</b><small>confirm this is really a Brain Stem install, via the provenance log</small></div>
       <div class="farr">›</div>
       <div class="fstep proj"><b>2 · Back up</b><small>copy the install folder, minus session transcripts, to a timestamped backup first</small></div>
       <div class="farr">›</div>
@@ -42,7 +42,7 @@
     </div>
 
     <ol>
-      <li><strong>It checks that this is really a brain-stem install.</strong> The installer left a dated record
+      <li><strong>It checks that this is really a Brain Stem install.</strong> The installer left a dated record
       (a <em>provenance log</em>) in <code>~/.claude/logs/</code> proving an install happened and naming the
       folder it wrote to. The uninstaller reads that record and confirms the folder you are removing matches.
       <strong>If there is no install record, it refuses</strong> — you should not "reverse" an install that was
@@ -53,7 +53,7 @@
       Code session transcripts (they can contain credentials you pasted into a session, and there is no way to
       redact them), and any earlier <code>.pre-uninstall-*</code> backup. Everything else is the safety net: an
       unexpected outcome is recoverable from that copy.</li>
-      <li><strong>It stops brain-stem's background jobs — and only those.</strong> Every scheduled job brain-stem
+      <li><strong>It stops Brain Stem's background jobs — and only those.</strong> Every scheduled job Brain Stem
       creates is named starting with <code>com.brain-stem</code>. The uninstaller stops and removes only jobs in
       that reserved name-space. If it ever finds a job whose name merely <em>looks</em> similar but sits outside
       that prefix, it aborts rather than risk stopping something unrelated (your backup stays intact).</li>
@@ -61,14 +61,14 @@
       file the install originally laid down there, the uninstaller re-computes that file's <em>fingerprint</em> (a
       signature of its exact contents) and compares it to the receipt recorded at install time:
         <ul>
-          <li><strong>Unchanged</strong> — exactly as brain-stem shipped it, in this release or an earlier
+          <li><strong>Unchanged</strong> — exactly as Brain Stem shipped it, in this release or an earlier
           one → it is removed.</li>
-          <li><strong>Edited by you</strong> — the contents match no version brain-stem ever shipped → it
+          <li><strong>Edited by you</strong> — the contents match no version Brain Stem ever shipped → it
           is <strong>kept</strong>, unless you pass <code>--force-rm-edited</code>.</li>
         </ul>
         So your personal edits inside those folders survive by default. Two things sit outside this per-file
         check and are removed outright: the top-level <code>settings.json</code> and
-        <code>settings.local.json</code>, and brain-stem's own bookkeeping under <code>governance/</code> — the
+        <code>settings.local.json</code>, and Brain Stem's own bookkeeping under <code>governance/</code> — the
         installed-file receipts, the governance action log, the install-state records and the project registry.</li>
     </ol>
 
@@ -94,12 +94,12 @@
 
     <div class="callout note">
       <div class="label">The project registry is part of the install — so it is removed</div>
-      <p>brain-stem keeps a small registry of the projects (spokes) you have registered. Unlike your notes and
-      your own edits, that registry is <strong>brain-stem's own state, not content you authored</strong> — it
-      lives inside the install, so a full uninstall removes it along with everything else brain-stem laid down.
+      <p>Brain Stem keeps a small registry of the projects (spokes) you have registered. Unlike your notes and
+      your own edits, that registry is <strong>Brain Stem's own state, not content you authored</strong> — it
+      lives inside the install, so a full uninstall removes it along with everything else Brain Stem laid down.
       (An <em>upgrade</em> does the opposite and preserves it.) If you reinstall later you start with the shipped
       starter registry — two entries: the fallback identity for a folder you have not registered, and
-      brain-stem's own workspace — and re-register your projects. The projects themselves, on disk under
+      Brain Stem's own workspace — and re-register your projects. The projects themselves, on disk under
       <code>~/work/</code>, are never touched.</p>
     </div>
 
@@ -121,12 +121,13 @@
 
     <div id="site-foot-nav"></div>
     <div class="foot">
-      brain-stem · documentation · Uninstalling.
+      Brain Stem · documentation · Uninstalling.
     </div>
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=26"></script>
 <script src="assets/nav-foot.js"></script>
+<script src="assets/toc.js?v=2"></script>
 </body>
 </html>

@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Extending brain-stem without lock-in · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
-<script src="assets/mobile.js?v=1"></script>
+<title>Extending Brain Stem without lock-in · Brain Stem</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
 <div class="layout">
@@ -14,12 +14,12 @@
 
   <main class="content">
     <p class="eyebrow">System personalization · rationale</p>
-    <h1>Extending brain-stem without lock-in</h1>
+    <h1>Extending Brain Stem without lock-in</h1>
     <p class="lede">
       Baseline Claude&nbsp;Code offers many extension surfaces, but assembling them into a coherent,
       upgrade-safe system—and preserving ownership across setup, customization, upgrade, and uninstall—remains
       the adopter's responsibility. That gap can fragment policy, clobber local work, or lock knowledge to one
-      tool. brain-stem supplies <strong>governed extension seams and an ownership-aware package lifecycle</strong> while keeping
+      tool. Brain Stem supplies <strong>governed extension seams and an ownership-aware package lifecycle</strong> while keeping
       the graph in <strong>portable plain files</strong> that other models and retrieval tools can use.
     </p>
     <p class="page-meta">Decision rationale · citations resolve to the <a href="research-rationale.html#citations">central source register</a>. Core write controls are covered under <a href="governance-rationale.html">governance</a>.</p>
@@ -41,7 +41,7 @@
       override the shipped rules without ever editing the foundation. The core write-time doorman
       decisions (pre-write hook, three verdicts, advise-by-default, data-gated strictness) live on
       <a href="governance-rationale.html">write-time governance rationale</a>. What sits here is the
-      seam brain-stem opens for you to reshape governance to your situation: <strong>a sealed shipped base
+      seam Brain Stem opens for you to reshape governance to your situation: <strong>a sealed shipped base
       you never touch, a transparent overlay you own</strong>, and one guided command
       (<code>/govern register</code>) that covers all 6 extension modes — 5 governable-asset kinds
       (<code>folder</code>, <code>file-type</code>, <code>tag-extension</code>, <code>writer</code>,
@@ -49,7 +49,7 @@
     </p>
     <table class="decision">
       <thead>
-        <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
+        <tr><th>Brain Stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
       </thead>
       <tbody>
         <tr>
@@ -61,7 +61,7 @@
         <tr>
           <td>An override must carry <strong>a mandatory free-text <code>_override_reason</code></strong></td>
           <td>Letting the local rule win silently</td>
-          <td>Because the overlay wins on a collision, a silent override could shadow a shipped rule unnoticed. brain-stem blocks the merge unless the entry carries an <code>_override_reason</code> — deliberately stricter than its own analogs <a class="cite" href="research-rationale.html#cite-gitconfig">git config</a> <a class="cite" href="research-rationale.html#cite-kustomize">Kustomize</a>, matching policy-as-code waiver practice <a class="cite" href="research-rationale.html#cite-waiver">waiver practice</a> <a class="cite" href="research-rationale.html#cite-opabundles">OPA bundles</a>. Extend (new keys only) is frictionless and needs no reason; only a collision triggers the requirement. A per-write <code>--force-override</code> flag exists for non-persistent cases.</td>
+          <td>Because the overlay wins on a collision, a silent override could shadow a shipped rule unnoticed. Brain Stem blocks the merge unless the entry carries an <code>_override_reason</code> — deliberately stricter than its own analogs <a class="cite" href="research-rationale.html#cite-gitconfig">git config</a> <a class="cite" href="research-rationale.html#cite-kustomize">Kustomize</a>, matching policy-as-code waiver practice <a class="cite" href="research-rationale.html#cite-waiver">waiver practice</a> <a class="cite" href="research-rationale.html#cite-opabundles">OPA bundles</a>. Extend (new keys only) is frictionless and needs no reason; only a collision triggers the requirement. A per-write <code>--force-override</code> flag exists for non-persistent cases.</td>
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
@@ -89,16 +89,16 @@
     <!-- ============ MIRROR: knowledge-graph.html ============ -->
     <h2 id="portable-graph">Knowledge-graph extendability</h2>
     <p>
-      Keep the knowledge graph portable. Personalization extends beyond changing brain-stem's own rules. The context layer is ordinary Markdown,
+      Keep the knowledge graph portable. Personalization extends beyond changing Brain Stem's own rules. The context layer is ordinary Markdown,
       YAML, JSON, relative links, stable identities, generated indexes, and published schemas. Those choices
-      let a custom skill inherit brain-stem's routing and maintenance, and let a second harness, local model,
+      let a custom skill inherit Brain Stem's routing and maintenance, and let a second harness, local model,
       vector index, or relationship graph read the corpus without reverse-engineering it. The graph is already
       organized into stable, efficiently chunkable, metadata-rich material; an external retrieval system can
-      build on that substrate instead of first repairing an unstructured archive. brain-stem ships <strong>the substrate
+      build on that substrate instead of first repairing an unstructured archive. Brain Stem ships <strong>the substrate
       and blueprint</strong>—not a search server or graph database.
     </p>
     <table class="decision">
-      <thead><tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr></thead>
+      <thead><tr><th>Brain Stem chose</th><th>over</th><th>because</th><th>ground</th></tr></thead>
       <tbody>
         <tr>
           <td><strong>Model-agnostic plain files</strong> plus machine-readable structural blueprints</td>
@@ -110,7 +110,7 @@
         <tr>
           <td><strong>Read-only external consumption</strong> by default</td>
           <td>Assuming every outside harness is a safe writer</td>
-          <td>brain-stem's immediate write-time governance lives in Claude Code hooks. An external index or model
+          <td>Brain Stem's immediate write-time governance lives in Claude Code hooks. An external index or model
           can safely read the graph; an external writer bypasses those gates unless it implements equivalent
           contracts and reconciliation.</td>
           <td><span class="pill">constraint</span></td>
@@ -136,12 +136,12 @@
       system. The split here is clean: the <em>shape</em> of a good first-run flow (smart-default
       pre-fill, run-once, validate-before-write, never clobber) is convergent setup-wizard practice;
       some mechanics—such as preventing model invocation of the onboarding skill—follow documented platform
-      controls. Together those constraints and practices produce the flow below. One scope rule governs everything on this page — <strong>brain-stem ships only the minimum-viable
+      controls. Together those constraints and practices produce the flow below. One scope rule governs everything on this page — <strong>Brain Stem ships only the minimum-viable
       seed</strong>.
     </p>
     <table class="decision">
       <thead>
-        <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
+        <tr><th>Brain Stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
       </thead>
       <tbody>
         <tr>
@@ -213,13 +213,13 @@
     <p>
       Protect ownership through the package lifecycle. Claude&nbsp;Code has explicit configuration scopes and a plugin system, but a multi-file personal
       foundation still needs to distinguish shipped assets from adopter edits, reconcile existing settings,
-      preserve customizations through upgrades, and remove only what it owns. brain-stem's packaging discipline
+      preserve customizations through upgrades, and remove only what it owns. Brain Stem's packaging discipline
       <strong>closes that package-lifecycle gap</strong>. Its choices converge with Homebrew, dpkg, chezmoi, Flyway, rustup,
       and the XDG spec, then add a provably write-free plan before the first write.
     </p>
     <table class="decision">
       <thead>
-        <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
+        <tr><th>Brain Stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
       </thead>
       <tbody>
         <tr>
@@ -265,13 +265,13 @@
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td><strong>Merge brain-stem settings with adopter values preserved</strong>, behind a deletion gate</td>
+          <td><strong>Merge Brain Stem settings with adopter values preserved</strong>, behind a deletion gate</td>
           <td>A wholesale overwrite, or per-hook hand-patches</td>
           <td>The merge refuses to proceed if it would silently drop any existing key; a reconciler adds
           missing foundation hooks without reordering adopter hooks. Claude Code resolves settings across
           managed, command-line, project-local, project, and user scopes by documented precedence, while
           list-valued keys generally combine
-          <a class="cite" href="research-rationale.html#cite-cc-settings">CC settings</a>. brain-stem's
+          <a class="cite" href="research-rationale.html#cite-cc-settings">CC settings</a>. Brain Stem's
           deletion gate is additional package safety, not native merge behavior.</td>
           <td><span class="pill ok">convergence</span></td>
         </tr>
@@ -308,11 +308,12 @@
     </div>
 
     <div id="site-foot-nav"></div>
-    <div class="foot">brain-stem · rationale · extending the system without lock-in.</div>
+    <div class="foot">Brain Stem · rationale · extending the system without lock-in.</div>
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=26"></script>
 <script src="assets/nav-foot.js"></script>
+<script src="assets/toc.js?v=2"></script>
 </body>
 </html>

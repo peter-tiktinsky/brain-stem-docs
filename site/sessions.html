@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Session management · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
-<script src="assets/mobile.js?v=1"></script>
+<title>Session Management · Brain Stem</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
 <div class="layout">
@@ -14,10 +14,10 @@
 
   <main class="content">
     <p class="eyebrow">Session management · how a session runs</p>
-    <h1>Session management</h1>
+    <h1>Session Management</h1>
     <p class="lede">
       A session is a single conversation with Claude, from open to close — and its working memory is
-      <strong>perishable</strong>. brain-stem wraps the session in machinery that saves your place as the
+      <strong>perishable</strong>. Brain Stem wraps the session in machinery that saves your place as the
       window fills, keeps concurrent sessions out of each other's way, and reconciles what changed on the
       way out. This page is the lifecycle; each piece has its own page.
     </p>
@@ -31,18 +31,18 @@
       start, before-compaction, stop, session end) where a script can run.
     </p>
     <table>
-      <thead><tr><th>Claude Code gives you</th><th>What's missing</th><th>brain-stem adds</th></tr></thead>
+      <thead><tr><th>Claude Code gives you</th><th>What's missing</th><th>Brain Stem adds</th></tr></thead>
       <tbody>
-        <tr><td>A finite working window with automatic, lossy compaction</td><td>Preserving your working state across the compaction trim — and getting it back afterward — is left entirely to you</td><td>A structured <a href="checkpoints.html">checkpoint</a> + a context-pressure ladder <em>(brain-stem specific)</em></td></tr>
-        <tr><td>Lifecycle hook moments a script can fire on</td><td>Coordinating concurrent sessions in one project, including spotting same-file collisions, is left to you</td><td><a href="multi-session.html">Multi-session coordination</a> with same-file warnings <em>(brain-stem specific)</em></td></tr>
-        <tr><td>A blank slate each session</td><td>Tidying up what a session changed is left to you at close</td><td>End-of-session <a href="session-close.html">reconciliation</a> <em>(brain-stem specific)</em></td></tr>
+        <tr><td>A finite working window with automatic, lossy compaction</td><td>Preserving your working state across the compaction trim — and getting it back afterward — is left entirely to you</td><td>A structured <a href="checkpoints.html">checkpoint</a> + a context-pressure ladder <em>(Brain Stem specific)</em></td></tr>
+        <tr><td>Lifecycle hook moments a script can fire on</td><td>Coordinating concurrent sessions in one project, including spotting same-file collisions, is left to you</td><td><a href="multi-session.html">Multi-session coordination</a> with same-file warnings <em>(Brain Stem specific)</em></td></tr>
+        <tr><td>A blank slate each session</td><td>Tidying up what a session changed is left to you at close</td><td>End-of-session <a href="session-close.html">reconciliation</a> <em>(Brain Stem specific)</em></td></tr>
         <tr><td>A session that starts knowing nothing about your project</td><td>Orienting the assistant to the project it's in is left to you, from scratch, every session</td><td>Auto-loads the project's <a href="project-binder.html">situating card</a> at every start <em>(built on native)</em></td></tr>
       </tbody>
     </table>
 
     <h2>The session lifecycle</h2>
     <p>
-      Read the arc start to finish. Each moment below is a hook the platform fires; brain-stem hangs one
+      Read the arc start to finish. Each moment below is a hook the platform fires; Brain Stem hangs one
       or more behaviors on each. The order matters — saving must happen at compaction, but <em>restoring</em> can
       only happen at the next start (the platform forbids injecting context at the compaction moment).
     </p>
@@ -119,12 +119,13 @@
 
     <div id="site-foot-nav"></div>
     <div class="foot">
-      brain-stem · documentation · Session management.
+      Brain Stem · documentation · Session Management.
     </div>
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=26"></script>
 <script src="assets/nav-foot.js"></script>
+<script src="assets/toc.js?v=2"></script>
 </body>
 </html>

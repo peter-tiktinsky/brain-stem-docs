@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Knowledge-graph extendability · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
-<script src="assets/mobile.js?v=1"></script>
+<title>Knowledge-Graph Extendability · Brain Stem</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
 <div class="layout">
@@ -14,31 +14,31 @@
 
   <main class="content">
     <p class="eyebrow">System personalization · the corpus as a knowledge graph</p>
-    <h1>Knowledge-graph extendability</h1>
+    <h1>Knowledge-Graph Extendability</h1>
     <p class="lede">
       A <strong>knowledge graph</strong> is a map of your information that records how the pieces connect:
       which research informed which decision, which plan produced which deliverable, which project a file
-      belongs to. brain-stem's folder and file architecture builds that map as you work, out of ordinary
-      files. That graph is what Claude&nbsp;Code reads through brain-stem's own hooks and skills — and it
+      belongs to. Brain Stem's folder and file architecture builds that map as you work, out of ordinary
+      files. That graph is what Claude&nbsp;Code reads through Brain Stem's own hooks and skills — and it
       is deliberately shaped so that any other harness or model can read it too. Search and retrieval are
       already there when you work in Claude&nbsp;Code; this page is about what makes the graph legible to
       anything else, and the routes people take to extend it.
     </p>
-    <p class="page-meta">brain-stem ships the substrate and the blueprint, not a search engine or a server. Extensions are yours to add, and the architecture makes adding one a small step rather than a rebuild.</p>
+    <p class="page-meta">Brain Stem ships the substrate and the blueprint, not a search engine or a server. Extensions are yours to add, and the architecture makes adding one a small step rather than a rebuild.</p>
 
     <h2>Independent of the application you read it in</h2>
     <p>
       The corpus is plain folders, Markdown files with YAML frontmatter, and JSON. It works identically
       whether you open it in your Markdown editor of choice, your default text editor, or never open it at
-      all. brain-stem reads and writes the files directly, without any platform-specific tooling. The
+      all. Brain Stem reads and writes the files directly, without any platform-specific tooling. The
       relationships that make it a graph live in the files.
     </p>
 
     <h2>What the governed corpus gives a machine reader</h2>
     <p>
-      Each convention below is enforced or maintained by brain-stem for its own reasons — routing, auditing,
+      Each convention below is enforced or maintained by Brain Stem for its own reasons — routing, auditing,
       capture. The right-hand column is what the same convention hands to any reader that is <em>not</em>
-      brain-stem: a second harness, a local model, an index you build.
+      Brain Stem: a second harness, a local model, an index you build.
     </p>
     <table>
       <thead><tr><th>Convention</th><th>What ships</th><th>What it affords a reader</th></tr></thead>
@@ -101,12 +101,12 @@
     <h2>The blueprint ships with the corpus</h2>
     <p>
       A knowledge base is only extendable if its structure is written down somewhere a program can read.
-      Fortunately, brain-stem ships this information in a model-agnostic package.
+      Fortunately, Brain Stem ships this information in a model-agnostic package.
     </p>
     <p>
-      brain-stem governance provides consumers with a summary layer of consolidated indexes and ledgers to
+      Brain Stem governance provides consumers with a summary layer of consolidated indexes and ledgers to
       enable efficient information routing corpus-wide. Further, all governance hooks and skills run
-      leveraging structural blueprints that brain-stem maintains outside the corpus itself. These additional
+      leveraging structural blueprints that Brain Stem maintains outside the corpus itself. These additional
       assets provide comprehensive documentation on the knowledge graph's architectural organization, content
       conventions, and management processes. All together, these resources enable an external model to
       immediately situate itself in your brain folder and effectively navigate your file structures.
@@ -128,16 +128,16 @@
 
     <div class="callout note">
       <div class="label">A note on Obsidian</div>
-      <p>brain-stem's creator opens the brain folder in <a href="https://obsidian.md">Obsidian</a>: its simple
+      <p>Brain Stem's creator opens the brain folder in <a href="https://obsidian.md">Obsidian</a>: its simple
       interface is pleasant to navigate, and the corpus is readily Obsidian-compatible. That is a preference
-      about the reading experience. No part of brain-stem's design, build, or functionality depends on
+      about the reading experience. No part of Brain Stem's design, build, or functionality depends on
       Obsidian, and it functions just as well without it.</p>
     </div>
 
     <h2>Routes people take to extend it</h2>
     <p>
       Four extension options, each something you add on top of the corpus. For each: what it is, when it
-      earns its place, and the one thing to get right when you build it over brain-stem.
+      earns its place, and the one thing to get right when you build it over Brain Stem.
     </p>
     <div class="flow">
       <div class="fstep mark"><b>Your governed corpus</b><small>plain files + the blueprint</small></div>
@@ -157,7 +157,7 @@
     <ul>
       <li><strong>When it helps:</strong> navigating or chatting with your whole corpus from another tool; a
       second model's read on your own material; a model whose strengths differ from the one you work in.</li>
-      <li><strong>The brain-stem consideration:</strong> read-only means read-only. Write-time governance lives
+      <li><strong>The Brain Stem consideration:</strong> read-only means read-only. Write-time governance lives
       in Claude&nbsp;Code's hooks, so any other writer bypasses every gate — and a tool that "tidies" a
       frontmatter block or rewrites a link forks the corpus from its governance silently.</li>
     </ul>
@@ -174,11 +174,11 @@
       tackled this category of problem, across all my projects, what setup did I use and what worked?</em>;
       scoping a research topic before committing to it; tracing a trend across projects that never referenced
       each other.</li>
-      <li><strong>The brain-stem consideration:</strong> resolve the symlink hub to physical paths and index
+      <li><strong>The Brain Stem consideration:</strong> resolve the symlink hub to physical paths and index
       each file once, or much of your embedding work goes into duplicates. Keep the index outside the governed
       trees as a derived replica that only ever reads. And do not reinvent the chunking: the headings, the
       single frontmatter block and the identity fields already give you chunk boundaries and filter columns.
-      brain-stem's creator built exactly this over their own corpus — heading-split chunks, frontmatter as
+      Brain Stem's creator built exactly this over their own corpus — heading-split chunks, frontmatter as
       metadata, a small open-licensed embedding model served locally, ranked and path-cited results — without
       inventing a single new convention.</li>
     </ul>
@@ -193,7 +193,7 @@
     <ul>
       <li><strong>When it helps:</strong> tracing the lineage of a decision back to its evidence; finding
       everything a piece of research went on to shape; seeing what a project depends on before changing it.</li>
-      <li><strong>The brain-stem consideration:</strong> the edges are already declared, so build from the
+      <li><strong>The Brain Stem consideration:</strong> the edges are already declared, so build from the
       declarations rather than extracting relationships from prose (where such pipelines usually go wrong).
       Plan manifests name their research artifacts, decision records and parent plans; every generated link is
       a path; tags are a bounded facet set; each project binder is a hub.</li>
@@ -207,7 +207,7 @@
     <ul>
       <li><strong>When it helps:</strong> only when a specific downstream system demands that shape. Nothing
       above requires either.</li>
-      <li><strong>The brain-stem consideration:</strong> keep the native files simple and human-first and
+      <li><strong>The Brain Stem consideration:</strong> keep the native files simple and human-first and
       translate at the edge. Run search and retrieval over the plain Markdown directly rather than making a
       server a mandatory intermediary between you and your own files.</li>
     </ul>
@@ -222,7 +222,7 @@
 
     <div class="callout key">
       <div class="label">The through-line</div>
-      <p>brain-stem governs files and folders so that its own hooks can read them deterministically. Typed
+      <p>Brain Stem governs files and folders so that its own hooks can read them deterministically. Typed
       metadata, addresses instead of app-resolved links, an index at every level, a machine-readable map of the
       whole: every one of those guarantees is exactly what an outside reader or a retrieval layer needs too.
       Extending the graph means pointing something new at conventions that already hold.</p>
@@ -230,12 +230,13 @@
 
     <div id="site-foot-nav"></div>
     <div class="foot">
-      brain-stem · documentation · Knowledge-graph extendability.
+      Brain Stem · documentation · Knowledge-Graph Extendability.
     </div>
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=26"></script>
 <script src="assets/nav-foot.js"></script>
+<script src="assets/toc.js?v=2"></script>
 </body>
 </html>

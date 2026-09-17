@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Automated capture · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
-<script src="assets/mobile.js?v=1"></script>
+<title>Automated Capture · Brain Stem</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
 <div class="layout">
@@ -14,7 +14,7 @@
 
   <main class="content">
     <p class="eyebrow">Automated capture · section overview</p>
-    <h1>Automated capture</h1>
+    <h1>Automated Capture</h1>
     <p class="lede">
       Writers, and the connectors you build behind them, bring outside information — emails, meeting
       transcripts, calendar data — into your vault, <strong>structured and reusable</strong>, without you re-pasting
@@ -31,11 +31,11 @@
       deserves a model call at all. Uncoordinated capture becomes silos, overwrites and wasted tokens.
     </p>
     <table>
-      <thead><tr><th>Claude Code gives you</th><th>What's missing</th><th>brain-stem adds</th></tr></thead>
+      <thead><tr><th>Claude Code gives you</th><th>What's missing</th><th>Brain Stem adds</th></tr></thead>
       <tbody>
-        <tr><td>Transports and triggers — MCP, channels, hooks, scheduled tasks</td><td>Each connector is left to invent its own output shape and landing place</td><td><a href="vault-writers.html">Registered writers</a> declaring source, destination rights and output type <em>(brain-stem specific)</em></td></tr>
+        <tr><td>Transports and triggers — MCP, channels, hooks, scheduled tasks</td><td>Each connector is left to invent its own output shape and landing place</td><td><a href="vault-writers.html">Registered writers</a> declaring source, destination rights and output type <em>(Brain Stem specific)</em></td></tr>
         <tr><td>Model calls whenever you wire them</td><td>Deterministic formatting work is left to spend tokens, and model judgment can end up as the final writer</td><td>Deterministic processing by default, with an <a href="vault-writers.html">isolated AI lane</a> that proposes but never writes <em>(built on native)</em></td></tr>
-        <tr><td>Plain files as destinations</td><td>Two saves racing for one destination are left to silently clobber each other</td><td>Direct write by default, a sole <a href="vault-writers.html">reconciler</a> for staged destinations <em>(brain-stem specific)</em></td></tr>
+        <tr><td>Plain files as destinations</td><td>Two saves racing for one destination are left to silently clobber each other</td><td>Direct write by default, a sole <a href="vault-writers.html">reconciler</a> for staged destinations <em>(Brain Stem specific)</em></td></tr>
       </tbody>
     </table>
 
@@ -86,7 +86,7 @@
 
     <h2>Scheduling capture runs</h2>
     <p>
-      Capture connectors run on whatever schedule you set. The two turnkey scheduled jobs in brain-stem
+      Capture connectors run on whatever schedule you set. The two turnkey scheduled jobs in Brain Stem
       are <strong>the writer-reconciler and the doc-amender</strong>; everything else is a hand-rolled
       <code>launchd</code> plist calling <code>dispatch.sh</code>. For how the orchestration layer
       handles scheduling, headless runs, and the propose-and-gate flow, see
@@ -100,11 +100,12 @@
     </div>
 
     <div id="site-foot-nav"></div>
-    <div class="foot">brain-stem · documentation · Automated capture.</div>
+    <div class="foot">Brain Stem · documentation · Automated Capture.</div>
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=26"></script>
 <script src="assets/nav-foot.js"></script>
+<script src="assets/toc.js?v=2"></script>
 </body>
 </html>

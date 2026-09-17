@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bringing outside information into the graph · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
-<script src="assets/mobile.js?v=1"></script>
+<title>Bringing outside information into the graph · Brain Stem</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
 <div class="layout">
@@ -19,7 +19,7 @@
       Baseline Claude&nbsp;Code can transport or trigger outside information, but it does not prescribe how
       many automated sources should share destinations, preserve provenance, resolve collisions, or avoid
       unnecessary model cost. Without that ingestion architecture, capture can create silos, overwrite edits,
-      or spend tokens on deterministic work. brain-stem supplies one governed route into the graph:
+      or spend tokens on deterministic work. Brain Stem supplies one governed route into the graph:
       <strong>registered writers, deterministic processing by default, isolated model judgment, and replayable provenance</strong>.
     </p>
     <p class="page-meta">Decision rationale · citations resolve to the <a href="research-rationale.html#citations">central source register</a>. General write-time controls are covered under <a href="governance-rationale.html">governance</a>.</p>
@@ -41,7 +41,7 @@
       Route outside information safely and efficiently. The graph is shared by human, assistant, and automated writers. Left uncoordinated, captured material
       becomes a second pile: two writes race, logs pollute reference, regenerations clobber edits, and outputs
       arrive without the metadata or placement that make them retrievable later. The writer pipeline connects
-      ingestion to brain-stem's governance model. Its <strong>single-writer staged lane</strong> is a deliberate solution for
+      ingestion to Brain Stem's governance model. Its <strong>single-writer staged lane</strong> is a deliberate solution for
       contended destinations, supported by convergent practice—not the only architecture Claude Code could host.
     </p>
     <p>
@@ -53,14 +53,14 @@
 
     <table class="decision">
       <thead>
-        <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
+        <tr><th>Brain Stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
       </thead>
       <tbody>
         <tr>
           <td>Register every automated source as <strong>a governed writer</strong> into known destinations</td>
           <td>Letting each connector invent its own output shape and landing place</td>
           <td>Registration declares source, authentication expectation, destination rights, output type, and
-          schedule. Captured information therefore enters structures the rest of brain-stem can index,
+          schedule. Captured information therefore enters structures the rest of Brain Stem can index,
           govern, retrieve, and expose to projects instead of becoming an automation-specific silo.</td>
           <td><span class="pill ok">convergence</span></td>
         </tr>
@@ -68,7 +68,7 @@
           <td><strong>One reconciler as the sole writer</strong> of every staged file</td>
           <td>Every writer writing the destination directly</td>
           <td>Two saves can overlap and silently clobber each other with no record. The platform ships no
-          shared-write coordinator for custom connectors; brain-stem chooses a single-writer funnel for
+          shared-write coordinator for custom connectors; Brain Stem chooses a single-writer funnel for
           destinations that opt into staging. Funneling through one program is independently the
           <a class="cite" href="research-rationale.html#cite-singlewriter">Single Writer Principle</a>,
           enforced by a real batch lock
@@ -151,11 +151,12 @@
     seam for new writers and destinations.</p>
 
     <div id="site-foot-nav"></div>
-    <div class="foot">brain-stem · rationale · bringing outside information into the graph.</div>
+    <div class="foot">Brain Stem · rationale · bringing outside information into the graph.</div>
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=26"></script>
 <script src="assets/nav-foot.js"></script>
+<script src="assets/toc.js?v=2"></script>
 </body>
 </html>

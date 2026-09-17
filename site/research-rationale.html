@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The research rationale · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
-<script src="assets/mobile.js?v=1"></script>
+<title>The Research Rationale · Brain Stem</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
 <div class="layout">
@@ -17,7 +17,7 @@
     <h1>Why these choices, in depth</h1>
     <p class="lede">
       This is where the site's design defends itself. Every section has a <em>Why</em> page that argues its
-      decisions one by one; this page sits above them. It lays out the single test brain-stem holds every
+      decisions one by one; this page sits above them. It lays out the single test Brain Stem holds every
       design to, the principles that recur across all of them, and a pointer into each section's full rationale.
       It is the long answer to one question: <strong>is any of this arbitrary?</strong>
     </p>
@@ -29,7 +29,7 @@
 
     <div class="callout key">
       <div class="label">How to read this page</div>
-      <p>It opens with the one rule that governs all the others — the test brain-stem applies before it calls
+      <p>It opens with the one rule that governs all the others — the test Brain Stem applies before it calls
       any design "the right one" — then the six principles that recur across every section, then a pointer
       into each section's full rationale page. The clickable source register sits at the end; every
       <span class="cite">citation</span> on those pages links back to its entry here.</p>
@@ -37,7 +37,7 @@
 
     <h2 id="two-kinds">The two kinds of "optimal"</h2>
     <p>
-      brain-stem makes one promise about its own design: a choice is justified only if it is forced by
+      Brain Stem makes one promise about its own design: a choice is justified only if it is forced by
       the platform, or independently rediscovered by unrelated fields — <strong>never reached by
       taste</strong>. Holding that distinction is what makes the design auditable: you can check which
       kind of "optimal" a given choice rests on, rather than taking a designer's word for it.
@@ -85,7 +85,7 @@
       machinery. It is <strong>exactly the reverse</strong>.
     </p>
     <div class="callout key">
-      <div class="label">The more universal a pillar, the more brain-stem lets you bend it</div>
+      <div class="label">The more universal a pillar, the more Brain Stem lets you bend it</div>
       <p>The governance engine — the most universal piece — has the richest customization seam: your
       overlay can override any rule. Plans — the most opinionated — has the thinnest. The pieces you are
       most likely to want to reshape are the ones built to be reshaped, because they are the ones where
@@ -147,7 +147,7 @@
 
     <h2 id="pillars">The rationale, section by section</h2>
     <p>
-      The detailed decision tables — "brain-stem chose X over Y, because Z" — now live on each section's own
+      The detailed decision tables — "Brain Stem chose X over Y, because Z" — now live on each section's own
       rationale page, linked below. Every citation marker there resolves to the register at the bottom of this page.
     </p>
     <div class="pillar-map">
@@ -228,14 +228,14 @@
         <tr id="cite-langmem"><td><a href="https://langchain-ai.github.io/langmem/" target="_blank" rel="noopener">LangMem (LangChain) — hot-path tools vs. background memory managers; two-stage capture</a></td><td>Triad-retained; two-stage episodic capture (Memory)</td></tr>
         <tr id="cite-zep"><td><a href="https://arxiv.org/abs/2501.13956" target="_blank" rel="noopener">Zep / Graphiti — non-lossy episode capture (arXiv:2501.13956)</a></td><td>The chronicle's two-stage capture (Memory)</td></tr>
         <tr id="cite-rjmurillo"><td><a href="https://github.com/rjmurillo/ai-agents/blob/main/.agents/architecture/ADR-014-distributed-handoff-architecture.md" target="_blank" rel="noopener">rjmurillo/ai-agents ADR-014 "Distributed Handoff Architecture" — centralized HANDOFF.md grew to 122&nbsp;KB / ~35K tokens, 80%+ PR-conflict rate</a></td><td>Background — a measured case of one handoff file outgrowing its readers (Memory)</td></tr>
-        <tr id="cite-reasoningbank"><td><a href="https://arxiv.org/abs/2509.25140" target="_blank" rel="noopener">Google / UIUC ReasoningBank (arXiv:2509.25140) — short, addressable, embedding-retrieved memory items</a></td><td>The per-plan ADR ledger is ahead of the agent-memory field — brain-stem adds supersession the field still defers (Plans)</td></tr>
+        <tr id="cite-reasoningbank"><td><a href="https://arxiv.org/abs/2509.25140" target="_blank" rel="noopener">Google / UIUC ReasoningBank (arXiv:2509.25140) — short, addressable, embedding-retrieved memory items</a></td><td>The per-plan ADR ledger is ahead of the agent-memory field — Brain Stem adds supersession the field still defers (Plans)</td></tr>
         <tr id="cite-opa"><td><a href="https://open-policy-agent.github.io/gatekeeper/website/docs/violations/" target="_blank" rel="noopener">Open Policy Agent Gatekeeper (<code>dryrun → warn → deny</code>)</a></td><td>The advise-before-block ladder (Governance, Memory)</td></tr>
         <tr id="cite-k8s"><td><a href="https://kubernetes.io/docs/concepts/security/pod-security-admission/" target="_blank" rel="noopener">Kubernetes Pod Security Standards (<code>enforce / audit / warn</code>)</a></td><td>The advise-before-block ladder (Governance)</td></tr>
         <tr id="cite-eslint"><td><a href="https://eslint.org/docs/latest/use/configure/rules" target="_blank" rel="noopener">ESLint <code>off / warn / error</code> severity</a></td><td>The ladder; the alert-fatigue anti-pattern (Governance, Memory)</td></tr>
         <tr id="cite-kustomize"><td><a href="https://kubectl.docs.kubernetes.io/references/kustomize/glossary/" target="_blank" rel="noopener">Kustomize — "a base has no knowledge of an overlay"; overlay wins</a></td><td>Sealed master + transparent overlay (Governance)</td></tr>
-        <tr id="cite-gitconfig"><td><a href="https://git-scm.com/docs/git-config" target="_blank" rel="noopener">git config <code>system &lt; global &lt; local</code> precedence</a></td><td>Overlay precedence — and the silent override brain-stem is stricter than (Governance)</td></tr>
+        <tr id="cite-gitconfig"><td><a href="https://git-scm.com/docs/git-config" target="_blank" rel="noopener">git config <code>system &lt; global &lt; local</code> precedence</a></td><td>Overlay precedence — and the silent override Brain Stem is stricter than (Governance)</td></tr>
         <tr id="cite-css"><td><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascade/Introduction" target="_blank" rel="noopener">CSS cascade — later / higher-specificity layers override</a></td><td>The overlay-wins shape (Governance)</td></tr>
-        <tr id="cite-opabundles"><td><a href="https://www.openpolicyagent.org/docs/management-bundles" target="_blank" rel="noopener">OPA signed bundles (supply-chain verification before activation)</a></td><td>The sealed-and-verified bundle analog; brain-stem's override is the stated <code>_override_reason</code>, not a signature (Governance)</td></tr>
+        <tr id="cite-opabundles"><td><a href="https://www.openpolicyagent.org/docs/management-bundles" target="_blank" rel="noopener">OPA signed bundles (supply-chain verification before activation)</a></td><td>The sealed-and-verified bundle analog; Brain Stem's override is the stated <code>_override_reason</code>, not a signature (Governance)</td></tr>
         <tr id="cite-waiver"><td>Policy-as-code waiver practice — document the bypassed control, the approver and the timestamp (convergent practice across policy tooling; no single canonical page)</td><td>The stated <code>_override_reason</code> (Governance)</td></tr>
         <tr id="cite-authzed"><td><a href="https://authzed.com/blog/fail-open" target="_blank" rel="noopener">authzed — fail-open suits "availability more critical than security"</a></td><td>Fail-open by domain (Governance)</td></tr>
         <tr id="cite-wizard"><td><a href="https://ui-patterns.com/patterns/Wizard" target="_blank" rel="noopener">ui-patterns.com Wizard pattern (propose-then-confirm UX)</a></td><td><code>/govern register</code>; onboarding setup-wizard (Governance, Onboarding)</td></tr>
@@ -258,7 +258,7 @@
         <tr id="cite-para"><td><a href="https://fortelabs.com/blog/para" target="_blank" rel="noopener">PARA / <em>Building a Second Brain</em> (Forte, fortelabs.com/blog/para) — Projects/Areas (active) ↔ Resources/Archives (reference)</a></td><td>Binder ↔ Library, the active/reference split (Context)</td></tr>
         <tr id="cite-secondbrain"><td><a href="https://zettelkasten.de/posts/collectors-fallacy/" target="_blank" rel="noopener">The "Collector's Fallacy" — capture-then-drift / maintenance-collapse (Tietze, zettelkasten.de/posts/collectors-fallacy)</a></td><td>Enforcement-not-convention (Cross-cutting, Vault, Context)</td></tr>
         <tr id="cite-zettel"><td><a href="https://zettelkasten.de/posts/concepts-sohnke-ahrens-explained/" target="_blank" rel="noopener">Zettelkasten note types — fleeting / literature / permanent; project notes outside the slip-box (Ahrens, zettelkasten.de)</a></td><td>Workshop ephemeral; the <code>work/</code> surface (Context)</td></tr>
-        <tr id="cite-johnny"><td><a href="https://johnnydecimal.com" target="_blank" rel="noopener">Johnny.Decimal (johnnydecimal.com) — fixed predefined roster (≤10 areas, decided upfront); flagged anti-pattern for brain-stem</a></td><td>No fixed roster (Context, by contrast)</td></tr>
+        <tr id="cite-johnny"><td><a href="https://johnnydecimal.com" target="_blank" rel="noopener">Johnny.Decimal (johnnydecimal.com) — fixed predefined roster (≤10 areas, decided upfront); flagged anti-pattern for Brain Stem</a></td><td>No fixed roster (Context, by contrast)</td></tr>
         <tr id="cite-consulting"><td><a href="https://berkeley.pressbooks.pub/tdo4p/" target="_blank" rel="noopener">Consulting KM practice — one folder per engagement, raw↔polished (Glushko, <em>The Discipline of Organizing</em>, UC Berkeley)</a></td><td>Background — one-folder-per-engagement practice behind the <code>work/</code> deliverable layer (Context)</td></tr>
         <tr id="cite-obsidian"><td><a href="https://help.obsidian.md/Symbolic+links+and+junctions" target="_blank" rel="noopener">Obsidian symlink hazards — git syncs target; watcher misses external edits; "excluded" only hides</a></td><td>Homes outside the synced vault; exhaust segregation (Context, Vault)</td></tr>
         <tr id="cite-contextrot"><td><a href="https://research.trychroma.com/context-rot" target="_blank" rel="noopener">Context rot (Chroma Research, "Context Rot: How Increasing Input Tokens Impacts LLM Performance," 2025) — fuller windows degrade attention</a></td><td>Background — the attention cost of a fuller window, behind the small pointer-carrying card (Context)</td></tr>
@@ -276,12 +276,13 @@
 
     <div id="site-foot-nav"></div>
     <div class="foot">
-      brain-stem · documentation · The research rationale.
+      Brain Stem · documentation · The Research Rationale.
     </div>
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=26"></script>
 <script src="assets/nav-foot.js"></script>
+<script src="assets/toc.js?v=2"></script>
 </body>
 </html>

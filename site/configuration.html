@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Configuration · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
-<script src="assets/mobile.js?v=1"></script>
+<title>Configuration · Brain Stem</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
 <div class="layout">
@@ -16,7 +16,7 @@
     <p class="eyebrow">Reference · every knob, where it lives, and what it refuses to do</p>
     <h1>Configuration</h1>
     <p class="lede">
-      brain-stem has few knobs, and that is the design: nearly every configuration question is
+      Brain Stem has few knobs, and that is the design: nearly every configuration question is
       settled at one inspected moment — when you install or upgrade — instead of being discovered
       later when something behaves unexpectedly. This page is the single place that answers
       "where does this knob live?" for the whole system: the environment variable that picks the
@@ -37,7 +37,7 @@
       <thead><tr><th>Mode</th><th>If <code>CLAUDE_HOME</code> is not set</th><th>Provenance</th></tr></thead>
       <tbody>
         <tr><td><strong>Dry run</strong> (<code>bash install.sh</code>)</td><td>Assumes <code>~/.claude</code> to render a plausible preview, and records a <code>claude_home_defaulted</code> flag disclosing that it guessed. A preview writes nothing, so a sensible default is harmless.</td><td>Built on native</td></tr>
-        <tr><td><strong>Apply</strong> (<code>bash install.sh --apply</code>)</td><td><strong>Refuses</strong> — hard failure, exit code 10, nothing written. Real files must never land in a folder you did not consciously choose.</td><td>brain-stem specific</td></tr>
+        <tr><td><strong>Apply</strong> (<code>bash install.sh --apply</code>)</td><td><strong>Refuses</strong> — hard failure, exit code 10, nothing written. Real files must never land in a folder you did not consciously choose.</td><td>Brain Stem specific</td></tr>
       </tbody>
     </table>
 
@@ -53,7 +53,7 @@
       <tbody>
         <tr><td><code>--apply</code></td><td>Turns the write-free preview into the real install.</td><td>After reading the action plan — every real install or upgrade.</td></tr>
         <tr><td><code>--upgrade</code></td><td>The one-command upgrade lane: asserts an install is present, resolves the install home itself, prints the upgrade plan.</td><td>Every upgrade; there is no separate upgrade command to learn.</td></tr>
-        <tr><td><code>--force-install</code></td><td>Acknowledges you are installing over content brain-stem did not put there.</td><td>Installing into a home that already has a Claude setup.</td></tr>
+        <tr><td><code>--force-install</code></td><td>Acknowledges you are installing over content Brain Stem did not put there.</td><td>Installing into a home that already has a Claude setup.</td></tr>
         <tr><td><code>--i-understand-overwrite-risk</code></td><td>The typed confirmation that pairs with <code>--force-install</code>; without it, an apply that would overwrite foreign content stops instead.</td><td>Same moment as <code>--force-install</code>.</td></tr>
         <tr><td><code>--backup-dir &lt;path&gt;</code></td><td>Names the folder where anything about to be overwritten is copied first, so nothing is lost.</td><td>Whenever you are overwriting anything you care about; upgrades derive one for you.</td></tr>
         <tr><td><code>--retrofit-existing</code></td><td>Acknowledges that a plan tree already exists under <code>~/.claude-plans</code>. The installer never touches your plans; the flag only confirms you have seen them.</td><td>First install onto a machine that already has plans.</td></tr>
@@ -97,10 +97,10 @@
       <thead><tr><th>Variable</th><th>What it changes</th><th>Provenance</th></tr></thead>
       <tbody>
         <tr><td><code>CLAUDE_HOME</code></td><td>Which folder the install (and Claude&nbsp;Code) treats as home; defaults to <code>~/.claude</code>. See <a href="#where">above</a> for the dry-run/apply asymmetry.</td><td>Built on native</td></tr>
-        <tr><td><code>MANAGED_SURFACE_OK=1</code></td><td>Acknowledges a deliberate edit to an installed, receipt-listed file (a temporary live test you will port back). The write advisory names the surface and the sanctioned route, then lets the write proceed; acknowledged uses are recorded locally.</td><td>brain-stem specific</td></tr>
-        <tr><td><code>PRE_ASQ_GUARD_DQ_PHASE</code></td><td>The decision-quality gate's posture. The shipped default is blocking; setting it to <code>1-advisory</code> switches the gate to advise-and-continue for adopters who do not want the denial posture.</td><td>brain-stem specific</td></tr>
-        <tr><td><code>VAULT_WRITER_STATE_ROOT</code></td><td>Relocates the durable root of the vault-writer system's state (the write-activity database). Defaults to the durable XDG location, <code>~/.local/share/brain-stem/</code>.</td><td>brain-stem specific</td></tr>
-        <tr><td><code>CLAUDE_MEM_DISABLE_OK=1</code></td><td>Escape hatch that acknowledges a deliberate removal of the automatic memory-consolidation hook from settings; without it, the write guard denies that edit to protect the recall layer.</td><td>brain-stem specific</td></tr>
+        <tr><td><code>MANAGED_SURFACE_OK=1</code></td><td>Acknowledges a deliberate edit to an installed, receipt-listed file (a temporary live test you will port back). The write advisory names the surface and the sanctioned route, then lets the write proceed; acknowledged uses are recorded locally.</td><td>Brain Stem specific</td></tr>
+        <tr><td><code>PRE_ASQ_GUARD_DQ_PHASE</code></td><td>The decision-quality gate's posture. The shipped default is blocking; setting it to <code>1-advisory</code> switches the gate to advise-and-continue for adopters who do not want the denial posture.</td><td>Brain Stem specific</td></tr>
+        <tr><td><code>VAULT_WRITER_STATE_ROOT</code></td><td>Relocates the durable root of the vault-writer system's state (the write-activity database). Defaults to the durable XDG location, <code>~/.local/share/brain-stem/</code>.</td><td>Brain Stem specific</td></tr>
+        <tr><td><code>CLAUDE_MEM_DISABLE_OK=1</code></td><td>Escape hatch that acknowledges a deliberate removal of the automatic memory-consolidation hook from settings; without it, the write guard denies that edit to protect the recall layer.</td><td>Brain Stem specific</td></tr>
       </tbody>
     </table>
     <p class="page-meta">Where a switch guards a behavior documented elsewhere, the behavior's page carries the detail: <a href="packaging-runtime.html#managed">managed surfaces</a> for <code>MANAGED_SURFACE_OK</code>, <a href="decision-quality.html">the decision-quality protocol</a> for its phase knob.</p>
@@ -132,12 +132,13 @@
 
     <div id="site-foot-nav"></div>
     <div class="foot">
-      brain-stem · documentation · Configuration.
+      Brain Stem · documentation · Configuration.
     </div>
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=26"></script>
 <script src="assets/nav-foot.js"></script>
+<script src="assets/toc.js?v=2"></script>
 </body>
 </html>

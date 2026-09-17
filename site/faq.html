@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FAQ · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
-<script src="assets/mobile.js?v=1"></script>
+<title>FAQ · Brain Stem</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
 <div class="layout">
@@ -16,7 +16,7 @@
     <p class="eyebrow">Reference · short answers, with a pointer to the full page</p>
     <h1>FAQ</h1>
     <p class="lede">
-      The questions people ask while deciding whether to install brain-stem, or while using it. Answers are
+      The questions people ask while deciding whether to install Brain Stem, or while using it. Answers are
       short; each ends with a link to the page that covers the topic in full. No prior background is assumed.
     </p>
     <p class="page-meta">Five groups — before installing, installing safely, privacy &amp; trust, using it, and where else to look.</p>
@@ -41,7 +41,7 @@
 
     <div class="faq">
       <h3>Does it work on Windows or Linux?</h3>
-      <p>No. brain-stem targets a single person's Mac. It is not built for other operating systems or shared servers.</p>
+      <p>No. Brain Stem targets a single person's Mac. It is not built for other operating systems or shared servers.</p>
     </div>
 
     <div class="faq">
@@ -62,7 +62,7 @@
       <h3>Will installing overwrite my existing <code>~/.claude</code>?</h3>
       <p>Not silently, and not by accident. Running <code>bash install.sh</code> on its own writes <strong>zero
       files</strong> — it only prints a preview. Writing requires the explicit <code>--apply</code> flag. And if
-      <code>~/.claude</code> already contains files brain-stem did not put there, the installer <strong>stops and
+      <code>~/.claude</code> already contains files Brain Stem did not put there, the installer <strong>stops and
       refuses</strong> rather than clobber them; proceeding takes explicit acknowledgement flags <em>and</em> a
       backup directory it copies the old files into first.</p>
       <p class="faq-link"><a href="installation.html">→ Installing into a folder that already has files</a></p>
@@ -88,7 +88,7 @@
 
     <div class="faq">
       <h3>Does it phone home or send my data anywhere?</h3>
-      <p>No. brain-stem runs entirely on your own machine and makes <strong>no automatic network calls</strong> —
+      <p>No. Brain Stem runs entirely on your own machine and makes <strong>no automatic network calls</strong> —
       no telemetry, no analytics, no "phone home." Its only background presence is two small
       <code>launchd</code> jobs you render yourself (a writer-reconciler and a document-amender) that watch
       a local staging folder;
@@ -97,7 +97,7 @@
       destination you control: the <code>/librarian backup</code> capability, run by hand, pushes to the git
       remote you configured; onboarding, if the GitHub CLI is installed and signed in, makes read-only calls to
       your own GitHub account to pre-fill your name and email; and the document-amender job is the one path by
-      which brain-stem could ever call an AI model without a session open — and it does so only if you configure
+      which Brain Stem could ever call an AI model without a session open — and it does so only if you configure
       it to. The job is loaded by default once you render its <code>launchd</code> plist, but the shipped writer
       registry defines no writer for it to act on, so it composes nothing and makes no network call. Only if you add a writer fan-in entry with a
       prompt-guided amendment strategy and author its prompt does the job, when a packet for that writer lands,
@@ -109,9 +109,9 @@
 
     <div class="faq">
       <h3>Is my vault sent to Anthropic to train models?</h3>
-      <p>brain-stem transmits nothing. Separately, how your <em>conversations with the assistant</em> are handled
+      <p>Brain Stem transmits nothing. Separately, how your <em>conversations with the assistant</em> are handled
       is governed by Anthropic's own data policy for <a href="https://www.anthropic.com/claude-code">Claude&nbsp;Code</a>,
-      which you can review and configure there — the same for any Claude&nbsp;Code user, with or without brain-stem.</p>
+      which you can review and configure there — the same for any Claude&nbsp;Code user, with or without Brain Stem.</p>
     </div>
 
     <div class="faq">
@@ -124,12 +124,12 @@
 
     <div class="faq">
       <h3>Do I have to use the plans and backlog features?</h3>
-      <p>No. Day to day, brain-stem advises far more than it blocks — write-time governance teaches and
+      <p>No. Day to day, Brain Stem advises far more than it blocks — write-time governance teaches and
       reminds by default. The one standing exception is the <a href="decision-quality.html">decision-quality
       guard</a>, which blocks un-researched substantive choices unless you switch it to advisory.
       Plans is the one capability you adopt as a <em>methodology</em> if you run formal multi-step projects;
       everything else you simply receive.</p>
-      <p class="faq-link"><a href="value-add.html">→ Why brain-stem</a></p>
+      <p class="faq-link"><a href="value-add.html">→ Why Brain Stem</a></p>
     </div>
 
     <div class="faq">
@@ -144,7 +144,7 @@
     <div class="faq">
       <h3>Is claude-mem required?</h3>
       <p>No. <a href="https://github.com/thedotmack/claude-mem">claude-mem</a> is an optional plugin that
-      auto-captures session observations; brain-stem works fully without it and only <em>recommends</em> it during
+      auto-captures session observations; Brain Stem works fully without it and only <em>recommends</em> it during
       onboarding.</p>
       <p class="faq-link"><a href="memory-model.html">→ The memory model</a></p>
     </div>
@@ -161,18 +161,19 @@
     <ul>
       <li><a href="installation.html">Install &amp; upgrade guide</a> — install, upgrade, and the safety guards in full.</li>
       <li><a href="glossary.html">Glossary</a> — every term in one place.</li>
-      <li><a href="commands.html">Commands</a> — every command brain-stem adds.</li>
+      <li><a href="commands.html">Commands</a> — every command Brain Stem adds.</li>
       <li><a href="packaging-runtime.html">Packaging &amp; runtime</a> — how the install is recorded, reversed, and where its data lives.</li>
     </ul>
 
     <div id="site-foot-nav"></div>
     <div class="foot">
-      brain-stem · documentation · FAQ.
+      Brain Stem · documentation · FAQ.
     </div>
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=26"></script>
 <script src="assets/nav-foot.js"></script>
+<script src="assets/toc.js?v=2"></script>
 </body>
 </html>

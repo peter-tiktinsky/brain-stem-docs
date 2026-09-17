@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Session close · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
-<script src="assets/mobile.js?v=1"></script>
+<title>Session Close · Brain Stem</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
 <div class="layout">
@@ -14,10 +14,10 @@
 
   <main class="content">
     <p class="eyebrow">Session management · close-out</p>
-    <h1>Session close</h1>
+    <h1>Session Close</h1>
     <p class="lede">
       Every session leaves residue: records to settle, indexes that are now out of date, plans whose status
-      moved, a project binder that no longer reflects what just happened. brain-stem ships a
+      moved, a project binder that no longer reflects what just happened. Brain Stem ships a
       <strong>session-close</strong> capability that handles all of that housekeeping for you, together with the
       brain-folder maintenance and governance audits that keep the knowledge layer well-structured over time.
       It runs <strong>automatically at the end of every session</strong>. You can also run it yourself, on
@@ -27,7 +27,7 @@
 
     <h2>It runs on its own</h2>
     <p>
-      When a session ends, Claude&nbsp;Code fires its session-end event and brain-stem's three end-of-session
+      When a session ends, Claude&nbsp;Code fires its session-end event and Brain Stem's three end-of-session
       hooks run in order:
     </p>
     <ol>
@@ -45,7 +45,7 @@
       <div class="label">Graceful exit versus crash</div>
       <p>Claude&nbsp;Code fires the session-end event on a graceful termination — ending the session from the
       prompt, clearing it, or logging out. A killed process, a crash, or a terminal that disappears may never
-      fire it. brain-stem covers that case with a <strong>backstop at the next session start</strong>: it
+      fire it. Brain Stem covers that case with a <strong>backstop at the next session start</strong>: it
       scans the registry for a session that went stale without a clean close and runs the close for it,
       attributed to that session and its project directory, so the crashed session's own records are settled
       rather than whichever project you happen to open next.</p>
@@ -128,7 +128,7 @@
     <h3>Periodic maintenance — on its own schedule</h3>
     <p>
       Some maintenance is worth running daily or weekly rather than at every close: folder-index sweeps, the
-      library and rules indexes, memory hygiene, the tag and waiver audits. brain-stem does not install a
+      library and rules indexes, memory hygiene, the tag and waiver audits. Brain Stem does not install a
       scheduler for them. Instead, each close checks when each sweep last ran and fires it only if its window
       has elapsed. A sweep never runs more than once per window, however many sessions you close inside it, and
       a window that elapses while you are away is caught at your next close.
@@ -192,7 +192,7 @@
       <p><code>/librarian backup</code> is git-based: it commits your vault, install home, plans and work roots,
       excludes secret-bearing files and scans staged content for provider tokens before committing, then pushes
       to whatever remote <em>you</em> configured. A target with no remote still commits locally when you declare
-      it local-only. You can run it any time, with or without a close; nothing in brain-stem runs it for you.
+      it local-only. You can run it any time, with or without a close; nothing in Brain Stem runs it for you.
       Keep at least one backup off the machine — a local commit does not survive a lost disk.</p>
     </div>
 
@@ -302,7 +302,7 @@
     </div>
     <div class="capref related">
       <div class="capref-head"><code>managed-surface-census</code><span class="capref-badge">Not in the close: on demand or in a full sweep</span></div>
-      <p class="capref-lede">A hash of every installed brain-stem file against the install receipt.</p>
+      <p class="capref-lede">A hash of every installed Brain Stem file against the install receipt.</p>
       <dl>
         <dt>What it does</dt><dd>Detects and never fixes. De-duplicates against its last snapshot, and classifies your overlay and sidecar files as legitimate rather than flagging them.</dd>
         <dt>Run it when</dt><dd>You suspect a shipped file was edited in place by something other than Claude&nbsp;Code (<a href='packaging-runtime.html#managed'>Managed surfaces</a>).</dd>
@@ -355,12 +355,13 @@
 
     <div id="site-foot-nav"></div>
     <div class="foot">
-      brain-stem · documentation · Session close.
+      Brain Stem · documentation · Session Close.
     </div>
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=26"></script>
 <script src="assets/nav-foot.js"></script>
+<script src="assets/toc.js?v=2"></script>
 </body>
 </html>

@@ -20,7 +20,7 @@
     var bar = document.createElement('header');
     bar.className = 'mnav-bar';
     bar.innerHTML =
-      '<a class="mnav-brand" href="index.html">brain-stem</a>' +
+      '<a class="mnav-brand" href="index.html">Brain Stem</a>' +
       '<button type="button" class="mnav-toggle" aria-controls="site-nav" aria-expanded="false">' +
       '<span class="mnav-icon" aria-hidden="true"></span>Menu</button>';
 

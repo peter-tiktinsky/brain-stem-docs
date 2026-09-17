@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Coordinating work across sessions · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
-<script src="assets/mobile.js?v=1"></script>
+<title>Coordinating work across sessions · Brain Stem</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
 <div class="layout">
@@ -19,7 +19,7 @@
       Baseline Claude&nbsp;Code can resume, compact, isolate, inspect, and connect sessions, but it does not
       automatically orient each one to current project state, declare shared work, preserve a structured
       semantic checkpoint, or reconcile project knowledge at close. The resulting manual ceremony matters
-      most when work overlaps or the context window is under pressure. brain-stem automates that continuity:
+      most when work overlaps or the context window is under pressure. Brain Stem automates that continuity:
       <strong>enrolled sessions start situated, expose relevant collisions, save state, and prepare the graph for the next session</strong>.
     </p>
     <p class="page-meta">Decision rationale · citations resolve to the <a href="research-rationale.html#citations">central source register</a>.</p>
@@ -42,7 +42,7 @@
       <strong>compacts</strong> it: verbatim conversation in the active context is replaced by a summary, while
       the local transcript remains available as session data
       <a class="cite" href="research-rationale.html#cite-cc-context">CC context-window</a>.
-      Claude Code also re-injects several native surfaces after compaction. brain-stem protects a different
+      Claude Code also re-injects several native surfaces after compaction. Brain Stem protects a different
       layer: the exact project state a future turn or fresh session must act on, and the derived project context
       that should be refreshed when the session closes.
     </p>
@@ -52,7 +52,7 @@
     state</strong> before the context window is trimmed, and restoring it on the next start.</p>
     <table class="decision">
       <thead>
-        <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
+        <tr><th>Brain Stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
       </thead>
       <tbody>
         <tr>
@@ -75,11 +75,11 @@
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>A context-pressure ladder that <strong>escalates to a brain-stem stop-gate</strong></td>
+          <td>A context-pressure ladder that <strong>escalates to a Brain Stem stop-gate</strong></td>
           <td>Relying only on automatic compaction or on the person to create a semantic handoff</td>
           <td>Claude Code exposes live context information and configurable auto-compaction, but a generic
             summary is not the same as a structured project-state save. The ladder (silent autosave &rarr;
-            nudge &rarr; mandate &rarr; stop-gate) requires a rich Continuity Block before brain-stem permits
+            nudge &rarr; mandate &rarr; stop-gate) requires a rich Continuity Block before Brain Stem permits
             further work at its highest pressure band
             <a class="cite" href="research-rationale.html#cite-cc-hooks">CC hooks</a>.</td>
           <td><span class="pill">constraint</span> <span class="pill ok">convergence</span></td>
@@ -103,19 +103,19 @@
     <!-- ============ MIRROR: multi-session.html ============ -->
     <h2 id="multi-session">Multi-session coordination</h2>
     <p>
-      brain-stem's registry and activity views let enrolled sessions <strong>sequence overlapping work through shared
+      Brain Stem's registry and activity views let enrolled sessions <strong>sequence overlapping work through shared
       state and warnings</strong>; direct messaging is useful, but not required for every routine coordination event.
     </p>
     <table class="decision">
       <thead>
-        <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
+        <tr><th>Brain Stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td>Add declared-work and shared-file coordination through <strong>a machine-local brain-stem registry</strong></td>
+          <td>Add declared-work and shared-file coordination through <strong>a machine-local Brain Stem registry</strong></td>
           <td>Assuming native session discovery or messaging alone prevents file collisions, or syncing locks across machines</td>
           <td>Claude Code can detect running sessions and supports cross-session messaging, while worktrees
-            provide stronger filesystem isolation. brain-stem's registry adds project enrollment, declared
+            provide stronger filesystem isolation. Brain Stem's registry adds project enrollment, declared
             paths, and same-file warnings for sessions that intentionally share a checkout. The lock and liveness
             checks are physically local and mean nothing on another machine
             <a class="cite" href="research-rationale.html#cite-kleppmann">Kleppmann</a>; a hot synced file also invites conflict-copies.
@@ -133,7 +133,7 @@
     <strong>without polluting the indexed graph</strong>.</p>
     <table class="decision">
       <thead>
-        <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
+        <tr><th>Brain Stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
       </thead>
       <tbody>
         <tr>
@@ -167,7 +167,7 @@
     <p>One row spans every section above — <strong>orientation loads before any of the machinery runs</strong>:</p>
     <table class="decision">
       <thead>
-        <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
+        <tr><th>Brain Stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
       </thead>
       <tbody>
         <tr>
@@ -221,7 +221,7 @@
     <h3>Why this shape</h3>
     <table class="decision">
       <thead>
-        <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
+        <tr><th>Brain Stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
       </thead>
       <tbody>
         <tr>
@@ -262,11 +262,12 @@
     Close chores are best-effort and surface failures.</p>
 
     <div id="site-foot-nav"></div>
-    <div class="foot">brain-stem · rationale · coordinating work across sessions.</div>
+    <div class="foot">Brain Stem · rationale · coordinating work across sessions.</div>
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=26"></script>
 <script src="assets/nav-foot.js"></script>
+<script src="assets/toc.js?v=2"></script>
 </body>
 </html>

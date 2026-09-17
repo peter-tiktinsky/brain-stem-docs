@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Packaging &amp; runtime · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
-<script src="assets/mobile.js?v=1"></script>
+<title>Packaging &amp; Runtime · Brain Stem</title>
+<link rel="stylesheet" href="assets/style.css?v=33">
+<script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
 <div class="layout">
@@ -14,9 +14,9 @@
 
   <main class="content">
     <p class="eyebrow">Getting started · how the foundation is staged, recorded, and reversed</p>
-    <h1>Packaging &amp; runtime</h1>
+    <h1>Packaging &amp; Runtime</h1>
     <p class="lede">
-      How brain-stem gets onto your machine, what records the install, how it is reversed, and where its working
+      How Brain Stem gets onto your machine, what records the install, how it is reversed, and where its working
       data lives. The honest takeaway, up front: <strong>nothing here is magic.</strong> Installation is a
       careful, recorded file-copy from a source folder into the one folder Claude&nbsp;Code reads — with a great
       deal of safety wrapped around the moment files are written.
@@ -25,7 +25,7 @@
 
     <h2>What Claude&nbsp;Code gives you — and what's missing</h2>
     <table>
-      <thead><tr><th>Claude&nbsp;Code gives you</th><th>What's missing</th><th>brain-stem adds</th></tr></thead>
+      <thead><tr><th>Claude&nbsp;Code gives you</th><th>What's missing</th><th>Brain Stem adds</th></tr></thead>
       <tbody>
         <tr><td>Exactly one startup folder (<code>~/.claude</code>) it reads on launch, and a documented deep-merge rule for settings</td><td>No install discipline: writing into the live folder blind risks clobbering your edits, with no receipt and no safe uninstall</td><td>A recorded, <strong>preview-first</strong> file copy — a write-free dry-run by default, real writes gated behind <code>--apply</code></td></tr>
         <tr><td>A place to drop scripts, skills, and rules</td><td>No way to tell an old shipped version from your own edit</td><td>A content-fingerprinted <strong>manifest</strong> and per-release baselines that distinguish a stale file from a hand edit</td></tr>
@@ -85,7 +85,7 @@
 
     <h2 id="config-rationale">Why configuration is settled at install time — and where every knob lives</h2>
     <p>
-      Notice what the two sections above have in common: brain-stem's configuration questions all
+      Notice what the two sections above have in common: Brain Stem's configuration questions all
       surface at one moment — when you install or upgrade — and that is deliberate. There are
       three families of knobs, and each one changes what a real write would do. So each is
       resolved, validated, and recorded <em>before</em> the first file lands, rather than
@@ -243,7 +243,7 @@
       <thead><tr><th>Comparison result</th><th>What it means</th><th>What the uninstaller does</th></tr></thead>
       <tbody>
         <tr><td><strong>Fingerprint matches</strong></td><td>Untouched, original foundation content.</td><td>Safely removes it.</td></tr>
-        <tr><td><strong>Fingerprint differs</strong></td><td>Either you edited this file, or it is an untouched copy from an earlier release.</td><td>An earlier release's bytes are removed and reported as such. Contents matching no release brain-stem ever shipped are <strong>preserved and reported</strong> — never silently deleted (<code>--force-rm-edited</code> removes those too).</td></tr>
+        <tr><td><strong>Fingerprint differs</strong></td><td>Either you edited this file, or it is an untouched copy from an earlier release.</td><td>An earlier release's bytes are removed and reported as such. Contents matching no release Brain Stem ever shipped are <strong>preserved and reported</strong> — never silently deleted (<code>--force-rm-edited</code> removes those too).</td></tr>
         <tr><td><strong>File it never created</strong></td><td>Your own content.</td><td>Left alone entirely.</td></tr>
       </tbody>
     </table>
@@ -323,19 +323,20 @@
       <p>These are the same patterns mature package and dotfile managers settled on independently: a generated
       receipt of installed files (Homebrew, Nix, apt/dpkg), preserving files the user changed rather than clobbering
       them (chezmoi), and keeping working state out of the program folder sorted into durable and ephemeral roots
-      (the XDG specification). Where brain-stem goes one step further than the typical installer is that it emits a
+      (the XDG specification). Where Brain Stem goes one step further than the typical installer is that it emits a
       <strong>provably write-free action plan before the first write</strong> — you see the entire set of file
       operations, having changed nothing, before you authorize one.</p>
     </div>
 
     <div id="site-foot-nav"></div>
     <div class="foot">
-      brain-stem · documentation · Packaging &amp; runtime.
+      Brain Stem · documentation · Packaging &amp; Runtime.
     </div>
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=26"></script>
 <script src="assets/nav-foot.js"></script>
+<script src="assets/toc.js?v=2"></script>
 </body>
 </html>

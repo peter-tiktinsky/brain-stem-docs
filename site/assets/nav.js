@@ -8,58 +8,58 @@
   const groups = [
     { title: 'Orientation', band: 'Orientation', links: [
       ['index.html', 'Introduction'],
-      ['vault-explorer.html', 'Explore your brain'],
-      ['value-add.html', 'Why brain-stem'],
-      ['research-rationale.html', 'The research rationale'],
+      ['vault-explorer.html', 'Explore Your Brain'],
+      ['value-add.html', 'Why Brain Stem'],
+      ['research-rationale.html', 'The Research Rationale'],
     ]},
     { title: 'Getting started', band: 'Getting started', links: [
       ['getting-started.html', 'Quickstart'],
       ['onboarding.html', 'Onboarding'],
-      ['installation.html', 'Install &amp; upgrade guide'],
+      ['installation.html', 'Install &amp; Upgrade Guide'],
       ['uninstalling.html', 'Uninstalling'],
-      ['packaging-runtime.html', 'Packaging &amp; runtime'],
+      ['packaging-runtime.html', 'Packaging &amp; Runtime'],
     ]},
     { title: 'Context &amp; memory', band: 'Architecture and Capabilities', core: true, links: [
-      ['context-and-memory.html', 'Context &amp; memory'],
-      ['context-library.html', 'Dual context layers'],
-      ['memory-model.html', 'The memory model'],
-      ['session-loading.html', 'What loads each session'],
-      ['context-memory-rationale.html', 'Why: context &amp; memory'],
+      ['context-and-memory.html', 'Context &amp; Memory'],
+      ['context-library.html', 'Dual Context Layers'],
+      ['memory-model.html', 'The Memory Model'],
+      ['session-loading.html', 'What Loads Each Session'],
+      ['context-memory-rationale.html', 'Why: Context &amp; Memory'],
     ]},
     { title: 'Project management', band: 'Architecture and Capabilities', core: true, links: [
-      ['project-management.html', 'Project management'],
-      ['work-surface.html', 'Project organization'],
+      ['project-management.html', 'Project Management'],
+      ['work-surface.html', 'Project Organization'],
       ['plans.html', 'Plans'],
-      ['orchestration.html', 'Orchestration &amp; scheduling'],
-      ['project-binder.html', 'The project binder'],
-      ['project-management-rationale.html', 'Why: project management'],
+      ['orchestration.html', 'Orchestration &amp; Scheduling'],
+      ['project-binder.html', 'The Project Binder'],
+      ['project-management-rationale.html', 'Why: Project Management'],
     ]},
     { title: 'Write-time governance', band: 'Architecture and Capabilities', core: true, links: [
-      ['write-time-governance.html', 'Write-time governance'],
-      ['governance-engine.html', 'The governance engine'],
-      ['single-document.html', 'The single document'],
-      ['across-documents.html', 'Across documents &amp; folders'],
-      ['governance-rationale.html', 'Why: write-time governance'],
+      ['write-time-governance.html', 'Write-Time Governance'],
+      ['governance-engine.html', 'The Governance Engine'],
+      ['single-document.html', 'The Single Document'],
+      ['across-documents.html', 'Across Documents &amp; Folders'],
+      ['governance-rationale.html', 'Why: Write-Time Governance'],
     ]},
     { title: 'Session management', band: 'Architecture and Capabilities', core: true, links: [
-      ['sessions.html', 'Session management'],
+      ['sessions.html', 'Session Management'],
       ['checkpoints.html', 'Checkpoints'],
-      ['multi-session.html', 'Multi-session coordination'],
-      ['session-close.html', 'Session close'],
-      ['decision-quality.html', 'The decision-quality protocol'],
-      ['session-management-rationale.html', 'Why: session management'],
+      ['multi-session.html', 'Multi-Session Coordination'],
+      ['session-close.html', 'Session Close'],
+      ['decision-quality.html', 'The Decision-Quality Protocol'],
+      ['session-management-rationale.html', 'Why: Session Management'],
     ]},
     { title: 'Automated capture', band: 'Architecture and Capabilities', core: true, links: [
-      ['automated-capture.html', 'Automated capture'],
-      ['vault-writers.html', 'The vault-writer system'],
-      ['automated-capture-rationale.html', 'Why: automated capture'],
+      ['automated-capture.html', 'Automated Capture'],
+      ['vault-writers.html', 'The Vault-Writer System'],
+      ['automated-capture-rationale.html', 'Why: Automated Capture'],
     ]},
     { title: 'System personalization', band: 'Architecture and Capabilities', core: true, links: [
-      ['system-personalization.html', 'System personalization'],
-      ['governance-personalization.html', 'Governance personalization'],
-      ['work-folder-guidebook.html', 'The work-folder guidebook'],
-      ['knowledge-graph.html', 'Knowledge-graph extendability'],
-      ['personalization-rationale.html', 'Why: system personalization'],
+      ['system-personalization.html', 'System Personalization'],
+      ['governance-personalization.html', 'Governance Personalization'],
+      ['work-folder-guidebook.html', 'The Work-Folder Guidebook'],
+      ['knowledge-graph.html', 'Knowledge-Graph Extendability'],
+      ['personalization-rationale.html', 'Why: System Personalization'],
     ]},
     { title: 'Reference', band: 'Reference', links: [
       ['commands.html', 'Commands'],
@@ -67,13 +67,13 @@
       ['faq.html', 'FAQ'],
       ['troubleshooting.html', 'Troubleshooting'],
       ['configuration.html', 'Configuration'],
-      ['https://github.com/peter-tiktinsky/brain-stem/blob/main/CHANGELOG.md', 'Release notes ↗'],
+      ['https://github.com/peter-tiktinsky/brain-stem/blob/main/CHANGELOG.md', 'Release Notes ↗'],
     ]},
   ];
   window.BS_GROUPS = groups;
   const here = (location.pathname.split('/').pop() || 'index.html');
   let html = '<a class="brand" href="index.html">'
-    + '<span class="mark">brain-stem</span></a>'
+    + '<span class="mark">Brain Stem</span></a>'
     + '<a class="brand-repo" href="https://github.com/peter-tiktinsky/brain-stem" target="_blank" rel="noopener">GitHub repo ↗</a>';
   let lastBand = null, inCore = false;
   for (const g of groups) {
