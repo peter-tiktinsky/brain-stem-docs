@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The governance engine · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -16,10 +16,9 @@
     <p class="eyebrow">The engine · how every write is checked</p>
     <h1>The governance engine</h1>
     <p class="lede">
-      The governance engine is a rulebook consulted <strong>every time the assistant creates or edits a file with
-      its editing tools</strong>. It is the heart of <em>write-time governance</em> — making sure each file, the
-      moment it's created, follows the conventions that keep it discoverable. (A file put on disk by a shell
-      command instead — a heredoc, a <code>cp</code> — does not pass through this gate.) The discipline is structural rather than a matter of remembering to be careful:
+      The governance engine is a rulebook consulted on <strong>every file write</strong>. It is the heart of
+      <em>write-time governance</em> — making sure each file, the moment it's created, follows the conventions
+      that keep it discoverable. The discipline is structural rather than a matter of remembering to be careful:
       the rules are applied by machinery at the moment of the write, not left to anyone's good intentions.
     </p>
     <p class="page-meta">One interception point (<code>PreToolUse</code>), three verdicts: allow · advise · deny.</p>
@@ -47,14 +46,14 @@
       <div class="fstep"><b>Checked against the rulebook</b><small>one of three verdicts is returned ↓</small></div>
     </div>
     <div class="flow-branch">
-      <div class="fb"><b>Outside the vault →</b> allowed untouched — a code repo is not checked here; an unregistered folder under your work root is swept at session close instead. A <strong>registered Work project</strong> is the exception: remapped onto the vault view and governed at the write.</div>
+      <div class="fb"><b>Outside the vault →</b> allowed untouched — a code repo or unregistered folder is audited later, not blocked here. A <strong>registered Work project</strong> is the exception: remapped onto the vault view and governed at the write.</div>
     </div>
     <div class="verdicts">
       <div class="verdict ok"><div class="vh">Allow</div><p>The write proceeds, silently — a well-formed write that needs no comment.</p></div>
       <div class="verdict advise"><div class="vh">Advise</div><p>The write proceeds <em>and</em> a reminder is injected back. The workhorse — most policy is taught, not blocked.</p></div>
       <div class="verdict deny"><div class="vh">Deny</div><p>The write is blocked, with a reason. Reserved for writes that would actually corrupt the structure.</p></div>
     </div>
-    <p class="figcap">The doorman runs on every edit the assistant makes — but only acts inside the vault, and mostly advises rather than blocks.</p>
+    <p class="figcap">The doorman runs on every write — but only acts inside the vault, and mostly advises rather than blocks.</p>
 
     <div class="callout key">
       <div class="label">Structural, not disciplinary</div>
@@ -122,16 +121,16 @@
         <div class="pillar">
           <div class="ph"><span class="pn">5</span><h3>Mandatory files</h3></div>
           <p class="keeps">Every folder that needs an anchor file has one, so nothing is left unlabeled.</p>
-          <p class="row"><b>Governs</b>Which folders must carry a required file — an <code>_index.md</code>, a writer reference — plus the size ceilings on the context loaded into every session.</p>
+          <p class="row"><b>Governs</b>Which folders must contain a required file — an <code>_index.md</code>, a manifest, a writer reference.</p>
           <p class="row"><b>Example</b>A topic folder with no <code>_index.md</code> is flagged as missing its label.</p>
-          <div class="vrow"><span class="pill advise">advise</span> <span class="pill deny">deny</span></div>
+          <div class="vrow"><span class="pill advise">advise</span></div>
         </div>
 
         <div class="pillar">
           <div class="ph"><span class="pn">6</span><h3>Doc-dependencies</h3></div>
           <p class="keeps">Paired documents move together — a change in one cues the update of the other.</p>
-          <p class="row"><b>Governs</b>The docs that must update together (the cascade) and their fan-in relationships. The foundation ships the machinery with no pairs registered — you add the pairs your own documents need.</p>
-          <p class="row"><b>Example</b>A plan's <code>spec.md</code> and its <code>manifest.json</code> must agree on the plan's status.</p>
+          <p class="row"><b>Governs</b>The docs that must update together (the cascade) and their fan-in relationships.</p>
+          <p class="row"><b>Example</b>Editing a plan's manifest cues the regenerated <code>tasks.md</code> to follow.</p>
           <div class="vrow"><span class="pill advise">advise</span></div>
         </div>
 
@@ -155,7 +154,7 @@
           <div class="ph"><span class="pn">8</span><h3>Plans</h3></div>
           <p class="keeps">Multi-step work follows one lifecycle and one folder shape — no exceptions.</p>
           <p class="row"><b>Governs</b>The plan-folder lifecycle, status transitions, the file quartet, and the backlog row (see <a href="plans.html">Plans</a>).</p>
-          <p class="row"><b>Example</b>a status outside the six-status vocabulary is refused at write time in a sub-plan's <code>manifest.json</code>, and flagged with an advisory elsewhere.</p>
+          <p class="row"><b>Example</b>a plan status outside the six-status vocabulary is refused at write time.</p>
           <div class="vrow"><span class="pill advise">advise</span> <span class="pill deny">deny</span></div>
         </div>
 
@@ -165,7 +164,7 @@
     <div class="callout key">
       <div class="label">Writers &amp; lifecycles are documented in other sections</div>
       <p>The last two pillars — <strong>vault-writers</strong> and <strong>plans</strong> — are full
-      members of the governance engine: the rulebook checks them on every such edit like any other pillar.
+      members of the governance engine: the rulebook checks them on every write like any other pillar.
       But their rules, rationale, and complete descriptions <strong>live in the top-level sections they
       belong to</strong>, not here. The vault-writers pillar is covered by
       <a href="vault-writers.html">the vault-writer system</a> under
@@ -204,11 +203,10 @@
       <div class="label">Work projects: write-time once registered, audit-time until then</div>
       <p>A write into a <strong>registered</strong> <a href="work-surface.html">Work project</a> is remapped
       onto the vault view and governed at the write, exactly like the vault — the same frontmatter and
-      placement checks, and the cross-document cascade. An <strong>unregistered</strong> work folder stays outside
-      the write-time gate but is still reached at session close: the frontmatter sweep walks everything behind
-      the vault's <code>Work/</code> view, and the checks running alongside it catch cross-file drift a
-      single-write guard structurally can't see. A <strong>code repo</strong> sits outside both — nothing sweeps
-      it. So new work stays frictionless until you <code>/govern register</code> it, and is governed at the
+      placement checks, and the cross-document cascade. An <strong>unregistered</strong> work folder (and any
+      code repo) stays outside the write-time gate: it's covered by an audit-time backstop instead — a
+      session-close parity check that also catches cross-file drift a single-write guard structurally can't
+      see. So new work stays frictionless until you <code>/govern register</code> it, and is governed at the
       write once you do.</p>
     </div>
 
@@ -226,7 +224,7 @@
         <tr><td>Enforce at write-time via a hook</td><td>A standing written rule degrades over sessions; a hook fires regardless of the assistant's cooperation.</td></tr>
         <tr><td>Advise as the default verdict</td><td>Most policy should be taught, not blocked — blocking is reserved for structural corruption.</td></tr>
         <tr><td>Compose pillars into a sealed, generated master</td><td>One reproducible bundle to ship and reason about; edits live in the source pillars (see <a href="governance-personalization.html">Governance personalization</a>).</td></tr>
-        <tr><td>Gate on the vault root and registered Work projects; sweep the work root at session close</td><td>Avoids spurious advisories on every file on disk; a registered Work project is remapped onto the vault view and governed at the write, while an unregistered work folder is picked up by the session-close sweeps instead.</td></tr>
+        <tr><td>Gate on the vault root and registered Work projects; audit elsewhere</td><td>Avoids spurious advisories on every file on disk; a registered Work project is remapped onto the vault view and governed at the write, while code repos and unregistered folders get the audit-time backstop.</td></tr>
       </tbody>
     </table>
 
@@ -235,7 +233,7 @@
       <li><code>governance/foundation-master.json</code> — the composed, sealed rulebook (one slot per pillar). Generated; edit the source pillars.</li>
       <li><code>governance/file-type-contracts/*.json</code> — the per-document-type contracts (one per type).</li>
       <li><code>hooks/pre-write-guard.sh</code> — the doorman that emits allow / advise / deny; <code>VAULT_ROOT</code>-gated.</li>
-      <li>The session-close sweeps — the audit-time backstop covering unregistered work folders behind the vault's <code>Work/</code> view, and cross-file drift.</li>
+      <li>The session-close parity audit — the audit-time backstop covering code repos, unregistered work folders, and cross-file drift.</li>
       <li>Extending and overriding the rulebook (the overlay seam and <code>/govern register</code>) — see <a href="governance-personalization.html">Governance personalization</a>.</li>
     </ul>
 
@@ -246,7 +244,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Write-time governance · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -16,29 +16,12 @@
     <p class="eyebrow">Write-time governance · conventions enforced at the moment of every write</p>
     <h1>Write-time governance</h1>
     <p class="lede">
-      Every file the assistant writes in a governed tree — your vault, the plan tree, your Work projects — is
-      checked, the moment it is created or edited, against a rulebook of
-      conventions. A file put on disk by a shell command instead is not checked at write time. The point is that files are always <strong>discoverable by Claude</strong> and
+      Every file and folder, the moment it is created or edited, is checked against a rulebook of
+      conventions. The point is that files are always <strong>discoverable by Claude</strong> and
       <strong>findable by you</strong> — not because someone remembered to apply the right format,
       but because the system enforced it at write time.
     </p>
     <p class="page-meta">Conventions applied structurally — at the write — not left to memory or discipline.</p>
-
-    <h2>What Claude Code gives you — and what's missing</h2>
-    <p>
-      Natively, Claude&nbsp;Code can follow scoped instructions and intercept supported tool calls with
-      hooks. Interception is not the same as an information architecture: nothing native keeps durable
-      artifacts correctly shaped, placed and linked as the corpus changes, so those guarantees are left
-      to memory and convention — where they decay into drift.
-    </p>
-    <table>
-      <thead><tr><th>Claude Code gives you</th><th>What's missing</th><th>brain-stem adds</th></tr></thead>
-      <tbody>
-        <tr><td>Hooks that intercept supported Edit and Write calls</td><td>A caught write is only a caught write — file shape, placement and naming are left to convention</td><td>A layered <a href="governance-engine.html">governance engine</a> enforcing schema, naming and placement on every supported write <em>(brain-stem specific)</em></td></tr>
-        <tr><td>After-action feedback that can correct the assistant</td><td>A correction that arrives after the write lands cannot undo it</td><td>Rules evaluated <a href="single-document.html">before the write</a>, advising by default so files land shaped the first time <em>(built on native hooks)</em></td></tr>
-        <tr><td>Plain files and folders the assistant can read and write</td><td>Cross-file relationships — indexes, registries, links — are left to drift as the corpus grows</td><td><a href="across-documents.html">Generated navigation and audits</a> that maintain relationships across files <em>(brain-stem specific)</em></td></tr>
-      </tbody>
-    </table>
 
     <h2>Two kinds of governance</h2>
     <p>
@@ -69,44 +52,6 @@
       in the <a href="project-management.html">Project management</a> section.
     </p>
 
-    <h2>What falls through the write — and what closes the gap</h2>
-    <p>
-      The write-time hook sees exactly one kind of event: an edit or write made through Claude&nbsp;Code's
-      own file tools. That is deliberate, and it leaves four vectors it structurally cannot see:
-    </p>
-    <ul>
-      <li><strong>Shell writes</strong> — a command that copies, moves, or writes a file from the terminal, by
-      design outside the hook's matcher.</li>
-      <li><strong>Scheduled and capability writes</strong> — the librarian's own renderers and any background
-      job write through ordinary file IO, never through the hook (which is also what keeps them from
-      deadlocking against it).</li>
-      <li><strong>Edits made in another application</strong> — a note changed in your editor, or a file touched
-      by a sync client.</li>
-      <li><strong>Multi-file invariants</strong> — a rule that spans several files (a registry, its contract
-      and its hook moving together) cannot be judged one write at a time.</li>
-    </ul>
-    <p>
-      Rather than widen the hook, brain-stem pairs it with an <strong>audit tier</strong>: sweeps that walk
-      the corpus after the fact, detect what the write could not, and either repair mechanical drift or
-      surface findings for you. Most of them run automatically from <a href="session-close.html">session
-      close</a>, each on its own daily or weekly rolling window, or in a full librarian run:
-    </p>
-    <table>
-      <thead><tr><th>Gap</th><th>Audit / repair layer</th><th>Posture</th></tr></thead>
-      <tbody>
-        <tr><td>A file missing required or identity fields, however it got there</td><td>Frontmatter enforcement, with a backfill mode for the identity cohort</td><td>Check mode at close and by default; fix mode by hand or as an upgrade option</td></tr>
-        <tr><td>A folder index out of step with its folder</td><td>Index maintenance: mechanical drift (row set, line counts, types, timestamps) is auto-corrected inside the sentinels; semantic content (descriptions, ordering, the context paragraph) is flagged, never overwritten</td><td>Dry run at close; the sweep applies when you run it</td></tr>
-        <tr><td>A link that no longer resolves, in either grammar</td><td>Cross-reference check, wikilink repair, and the rename cascade</td><td>Findings and proposals at close; repair and cascade apply by hand</td></tr>
-        <tr><td>A file in the wrong place, or a stale one</td><td>Placement validation and stale detection</td><td>Findings</td></tr>
-        <tr><td>A change that should have landed across several surfaces at once</td><td>Per-entity parity checks — plan-trinity drift, memory hygiene, skill-registry parity — and manifest validation audits</td><td>Findings at close; the commit groups a change set atomically, but no hook stands there</td></tr>
-        <tr><td>A shipped, managed file edited in place by anything other than Claude&nbsp;Code</td><td>The managed-surface census: every installed file hashed against the install receipt (<a href="packaging-runtime.html#managed">Managed surfaces</a>)</td><td>Detect, never auto-fix; runs in a full librarian run or by hand</td></tr>
-      </tbody>
-    </table>
-    <p>
-      The division of labor is the same everywhere: a machine-owned surface is regenerated or auto-corrected,
-      a human-owned surface is reported on, and nothing in the audit tier rewrites prose you wrote.
-    </p>
-
     <h2>Go deeper</h2>
     <div class="card-grid">
       <a class="card" href="governance-engine.html"><div class="kicker">The foundation</div><h3>The governance engine</h3><p>How the write-time doorman works: one interception point (the <code>PreToolUse</code> hook), three verdicts — allow, advise, deny — and why most policy teaches rather than blocks.</p><div class="spacer"></div><div class="more">Read →</div></a>
@@ -129,7 +74,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

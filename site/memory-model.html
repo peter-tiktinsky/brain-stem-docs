@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The memory model · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -17,7 +17,7 @@
     <h1>The memory model</h1>
     <p class="lede">
       Out of the box, Claude&nbsp;Code starts every session blank, and the one file it auto-loads is
-      hard-capped, with everything past the cut dropped and a warning left in its place. brain-stem's memory is the answer: a <strong>small, curated, classified</strong>
+      silently capped. brain-stem's memory is the answer: a <strong>small, curated, classified</strong>
       set of on-disk notes the assistant reads back at the start of every session — deliberately not a
       catch-everything pile that rots.
     </p>
@@ -97,8 +97,7 @@
       The native constraint is exact and unforgiving: Claude&nbsp;Code auto-loads a memory file but
       reads only the <strong>first 200 lines or the first 25,000 UTF-16 code units of the stripped text
       (roughly 25&nbsp;KB of plain prose), whichever comes first</strong> — anything past either limit is
-      <strong>dropped</strong>, and the harness appends a short visible warning in its place. The <code>@path</code>
-      import mechanism that <code>CLAUDE.md</code> has does not apply to the memory file, so there is no
+      <strong>dropped</strong>, and the harness appends a short visible warning in its place. There is no
       include mechanism to reach past it. The cap is stated here in the unit the harness actually measures;
       brain-stem's governance mandate, its write-time guard, and the memory-index template all say the same.
     </p>
@@ -186,7 +185,7 @@
     <table>
       <thead><tr><th>Choice</th><th>The reasoning</th></tr></thead>
       <tbody>
-        <tr><td>A small hot index + cold topic files</td><td>The native ~25&nbsp;KB/200-line cap, with no include mechanism reaching the memory file, <em>forces</em> this shape — it's optimal by constraint.</td></tr>
+        <tr><td>A small hot index + cold topic files</td><td>The native ~25&nbsp;KB/200-line cap with no include mechanism <em>forces</em> this shape — it's optimal by constraint.</td></tr>
         <tr><td>Three declared kinds</td><td>Classification at write-time resists the noise that sinks catch-everything memory; it converges with established memory science.</td></tr>
         <tr><td>Classification declared, never inferred</td><td>The author knows the kind; a separate after-the-fact classifier would silently misfile.</td></tr>
         <tr><td>Globalize writes only to <code>rules/</code></td><td><code>CLAUDE.md</code> is yours to hand-edit; no automated process may write it.</td></tr>
@@ -209,7 +208,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

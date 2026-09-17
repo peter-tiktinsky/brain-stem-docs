@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Packaging &amp; runtime · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -21,7 +21,16 @@
       careful, recorded file-copy from a source folder into the one folder Claude&nbsp;Code reads — with a great
       deal of safety wrapped around the moment files are written.
     </p>
-    <p class="page-meta">The reference companion to the <a href="installation.html">Install &amp; upgrade guide</a> and <a href="uninstalling.html">Uninstalling</a> — how the machinery beneath both is set up, and the logic behind those setup choices.</p>
+    <p class="page-meta">The reference companion to the <a href="installation.html">Install &amp; upgrade guide</a> and <a href="uninstalling.html">Uninstalling</a> — this is the <em>why</em> beneath both.</p>
+
+    <div class="callout note">
+      <div class="label">On this page</div>
+      <p><a href="#foundation">What "the foundation" is</a> · <a href="#home">~/.claude &amp; CLAUDE_HOME</a> ·
+      <a href="#install">Dry-run, then --apply</a> · <a href="#gates">Pre-flight gates</a> ·
+      <a href="#upgrade">Upgrading &amp; two reasons a file can differ</a> · <a href="#manifest">The manifest</a> ·
+      <a href="#uninstall">Uninstall</a> · <a href="#state">Where runtime state lives</a> ·
+      <a href="#failures">Failure modes it defends against</a></p>
+    </div>
 
     <h2>What Claude&nbsp;Code gives you — and what's missing</h2>
     <table>
@@ -29,7 +38,7 @@
       <tbody>
         <tr><td>Exactly one startup folder (<code>~/.claude</code>) it reads on launch, and a documented deep-merge rule for settings</td><td>No install discipline: writing into the live folder blind risks clobbering your edits, with no receipt and no safe uninstall</td><td>A recorded, <strong>preview-first</strong> file copy — a write-free dry-run by default, real writes gated behind <code>--apply</code></td></tr>
         <tr><td>A place to drop scripts, skills, and rules</td><td>No way to tell an old shipped version from your own edit</td><td>A content-fingerprinted <strong>manifest</strong> and per-release baselines that distinguish a stale file from a hand edit</td></tr>
-        <tr><td>A folder you can delete</td><td>A blunt delete would take your edits with it; working state mixed into the program folder is fragile</td><td>A fingerprint-walk <strong>uninstall</strong> that preserves files you edited inside the installed folders, and a two-root split of durable vs. throwaway runtime state</td></tr>
+        <tr><td>A folder you can delete</td><td>A blunt delete would take your edits with it; working state mixed into the program folder is fragile</td><td>A fingerprint-walk <strong>uninstall</strong> that preserves edited files, and a two-root split of durable vs. throwaway runtime state</td></tr>
       </tbody>
     </table>
 
@@ -37,10 +46,7 @@
     <p>
       Out of the box, Claude&nbsp;Code's assistant is a blank slate — no rules, no automations, no reusable
       procedures. "The foundation" is the curated bundle that turns that blank slate into a disciplined workspace.
-      It spans eight areas of your install — skills, hooks, governance registries, the installer's own machinery,
-      templates, schemas, the orchestrator and the vault starter kit, some 280 files in all — plus a folder of
-      written conventions it seeds and a set of entries it merges into your configuration file. Four of those
-      ingredients are the ones you meet first:
+      It contains four kinds of things:
     </p>
     <table>
       <thead><tr><th>Ingredient</th><th>Plain meaning</th></tr></thead>
@@ -48,7 +54,7 @@
         <tr><td><strong>Settings</strong></td><td>A single configuration file that tells Claude&nbsp;Code how to behave.</td></tr>
         <tr><td><strong>Hooks</strong></td><td>Small scripts the program runs automatically at moments in a session (for example, when one starts).</td></tr>
         <tr><td><strong>Skills</strong></td><td>Reusable, named procedures you invoke on demand (<code>/onboard</code>, <code>/govern register</code>, <code>/librarian</code>).</td></tr>
-        <tr><td><strong>Rules</strong></td><td>Short written conventions the assistant reads as standing context in every session.</td></tr>
+        <tr><td><strong>Rules</strong></td><td>Machine-readable rule files that encode the foundation's conventions.</td></tr>
       </tbody>
     </table>
     <p>"Installing" means copying that bundle out of the downloaded source folder into the one directory Claude&nbsp;Code reads from when it starts up.</p>
@@ -82,31 +88,6 @@
       </tbody>
     </table>
     <p class="page-meta">The principle: a preview may assume a target; a real write may not. Files only ever land where you deliberately pointed them.</p>
-
-    <h2 id="config-rationale">Why configuration is settled at install time — and where every knob lives</h2>
-    <p>
-      Notice what the two sections above have in common: brain-stem's configuration questions all
-      surface at one moment — when you install or upgrade — and that is deliberate. There are
-      three families of knobs, and each one changes what a real write would do. So each is
-      resolved, validated, and recorded <em>before</em> the first file lands, rather than
-      discovered months later when something behaves unexpectedly.
-    </p>
-    <table>
-      <thead><tr><th>Family</th><th>What it decides</th><th>Why it must be settled up front</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Where</strong> — <code>CLAUDE_HOME</code></td><td>Which folder receives the install; defaults to <code>~/.claude</code></td><td>A preview may assume a target, but apply refuses an unset one outright — files must never land in a folder you did not consciously choose</td></tr>
-        <tr><td><strong>How much safety you step around</strong> — the override flags</td><td>Which confirmation gates you consciously bypass (an existing unrelated setup, a plan tree already present, a major-version boundary)</td><td>Every override is its own typed flag with its own refusal — there is no single blanket "I know what I'm doing" switch, so you cannot accidentally wave through three different risks at once</td></tr>
-        <tr><td><strong>What happens to your settings</strong> — the merge rule</td><td>How the foundation's entries join your existing <code>settings.json</code></td><td>The merge is field by field and atomic, and it refuses to silently delete a key you already set — your configuration is never the cost of installing</td></tr>
-      </tbody>
-    </table>
-    <p>
-      The design bet: an installer that forces every configuration decision into one inspected,
-      previewed moment is what makes the dry-run meaningful in the first place. You are not just
-      previewing files — you are previewing every decision that shapes where and how they land.
-      The complete roster of environment variables, install flags, and the settings merge rule —
-      each with its default and its refusal — is consolidated on one reference page:
-      <a href="configuration.html">Configuration</a>.
-    </p>
 
     <h2 id="gates">Pre-flight gates: the checks that run before any file is copied</h2>
     <p>
@@ -161,7 +142,7 @@
       picks up the unfinished work and converges. A half-delivered home is never recorded as a finished upgrade.</p>
     </div>
 
-    <h2 id="managed">Managed surfaces — the write advisory and the census</h2>
+    <h2 id="managed">Managed surfaces — the write advisory and the daily census</h2>
     <p>
       Every file the installer lays down is a <strong>managed surface</strong>. The product's rule has always been
       that changes to one flow through the release pipeline — change the source, ship it, upgrade — because a hand
@@ -186,15 +167,15 @@
           not access control.</td>
         </tr>
         <tr>
-          <td><strong>The census</strong></td>
-          <td>In every <code>/librarian full</code> run, or by hand, any time, as
-          <code>managed-surface-census</code>. It declares a daily cadence, but nothing on your install fires it on a schedule</td>
+          <td><strong>The standing census</strong></td>
+          <td>On the librarian's daily cadence — it fires at the first session close once a day is due — and in
+          every <code>/librarian full</code> run; or by hand, any time, as <code>managed-surface-census</code></td>
           <td>Hashes every file in the manifest against the fingerprint recorded for it and reports each mismatch
           as a <code>managed-surface-fork</code> finding (modified or missing). Divergence does not only arrive
           through an editor — a scheduled job, an outside tool, or an edit that predates the advisory can fork a
           file too — and the census catches every vector within one cycle. It detects and never auto-fixes;
-          findings are de-duplicated against the previous run's snapshot so a known fork is not re-reported on every
-          run; and the files that legitimately differ — your merged overlay, and any
+          findings are de-duplicated against the previous run's snapshot so a known fork is not re-reported every
+          day; and the files that legitimately differ — your merged overlay, and any
           <code>.foundation-local</code> or <code>.foundation-retired</code> sidecar — are classified, never
           flagged. It needs no copy of the source: it compares live bytes against the receipt, so it runs
           identically on every install.</td>
@@ -209,15 +190,12 @@
 
     <h2 id="manifest">The manifest (ship-list): the receipt of exactly what was installed</h2>
     <p>
-      When you install, a record is kept of <strong>every file the foundation ships</strong> — its location, size,
+      When you install, a record is kept of <strong>every single file</strong> laid down — its location, size,
       permission setting, and a <strong>fingerprint</strong> (a SHA-256 content hash: a short string derived from a
       file's exact contents, so that if even one character changes, the fingerprint changes too — a tamper-evident
       seal). This record is the <strong>manifest</strong>, installed at
       <code>~/.claude/governance/foundation-manifest.json</code>. Each entry records <code>path</code>,
-      <code>sha256</code>, <code>mode</code>, and <code>size</code>. A handful of files the installer also writes
-      sit outside the receipt by design — your merged <code>settings.json</code>, the manifest itself, the install
-      log, the governance bookkeeping files and the seeded rules — because none of them is shipped content whose
-      exact bytes it could vouch for. The manifest does three jobs:
+      <code>sha256</code>, <code>mode</code>, and <code>size</code>. The manifest does three jobs:
     </p>
     <ol>
       <li>It is the <strong>authoritative answer</strong> to "what does a correct install look like?"</li>
@@ -228,9 +206,9 @@
       <div class="label">Why the manifest is generated, not hand-written</div>
       <p>A hand-maintained file list <strong>always drifts</strong> — someone adds a file and forgets to list it,
       or removes one and leaves a stale entry. So a generator walks the <em>actual</em> source tree and emits the
-      manifest automatically. Its walk <strong>mirrors</strong> the installer's own ship steps — two rosters,
-      deliberately kept in step with each other. The receipt is a photograph of the source tree, taken
-      automatically — not a list someone tried to keep current by hand.</p>
+      manifest automatically. Because the <strong>same walk</strong> defines both what the installer ships and what
+      the manifest records, the two cannot silently disagree; a release-time check fails the build on any mismatch.
+      The receipt is a photograph of the truth, taken automatically — not a list someone tried to keep current by hand.</p>
     </div>
 
     <h2 id="uninstall">Uninstall: reversing the install without destroying your work</h2>
@@ -243,19 +221,14 @@
       <thead><tr><th>Comparison result</th><th>What it means</th><th>What the uninstaller does</th></tr></thead>
       <tbody>
         <tr><td><strong>Fingerprint matches</strong></td><td>Untouched, original foundation content.</td><td>Safely removes it.</td></tr>
-        <tr><td><strong>Fingerprint differs</strong></td><td>Either you edited this file, or it is an untouched copy from an earlier release.</td><td>An earlier release's bytes are removed and reported as such. Contents matching no release brain-stem ever shipped are <strong>preserved and reported</strong> — never silently deleted (<code>--force-rm-edited</code> removes those too).</td></tr>
+        <tr><td><strong>Fingerprint differs</strong></td><td>You edited this file.</td><td><strong>Preserves it and reports it</strong> — never silently deleted.</td></tr>
         <tr><td><strong>File it never created</strong></td><td>Your own content.</td><td>Left alone entirely.</td></tr>
       </tbody>
     </table>
     <p>
-      Your personal edits inside the installed folders survive an uninstall <strong>by default</strong>. The two
-      top-level configuration files, <code>settings.json</code> and <code>settings.local.json</code>, are the
-      exception: the manifest does not track them, so uninstall removes them by name with no fingerprint check and
-      your version of them survives only in the backup. That backup is the safety net, and it is
-      <strong>mandatory, taken first</strong>: before removing anything, it copies the target folder into a
-      timestamped <code>.pre-uninstall-&lt;timestamp&gt;/</code> — leaving out the source repository's
-      <code>.git</code>, the <code>projects/</code> session transcripts and any earlier backup, and redacting
-      secrets out of the copied <code>settings.local.json</code>. There is <strong>no preview / dry-run mode</strong> for
+      Your personal edits survive an uninstall <strong>by default</strong>. The safety net is a <strong>mandatory
+      backup taken first</strong>: before removing anything, it copies the entire target folder into a timestamped
+      <code>.pre-uninstall-&lt;timestamp&gt;/</code>. There is <strong>no preview / dry-run mode</strong> for
       uninstall (the <code>--dry-run</code> flag is listed as deferred in the script header) — the backup is the
       safety mechanism instead.
     </p>
@@ -309,9 +282,9 @@
         <tr><td><strong>Drift detection on an existing install</strong></td><td>A reinstall blindly overwriting foundation files you had genuinely edited; the fingerprint check distinguishes an old shipped version from a real edit.</td></tr>
         <tr><td><strong>Disposition-aware delivery gate</strong></td><td>An upgrade recording itself as finished while some files silently stayed out of date (exit code 56 stops it).</td></tr>
         <tr><td><strong>Backup-proof-of-life before any destructive step</strong></td><td>A destructive overwrite running with no working backup.</td></tr>
-        <tr><td><strong>Generated (not hand-edited) manifest</strong></td><td>A hand-kept file list drifting out of step with what actually ships.</td></tr>
+        <tr><td><strong>Generated (not hand-edited) manifest</strong></td><td>A hand-kept file list drifting; a release-gate parity check fails the build on any mismatch.</td></tr>
         <tr><td><strong>Fingerprint walk on uninstall</strong></td><td>Blunt deletion taking your own edits with it.</td></tr>
-        <tr><td><strong>Mandatory backup before uninstall</strong></td><td>An irreversible mistake — the install folder is copied first (session transcripts excluded), so a surprise is recoverable.</td></tr>
+        <tr><td><strong>Mandatory backup before uninstall</strong></td><td>An irreversible mistake — the whole target is copied first, so even a surprise is recoverable.</td></tr>
         <tr><td><strong><code>com.brain-stem.*</code> label fence</strong></td><td>A careless cleanup stopping unrelated background jobs.</td></tr>
         <tr><td><strong>Two-root state split</strong></td><td>Program churn (uninstall/reinstall) endangering your accumulated working data.</td></tr>
         <tr><td><strong>Provenance-log check</strong></td><td>An uninstaller pointed at the wrong or never-installed folder.</td></tr>
@@ -335,7 +308,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

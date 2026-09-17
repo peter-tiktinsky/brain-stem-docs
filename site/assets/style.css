@@ -8,8 +8,7 @@
   --surface-alt: #f0ebe1;
   --ink:         #2a2620;
   --ink-soft:    #4f483d;
-  --muted:       #6c6356;
-  --connector:   #7a7163;
+  --muted:       #7a7163;
   --line:        #e5ddcf;
   --line-strong: #d6ccb9;
 
@@ -102,14 +101,14 @@ body {
 }
 .nav-group a:hover { background: rgba(177,83,46,.08); color: var(--clay-deep); }
 .nav-group a.active { background: var(--clay); color: #fff; }
-/* red section bands — Orientation, Getting started, Architecture and Capabilities, Reference */
+/* red section bands — Getting started, Architecture and Capabilities, Reference */
 .nav-band {
   font-family: var(--sans);
   font-size: 10.5px;
   text-transform: uppercase;
   letter-spacing: .14em;
   font-weight: 800;
-  color: var(--clay-deep);
+  color: var(--clay);
   margin: 30px 8px 2px;
   padding-top: 18px;
   border-top: 1px solid var(--line-strong);
@@ -118,7 +117,7 @@ body {
 /* first band sits directly under the brand — no divider above it */
 .brand-repo + .nav-band { margin-top: 18px; padding-top: 0; border-top: none; }
 
-/* the core documentation set (Context & memory … System personalization) — marked by a
+/* the core documentation set (Orientation … System personalization) — marked by a
    subtle red rail down the left, beneath the "Architecture and Capabilities" band */
 .nav-core {
   margin: 10px 0 6px;
@@ -145,7 +144,7 @@ p { margin: 0 0 16px; }
 a { color: var(--clay-deep); text-decoration: none; border-bottom: 1px solid var(--clay-soft); }
 a:hover { border-bottom-color: var(--clay); }
 
-.lede { font-size: 18px; line-height: 1.52; color: var(--ink-soft); max-width: 72ch; }
+.lede { font-size: 19px; line-height: 1.55; color: var(--ink-soft); }
 .eyebrow {
   font-family: var(--sans);
   text-transform: uppercase;
@@ -156,20 +155,6 @@ a:hover { border-bottom-color: var(--clay); }
   margin: 0 0 10px;
 }
 .page-meta { font-size: 13.5px; color: var(--muted); margin: 0 0 30px; }
-.decision-key {
-  color: var(--muted);
-  font-size: 12.5px;
-  line-height: 1.55;
-  margin: -4px 0 22px;
-}
-.decision-key strong { color: var(--ink-soft); }
-.system-link {
-  border-top: 1px solid var(--line);
-  color: var(--ink-soft);
-  font-size: 14px;
-  margin: 28px 0 0;
-  padding-top: 16px;
-}
 
 ul, ol { margin: 0 0 16px; padding-left: 22px; }
 li { margin: 5px 0; }
@@ -211,7 +196,7 @@ a.card:hover {
   color: var(--clay);
   margin-bottom: 8px;
 }
-.card h2, .card h3 { margin: 0 0 8px; padding-top: 0; border-top: none; font-size: 19px; }
+.card h3 { margin: 0 0 8px; font-size: 19px; }
 .card p { font-size: 14.5px; color: var(--ink-soft); margin: 0; }
 .card .spacer { flex: 1; min-height: 12px; }
 .card .more { margin-top: 14px; font-size: 14px; font-weight: 600; color: var(--clay-deep); border: none; }
@@ -249,27 +234,7 @@ a.card:hover .more { color: var(--clay); }
 .callout.note { border-left-color: var(--slate); }
 .callout.note .label { color: var(--slate); }
 .callout.warn { border-left-color: var(--warn); }
-.callout.warn .label { color: #8a5e12; }
-.callout.danger { border-left-color: #b3261e; border-color: #e3b1ad; background: #fbeeed; }
-.callout.danger .label { color: #b3261e; }
-
-/* ---------- capability reference entries (session-close: acting on findings) ---------- */
-.capref { background: #fffdf9; border: 1px solid var(--line); border-left: 5px solid var(--ok); border-radius: 10px; padding: 14px 18px 12px; margin: 16px 0; }
-.capref.related { border-left-color: var(--clay); }
-.capref-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-bottom: 8px; }
-.capref-head code { font-size: 14.5px; font-weight: 600; padding: 3px 8px; }
-.capref-badge { font-family: var(--sans); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; color: #2f6b31; background: #e6f0e6; border-radius: 999px; padding: 4px 10px; }
-.capref.related .capref-badge { color: var(--clay-deep); background: var(--clay-soft); }
-.capref-lede { margin: 0 0 10px; font-size: 15px; color: var(--ink); }
-.capref dl { display: grid; grid-template-columns: 118px 1fr; gap: 8px 16px; margin: 0; }
-.capref dt { font-family: var(--sans); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; color: var(--muted); padding-top: 3px; }
-.capref dd { margin: 0; font-size: 14px; line-height: 1.5; color: var(--ink-soft); }
-.capref dd code { font-size: 12.5px; }
-.capref-group { margin: 26px 0 8px; font-family: var(--sans); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; font-weight: 700; color: var(--muted); display: flex; align-items: center; gap: 10px; }
-.capref-group .sw { width: 14px; height: 14px; border-radius: 4px; display: inline-block; }
-.capref-group .sw.direct { background: var(--ok); }
-.capref-group .sw.related { background: var(--clay); }
-@media (max-width: 640px) { .capref dl { grid-template-columns: 1fr; gap: 2px 0; } .capref dt { padding-top: 8px; } }
+.callout.warn .label { color: var(--warn); }
 
 /* ---------- tables ---------- */
 table {
@@ -282,10 +247,6 @@ table {
   border-radius: var(--radius);
   overflow: hidden;
 }
-table.decision th:nth-child(1), table.decision td:nth-child(1) { width: 22%; }
-table.decision th:nth-child(2), table.decision td:nth-child(2) { width: 21%; }
-table.decision th:nth-child(3), table.decision td:nth-child(3) { width: 45%; }
-table.decision th:nth-child(4), table.decision td:nth-child(4) { width: 12%; }
 th, td { text-align: left; padding: 11px 14px; vertical-align: top; border-bottom: 1px solid var(--line); }
 th {
   background: var(--surface-alt);
@@ -296,7 +257,7 @@ th {
   color: var(--ink-soft);
 }
 tr:last-child td { border-bottom: none; }
-td code { font-size: 12.5px; }
+td code { font-size: 12.8px; }
 
 /* pillar-divider rows inside a faculty table — a clean group header, not shouty caps */
 th.grp { background: var(--surface-alt); border-top: 2px solid var(--line-strong); padding: 13px 14px; }
@@ -306,7 +267,7 @@ th.grp .g-name {
   letter-spacing: .08em;
   font-size: 12px;
   font-weight: 700;
-  color: var(--clay-deep);
+  color: var(--clay);
 }
 th.grp .g-desc {
   display: block;
@@ -324,7 +285,7 @@ th.grp .g-desc {
    tint + right border visually anchors the group of pitfall rows it spans. */
 td.cap { background: var(--surface-alt); border-right: 1px solid var(--line-strong); min-width: 150px; }
 td.cap strong { font-size: 14px; color: var(--ink); }
-td.cap .cap-desc { display: block; font-size: 12.5px; color: var(--ink-soft); margin-top: 5px; line-height: 1.4; font-style: italic; }
+td.cap .cap-desc { display: block; font-size: 12.4px; color: var(--ink-soft); margin-top: 5px; line-height: 1.4; font-style: italic; }
 
 /* ---------- collapsible pillar sections (the capability comparison) ----------
    class is "pillar-fold", NOT "pillar" — the governance-engine cards own ".pillar"
@@ -359,7 +320,7 @@ details.pillar-fold[open] > summary { border-bottom: 1px solid var(--line); }
 details.pillar-fold > summary:hover { background: #ebe4d6; }
 details.pillar-fold > summary:hover::after { color: var(--clay-deep); }
 details.pillar-fold > summary:focus-visible { outline: 2px solid var(--clay); outline-offset: -2px; }
-.pillar-fold .g-name { font-family: var(--sans); text-transform: uppercase; letter-spacing: .08em; font-size: 12px; font-weight: 700; color: var(--clay-deep); }
+.pillar-fold .g-name { font-family: var(--sans); text-transform: uppercase; letter-spacing: .08em; font-size: 12px; font-weight: 700; color: var(--clay); }
 .pillar-fold .g-desc { display: block; font-family: var(--serif); font-size: 14.5px; color: var(--ink-soft); margin-top: 3px; max-width: 70ch; }
 .pillar-fold > table { margin: 0; border: none; border-radius: 0; }
 .pillar-fold > table td code { overflow-wrap: anywhere; }
@@ -439,11 +400,6 @@ pre.mermaid { background: none; color: inherit; border: none; padding: 0; box-sh
 .legend { display: flex; flex-wrap: wrap; gap: 9px 18px; margin: 0 0 16px; font-size: 13px; }
 .legend .chip { display: inline-flex; align-items: center; gap: 7px; color: var(--ink-soft); }
 .legend .sw { width: 14px; height: 14px; border-radius: 4px; border: 1px solid rgba(42,38,32,.18); display: inline-block; flex: none; }
-.legend .sw.project { background: #e6efec; border-color: #b6cec6; }
-.legend .sw.gate { background: var(--clay-soft); border-color: var(--clay); }
-.legend .sw.universal { background: #e8ddf0; border-color: #b79fcf; }
-.legend .sw.direct { background: #e6f0e6; border-left: 4px solid var(--ok); }
-.legend .sw.related { background: var(--clay-soft); border-left: 4px solid var(--clay); }
 
 /* ---------- master system map: hand-built banded infographic ----------
    Phase bands (left→right) for the lifecycle; a universal tier on top; an
@@ -463,7 +419,7 @@ pre.mermaid { background: none; color: inherit; border: none; padding: 0; box-sh
 .sysmap .phases { display: flex; align-items: flex-start; gap: 8px; }
 .sysmap .phase { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 10px; background: #fbf8f2; border: 1px solid #e7e0d2; border-radius: 14px; padding: 12px; }
 .sysmap .phase-h { font-family: var(--serif); font-size: 16.5px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
-.sysmap .chev { align-self: flex-start; margin-top: 16px; font-size: 22px; line-height: 1; color: var(--connector); flex: none; }
+.sysmap .chev { align-self: flex-start; margin-top: 16px; font-size: 22px; line-height: 1; color: #b7a98e; flex: none; }
 
 .smnode { background: #fffdf9; border: 1px solid #c9bda6; border-radius: 9px; padding: 9px 11px; font-size: 13.5px; line-height: 1.34; color: var(--ink); }
 .smnode b { font-weight: 600; }
@@ -495,10 +451,7 @@ pre.mermaid { background: none; color: inherit; border: none; padding: 0; box-sh
 .ptrcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-top: 12px; }
 .ptrcard { background: #fff; border: 1px solid #c2d6cf; border-left: 4px solid #8fbcae; border-radius: 9px; padding: 9px 11px; }
 .ptrcard b { font-size: 13px; }
-.ptrcard .qualifier { font-weight: 400; color: var(--muted); }
-.ptrcard .qualifier.generated { color: var(--ok); }
 .ptrcard small { display: block; font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.32; }
-.content > .hubwrap { margin: 22px 0; }
 .sysmap .phase.wide { flex: 2 1 0; }
 .sysmap .subcols { display: flex; gap: 10px; }
 .sysmap .subcol { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
@@ -523,16 +476,16 @@ pre.mermaid { background: none; color: inherit; border: none; padding: 0; box-sh
   display: flex; flex-direction: column;
 }
 .flow .fstep b { font-weight: 600; font-size: 13.5px; }
-.flow .fstep small { display: block; font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.32; }
-.flow .farr { align-self: center; flex: none; font-size: 20px; color: var(--connector); line-height: 1; }
+.flow .fstep small { display: block; font-size: 11.8px; color: var(--muted); margin-top: 3px; line-height: 1.32; }
+.flow .farr { align-self: center; flex: none; font-size: 20px; color: #b7a98e; line-height: 1; }
 .flow .fstep.gate { background: var(--clay-soft); border-color: #d8a98f; }      /* the decisive transform/gate */
 .flow .fstep.gate b { color: var(--clay-deep); }
 .flow .fstep.mark { background: #d6e8e1; border-color: #8fbcae; }               /* machine-stamped / kept */
-.flow .fstep.mark b { color: #2f6b31; }
+.flow .fstep.mark b { color: #2f6b58; }
 .flow .fstep.term { background: var(--surface-alt); border-color: var(--line-strong); border-style: dashed; }
 .flow .fstep.term b { color: var(--muted); }
 .flow .fstep.proj { background: #e6efec; border-color: #b6cec6; }                /* project level (teal) */
-.flow .fstep.proj b { color: #2f6b31; }
+.flow .fstep.proj b { color: #2f6b58; }
 .flow .fstep.univ { background: #e8ddf0; border-color: #b79fcf; }                /* universal level (purple) */
 .flow .fstep.univ b { color: #6b4f86; }
 .flow-note { font-size: 12.5px; font-style: italic; color: var(--muted); margin: 4px 0 0; }
@@ -540,8 +493,8 @@ pre.mermaid { background: none; color: inherit; border: none; padding: 0; box-sh
 /* loop-back / side-branch caption rail under a flow */
 .flow-branch { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 0; }
 .flow-branch .fb {
-  font-size: 12.5px; color: var(--ink-soft);
-  background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--connector);
+  font-size: 12.3px; color: var(--ink-soft);
+  background: var(--surface); border: 1px solid var(--line); border-left: 3px solid #b7a98e;
   border-radius: 7px; padding: 6px 10px;
 }
 .flow-branch .fb b { font-weight: 600; }
@@ -553,7 +506,7 @@ pre.mermaid { background: none; color: inherit; border: none; padding: 0; box-sh
   border-radius: 10px; padding: 13px 14px;
 }
 .verdict .vh { font-family: var(--sans); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 5px; }
-.verdict p { font-size: 13px; margin: 0; color: var(--ink-soft); line-height: 1.42; }
+.verdict p { font-size: 12.8px; margin: 0; color: var(--ink-soft); line-height: 1.42; }
 .verdict.ok     { border-top-color: var(--ok); }      .verdict.ok .vh     { color: #2f6b31; }
 .verdict.advise { border-top-color: var(--warn); }    .verdict.advise .vh { color: #8a5e12; }
 .verdict.deny   { border-top-color: var(--clay); }    .verdict.deny .vh   { color: var(--clay-deep); }
@@ -570,7 +523,7 @@ pre.mermaid { background: none; color: inherit; border: none; padding: 0; box-sh
 .pillar .pn { font-family: var(--sans); font-size: 11.5px; font-weight: 700; color: #fff; background: var(--slate); border-radius: 6px; padding: 1px 7px; flex: none; }
 .pillar h3 { margin: 0; font-size: 17px; }
 .pillar .keeps { font-size: 13.5px; color: var(--ink); margin: 0 0 9px; }       /* plain-language "what it keeps true" */
-.pillar .row { font-size: 12.5px; color: var(--ink-soft); margin: 0 0 7px; line-height: 1.4; }
+.pillar .row { font-size: 12.6px; color: var(--ink-soft); margin: 0 0 7px; line-height: 1.4; }
 .pillar .row b { font-family: var(--sans); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); display: block; margin-bottom: 1px; font-weight: 700; }
 .pillar .vrow { margin-top: auto; padding-top: 8px; }
 
@@ -629,7 +582,7 @@ h2.lead { border-top: none; padding-top: 4px; margin-top: 8px; }
    each register row carries an id, and the linked-to row highlights on :target. */
 .cite {
   font-family: var(--sans);
-  font-size: 11.5px;
+  font-size: 11.8px;
   font-weight: 600;
   color: var(--slate);
   white-space: nowrap;
@@ -728,7 +681,7 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
 .vx-detail { flex: 1; min-width: 0; padding: 22px 26px 26px; overflow-y: auto; }
 .vx-detail .vx-path { font-family: var(--mono); font-size: 12px; color: var(--muted); margin: 0 0 12px; word-break: break-word; }
 .vx-detail .vx-title { font-family: var(--mono); font-size: 21px; margin: 0 0 6px; color: var(--ink); }
-.vx-detail .vx-oneliner { font-family: var(--serif); font-size: 18px; line-height: 1.45; color: var(--ink-soft); margin: 0 0 14px; }
+.vx-detail .vx-oneliner { font-family: var(--serif); font-size: 17.5px; line-height: 1.45; color: var(--ink-soft); margin: 0 0 14px; }
 .vx-badges { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 6px; }
 .vx-kind {
   font-family: var(--sans); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
@@ -738,7 +691,7 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
   font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: .03em;
   border-radius: 999px; padding: 2px 10px;
 }
-.vx-b-shipped   { background: #f3e7c8; color: #8a5e12; }
+.vx-b-shipped   { background: #f3e7c8; color: #7c5a12; }
 .vx-b-symlink   { background: #e2e7f0; color: #3f516b; }
 .vx-b-generated { background: var(--clay-soft); color: var(--clay-deep); }
 .vx-b-authored  { background: #e3efe1; color: #2f6b31; }
@@ -753,9 +706,9 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
   font-family: var(--sans); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em;
   color: var(--clay); margin: 0 0 4px;
 }
-.vx-field p { margin: 0; font-size: 14.5px; }
+.vx-field p { margin: 0; font-size: 14.8px; }
 .vx-field ul { margin: 4px 0 0; }
-.vx-field li { font-size: 14.5px; color: var(--ink-soft); }
+.vx-field li { font-size: 14.3px; color: var(--ink-soft); }
 .vx-dive {
   display: inline-block; margin-top: 16px; font-size: 14px; font-weight: 600;
   color: var(--clay-deep); border: 1px solid var(--clay-soft); border-radius: 8px;
@@ -767,10 +720,6 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
 .vx-legend { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 0 0 8px; font-size: 13px; }
 .vx-legend .lchip { display: inline-flex; align-items: center; gap: 7px; color: var(--ink-soft); }
 .vx-legend .lsw { width: 11px; height: 11px; border-radius: 50%; flex: none; }
-.vx-legend .lsw.shipped { background: var(--gold); }
-.vx-legend .lsw.symlink { background: var(--slate); }
-.vx-legend .lsw.generated { background: var(--clay); }
-.vx-legend .lsw.authored { background: var(--ok); }
 
 /* "Why it matters" — the payoff, promoted directly under the one-liner with a clay accent */
 .vx-why {
@@ -793,12 +742,12 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
   color: var(--muted); margin: 0 0 4px;
 }
 .vx-mixups ul { margin: 4px 0 0; padding-left: 18px; }
-.vx-mixups li { font-size: 13.5px; color: var(--ink-soft); margin: 5px 0; }
+.vx-mixups li { font-size: 13.6px; color: var(--ink-soft); margin: 5px 0; }
 
 /* page-level glossary — the "state once" terms so the click-ins stay lean */
 .vx-gloss { margin: 18px 0 26px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 8px 20px 16px; }
 .vx-gloss dt { font-family: var(--sans); font-weight: 700; font-size: 13.5px; color: var(--clay-deep); margin-top: 13px; }
-.vx-gloss dd { margin: 2px 0 0; font-size: 14.5px; color: var(--ink-soft); line-height: 1.5; }
+.vx-gloss dd { margin: 2px 0 0; font-size: 14.3px; color: var(--ink-soft); line-height: 1.5; }
 
 /* ---------- responsive / mobile ----------
    ≤820px the sidebar leaves the document flow. With JS (mobile.js stamps
@@ -901,33 +850,9 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
   h3 { font-size: 18.5px; }
   .lede { font-size: 17px; }
 
-  .card-grid.two { grid-template-columns: 1fr; }
-
   /* -- wide tables scroll sideways instead of crushing their columns -- */
   table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
   th, td { padding: 10px 12px; min-width: 120px; }
-
-  /* -- rationale decision tables become labeled cards instead of horizontal scrollers -- */
-  .content table.decision { display: block; border: 0; background: transparent; overflow: visible; }
-  .content table.decision thead {
-    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
-  }
-  .content table.decision tbody, .content table.decision tr, .content table.decision td { display: block; width: 100%; }
-  .content table.decision tr {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
-    box-shadow: var(--shadow); margin: 0 0 14px; overflow: hidden;
-  }
-  .content table.decision td { border-bottom: 1px solid var(--line); min-width: 0; padding: 10px 13px 11px; }
-  .content table.decision td:last-child { border-bottom: 0; }
-  .content table.decision td::before {
-    display: block; margin-bottom: 3px; color: var(--muted); font-family: var(--sans);
-    font-size: 10px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase;
-  }
-  .content table.decision td:nth-child(1)::before { content: "brain-stem chose"; color: var(--clay); }
-  .content table.decision td:nth-child(2)::before { content: "over"; }
-  .content table.decision td:nth-child(3)::before { content: "because"; }
-  .content table.decision td:nth-child(4)::before { content: "ground"; }
   code { overflow-wrap: anywhere; }
 
   /* -- vault explorer stacks its two panes -- */
@@ -942,7 +867,7 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
 
 /* sidebar GitHub repo link (replaces the documentation sub-label) */
 .brand-repo { display: block; font-size: 12.5px; color: var(--muted); margin: 2px 0 4px; letter-spacing: .3px; text-decoration: none; }
-.brand-repo:hover { color: var(--clay-deep); }
+.brand-repo:hover { color: var(--clay); }
 
 /* getting-started — set the background paragraph (para 2) apart from the what-is lede (para 1) */
 .lede-context { font-size: 16px; color: var(--muted); border-left: 2px solid var(--line-strong); padding-left: 16px; margin-top: 18px; }

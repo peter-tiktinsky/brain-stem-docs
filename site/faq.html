@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FAQ · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -77,10 +77,8 @@
 
     <div class="faq">
       <h3>Can I uninstall cleanly later?</h3>
-      <p>Yes. Running <code>bash uninstall.sh</code> from the project copies your install to a backup first, then removes only the untouched
-      files it originally installed — anything you edited, and your vault, are left alone. The two top-level configuration files,
-      <code>settings.json</code> and <code>settings.local.json</code>, are the exception: they are removed by name, so take your
-      version back out of the backup.</p>
+      <p>Yes. Running <code>bash uninstall.sh</code> from the project backs everything up first, then removes only the untouched
+      files it originally installed — anything you edited, and your vault, are left alone.</p>
       <p class="faq-link"><a href="uninstalling.html">→ Uninstalling</a></p>
     </div>
 
@@ -90,16 +88,15 @@
       <h3>Does it phone home or send my data anywhere?</h3>
       <p>No. brain-stem runs entirely on your own machine and makes <strong>no automatic network calls</strong> —
       no telemetry, no analytics, no "phone home." Its only background presence is two small
-      <code>launchd</code> jobs you render yourself (a writer-reconciler and a document-amender) that watch
-      a local staging folder;
+      <code>launchd</code> jobs (a writer-reconciler and a document-amender) that watch a local staging folder;
       out of the box neither touches anything beyond your machine. The only logs it writes are local files.</p>
       <p>The only network activity is something <strong>you</strong> explicitly start, and only ever to a
       destination you control: the <code>/librarian backup</code> capability, run by hand, pushes to the git
       remote you configured; onboarding, if the GitHub CLI is installed and signed in, makes read-only calls to
       your own GitHub account to pre-fill your name and email; and the document-amender job is the one path by
       which brain-stem could ever call an AI model without a session open — and it does so only if you configure
-      it to. The job is loaded by default once you render its <code>launchd</code> plist, but the shipped writer
-      registry defines no writer for it to act on, so it composes nothing and makes no network call. Only if you add a writer fan-in entry with a
+      it to. The job is installed and loaded by default, but the shipped writer registry defines no writer for it
+      to act on, so it composes nothing and makes no network call. Only if you add a writer fan-in entry with a
       prompt-guided amendment strategy and author its prompt does the job, when a packet for that writer lands,
       run Claude&nbsp;Code non-interactively (<code>claude -p</code>) to compose the amendment — that packet's
       content goes to the same Anthropic service, under the same account, that Claude&nbsp;Code itself already
@@ -124,9 +121,7 @@
 
     <div class="faq">
       <h3>Do I have to use the plans and backlog features?</h3>
-      <p>No. Day to day, brain-stem advises far more than it blocks — write-time governance teaches and
-      reminds by default. The one standing exception is the <a href="decision-quality.html">decision-quality
-      guard</a>, which blocks un-researched substantive choices unless you switch it to advisory.
+      <p>No. brain-stem is <strong>advisory by default</strong> — it teaches and reminds far more than it blocks.
       Plans is the one capability you adopt as a <em>methodology</em> if you run formal multi-step projects;
       everything else you simply receive.</p>
       <p class="faq-link"><a href="value-add.html">→ Why brain-stem</a></p>
@@ -172,7 +167,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

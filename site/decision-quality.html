@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The decision-quality protocol · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -27,9 +27,8 @@
     <p>
       It targets a specific failure mode: <strong>good intentions don't survive</strong>. A standing
       instruction like "always research the alternatives before recommending" degrades over a handful of
-      sessions — the assistant means to, then drifts. The recurring risk is that the first option set it
-      surfaces gets rationalized rather than expanded — and when a proper research pass genuinely runs, it
-      overrides those first options nearly every time, which is exactly the habit worth insisting on. The fix has to
+      sessions — the assistant means to, then drifts. Empirically, when the options are presented first,
+      they tend to stick, even when a proper research pass would have produced a better path. The fix has to
       fire <em>at the decision point</em>, not live in a rule that rots.
     </p>
 
@@ -41,7 +40,7 @@
     <div class="flow">
       <div class="fstep"><b>A choice is posed</b><small>the assistant goes to ask you a structured question</small></div>
       <div class="farr">›</div>
-      <div class="fstep gate"><b>Is it substantive?</b><small>option-shaped — two or more options with at least one long description, or decision keywords like "approach / which path / should we"</small></div>
+      <div class="fstep gate"><b>Is it substantive?</b><small>option-shaped — multiple real options, or decision keywords like "approach / which path / should we"</small></div>
       <div class="farr">›</div>
       <div class="fstep mark"><b>Held until researched</b><small>the question is refused until the research pass has run and the question says so</small></div>
     </div>
@@ -52,7 +51,7 @@
 
     <h2>The research pass it's asking for</h2>
     <p>
-      What it asks for isn't "think harder" — it's a concrete checklist to run before publishing options on a
+      The nudge isn't "think harder" — it's a concrete checklist to run before publishing options on a
       genuine fork:
     </p>
     <ul>
@@ -81,8 +80,7 @@
     <h2>Why it lives in the sessions section</h2>
     <p>
       Checkpoints keep a session's <em>thread</em> alive; coordination keeps sessions out of each other's
-      <em>way</em>; session close keeps the <em>record</em> straight; this keeps a session's
-      <em>decisions</em> honest. It's the fourth kind of
+      <em>way</em>; this keeps a session's <em>decisions</em> honest. It's the third kind of
       session-management capability — on-demand, firing exactly when the work reaches a fork — and like the
       others it's structural: a hook at the decision point, not a hope that good intentions hold.
     </p>
@@ -91,7 +89,7 @@
     <ul>
       <li>The guard — <code>pre-asq-guard.sh</code>, a decision-time check on the structured-question tool; a substance heuristic (option count + description length, or decision keywords) with yes/no and annotated questions skipped.</li>
       <li>The annotation — a <code>research_complete:</code> marker is the signal that the pass has been run; under the default blocking mode it is required before a substantive question goes through.</li>
-      <li>Phases — Phase&nbsp;2 (blocking) is the shipped default; Phase&nbsp;1 (advisory nudge) remains available by setting <code>PRE_ASQ_GUARD_DQ_PHASE=1-advisory</code>.</li>
+      <li>Phases — Phase&nbsp;2 (blocking) is the shipped default; Phase&nbsp;1 (advisory nudge) remains available as an environment-flag override.</li>
       <li>Telemetry — every firing appends to <code>decision-quality-events.jsonl</code>; successful passes can surface in a plan's handoff chronicle.</li>
     </ul>
 
@@ -102,7 +100,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

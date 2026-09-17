@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Automated capture · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -16,57 +16,39 @@
     <p class="eyebrow">Automated capture · section overview</p>
     <h1>Automated capture</h1>
     <p class="lede">
-      Writers, and the connectors you build behind them, bring outside information — emails, meeting
-      transcripts, calendar data — into your vault, <strong>structured and reusable</strong>, without you re-pasting
-      anything into every session.
+      Connectors and writers bring outside information — emails, meeting transcripts, calendar data — into
+      your vault, structured and reusable, without you re-pasting anything into every session.
     </p>
-    <p class="page-meta">Two big ideas: <strong>structure it deterministically</strong> so repetitive processing stays cheap,
-    and <strong>keep everything local</strong> so you are never penalised for changing your mind.</p>
-
-    <h2>What Claude Code gives you — and what's missing</h2>
-    <p>
-      Natively, Claude&nbsp;Code can move or trigger outside information — MCP servers, channels, hooks,
-      scheduled tasks, scripts, plugins. What transports and triggers don't prescribe is <strong>what happens at
-      the destination</strong>: who may write where, with what provenance, who wins a collision, and which work
-      deserves a model call at all. Uncoordinated capture becomes silos, overwrites and wasted tokens.
-    </p>
-    <table>
-      <thead><tr><th>Claude Code gives you</th><th>What's missing</th><th>brain-stem adds</th></tr></thead>
-      <tbody>
-        <tr><td>Transports and triggers — MCP, channels, hooks, scheduled tasks</td><td>Each connector is left to invent its own output shape and landing place</td><td><a href="vault-writers.html">Registered writers</a> declaring source, destination rights and output type <em>(brain-stem specific)</em></td></tr>
-        <tr><td>Model calls whenever you wire them</td><td>Deterministic formatting work is left to spend tokens, and model judgment can end up as the final writer</td><td>Deterministic processing by default, with an <a href="vault-writers.html">isolated AI lane</a> that proposes but never writes <em>(built on native)</em></td></tr>
-        <tr><td>Plain files as destinations</td><td>Two saves racing for one destination are left to silently clobber each other</td><td>Direct write by default, a sole <a href="vault-writers.html">reconciler</a> for staged destinations <em>(brain-stem specific)</em></td></tr>
-      </tbody>
-    </table>
+    <p class="page-meta">Two big ideas: structure it deterministically so repetitive processing stays cheap,
+    and keep everything local so you are never penalised for changing your mind.</p>
 
     <h2>Two ideas that anchor the whole system</h2>
 
     <h3>Determinism first</h3>
     <p>
       The default posture for a capture pipeline is mechanical: parse the source, apply a fixed transform,
-      write the destination once — or, where a destination opts in, emit a content-addressed packet for the
-      reconciler to apply. No model call needed. That posture makes
-      <strong>repeated processing cheap and trustworthy</strong> — run the same connector ten times and get the same result.
+      emit a content-addressed packet, write once. No model call needed. That posture makes
+      repeated processing cheap and trustworthy — run the same connector ten times and get the same result.
       When a judgment call genuinely requires language understanding (audience sentiment, action-item
       attribution), you opt in to an LLM lane; the rest of the pipeline stays mechanical.
     </p>
     <p>
       This posture is built into the architecture — it is not just a recommendation in the docs. But it has
-      practical consequences: the pipeline enforces <strong>a single writer-reconciler</strong> (one process owns every
-      write on the opt-in staged lane), deduplicates by content hash, and routes the LLM step <em>before</em> the write —
+      practical consequences: the pipeline enforces a single writer-reconciler (one process owns every
+      write the pipeline makes), deduplicates by content hash, and routes the LLM step <em>before</em> the write —
       so even the judgment-call lane produces a deterministic packet that the reconciler applies.
     </p>
 
     <h3>Flexibility — never taxed for changing your mind</h3>
     <p>
       Raw source data, per-day processed outputs, the append-only SQLite manifest, and any structured
-      outputs (markdown notes, JSON, queryable SQLite tables) are all <strong>kept locally and permanently</strong>.
+      outputs (markdown notes, JSON, queryable SQLite tables) are all kept locally and permanently.
       The only ephemeral piece is the in-flight staging packet — and once it is applied, the manifest
       records exactly what was written and when.
     </p>
     <p>
       That means you can start with action items from email, add a second source later, and the
-      system <strong>already has the structured data to build from</strong>. If you want a dashboard tomorrow, the
+      system already has the structured data to build from. If you want a dashboard tomorrow, the
       SQLite the pipeline built is already there. Cross-source deduplication works when you route
       multiple sources into one keyed destination — that is a routing decision you configure, not
       something the system does automatically.
@@ -78,7 +60,7 @@
         The substrate ships: registration, the staging-packet format, the writer-reconciler, the
         append-only manifest, fan-in/fan-out routing, and both the deterministic and LLM-amender
         write lanes. <strong>Connectors are user-built</strong> — a connector is a script that pulls
-        from a source (Granola, Gmail, or anything else) and writes its destination — or emits a packet where that destination opts into staging. The registration system
+        from a source (Granola, Gmail, or anything else) and emits a packet. The registration system
         records <code>granola</code> and <code>gmail</code> as valid labels, but the connector logic
         itself is yours to write.
       </p>
@@ -87,7 +69,7 @@
     <h2>Scheduling capture runs</h2>
     <p>
       Capture connectors run on whatever schedule you set. The two turnkey scheduled jobs in brain-stem
-      are <strong>the writer-reconciler and the doc-amender</strong>; everything else is a hand-rolled
+      are the writer-reconciler and the doc-amender; everything else is a hand-rolled
       <code>launchd</code> plist calling <code>dispatch.sh</code>. For how the orchestration layer
       handles scheduling, headless runs, and the propose-and-gate flow, see
       <a href="orchestration.html">Orchestration &amp; scheduling</a>.
@@ -104,7 +86,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

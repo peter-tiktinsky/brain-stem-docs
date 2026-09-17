@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Explore your brain · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -24,9 +24,9 @@
 
     <div class="callout key">
       <div class="label">The one idea to hold first</div>
-      <p>On a fresh install brain-stem seeds almost nothing: one guide file (<code>CLAUDE.md</code>), two real
-      folders (<code>Vault&nbsp;Writers/</code> and <code>Bases/</code>), an <code>.obsidian/</code> config, and
-      <strong>five shortcuts</strong>. A shortcut (technically a <em>symlink</em>) is a signpost to a folder that lives
+      <p>On a fresh install brain-stem seeds almost nothing: one guide file (<code>CLAUDE.md</code>), one real
+      folder (<code>Vault&nbsp;Writers/</code>), an <code>.obsidian/</code> config, and <strong>five
+      shortcuts</strong>. A shortcut (technically a <em>symlink</em>) is a signpost to a folder that lives
       elsewhere on disk — it shows up here for easy browsing, but the real files stay in their own home, so
       deleting the vault never touches your plans, projects, or Library. The vault arrives nearly empty and is
       <strong>grown</strong> over time. And you never start a session from the vault root — you always launch
@@ -58,10 +58,10 @@
     </div>
 
     <div class="vx-legend">
-      <span class="lchip"><span class="lsw shipped"></span> Shipped on install</span>
-      <span class="lchip"><span class="lsw symlink"></span> Symlink to a home outside the vault</span>
-      <span class="lchip"><span class="lsw generated"></span> Claude generates &amp; maintains it</span>
-      <span class="lchip"><span class="lsw authored"></span> You direct; Claude builds it</span>
+      <span class="lchip"><span class="lsw" style="background:#b8862f"></span> Shipped on install</span>
+      <span class="lchip"><span class="lsw" style="background:#3f516b"></span> Symlink to a home outside the vault</span>
+      <span class="lchip"><span class="lsw" style="background:#b1532e"></span> Claude generates &amp; maintains it</span>
+      <span class="lchip"><span class="lsw" style="background:#4a7c4e"></span> You direct; Claude builds it</span>
     </div>
 
     <h2>What the brain folder is for</h2>
@@ -82,8 +82,7 @@
       Claude&nbsp;Code — or any other LLM harness you point at it — use your accumulated context as reference
       material. If you ever multi-home, it is the feeder for a local LLM that turns your knowledge base into a
       queryable asset, or for a vector-search layer that gives you another way to navigate and query everything
-      you've built — read-only, since the governance that keeps it well-formed runs inside Claude&nbsp;Code
-      (<a href="knowledge-graph.html">Knowledge-graph extendability</a>).
+      you've built.
     </p>
 
     <div id="site-foot-nav"></div>
@@ -102,8 +101,8 @@
     id: 'vault', label: 'brain/', kind: 'root',
     one: 'The single folder you browse everything from — a plain Obsidian vault, named brain.',
     why: 'You get one window onto everything, while the real work stays portable and findable. Because it is all plain text, any tool — even a local model on your own machine — can read it; and because the heavy folders are shortcuts, you can never mistake this browsing view for the master copy.',
-    what: 'An ordinary Obsidian vault: plain folders and Markdown on your disk. On install brain-stem adds almost nothing — one guide file (<code>CLAUDE.md</code>), two real folders (<code>Vault Writers/</code> and <code>Bases/</code>), the <code>.obsidian/</code> config, and five shortcuts. The five folders you actually work in are <code>Work</code>, <code>Projects</code>, <code>Wiki</code>, <code>Plans</code>, and <code>Skills</code> — all five are shortcuts to homes outside the vault; the real folders that live inside are <code>Vault Writers/</code> and <code>Bases/</code>.',
-    from: 'Built once at install, at whatever location you give the installer — there is no default, so you always say where the vault goes. Every seeded file is written without overwriting, so re-running the installer never touches your edits.',
+    what: 'An ordinary Obsidian vault: plain folders and Markdown on your disk. On install brain-stem adds almost nothing — one guide file (<code>CLAUDE.md</code>), one real folder (<code>Vault Writers/</code>), the <code>.obsidian/</code> config, and five shortcuts. The five folders you actually work in are <code>Work</code>, <code>Projects</code>, <code>Wiki</code>, <code>Plans</code>, and <code>Skills</code> — all five are shortcuts to homes outside the vault; the one real folder that lives inside is <code>Vault Writers/</code>.',
+    from: 'Built once at install (default location <code>~/Documents/brain</code>). Every seeded file is written without overwriting, so re-running the installer never touches your edits.',
     clar: ['Most of what you see is a shortcut to a home elsewhere on disk. Delete this folder and your plans, projects, and Library are untouched — they were never really inside it.', 'It arrives nearly empty and is grown over time; it does not ship pre-filled with content.'],
     tips: ['Point another tool — even a local model — at this folder and it still reads. Nothing here is locked to Claude or Obsidian.'],
     link: { href: 'index.html', label: 'The system in one picture' },
@@ -120,7 +119,7 @@
       one: 'The home for all your non-code work — one folder per project, kept just outside the vault.',
       why: 'Every project lands in the same predictable shape, so Claude always knows where the brief, the log, and the finished work are — no re-explaining yourself per project. And because it lives outside the vault, rebuilding or deleting the vault never touches your actual work.',
       what: 'A shortcut into <code>~/work</code>, beside the vault. Everything that is not code goes here — consulting, writing, analysis (code lives in repos under <code>~/Code</code>, which you open directly). You make one folder per project, and that folder is the one you start a session from. Empty on day one; it fills one project at a time.',
-      from: 'Created empty at install. Each project folder inside is built later, in one step, by <code>/govern register --kind project</code>.',
+      from: 'Created empty at install. Each project folder inside is built later, in one step, by the work-setup add-on.',
       clar: ['For non-code work only — code belongs in repos under <code>~/Code</code>.', 'You start a session from a specific project folder inside, never from this Work folder itself.'],
       tips: ['Rule of thumb: a deck, report, or analysis belongs here; anything you would run as code stays a repo under <code>~/Code</code>.'],
       link: { href: 'work-surface.html', label: 'Project organization' },
@@ -130,7 +129,7 @@
         why: 'Because the setup is identical every time, Claude knows exactly where the brief, the log, and the finished work are the moment you start — zero re-orientation per project. Later, when you create a plan that names this project, it is automatically pulled into a single roll-up page (its binder), so months of work still has one front door.',
         what: 'The folder for one non-code project in the <strong>flat</strong> layout — one stream of work (a report, a campaign, an engagement). When you set it up, brain-stem scaffolds five things at once as an empty shell — a launch file (<code>CLAUDE.md</code>), a brief (<code>README.md</code>), a running log (<code>updates.md</code>), and two content folders (<code>deliverables/</code>, <code>reference/</code>) — and you and Claude fill in the actual content through your sessions. You open sessions from inside it.',
         from: 'Scaffolded by brain-stem in one step when you create the project (it never overwrites an existing one). The shell is generated for you; the contents are filled in by you and Claude as the work proceeds.',
-        clar: ['<code>&lt;project (flat)&gt;</code> is a placeholder — you name the folder for your real project, and that name is the identity the system rolls the work up under.', 'It joins a binder not just by existing, but when you create a plan that names this project.', 'Use the flat layout for one stream of work; for several parallel streams under one roof, use the <strong>master</strong> layout (the next example).', 'The project&rsquo;s own root has no <code>_index.md</code> — the project binder under Projects handles the cross-plan roll-up, and the vault&rsquo;s index rule is relaxed across all five shortcut roots, Work among them. Its two content folders, <code>deliverables/</code> and <code>reference/</code>, each get a small generated contents list (<code>_index.md</code>) the librarian keeps current, so their files stay browsable.'],
+        clar: ['<code>&lt;project (flat)&gt;</code> is a placeholder — you name the folder for your real project, and that name is the identity the system rolls the work up under.', 'It joins a binder not just by existing, but when you create a plan that names this project.', 'Use the flat layout for one stream of work; for several parallel streams under one roof, use the <strong>master</strong> layout (the next example).', 'The project&rsquo;s own root has no <code>_index.md</code> — the project binder under Projects handles the cross-plan roll-up, and Work is the one place the vault&rsquo;s index rule is relaxed. Its two content folders, <code>deliverables/</code> and <code>reference/</code>, each get a small generated contents list (<code>_index.md</code>) the librarian keeps current, so their files stay browsable.'],
         tips: ['Whatever you name this folder is the identity the rest of the system uses to roll the work up — pick it deliberately.'],
         link: { href: 'work-surface.html', label: 'Project organization' },
         children: [{
@@ -138,7 +137,7 @@
           one: 'The launch file — why Claude already knows your project the instant you start, instead of you re-explaining it.',
           why: 'Claude Code automatically reads the <code>CLAUDE.md</code> of whatever folder you start in — and only a file with that exact name gets it. So this file carries the project&rsquo;s identity and a map of what lives where directly: open the folder and Claude already knows the project, with nothing to paste by hand. Without it, opening this folder would load nothing.',
           what: 'A short file (about 20 lines) that, the moment you start a session here, hands Claude the project directly: its identity, a pointer to the project binder for cross-plan history, and an auto-maintained map of what lives in the folder. You almost never edit it.',
-          from: 'Written by <code>/govern register --kind project</code> when the project is created. It carries the orientation itself; the directory-map block inside it is refreshed automatically by the librarian, so it never goes stale.',
+          from: 'Written by the work-setup add-on when the project is created. It carries the orientation itself; the directory-map block inside it is refreshed automatically by the librarian, so it never goes stale.',
           when: 'Read first, automatically, the moment you start a session here — that single read is enough; the orientation is in the file itself.',
           clar: ['NOT the same as the vault-root <code>CLAUDE.md</code>: that one is a passive map; this one actively loads the project when you launch here.', 'It carries the orientation itself, not a pointer to a separate cover; the directory map inside it is auto-maintained so it stays current without you editing it.'],
           tips: []
@@ -147,7 +146,7 @@
           one: 'The brief — what this project is and how you&rsquo;ll know it&rsquo;s done.',
           why: 'This is where &ldquo;done&rdquo; gets defined before the work starts — the thing most often left unwritten and most often the cause of scope creep. With it, you and Claude can check work against an agreed target instead of a vague memory. It is yours to write because only you know what the client actually agreed to.',
           what: 'Your plain statement of the project&rsquo;s scope, its intended outcome, and how you&rsquo;ll know it&rsquo;s finished — under three headings the setup drops in (scope / outcome / definition-of-done). brain-stem creates it empty; you write the rest.',
-          from: 'Created empty by <code>/govern register --kind project</code> with the three headings as placeholders. Claude never fills it in or changes it.',
+          from: 'Created empty by the work-setup add-on with the three headings as placeholders. Claude never fills it in or changes it.',
           clar: ['Claude does not write or maintain this — it makes an empty headed file, and you fill it.', 'This is the brief, not the running log — day-to-day progress goes in <code>updates.md</code>.'],
           tips: ['Write the &ldquo;how I&rsquo;ll know it&rsquo;s done&rdquo; part first — that line is what prevents scope creep later.']
         }, {
@@ -155,7 +154,7 @@
           one: 'The running status log — add-only, newest entry at the bottom.',
           why: 'This is the project&rsquo;s memory between sessions: it lets you (and Claude) pick the engagement back up cold, weeks later, and know exactly where it stands. Because you only ever add, never overwrite, the log is a permanent record of how the work actually unfolded — not just its latest snapshot.',
           what: 'A dated log of progress — status, risks, decisions — written as you go. The setup seeds a one-line header; you add to it over the life of the project. (Add-only: you write new entries, you do not rewrite old ones.)',
-          from: 'Created nearly empty by <code>/govern register --kind project</code>; you append to it as the work moves.',
+          from: 'Created nearly empty by the work-setup add-on; you append to it as the work moves.',
           clar: ['A log, not the brief — the fixed goal lives in <code>README.md</code>.', 'Newest goes at the BOTTOM here — note the per-plan handoff diary does the reverse, newest on top.'],
           tips: ['One short dated entry per session is enough — this is for picking the thread back up, not writing a report.']
         }, {
@@ -211,7 +210,7 @@
           one: 'Anything you add on top of the base shell — the structure your work actually needs.',
           why: 'The five scaffolded items are a floor, not a ceiling. Real projects need more — a <code>people/</code> folder, a <code>meeting-notes/</code> folder, a custom status doc — and brain-stem is built to absorb them without you touching any config: add a folder and it gets an auto-maintained index; register a new file type and every file of that kind is governed exactly like the ones that shipped.',
           what: 'A stand-in for the folders and document types you add yourself. You don&rsquo;t hand-edit anything — you tell Claude what you want (&ldquo;add a people folder&rdquo;, &ldquo;govern a meeting-note type&rdquo;) and it registers the structure, then keeps it indexed and governed from then on.',
-          from: 'Created as you work, on your direction. A new folder gets an auto-maintained <code>_index.md</code>; a new document type is registered through <code>/govern register</code> so it&rsquo;s validated on every write Claude makes with its editing tools — a file put on disk by a shell command instead is not checked at write time.',
+          from: 'Created as you work, on your direction. A new folder gets an auto-maintained <code>_index.md</code>; a new document type is registered through <code>/govern register</code> so it&rsquo;s validated on every write.',
           clar: ['You never hand-edit governance files — you describe the structure you want and Claude registers it for you.', 'Registered additions are governed exactly like the shipped folders and types — nothing you add is second-class.'],
           tips: ['Making a kind of document often? Ask Claude to register it as a file type, so every one lands in the same shape.'],
           link: { href: 'work-folder-guidebook.html', label: 'The work-folder guidebook' }
@@ -222,7 +221,7 @@
         why: 'When a project is really several efforts at once — different teams, different deliverables, one umbrella — a flat folder blurs them together. The master layout keeps a thin shared top and gives each stream its own folder, so each has its own deliverables and reference while the whole thing still rolls up as one project.',
         what: 'The folder for a multi-stream project. brain-stem scaffolds a thin top — the launch file (<code>CLAUDE.md</code>), brief (<code>README.md</code>), and log (<code>updates.md</code>) — and one folder per workstream (shown here as Workstream&nbsp;A and Workstream&nbsp;B). There are no top-level <code>deliverables/</code> or <code>reference/</code>; those live inside each stream. You still launch from this master folder, never from a stream.',
         from: 'Scaffolded by brain-stem when you choose the master layout (and name a first stream). You and Claude fill in each stream as the work proceeds; add more streams the same way later.',
-        clar: ['<code>&lt;project (master)&gt;</code> is a placeholder — you name it for your real project.', 'You launch sessions from this master folder — never from a workstream inside it.', 'Choose master only for genuinely parallel streams; one stream of work wants the simpler flat layout above.', 'Your Additions appear at two levels — the master top (project-wide) and inside each workstream (stream-specific); only a folder added at the master top gets an auto-maintained contents list.'],
+        clar: ['<code>&lt;project (master)&gt;</code> is a placeholder — you name it for your real project.', 'You launch sessions from this master folder — never from a workstream inside it.', 'Choose master only for genuinely parallel streams; one stream of work wants the simpler flat layout above.', 'Your Additions appear at two levels — the master top (project-wide) and inside each workstream (stream-specific).'],
         tips: ['Start with one stream and add others as they appear — you don&rsquo;t have to plan them all up front.'],
         link: { href: 'work-folder-guidebook.html', label: 'The work-folder guidebook' },
         children: [{
@@ -248,7 +247,7 @@
           id: 'wm-stream', label: '&lt;workstream A&gt;/', kind: 'folder', origin: 'authored',
           one: 'One stream of work inside the master — its own deliverables, reference, and additions, but no launch file.',
           why: 'Each parallel effort gets a clean home of its own — its finished work and its raw material kept separate — while still belonging to the one project. That is what lets a sprawling, multi-team effort stay coherent instead of fragmenting into separate projects.',
-          what: 'A workstream folder, scaffolded with its own brief (<code>README.md</code>) and the two content folders (<code>deliverables/</code>, <code>reference/</code>) — each with the same auto <code>_index.md</code> plus your own files as a flat project. You can extend it with your own folders and types too, though <code>deliverables/</code> and <code>reference/</code> are the only folders inside a stream that carry an auto-maintained contents list. It is an organizational unit only — no <code>CLAUDE.md</code>, never a launch point.',
+          what: 'A workstream folder, scaffolded with its own brief (<code>README.md</code>) and the two content folders (<code>deliverables/</code>, <code>reference/</code>) — each with the same auto <code>_index.md</code> plus your own files as a flat project. You can extend it with your own folders and types too. It is an organizational unit only — no <code>CLAUDE.md</code>, never a launch point.',
           from: 'Scaffolded when you add the stream; you and Claude fill its contents.',
           clar: ['No <code>CLAUDE.md</code> here — you always launch from the master above, not from a stream.', 'Its <code>README.md</code> carries a one-line &ldquo;launch from the master&rdquo; note.', '&ldquo;Workstream A&rdquo; is a placeholder heading — you name each stream for the real work.'],
           tips: [],
@@ -300,9 +299,9 @@
             id: 'wma-additions', label: '&lt;your additions&gt;', kind: 'folder', origin: 'authored',
             one: 'This stream&rsquo;s own extra folders and document types — added on your direction.',
             why: 'Each workstream is a starting shape you extend independently. One stream might add an <code>interviews/</code> folder, another a <code>models/</code> folder — tailor each to its own work.',
-            what: 'A stand-in for the structure you add inside this stream. You describe it and Claude registers it through <code>/govern register</code>, so new document types are checked on every write. A folder you add inside a stream carries no auto-maintained contents list — inside a stream only <code>deliverables/</code> and <code>reference/</code> get one. Your Additions can live here inside a stream AND at the master top level.',
-            from: 'Created on your direction as the stream grows; registered so writes into it are governed like the shipped document types.',
-            clar: ['Additions are per-stream here — the master also has its own top-level Your Additions, and only a folder added at the master top gets an auto-maintained contents list.'],
+            what: 'A stand-in for the structure you add inside this stream. You describe it and Claude registers it through <code>/govern register</code>; new folders get an auto-index, new types are governed on every write. Your Additions can live here inside a stream AND at the master top level.',
+            from: 'Created on your direction as the stream grows; governed exactly like the shipped folders and types.',
+            clar: ['Additions are per-stream here — the master also has its own top-level Your Additions.'],
             tips: [],
             link: { href: 'work-folder-guidebook.html', label: 'The work-folder guidebook' }
           }]
@@ -310,18 +309,18 @@
           id: 'wm-stream-b', label: '&lt;workstream B&gt;/', kind: 'folder', origin: 'authored',
           one: 'A second workstream — same idea as Workstream A, shaped to its own work.',
           why: 'A master holds as many streams as the project needs, each independent. Showing two makes the point: they are siblings, not nested.',
-          what: 'Another stream beside Workstream A. It has the same starting shape — its own <code>README.md</code>, <code>deliverables/</code> and <code>reference/</code> (each with an auto <code>_index.md</code> plus your files) — and you extend it with your own additions, tailoring every stream&rsquo;s folders and file types to whatever that stream&rsquo;s work needs. (Expand Workstream A to see the full shape; it&rsquo;s identical here.)',
+          what: 'Another stream beside Workstream A. It has the same starting shape — its own <code>README.md</code>, <code>deliverables/</code> and <code>reference/</code> (each with an auto <code>_index.md</code> plus your files), and its own Your Additions — but you tailor every stream&rsquo;s folders and file types to whatever that stream&rsquo;s work needs. (Expand Workstream A to see the full shape; it&rsquo;s identical here.)',
           from: 'Scaffolded the same way as Workstream A, whenever you add it; you and Claude fill its contents.',
-          clar: ['Same scaffold as Workstream A — README, deliverables/, reference/ — then tailored to this stream with your own additions.', '&ldquo;Workstream B&rdquo; is a placeholder heading; name it for the real work.'],
+          clar: ['Same scaffold as Workstream A — README, deliverables/, reference/, and Your Additions — then tailored to this stream.', '&ldquo;Workstream B&rdquo; is a placeholder heading; name it for the real work.'],
           tips: [],
           link: { href: 'work-folder-guidebook.html', label: 'The work-folder guidebook' }
         }, {
           id: 'wm-additions', label: '&lt;your additions&gt;', kind: 'folder', origin: 'authored',
           one: 'The master&rsquo;s own top-level additions — extra folders and document types that span the whole project.',
-          why: 'Your Additions live at two levels in a master: here at the top (project-wide — say a <code>people/</code> roster shared across streams) and inside each workstream (stream-specific). Both are yours to grow; a folder added here at the top is the one that also gets an auto-maintained contents list.',
+          why: 'Your Additions live at two levels in a master: here at the top (project-wide — say a <code>people/</code> roster shared across streams) and inside each workstream (stream-specific). Both are yours to grow; both are governed the same way.',
           what: 'A stand-in for structure you add at the master level, above any single stream. You describe what you want and Claude registers it through <code>/govern register</code>; new folders get an auto-maintained index, new document types are validated on every write.',
           from: 'Created on your direction as the project grows; governed exactly like the shipped folders and types.',
-          clar: ['Top-level here means project-wide — a folder added here is created and indexed for you; each workstream also has its own Your Additions for stream-specific structure, which you create inside the stream yourself.', 'You never hand-edit governance files — describe the structure and Claude registers it.'],
+          clar: ['Top-level here means project-wide; each workstream also has its own Your Additions for stream-specific structure.', 'You never hand-edit governance files — describe the structure and Claude registers it.'],
           tips: [],
           link: { href: 'work-folder-guidebook.html', label: 'The work-folder guidebook' }
         }]
@@ -378,6 +377,14 @@
           from: 'Built by the librarian from every plan&rsquo;s handoff file each run (a session-close step can also add the newest entry). You write the handoffs in the plans; this assembles them.',
           clar: ['It does not replace the per-plan handoffs — it harvests one short entry from each; the full notes stay in the plans.', 'A summary timeline, not a full record.'],
           tips: ['Resuming a cold project? Read the top entry first — its &ldquo;start here next time&rdquo; line is usually all you need.']
+        }, {
+          id: 'proj-research', label: 'research/', kind: 'folder', origin: 'generated',
+          one: 'Live links into each plan&rsquo;s research — the index tells you what exists; this is the door you open.',
+          why: 'This folder and <code>research-index.md</code> both surface the project&rsquo;s research but do different jobs — the index is the readable map (WHAT exists), this is the door (open and work in the live files without leaving the binder). And because these are links, not copies, there is only ever one true copy of each file; the librarian sweeps away any link whose target is gone, so dead links can&rsquo;t pile up.',
+          what: 'A folder of shortcuts, one per plan that contributes research, each opening straight into that plan&rsquo;s live research folder — the same shortcut trick the vault uses, one level deeper inside the binder.',
+          from: 'Maintained by the librarian from the plans&rsquo; logged, finalized research; rebuilt and cleaned up every run.',
+          clar: ['Links, not copies — the research lives in the plan folders.', 'It mirrors only logged, finalized research, not every loose file in a plan.'],
+          tips: ['If a link ever looks broken, leave it — the next librarian run sweeps it away on its own.']
         }]
       }]
     }, {
@@ -397,15 +404,15 @@
         what: 'The top-level contents list for the whole Library: a single page naming each topic folder and the articles inside it. Each topic folder also has its own contents list; this one sits above them all.',
         from: 'Rebuilt by the librarian every time an article is added or moved. A generated list — read it, don&rsquo;t hand-edit it.',
         when: 'You rarely open it directly — the background check consults it for you. Open it when you want to browse the whole Library by hand.',
-        clar: ['Don&rsquo;t hand-edit the contents table — it is rebuilt in place between two marker lines and anything you change inside it is overwritten; edit the articles and the table updates to match. Lines you write outside the table are kept exactly as you left them.', 'It lists contents; it is not itself an article.'],
+        clar: ['Don&rsquo;t hand-edit — manual changes are overwritten on the next rebuild; edit the articles and this updates to match.', 'It lists contents; it is not itself an article.'],
         tips: []
       }, {
         id: 'wiki-log', label: 'log.md', kind: 'file', origin: 'generated',
-        one: 'The Library&rsquo;s history — a line for each article that lands on the shelves.',
-        why: 'The moment this earns its place: you acted on an article last month and today you need to know when it was shelved and which research it came from. This log answers that in one line. A safety net you check rarely — there for the day you do need to trace where a piece of shelved knowledge came from.',
-        what: 'A running record of the Library&rsquo;s history — one line per entry, in order. A record of what was shelved and when, not the articles themselves.',
-        from: 'The librarian adds the lines automatically when it shelves a new article during promotion — one for the untouched original it keeps, one for the finished article. Entries are only ever added; once the log passes 2,000 lines the older history moves into a per-year archive file beside it.',
-        clar: ['A record of what was shelved, not content — the actual reference lives in the topic shelves.'],
+        one: 'The Library&rsquo;s history — one line for each time an article is added, changed, or replaced.',
+        why: 'The moment this earns its place: you acted on an article last month, today it reads differently, and you can&rsquo;t tell whether it was revised or you misremember. This log answers that in one line. A safety net you check rarely — there for the day you do need to know what changed under you.',
+        what: 'A running record of the Library&rsquo;s history — one line per change, in order. The history of changes, not the articles themselves.',
+        from: 'The librarian adds a line automatically whenever it shelves or revises an article during promotion. Add-only, so the history stays honest.',
+        clar: ['A record of changes, not content — the actual reference lives in the topic shelves.'],
         tips: []
       }, {
         id: 'topic', label: '&lt;topic&gt;/', kind: 'folder', origin: 'generated',
@@ -524,7 +531,7 @@
           one: 'The plan&rsquo;s running diary — add-only, newest entry on top.',
           why: 'This is what lets a project survive across many sessions and weeks without re-explaining everything each time: a fresh session reads the top entry and instantly knows the state of play. Never rewriting old entries is what makes it useful — you can see how the plan actually unfolded, including where a session got something wrong and a later one fixed it.',
           what: 'A running progress diary. Each session adds one fresh entry to the top — what happened, what&rsquo;s left, where to pick up. You only ever add; a correction is a new entry on top, never an edit of history.',
-          from: 'Written at the end of each session by you and Claude. The automatic wrap-up step does not write the entry — it checks that every follow-up in it carries a disposition, then copies the finished entry into the project binder&rsquo;s chronicle.',
+          from: 'Written at the end of each session — by you, or automatically by the wrap-up step that records where things stand.',
           clar: ['Older entries are never edited or deleted — a correction is a NEW entry on top.', 'Newest is at the TOP, the reverse of a normal diary (and of <code>updates.md</code>), so you read the current state first.'],
           tips: [],
           link: { href: 'session-close.html', label: 'Session close' }
@@ -570,17 +577,17 @@
           clar: ['Type is <code>master</code> (a flat plan is <code>plan</code>; a sub-plan is <code>sub-plan</code>).', 'No <code>tasks[]</code> at the master level — the roster of sub-plans takes its place.'],
           tips: []
         }, {
-          id: 'pm-tasks', label: 'tasks.md', kind: 'file', origin: 'authored',
+          id: 'pm-tasks', label: 'tasks.md', kind: 'file', origin: 'generated',
           one: 'The master&rsquo;s readable rollup — its sub-plan map and overall progress.',
-          what: 'A readable view of the master — the sub-plan map and overall progress rather than a single task list. A flat plan&rsquo;s <code>tasks.md</code> is rebuilt from its manifest; the renderer leaves a master&rsquo;s alone, so this rollup is yours to keep current.',
-          from: 'Written and kept current by hand as the sub-plans progress; one of the four core files at the master root.',
-          clar: ['The roster in <code>manifest.json</code> is still the source of truth — this page is its readable companion, which you maintain alongside it.'],
+          what: 'A readable view of the master, the same way a flat plan&rsquo;s <code>tasks.md</code> mirrors its manifest — here showing the sub-plan map rather than a single task list. You read it; you don&rsquo;t hand-edit it.',
+          from: 'Rebuilt from the master&rsquo;s manifest; one of the four core files, the generated one.',
+          clar: ['A printout, not the source — the real roster lives in <code>manifest.json</code>.'],
           tips: []
         }, {
           id: 'pm-handoff', label: 'handoff.md', kind: 'file', origin: 'authored',
           one: 'The master&rsquo;s running diary — newest entry on top, spanning the whole effort.',
           what: 'The add-only session diary for the master, the same as a flat plan&rsquo;s but scoped to the overall effort.',
-          from: 'Written at the end of each session by you and Claude; the wrap-up step checks it and copies the finished entry into the project binder&rsquo;s chronicle.',
+          from: 'Written at the end of each session, by you or the wrap-up step.',
           clar: [], tips: []
         }, {
           id: 'pm-sub', label: '01-&lt;sub-plan&gt;/', kind: 'folder', origin: 'authored',
@@ -630,10 +637,10 @@
       id: 'vw', label: 'Vault Writers/', kind: 'folder', origin: 'shipped',
       one: 'The one list of every automated helper allowed to save into your vault — one page each. (These automated savers are called writers.)',
       why: 'Once an AI is co-authoring your vault and connections are saving content in too, many hands write into the same files. Without one visible list of who&rsquo;s allowed, an automated helper could quietly mangle a note and you&rsquo;d have no way to tell which one did it. This folder is that list — and it&rsquo;s the one folder strict about its format: a writer page missing required info is refused at save time, because other automatic processes read these pages and one broken page would break them too.',
-      what: 'One of the two folders brain-stem creates inside the vault — your place to see every automatic helper wired in. A writer is any system that saves content for you without you typing it: an email or calendar connection, a meeting-transcript importer, a chat scraper, an automated research routine. Each registered writer gets its own small reference page. Empty of writers on day one — just an empty catalog page.',
-      from: 'Created at install, beside <code>Bases/</code> and the <code>.obsidian/</code> config. You register a writer by running <code>/govern register --kind writer</code>, which interviews you and drops a correctly-formed page in for you.',
+      what: 'The one folder brain-stem actually creates inside the vault — your place to see every automatic helper wired in. A writer is any system that saves content for you without you typing it: an email or calendar connection, a meeting-transcript importer, a chat scraper, an automated research routine. Each registered writer gets its own small reference page. Empty of writers on day one — just an empty catalog page.',
+      from: 'Created at install (the only real folder it makes inside the vault). You register a writer by running <code>/govern register</code>, which interviews you and drops a correctly-formed page in for you.',
       clar: ['The content a connection brings in does NOT land here — this folder holds reference pages ABOUT the writers; the content goes wherever each page says (a Work folder, the Library, etc.).', 'You don&rsquo;t wire up a connection by hand-editing here — <code>/govern register</code> writes the page for you.'],
-      tips: ['It is &ldquo;really here&rdquo; on disk rather than a shortcut to elsewhere — as are <code>Bases/</code> and the <code>.obsidian/</code> config beside it.'],
+      tips: ['This is the one top-level item that is &ldquo;really here&rdquo; rather than a shortcut to elsewhere.'],
       link: { href: 'vault-writers.html', label: 'The vault-writer system' },
       children: [{
         id: 'vw-index', label: '_index.md', kind: 'file', origin: 'generated',
@@ -648,33 +655,24 @@
         one: 'One writer&rsquo;s reference page — a single automated saver, shown here as a placeholder.',
         why: 'Think of this page as a writer&rsquo;s permission slip: it states what the writer is and, crucially, exactly which files in your vault it may write — and whether directly or through a safe-merge lane. Those declared destinations are on the record, and the page itself is held to a strict shape: brain-stem refuses to save a writer page that is missing required information, so a half-defined helper can never quietly slip into the catalog.',
         what: 'The reference page for a single registered writer. It records its kind and subtype (e.g. a <code>connector</code> for an email or calendar service, a meeting-transcript importer, or a scheduled research routine), the skill that runs it, its destinations (which files it may write, and whether directly or through a safe-merge lane), its status (active / paused / retired), its schedule, and a short description.',
-        from: 'Created once when you register the writer with <code>/govern register</code>. You set it up at registration and don&rsquo;t edit it by hand after.',
+        from: 'Created once when you register the writer with <code>/govern register</code>. You set it up at registration and don&rsquo;t edit it by hand after; the live status (last run, success/failure) updates itself.',
         clar: ['<code>&lt;writer&gt;.md</code> is a placeholder — each page is named for the writer you actually register (e.g. <code>gmail</code>, <code>granola</code>, <code>weekly-research</code>).', 'It does NOT hold the captured content itself — only where the writer saves its processed output.'],
         tips: ['A destination is either direct (the writer just writes the file) or staged — staged routes through a coordinator so two writers, or you and a writer, never overwrite each other.'],
         link: { href: 'vault-writers.html', label: 'The vault-writer system' }
       }]
     }, {
-      id: 'bases', label: 'Bases/', kind: 'folder', origin: 'shipped',
-      one: 'Three ready-made Obsidian views that turn the fields already on your notes into tables and boards.',
-      why: 'Every note the system governs carries the same handful of fields — what kind of note it is, its status, when it was last touched, a one-line summary. Left alone those fields are invisible. These views read them and hand you back a sortable table of everything durable, a board grouped by status, and a recently-updated feed with each summary line showing — so the discipline enforced on every write pays you back as navigation you never had to build.',
-      what: 'A folder holding three starter <strong>Obsidian Bases</strong> views (<code>.base</code> files) and a contents page: <strong>all durable by type</strong> (a table of every note that has a type, grouped by kind, newest first), <strong>status board</strong> (cards grouped by status), and <strong>recent with summaries</strong> (the 50 most recently updated notes that carry a summary line, as cards with that line as the subtitle). Open a <code>.base</code> file in Obsidian to render it.',
-      from: 'Seeded at install alongside the rest of the vault, and never overwritten on re-runs.',
-      clar: ['They read the frontmatter fields your notes already carry — nothing extra is written, copied, or indexed.', 'Starters, not fixtures: duplicate one and change what it filters or groups on to build a view for your own work.'],
-      tips: ['Views render in Obsidian 1.9.10 or newer, where Bases is a built-in core plugin — enable it under Settings &rarr; Core plugins.'],
-      link: { href: 'knowledge-graph.html', label: 'Knowledge-graph extendability' }
-    }, {
       id: 'obsidian', label: '.obsidian/', kind: 'folder', origin: 'shipped',
-      one: 'Obsidian&rsquo;s own settings folder. brain-stem touches two things in it: a setting that keeps search tidy, and the field types your notes are shown with.',
-      why: 'It keeps brain-stem out of your way. The vault is plain folders and text — it works with or without Obsidian — so brain-stem adds just a search setting and a short list of field types, and leaves the rest of your Obsidian setup alone.',
-      what: 'Every Obsidian vault has a small settings folder for themes, plugins, and layout. brain-stem creates it only if you do not already have one, and writes two things into it: a single entry in <code>app.json</code> (the next node explains it), and a short <code>types.json</code> telling Obsidian which kind each governed field is — dates shown as dates, tags and aliases as lists. Everything else here is Obsidian&rsquo;s.',
-      from: 'Created at install only if missing; if you already have one, brain-stem merges in its two entries and leaves everything you had set untouched.',
-      clar: ['This is Obsidian&rsquo;s folder, not brain-stem&rsquo;s — brain-stem only adds a search setting and the field types.', 'Nothing about how the vault behaves depends on it. Remove it and you lose only Obsidian&rsquo;s on-screen conveniences (like the graph view).'],
+      one: 'Obsidian&rsquo;s own settings folder. The only thing brain-stem touches here is one setting that keeps search tidy.',
+      why: 'It keeps brain-stem out of your way. The vault is plain folders and text — it works with or without Obsidian — so brain-stem adds exactly one search setting and leaves the rest of your Obsidian setup alone.',
+      what: 'Every Obsidian vault has a small settings folder for themes, plugins, and layout. brain-stem creates it only if you do not already have one, and writes a single entry into <code>app.json</code> (the next node explains it). Everything else here is Obsidian&rsquo;s.',
+      from: 'Created at install only if missing; if you already have one, brain-stem adds its one setting and leaves the rest untouched.',
+      clar: ['This is Obsidian&rsquo;s folder, not brain-stem&rsquo;s — brain-stem only adds one search setting.', 'Nothing about how the vault behaves depends on it. Remove it and you lose only Obsidian&rsquo;s on-screen conveniences (like the graph view).'],
       tips: [],
       children: [{
         id: 'app-json', label: 'app.json', kind: 'file', origin: 'shipped',
         one: 'One search setting that keeps Obsidian&rsquo;s results clean — no duplicate hits, no raw working notes in the way.',
-        why: 'Search for one note without this and you would get it twice — once per shortcut that exposes the same folder — plus a pile of rough notes. That is the price of the shortcut trick that lets you browse everything in one place; this setting pays it down. It is display-only: no file is moved, hidden, or broken on disk.',
-        what: 'A short list of folders for search to skip (called <code>userIgnoreFilters</code>) — the two duplicate views reached through shortcuts, plus each Work project&rsquo;s raw <code>reference/</code> notes. Search then returns each note once.',
+        why: 'Search for one note without this and you would get it two or three times — once per shortcut that exposes the same folder — plus a pile of rough notes. That is the price of the shortcut trick that lets you browse everything in one place; this setting pays it down. It is display-only: no file is moved, hidden, or broken on disk.',
+        what: 'brain-stem adds one thing to Obsidian&rsquo;s settings: a short list of folders for search to skip (called <code>userIgnoreFilters</code>) — the duplicate views reached through shortcuts, plus each Work project&rsquo;s raw <code>reference/</code> notes. Search then returns each note once.',
         from: 'Added at install in one safe write that keeps any filters you had set yourself.',
         clar: ['Display only — it changes what search shows, never how files or links work.', 'Nothing is duplicated on disk; the &ldquo;duplicates&rdquo; are the same files seen through more than one shortcut.'],
         tips: []
@@ -796,7 +794,7 @@
   renderTree(); renderDetail(selected); setAllBtn();
 })();
 </script>
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

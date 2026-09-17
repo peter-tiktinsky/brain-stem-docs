@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Onboarding · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -85,7 +85,7 @@
       extraction step. A spoken-voice recorder is a possible future add-on, not part of the flow today.</p>
     </div>
 
-    <h2 id="produces">What onboarding produces</h2>
+    <h2>What onboarding produces</h2>
     <p>From your answers, onboarding writes three things:</p>
     <table>
       <thead><tr><th>Output</th><th>What it is</th><th>Where it lands</th></tr></thead>
@@ -130,8 +130,7 @@
     <p>
       brain-stem ships a <strong>seed</strong> — a small starter folder tree with the standard folders every
       brain vault has (today, a <code>Vault Writers/</code> catalog of every automated system that writes into
-      your vault, and a <code>Bases/</code> folder of three starter Obsidian Bases views — each folder carrying
-      its own index note). Onboarding copies that seed into the location you chose and
+      your vault, the folder carrying its own index note). Onboarding copies that seed into the location you chose and
       turns it into your working vault. This is <strong>adopt-by-default</strong>: you do not opt in to the
       standard structure as an extra step; you get it automatically.
     </p>
@@ -173,7 +172,7 @@
       setup still works coherently.
     </p>
 
-    <h2 id="rerun">Run once — and how to safely re-run</h2>
+    <h2>Run once — and how to safely re-run</h2>
     <p>
       Onboarding is designed to run <strong>once</strong> and then get out of the way. The moment setup
       completes, the system records a small "onboarding finished" marker. After that, a plain <code>/onboard</code>
@@ -202,7 +201,7 @@
     not in any memory file. Memory bootstrap is handled by a separate startup hook, so a re-run of onboarding
     never touches your accumulated memory.</p>
 
-    <h2 id="reminder">A gentle reminder until you are done</h2>
+    <h2>A gentle reminder until you are done</h2>
     <p>
       If you install brain-stem but have not yet finished onboarding, the assistant surfaces a one-line banner at
       the start of each session inviting you to run <code>/onboard --resume</code> and pick up where you left off.
@@ -218,7 +217,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

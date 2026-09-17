@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Commands · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -13,15 +13,14 @@
   <aside class="sidebar" id="site-nav"></aside>
 
   <main class="content">
-    <p class="eyebrow">Reference · every command, typed or invoked for you</p>
+    <p class="eyebrow">Reference · every command you type</p>
     <h1>Commands</h1>
     <p class="lede">
       A <strong>command</strong> here is a <strong>slash command</strong>: you type a slash and a name into a
       running Claude&nbsp;Code session and it runs a packaged capability called a <strong>skill</strong>. These
       are the <strong>nine commands brain-stem adds for you to run directly</strong> — grouped below by the part
-      of the system they belong to. In practice you will type few of them: Claude&nbsp;Code invokes the right
-      skill by itself when what you ask matches what it does — the final section shows exactly which run on
-      their own.
+      of the system they belong to. A handful of other shipped skills are internal machinery you never type;
+      they are noted at the end.
     </p>
     <p class="page-meta">Each entry: the one thing it does, when you'd reach for it, and a link into the section that explains the why.</p>
 
@@ -120,116 +119,26 @@
         a working session.
       </p>
       <p>
-        It is one skill with a catalog of <strong>58 named capabilities</strong> beneath it. Any one can be run
-        directly — <code>/librarian inbox-settle</code> — and <code>/librarian full</code> sweeps the whole
-        audit set. Much of the catalog also runs itself: a fixed chain reconciles at every session close, and
-        a scheduled subset re-fires on its own cadence. The catalog, broken down by focus area:
+        Two of its named capabilities are worth knowing directly. <strong><code>inbox-settle</code></strong>
+        settles an idea note that reached its outcome by your judgment rather than by graduating into a plan:
+        it stamps the resolution (from the strict resolution vocabulary), moves the note into the inbox&rsquo;s
+        <code>_settled/</code> folder, previews as a dry run until you pass the apply flag, and refuses to
+        settle a note twice or overwrite one already there. <strong><code>link-grammar-convert</code></strong>
+        converts a corpus of wiki-style <code>[[links]]</code> to plain relative Markdown links — the ruled
+        grammar every machine-written index now uses — so your own older files can join the convention.
       </p>
-      <p class="page-meta"><strong>Mode:</strong> <code>audit</code> — checks and reports, changes nothing · <code>audit + fix</code> — checks, and carries the coded repair behind an explicit flag or a dry-run review · <code>maintain</code> — rewrites a generated surface from its source of truth · <code>asks first</code> — judgment work: proposes the change and waits for your go-ahead before writing anything.</p>
-      <p class="page-meta"><strong>When it runs by itself:</strong> <code>full</code> — in every full audit sweep · <code>daily</code> / <code>weekly</code> — runs itself at session close once that much time has passed (closes are the clock; there is no background scheduler) · <code>close</code> — in the automatic session-close chain, every close · <code>live</code> — needs you and a running session, not a detached run · <code>delegated</code> — run by another capability as part of its job · <code>by name</code> — no automatic run at all.</p>
-      <p class="page-meta"><strong>And on demand — always.</strong> The When column describes only the automatic layer. Every capability in this catalog — including every <code>full</code> item — also runs the moment it is asked for. Type <code>/librarian &lt;name&gt;</code> yourself, or simply ask for the work — <em>settle this inbox idea</em>, <em>repair the links in my vault</em>, <em>why is my context so big</em> — and Claude&nbsp;Code invokes the librarian skill with the right capability on its own. The full sweep is the audit ritual; ordinary work is the more common trigger.</p>
-
-      <h4>Rules &amp; governance</h4>
-      <table>
-        <thead><tr><th>Capability</th><th>What it does</th><th>Mode</th><th>When</th></tr></thead>
-        <tbody>
-          <tr><td><code>capability-registry-parity</code></td><td>Audits the librarian's own registry against its documented catalog and its scripts on disk, so the three cannot drift apart</td><td>audit</td><td>full · close</td></tr>
-          <tr><td><code>frontmatter-enforce</code></td><td>Validates the typed header of every vault file against the schemas — and with <code>--fix</code> repairs what it finds</td><td>audit + fix</td><td>full · close</td></tr>
-          <tr><td><code>governance-parity-audit</code></td><td>Cross-checks the two surfaces that declare the governance rules, so a rule changed on one cannot silently diverge on the other</td><td>audit</td><td>full · close</td></tr>
-          <tr><td><code>librarian-manifest-validate</code></td><td>Validates a staged librarian run manifest before anything is applied — a malformed sweep stops before it writes</td><td>audit</td><td>full · close</td></tr>
-          <tr><td><code>placement-validate</code></td><td>Checks every vault file sits in the folder the rules assign to its type, and flags what doesn't</td><td>audit</td><td>full · close</td></tr>
-          <tr><td><code>rules-compact</code></td><td>Trims a rule whose enforcement already lives in a hook down to a short stub naming that hook</td><td>asks first</td><td>live</td></tr>
-          <tr><td><code>rules-hygiene</code></td><td>Audits your rules folder for lifecycle problems — dead references, staleness, drift — and proposes the cleanup</td><td>asks first</td><td>weekly</td></tr>
-          <tr><td><code>rules-index</code></td><td>Regenerates the governance rules index from the rule files themselves</td><td>maintain</td><td>full · weekly</td></tr>
-          <tr><td><code>sanctioned-schema-drift-detect</code></td><td>Compares the shipped schemas against their distribution source — a build guard that is inert on a normal install</td><td>audit</td><td>full</td></tr>
-          <tr><td><code>skill-parity</code></td><td>Audits the skill registry against the shipped skill bodies, so a renamed or removed skill cannot leave the registry stale</td><td>audit</td><td>full · weekly</td></tr>
-          <tr><td><code>tag-coverage-audit</code></td><td>Audits vault tag usage against the declared taxonomy — unregistered tags, unused dimensions</td><td>audit</td><td>full · weekly</td></tr>
-          <tr><td><code>waiver-audit</code></td><td>Read-only audit of the governance waiver registry — the record of sanctioned exceptions</td><td>audit</td><td>full · weekly</td></tr>
-        </tbody>
-      </table>
-
-      <h4>Plans &amp; the backlog</h4>
-      <table>
-        <thead><tr><th>Capability</th><th>What it does</th><th>Mode</th><th>When</th></tr></thead>
-        <tbody>
-          <tr><td><code>backlog-index</code></td><td>Regenerates the backlog table from plan manifests — a derived read-replica you never hand-edit</td><td>maintain</td><td>close</td></tr>
-          <tr><td><code>coverage-guard</code></td><td>The project's own regression guard over its test corpus — a no-op on a normal install</td><td>audit</td><td>full · close</td></tr>
-          <tr><td><code>handoff-disposition-check</code></td><td>Checks every close-out follow-up in a handoff carries one of the three required dispositions — nothing leaves a session as a loose "remember this"</td><td>audit</td><td>full · close</td></tr>
-          <tr><td><code>inbox-settle</code></td><td>Settles an inbox idea by judgment — stamps the resolution and moves the note to the settled ledger, dry-run until you apply</td><td>asks first</td><td>live</td></tr>
-          <tr><td><code>matrix-render</code></td><td>Regenerates a plan's traceability matrix from its manifest — one row per task, your verdicts preserved across re-renders</td><td>maintain</td><td>live</td></tr>
-          <tr><td><code>plan-decision-log</code></td><td>Regenerates the per-project decision log from the plan records</td><td>maintain</td><td>full · close</td></tr>
-          <tr><td><code>plan-handoff-index</code></td><td>Regenerates the per-project handoff chronicle from the plan handoffs</td><td>maintain</td><td>full · close</td></tr>
-          <tr><td><code>plan-index</code></td><td>Regenerates the single-table plan ledger that lists every plan directory</td><td>maintain</td><td>full · close</td></tr>
-          <tr><td><code>plan-parent-resolve</code></td><td>Resolves each sub-plan to its master through the parent-link convention, and flags orphans</td><td>audit</td><td>full · close</td></tr>
-          <tr><td><code>plan-research-declare</code></td><td>At session close, reconciles the research artifacts a session produced into the contributing plans' manifests</td><td>maintain</td><td>close</td></tr>
-          <tr><td><code>plan-research-index</code></td><td>Regenerates the per-project research index</td><td>maintain</td><td>full · close</td></tr>
-          <tr><td><code>plan-terminal-lag-check</code></td><td>Flags sub-plans still marked in-progress under a master plan that is already complete</td><td>audit</td><td>full · close</td></tr>
-          <tr><td><code>subplan-aggregate</code></td><td>Rolls each sub-plan's published status into its master's roster</td><td>maintain</td><td>close</td></tr>
-          <tr><td><code>tasks-render</code></td><td>Regenerates a plan's task list from its manifest; also invoked automatically when drift reconciliation re-renders a plan</td><td>maintain</td><td>live · delegated</td></tr>
-          <tr><td><code>trinity-drift-detect</code></td><td>Detects spec / manifest / task-status disagreement inside a plan — the three-legged contract out of sync</td><td>audit</td><td>full · close</td></tr>
-        </tbody>
-      </table>
-
-      <h4>The vault, the Library &amp; links</h4>
-      <table>
-        <thead><tr><th>Capability</th><th>What it does</th><th>Mode</th><th>When</th></tr></thead>
-        <tbody>
-          <tr><td><code>drift-sweep</code></td><td>Sweeps vault file headers against the governance bundle and repairs the frontmatter drift it finds</td><td>audit + fix</td><td>full · close</td></tr>
-          <tr><td><code>index-maintain</code></td><td>Reconciles each folder's auto-generated index with what is actually on disk</td><td>maintain</td><td>full · daily</td></tr>
-          <tr><td><code>library-index</code></td><td>Re-derives the Library's per-topic indexes</td><td>maintain</td><td>full · daily</td></tr>
-          <tr><td><code>library-log-rotate</code></td><td>Rotates the Library's change log into per-year archives when it passes its size threshold</td><td>maintain</td><td>full · daily</td></tr>
-          <tr><td><code>library-scrub</code></td><td>The promotion scrub: workshop project research in, a clean universal Library article out</td><td>asks first</td><td>live</td></tr>
-          <tr><td><code>link-grammar-convert</code></td><td>Converts a corpus of wiki-style links to the ruled plain-Markdown link grammar</td><td>asks first</td><td>by name</td></tr>
-          <tr><td><code>log-subtype-canonical</code></td><td>Detects <code>#log/</code> and <code>#status/</code> subtypes that were never registered in the tag taxonomy</td><td>audit</td><td>full · weekly</td></tr>
-          <tr><td><code>rename-cascade</code></td><td>After a detected rename, cascades the wikilink and Markdown-link updates across the vault — dry-run first, applied on review</td><td>maintain</td><td>full · close</td></tr>
-          <tr><td><code>rename-detect</code></td><td>Detects file renames from git history, across the vault and the plans tree</td><td>audit</td><td>full · close</td></tr>
-          <tr><td><code>rename-history-sync</code></td><td>Appends detected renames to the cross-document dependency registry, so later tools know what moved</td><td>maintain</td><td>full</td></tr>
-          <tr><td><code>stale-detect</code></td><td>Flags plan and vault files past their freshness threshold</td><td>audit</td><td>full · close</td></tr>
-          <tr><td><code>wikilink-repair</code></td><td>Rename-aware wikilink repair across the vault — dry-run by default, applied after review</td><td>audit + fix</td><td>full · weekly</td></tr>
-          <tr><td><code>work-index-maintain</code></td><td>Mints and refreshes the folder indexes inside a work project</td><td>maintain</td><td>full · close</td></tr>
-          <tr><td><code>work-map-generate</code></td><td>Regenerates the "what lives where" directory map inside a work project's <code>CLAUDE.md</code></td><td>maintain</td><td>full · close</td></tr>
-          <tr><td><code>xref-check</code></td><td>Cross-reference integrity check over every vault link; also builds the link graph the rename tools consult</td><td>audit</td><td>full · close</td></tr>
-        </tbody>
-      </table>
-
-      <h4>Memory &amp; context budget</h4>
-      <table>
-        <thead><tr><th>Capability</th><th>What it does</th><th>Mode</th><th>When</th></tr></thead>
-        <tbody>
-          <tr><td><code>chronicle-index</code></td><td>Maintains the episodic chronicle — refreshes its pointer counts and rotates it to an archive past its size bound</td><td>maintain</td><td>full · close</td></tr>
-          <tr><td><code>context-budget-index</code></td><td>Measures what the always-on context surfaces cost, against declared thresholds, and renders the green / yellow / red budget readout</td><td>audit</td><td>full · daily</td></tr>
-          <tr><td><code>memory-globalize</code></td><td>Promotes a memory entry into a global rule file</td><td>asks first</td><td>live</td></tr>
-          <tr><td><code>memory-hygiene</code></td><td>The memory lifecycle auditor — index health and staleness across every project, each cleanup confirmed</td><td>asks first</td><td>weekly</td></tr>
-          <tr><td><code>memory-staleness</code></td><td>Flags memory entries past their revalidation bounds</td><td>audit</td><td>weekly</td></tr>
-          <tr><td><code>pointer-currency-scan</code></td><td>Checks that plain-path pointers in memory and rules still resolve on disk — propose-only, never rewrites</td><td>audit</td><td>full · close</td></tr>
-          <tr><td><code>review</code></td><td>Works the review queue — confirm or reject pending memory consolidations, one by one</td><td>asks first</td><td>live</td></tr>
-        </tbody>
-      </table>
-
-      <h4>Vault writers &amp; managed surfaces</h4>
-      <table>
-        <thead><tr><th>Capability</th><th>What it does</th><th>Mode</th><th>When</th></tr></thead>
-        <tbody>
-          <tr><td><code>managed-surface-census</code></td><td>Hashes every installed file against the install receipt and reports each divergence — the layer that catches edits which bypassed the write-time doorman</td><td>audit</td><td>full</td></tr>
-          <tr><td><code>writers-health-audit</code></td><td>Read-only sweep of writer references, the skill registry, and path routing; it switches on once you have registered a vault writer</td><td>audit</td><td>full</td></tr>
-          <tr><td><code>writers-index-refresh</code></td><td>Regenerates the Vault Writers catalog table</td><td>maintain</td><td>full · close</td></tr>
-          <tr><td><code>writers-overlap-refresh</code></td><td>Regenerates the writer overlap matrix — which registered writers touch which surfaces</td><td>maintain</td><td>full · close</td></tr>
-        </tbody>
-      </table>
-
-      <h4>Session close &amp; backups</h4>
-      <table>
-        <thead><tr><th>Capability</th><th>What it does</th><th>Mode</th><th>When</th></tr></thead>
-        <tbody>
-          <tr><td><code>backup</code></td><td>Commits and pushes across your configured backup targets — a dry-run flag shows what would go</td><td>asks first</td><td>by name</td></tr>
-          <tr><td><code>binder-handoff-append-wrapper</code></td><td>Wires the just-written session handoff into the project binder's chronicle at close</td><td>maintain</td><td>full · close</td></tr>
-          <tr><td><code>log-archive</code></td><td>Archives old run logs out of the state tier, per retention thresholds</td><td>maintain</td><td>full · weekly</td></tr>
-          <tr><td><code>project-context-situating</code></td><td>Regenerates each project's situating card — the small orientation page injected at session start</td><td>maintain</td><td>full · close</td></tr>
-          <tr><td><code>session-close</code></td><td>The session-close orchestrator — chains every close step, in order</td><td>maintain</td><td>close</td></tr>
-        </tbody>
-      </table>
-
-      <p class="cmd-more">Deeper pointers: <a href="session-close.html">Session close</a> (the cleanup chain) · <a href="packaging-runtime.html#managed">Managed surfaces</a> (the census) · <a href="session-loading.html">What loads each session</a> (the context budget)</p>
+      <p>
+        Three more are the shipped answer to questions you would otherwise guess at.
+        <strong><code>managed-surface-census</code></strong> hashes every installed file against the install
+        receipt and reports any divergence as a finding — it also runs on the daily cadence, so a fork surfaces
+        within a day whatever caused it (<a href="packaging-runtime.html#managed">Managed surfaces</a>).
+        <strong><code>context-budget-index</code></strong> renders what the always-on context actually cost in
+        the last session — every rules file, every <code>CLAUDE.md</code>, every spilled hook output — against
+        declared thresholds. <strong><code>rules-compact</code></strong> trims a rule whose enforcement already
+        lives in a deterministic hook down to a short stub naming that hook, and refuses when the rule is not
+        marked up for it (<a href="session-loading.html">What loads each session</a>).
+      </p>
+      <p class="cmd-more">The cleanup chain it runs: <a href="session-close.html">Session close</a></p>
     </div>
 
     <h2>Context &amp; memory</h2>
@@ -258,7 +167,7 @@
         <tbody>
           <tr><td><code>folder</code></td><td>A new top-level folder in your vault, with its own conventions</td><td>A new <code>Clients/</code> area</td></tr>
           <tr><td><code>file-type</code></td><td>A new kind of file (its required shape) within an existing folder</td><td>A <code>meeting-note</code> type</td></tr>
-          <tr><td><code>tag-extension</code></td><td>A new tag dimension prefix, alongside the ones the foundation declares</td><td>A <code>client/</code> dimension</td></tr>
+          <tr><td><code>tag-extension</code></td><td>New allowed values for a tag dimension</td><td>Extra status tags</td></tr>
           <tr><td><code>writer</code></td><td>A new automated system that writes into your vault, so it is catalogued and governed</td><td>A scheduled importer</td></tr>
           <tr><td><code>doc-amender-prompt</code></td><td>The instructions used when an automated edit needs the assistant to reconcile a file</td><td>Custom merge guidance</td></tr>
           <tr><td><code>project</code></td><td>A <code>~/work/&lt;spoke&gt;</code> project workspace, plus a vault-view routing rule so it surfaces in your vault</td><td>A new client engagement workspace</td></tr>
@@ -268,41 +177,16 @@
       <p class="cmd-more">Why governance is extended this way: <a href="governance-personalization.html">Governance personalization</a> · <a href="governance-engine.html">The governance engine</a></p>
     </div>
 
-    <h2>Invoked for you — what runs without typing</h2>
-    <div class="callout key">
-      <div class="label">You do not have to memorize this page</div>
-      <p>Claude&nbsp;Code reads the description of every shipped skill and invokes the right one
-      <strong>by itself</strong> the moment what you ask for matches what it does — so most, if not all, of the
-      commands above will simply happen inside the work you ask for. Ask for a new multi-step project and the
-      <code>new-plan</code> skill scaffolds it; mention a raw idea and <code>backlog-triage</code> captures it;
-      ask where your context is going and the librarian measures it. The slash commands exist for the moments
-      you want to call one deliberately — not as a vocabulary to learn.</p>
-    </div>
-    <p>
-      Two are <strong>typed-only by design</strong>: <code>/onboard</code> and <code>/govern register</code>.
-      First-time setup and extending the rulebook are governance acts you perform consciously, so the skills
-      that do them cannot be pulled in mid-conversation. When a request touches that seam — say, a new kind of
-      work folder the rules do not yet cover — Claude will not improvise its own conventions: the standing
-      rules and write-time advisories point at <code>/govern register</code> as the sanctioned route, and it
-      will tell you so.
-    </p>
-    <table>
-      <thead><tr><th>Skill</th><th>How it runs</th><th>Fires when</th></tr></thead>
-      <tbody>
-        <tr><td><code>new-plan</code></td><td>Automatically, or typed</td><td>You ask to set up or scaffold a new plan or project</td></tr>
-        <tr><td><code>backlog-triage</code></td><td>Automatically, or typed</td><td>You mention a raw idea worth capturing for later</td></tr>
-        <tr><td><code>backlog-research</code></td><td>Automatically, or typed</td><td>You ask to research or plan out an idea</td></tr>
-        <tr><td><code>backlog-hygiene</code></td><td>Automatically, or typed</td><td>You ask to review or clean up the backlog</td></tr>
-        <tr><td><code>session-checkpoint</code></td><td>Automatically, by hook, or typed</td><td>You ask for a save-point — and on its own as a session fills, at the context-pressure thresholds</td></tr>
-        <tr><td><code>librarian</code></td><td>Automatically, or typed</td><td>You ask for cleanup or reconciliation; the scheduled capabilities also run themselves at session close on their cadence</td></tr>
-        <tr><td><code>mem-promote</code></td><td>Automatically, or typed</td><td>You ask to review auto-captured observations (claude-mem installs only) — it always asks before writing</td></tr>
-        <tr><td><code>doc-amender</code></td><td>Event-driven</td><td>A governed automated edit needs the assistant to reconcile a file</td></tr>
-        <tr><td><code>writer-reconciler</code></td><td>Event-driven</td><td>The capture pipeline triggers a writer reconciliation</td></tr>
-        <tr><td><code>onboard</code></td><td>Typed only</td><td>First-run setup — deliberately conscious</td></tr>
-        <tr><td><code>govern register</code></td><td>Typed only</td><td>Extending the rules to a new surface — deliberately conscious</td></tr>
-      </tbody>
-    </table>
-    <p class="page-meta">Beneath the skills sits the always-on layer — hooks. Write-time checks, session start and close, and the context-pressure ladder fire deterministically, whatever you prompt: <a href="write-time-governance.html">Write-time governance</a> · <a href="sessions.html">Session management</a>.</p>
+    <h2>Not in this reference</h2>
+    <p>A few shipped skills are <strong>internal machinery, not commands you type</strong>:</p>
+    <ul>
+      <li><strong>The librarian's capability catalog</strong> — the librarian routes to a large set of named
+      maintenance routines internally. These are a maintainer-facing surface, reached through <code>/librarian</code>,
+      not invoked directly.</li>
+      <li><strong>Event-driven runners</strong> — the automated edit reconciler and the writer-reconciliation
+      runner run when triggered by an event or another skill, not from a prompt you type.</li>
+    </ul>
+    <p class="page-meta">These exist so the commands above work; you do not call them yourself.</p>
 
     <div id="site-foot-nav"></div>
     <div class="foot">
@@ -311,7 +195,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

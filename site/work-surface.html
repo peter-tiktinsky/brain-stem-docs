@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Project organization · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -38,7 +38,7 @@
         <p>You launch from a code repo and Claude reads and writes the code as it always has. brain-stem
         layers the project knowledge base over it; nothing about the code's home changes.</p>
         <div class="spacer"></div>
-        <ul>
+        <ul style="margin:12px 0 0; font-size:13.5px;">
           <li><strong>Launch from</strong> a code repo — <code>~/Code/widgetlib</code></li>
           <li><strong>The artifact is</strong> the repository (the code), in git</li>
           <li><strong>Owned by</strong> Claude&nbsp;Code natively — nothing new needed</li>
@@ -51,7 +51,7 @@
         <p>There's no repository to anchor the work, so the Work surface is that anchor: a durable,
         governed, Claude-readable home for deliverables. Everything below is about this surface.</p>
         <div class="spacer"></div>
-        <ul>
+        <ul style="margin:12px 0 0; font-size:13.5px;">
           <li><strong>Launch from</strong> a Work-folder project — <code>~/work/acme-rebrand</code></li>
           <li><strong>The artifact is</strong> deliverables in the Work folder</li>
           <li><strong>Owned by</strong> the Work surface (the rest of this page)</li>
@@ -73,7 +73,7 @@
     <p>
       <code>~/work/</code> is not itself a project — it's a <strong>master directory</strong> that holds
       one folder per non-coding project. Each of those folders is a <em>launch directory</em>: you
-      register it once, then <code>cd</code> into it and start Claude there, and that folder is the project (see
+      <code>cd</code> into it and start Claude there, and that folder becomes the project (see
       <a href="session-loading.html">What loads each session</a>). One Work area, many projects:
     </p>
     <pre>~/work/
@@ -92,15 +92,13 @@
     </p>
     <p>
       A markdown file under <code>Work/</code> that declares <code>type: deliverable</code> activates a
-      deliberately <strong>thin, lifecycle-only contract</strong>: ten required frontmatter fields — the
-      lifecycle ones (<code>type</code>, <code>tags</code>, <code>updated</code>, <code>project</code>,
+      deliberately <strong>thin, lifecycle-only contract</strong>: six required frontmatter fields
+      (<code>type</code>, <code>tags</code>, <code>updated</code>, <code>project</code>,
       <code>status</code>&nbsp;[draft·delivered·superseded], <code>audience</code>&nbsp;[internal·external])
-      plus the four every typed note carries (<code>description</code>, <code>created</code>, <code>id</code>,
-      <code>schema_version</code>) — and <strong>no body structure at all</strong> — because a brief, a memo, a deck source, and a
+      and <strong>no body structure at all</strong> — because a brief, a memo, a deck source, and a
       multi-page report share no common shape. Governance follows the vault's split: in a
-      <strong>registered</strong> Work project field presence is checked at the write — <code>type</code>,
-      <code>tags</code>, <code>project</code>, <code>status</code> and <code>audience</code> block a write
-      that omits them, the rest advise — while their enum values, body structure, and cross-file parity are reconciled by a scoped librarian
+      <strong>registered</strong> Work project the six required fields' presence is checked at the write,
+      while their enum values, body structure, and cross-file parity are reconciled by a scoped librarian
       pass at session close; an unregistered folder is audit-time only until you register it.
     </p>
 
@@ -127,11 +125,11 @@
       <div class="band band-proj">
         <div class="band-tag">The project binder — one roll-up per project, across all its sessions</div>
         <div class="hubwrap">
-          <div class="smnode hub"><b>_situating.md — the binder's generated cover</b><small>fronts the indexes of the research, decisions, and handoffs — and, for non-coding work, points at the project's <code>deliverables/</code> folder. Plans finish and close; the deliverables stay live under the project.</small></div>
+          <div class="smnode hub"><b>_situating.md — the binder's generated cover</b><small>fronts the indexes of the research, decisions, and handoffs — and, for non-coding work, points at the deliverables, joined on the shared <code>project:</code> field. Plans finish and close; the deliverables stay live under the project.</small></div>
         </div>
       </div>
     </div>
-    <p class="figcap">A deliverable is independent of any single plan but never orphaned: it reaches its project through the situating card's <em>Deliverables</em> pointer, so it survives every plan of that project.</p>
+    <p class="figcap">A deliverable is independent of any single plan but never orphaned: it joins its project through the situating card's <em>Deliverables</em> pointer, keyed on <code>project:</code>, so it survives every plan of that project.</p>
     <p>For the binder itself — its cover, the generated research index, decision log, and handoff
     chronicle, and how a project is identified — see <a href="project-binder.html">The project binder</a>.</p>
 
@@ -150,8 +148,8 @@
     <ul>
       <li><code>~/work/&lt;project&gt;/</code> — the per-project launch directory, surfaced in the vault as <code>Work/&lt;project&gt;/</code>; ships <code>CLAUDE.md</code>, <code>deliverables/</code>, <code>reference/</code>, <code>README.md</code>, <code>updates.md</code>. The <code>CLAUDE.md</code> map block is regenerated by <code>librarian work-map-generate</code>.</li>
       <li><code>governance/file-type-contracts/deliverable.md.json</code> — the thin lifecycle contract (status &amp; audience enums; no body governance).</li>
-      <li><code>governance/frontmatter-rules.json#types.deliverable</code> — the ten required frontmatter fields.</li>
-      <li><code>~/.claude-plans/_projects/&lt;project&gt;/_situating.md</code> — the binder's generated cover; its Deliverables pointer links the project's deliverables folder; the binder is where either surface's work rolls up.</li>
+      <li><code>governance/frontmatter-rules.json#types.deliverable</code> — the six required frontmatter fields.</li>
+      <li><code>~/.claude-plans/_projects/&lt;project&gt;/_situating.md</code> — the binder's generated cover; its Deliverables pointer is the join, keyed on <code>project:</code>; the binder is where either surface's work rolls up.</li>
       <li>A <strong>vault-writer</strong> — an automated, registered system that feeds structured content into a project's Work area; its final-layer SQL/JSON output is the deterministic feed a coding dashboard can consume (see <a href="vault-writers.html">The vault-writer system</a>).</li>
     </ul>
 
@@ -162,7 +160,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

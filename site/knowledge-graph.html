@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Knowledge-graph extendability · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<title>Knowledge graph &amp; external AI · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -13,229 +13,148 @@
   <aside class="sidebar" id="site-nav"></aside>
 
   <main class="content">
-    <p class="eyebrow">System personalization · the corpus as a knowledge graph</p>
-    <h1>Knowledge-graph extendability</h1>
+    <p class="eyebrow">Context &amp; memory · interoperability</p>
+    <h1>Knowledge graph &amp; external AI</h1>
     <p class="lede">
-      A <strong>knowledge graph</strong> is a map of your information that records how the pieces connect:
-      which research informed which decision, which plan produced which deliverable, which project a file
-      belongs to. brain-stem's folder and file architecture builds that map as you work, out of ordinary
-      files. That graph is what Claude&nbsp;Code reads through brain-stem's own hooks and skills — and it
-      is deliberately shaped so that any other harness or model can read it too. Search and retrieval are
-      already there when you work in Claude&nbsp;Code; this page is about what makes the graph legible to
-      anything else, and the routes people take to extend it.
+      Every durable note in your vault carries a small, <strong>typed set of frontmatter fields</strong> — the
+      cohort. That cohort is the substrate that makes the same vault navigable for humans (Obsidian), legible to
+      Claude, and portable to outside AI tools (search, retrieval, graph) — <strong>without</strong> committing you
+      to a heavyweight knowledge-graph product. This page explains what ships, what you can bolt on, and how to
+      serve your vault to an external AI when you want to.
     </p>
-    <p class="page-meta">brain-stem ships the substrate and the blueprint, not a search engine or a server. Extensions are yours to add, and the architecture makes adding one a small step rather than a rebuild.</p>
+    <p class="page-meta">Where the frontmatter substrate ends and the ecosystem begins — a three-layer model, of which the foundation owns only the first.</p>
 
-    <h2>Independent of the application you read it in</h2>
+    <h2>The three layers</h2>
     <p>
-      The corpus is plain folders, Markdown files with YAML frontmatter, and JSON. It works identically
-      whether you open it in your Markdown editor of choice, your default text editor, or never open it at
-      all. brain-stem reads and writes the files directly, without any platform-specific tooling. The
-      relationships that make it a graph live in the files.
-    </p>
-
-    <h2>What the governed corpus gives a machine reader</h2>
-    <p>
-      Each convention below is enforced or maintained by brain-stem for its own reasons — routing, auditing,
-      capture. The right-hand column is what the same convention hands to any reader that is <em>not</em>
-      brain-stem: a second harness, a local model, an index you build.
-    </p>
-    <table>
-      <thead><tr><th>Convention</th><th>What ships</th><th>What it affords a reader</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>Typed frontmatter</strong></td>
-          <td>Every governed file declares a <code>type</code>; a cohort of identity fields
-          (<code>description</code>, <code>created</code>, <code>updated</code>, <code>tags</code>,
-          <code>id</code>, <code>schema_version</code>) is required per type, with the exact set declared in the
-          governance registry (<a href="single-document.html">The single document</a>).</td>
-          <td>Metadata that parses deterministically into filter columns. A one-line <code>description</code>
-          is a relevance pre-filter that survives chunking; <code>id</code> is a stable identity across moves
-          and renames; <code>created</code> is never minted as "today", so dates mean what they say.</td>
-        </tr>
-        <tr>
-          <td><strong>A bounded tag vocabulary</strong></td>
-          <td>One grammar, <code>#dimension/value</code>, over a declared set of dimensions; system values are
-          enumerated, near-misses refused, the user-facing vocabulary capped.</td>
-          <td>A facet vocabulary small enough to enumerate and clean enough to filter on: a tag filter returns
-          a bounded, meaningful slice rather than a drift of near-synonyms.</td>
-        </tr>
-        <tr>
-          <td><strong>Addresses, not app-resolved links</strong></td>
-          <td>Every link the system writes is a relative Markdown link to a path. Wikilinks in your own prose
-          are accepted, checked for dangling targets, and convertible to the path form on request.</td>
-          <td>A link a program can follow with nothing but the file system. A wikilink resolves through an
-          application's index by name; a path needs no index and no guess about which same-named file was meant.</td>
-        </tr>
-        <tr>
-          <td><strong>Stable chunk boundaries</strong></td>
-          <td>Headings structure every governed document; exactly one frontmatter block is permitted per file,
-          at the top.</td>
-          <td>A chunker can split on headings, carry each heading as the chunk's label, and strip metadata
-          without mistaking a second YAML block for content.</td>
-        </tr>
-        <tr>
-          <td><strong>A triage surface in every folder</strong></td>
-          <td>Every non-exempt folder carries a generated <code>_index.md</code>: a folder-context paragraph
-          and a contents table of each file's link, length, type and description.</td>
-          <td>A reader orients at any level of the tree from one small file, and descends only where the
-          summaries warrant.</td>
-        </tr>
-        <tr>
-          <td><strong>One tree with declared shortcuts</strong></td>
-          <td>The brain folder joins the plans tree, the project binders, the library and your work spokes
-          through symlinks at its root, so one logical tree spans surfaces that live elsewhere.</td>
-          <td>One root to walk. Resolve each file to its physical path, keep the first occurrence, and the
-          whole corpus is indexed once with no duplicates and no surface left out.</td>
-        </tr>
-        <tr>
-          <td><strong>Immutable identity</strong></td>
-          <td>Once a file carries <code>created</code> and <code>id</code>, the system never rewrites them; a
-          rename records its history rather than breaking the trail.</td>
-          <td>An external index reconciles a file to the same identity over time, so a rebuild updates entries
-          instead of orphaning them.</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h2>The blueprint ships with the corpus</h2>
-    <p>
-      A knowledge base is only extendable if its structure is written down somewhere a program can read.
-      Fortunately, brain-stem ships this information in a model-agnostic package.
-    </p>
-    <p>
-      brain-stem governance provides consumers with a summary layer of consolidated indexes and ledgers to
-      enable efficient information routing corpus-wide. Further, all governance hooks and skills run
-      leveraging structural blueprints that brain-stem maintains outside the corpus itself. These additional
-      assets provide comprehensive documentation on the knowledge graph's architectural organization, content
-      conventions, and management processes. All together, these resources enable an external model to
-      immediately situate itself in your brain folder and effectively navigate your file structures.
-    </p>
-    <div class="hubwrap">
-      <div class="smnode hub"><b>Inside the corpus — the summary layer, generated</b><small>Every folder's <code>_index.md</code>; the plan index, backlog and inbox roster; each project binder's situating card, research index, decision log and handoff chronicle; the library's topic indexes. All derived from their sources, never hand-tended, always consistent with what they summarize.</small></div>
-      <div class="ptrcards">
-        <div class="ptrcard"><b>Governance registries <span class="qualifier">· JSON</span></b><small>Every file type and its required fields; the tag dimensions and their allowed values; the recognized folder roots and naming rules; the folder-index mandate; cross-document relationships; a contract per file type — composed into one bundle the hooks read at runtime (<a href="governance-engine.html">The governance engine</a>).</small></div>
-        <div class="ptrcard"><b>Schemas <span class="qualifier">· JSON Schema</span></b><small>The shape of every structured file in the tree: the plan manifest, the plan artifacts, and the memory files.</small></div>
-        <div class="ptrcard"><b>Maintained graph state <span class="qualifier">· JSON + NDJSON</span></b><small>The librarian's manifest records the cross-reference graph, the file inventory and the tag census as it audits; nearly every audit emits its findings as newline-delimited JSON.</small></div>
-      </div>
-    </div>
-    <p class="figcap">The summary layer lives in the corpus and points into it; the three blueprint assets live in the install and describe it.</p>
-    <p>
-      An indexer, an exporter or a second harness does not have to infer the corpus's organization from its
-      contents. It can read the map — and because the map is the same one the governance runs from, it is
-      never stale relative to what the hooks enforce.
-    </p>
-
-    <div class="callout note">
-      <div class="label">A note on Obsidian</div>
-      <p>brain-stem's creator opens the brain folder in <a href="https://obsidian.md">Obsidian</a>: its simple
-      interface is pleasant to navigate, and the corpus is readily Obsidian-compatible. That is a preference
-      about the reading experience. No part of brain-stem's design, build, or functionality depends on
-      Obsidian, and it functions just as well without it.</p>
-    </div>
-
-    <h2>Routes people take to extend it</h2>
-    <p>
-      Four extension options, each something you add on top of the corpus. For each: what it is, when it
-      earns its place, and the one thing to get right when you build it over brain-stem.
+      Think of the path from "notes in a folder" to "a corpus an AI can reason over" as three layers. The
+      foundation ships <strong>only Layer 0</strong> and points at good, off-the-shelf choices for the rest — so you
+      are never locked into a single vendor or a schema you did not choose.
     </p>
     <div class="flow">
-      <div class="fstep mark"><b>Your governed corpus</b><small>plain files + the blueprint</small></div>
+      <div class="fstep mark"><b>Layer 0 — Substrate</b><small>A minimal, typed frontmatter cohort on every durable note. Shipped, mandatory-but-gentle. This is what the foundation owns.</small></div>
       <div class="farr">→</div>
-      <div class="fstep"><b>Read-only access</b><small>another model or harness reads it as reference</small></div>
-      <div class="fstep"><b>Retrieval index</b><small>search by meaning across everything</small></div>
-      <div class="fstep"><b>Relationship graph</b><small>ask what connects to what</small></div>
-      <div class="fstep term"><b>Boundary adapter</b><small>a server or interchange format, only if demanded</small></div>
+      <div class="fstep"><b>Layer 1 — Enrichment</b><small>Optional Obsidian plugins that add typed relations and embeddings. Documented, you opt in, not bundled.</small></div>
+      <div class="farr">→</div>
+      <div class="fstep gate"><b>Layer 2 — Serving</b><small>An off-the-shelf server or exporter that hands the vault to an external AI. Documented, you choose, not built.</small></div>
     </div>
 
-    <h3>Read-only access for another model or harness</h3>
+    <h2>Layer 0 — the typed cohort (what ships)</h2>
     <p>
-      <strong>What it is.</strong> Pointing a second model, or a different harness, at the corpus as read-only
-      reference material. Because the corpus is plain files with a map, any tool that can read a folder can do
-      this today.
+      A durable note carries seven fields. They are small on purpose: enough structure to be useful to every
+      consumer at once, light enough that you are never filling in boilerplate.
     </p>
     <ul>
-      <li><strong>When it helps:</strong> navigating or chatting with your whole corpus from another tool; a
-      second model's read on your own material; a model whose strengths differ from the one you work in.</li>
-      <li><strong>The brain-stem consideration:</strong> read-only means read-only. Write-time governance lives
-      in Claude&nbsp;Code's hooks, so any other writer bypasses every gate — and a tool that "tidies" a
-      frontmatter block or rewrites a link forks the corpus from its governance silently.</li>
+      <li><b>type</b> — what kind of note this is (an index, a deliverable, a reference article, …).</li>
+      <li><b>description</b> — a one-line summary. It becomes a card subtitle in Obsidian and a relevance
+        pre-filter for retrieval, so a tool can skim your vault without reading every file.</li>
+      <li><b>created</b> and <b>updated</b> — real dates, in <code>YYYY-MM-DD</code> form.</li>
+      <li><b>tags</b> — a controlled, prefixed vocabulary (a list, not a string).</li>
+      <li><b>id</b> — a stable, readable slug that survives moves and renames, so an export or a server can
+        reconcile a note to the same identity over time.</li>
+      <li><b>schema_version</b> — an integer, so a future format change can target exactly the notes that need it.</li>
     </ul>
-
-    <h3>A retrieval index</h3>
     <p>
-      <strong>What it is.</strong> An index of the topics and concepts that appear across your entire corpus,
-      built by embedding the files' contents, and a search skill over it that retrieves approximate answers
-      quickly across disjoint surfaces without reading files. This is the vector-search shape most people mean
-      by "RAG".
+      Values are <strong>type-checked at write time</strong> by a lightweight format rule (a date looks like a date;
+      tags are a list; the id is a slug; the version is an integer). That check <em>warns</em>, it does not block —
+      the point is a nudge, not a wall. Obsidian's own property editor is seeded to match (dates render as dates,
+      tags and aliases as lists) so the UI agrees with the governed shape. And because the cohort is just
+      frontmatter, <strong>Obsidian Bases</strong> reads it directly: the foundation ships starter Bases views
+      (all-durable-by-type, a per-status board, and a recently-updated view with the description as the card
+      subtitle) that light up the moment your notes carry the fields — no plugin beyond Bases required. A fresh
+      onboarding seeds these into your vault automatically; if you are upgrading an existing vault, you add them
+      once by hand (<a href="installation.html">the install &amp; upgrade guide</a> has the three-file step).
+    </p>
+
+    <h3>How notes become compliant — three cooperating mechanisms</h3>
+    <p>
+      You should almost never have to fill the cohort in by hand. Three mechanisms cooperate so it happens
+      organically:
     </p>
     <ul>
-      <li><strong>When it helps:</strong> asking a question whose answer is scattered — <em>every time I have
-      tackled this category of problem, across all my projects, what setup did I use and what worked?</em>;
-      scoping a research topic before committing to it; tracing a trend across projects that never referenced
-      each other.</li>
-      <li><strong>The brain-stem consideration:</strong> resolve the symlink hub to physical paths and index
-      each file once, or much of your embedding work goes into duplicates. Keep the index outside the governed
-      trees as a derived replica that only ever reads. And do not reinvent the chunking: the headings, the
-      single frontmatter block and the identity fields already give you chunk boundaries and filter columns.
-      brain-stem's creator built exactly this over their own corpus — heading-split chunks, frontmatter as
-      metadata, a small open-licensed embedding model served locally, ranked and path-cited results — without
-      inventing a single new convention.</li>
+      <li><b>Forward governance.</b> A note created <em>through the system</em> — by Claude, by the workspace
+        scaffolder, by the write-time hooks — is stamped compliant at creation: <code>created</code> today, a
+        generated immutable <code>id</code>, a <code>schema_version</code>, and a description drafted for you
+        (from the note's own first heading or opening line, at no AI cost; a cheap one-line model pass only when
+        that heuristic is weak).</li>
+      <li><b>An opt-in auto-fixer.</b> For notes that already exist — including ones you hand-wrote directly in
+        Obsidian — a shipped capability backfills the cohort on demand: <code>created</code> from the file's first
+        commit date (or its birth date), a generated id, the version, and a drafted description. It runs in a
+        preview mode first, so you see every proposed value before anything is written, and you can trigger it as
+        part of an upgrade.</li>
+      <li><b>A gentle default.</b> Because the first two make notes compliant on their own, the shipped default
+        only <em>warns</em> on a missing field. Any vault can dial itself up to hard-block once its backfill is
+        done — that is a per-vault choice, not a default imposed on everyone.</li>
     </ul>
-
-    <h3>A relationship graph</h3>
     <p>
-      <strong>What it is.</strong> A structure that records which items connect to which, and how, so you can
-      ask connection questions rather than similarity questions: which decisions cite which research, which
-      plans touched which project, what a finding went on to influence. A retrieval index answers "what is like
-      this"; a graph answers "what is connected to this, and through what".
+      Scope is <strong>location-based</strong>: the cohort applies to every note inside the vault, including
+      folders symlinked in (like your work surface). Machine files the system parks outside the vault (logs,
+      state) are out of scope by location, not by type.
+    </p>
+
+    <h2>Layer 1 — enrichment (you opt in)</h2>
+    <p>
+      Two categories of Obsidian plugin turn the flat cohort into something more graph-shaped. The foundation
+      <strong>endorses</strong> them and does not bundle them, so you stay in control of what runs in your vault:
     </p>
     <ul>
-      <li><strong>When it helps:</strong> tracing the lineage of a decision back to its evidence; finding
-      everything a piece of research went on to shape; seeing what a project depends on before changing it.</li>
-      <li><strong>The brain-stem consideration:</strong> the edges are already declared, so build from the
-      declarations rather than extracting relationships from prose (where such pipelines usually go wrong).
-      Plan manifests name their research artifacts, decision records and parent plans; every generated link is
-      a path; tags are a bounded facet set; each project binder is a hub.</li>
+      <li><b>Typed relations</b> — a plugin such as <b>Breadcrumbs</b> reads relationship fields in your
+        frontmatter (parent, up, next) and renders a real navigable graph and breadcrumb trails over them.</li>
+      <li><b>Semantic similarity</b> — a plugin such as <b>Smart Connections</b> computes embeddings so "related
+        notes" is by meaning, not just by link. It complements the cohort; it does not depend on it.</li>
     </ul>
 
-    <h3>A boundary adapter — a server or an interchange format</h3>
+    <h2>Layer 2 — serving the vault to an external AI</h2>
     <p>
-      <strong>What it is.</strong> A server that exposes the corpus to a client over a protocol such as MCP, or
-      a mapping of the frontmatter onto a formal vocabulary such as JSON-LD.
+      When you want an outside AI assistant to answer questions <em>over your vault</em>, you serve it — you do not
+      rebuild it. Two shapes cover almost everyone.
+    </p>
+
+    <h3>Live queries — an MCP server over the vault</h3>
+    <p>
+      The Model Context Protocol (MCP) lets an AI client call tools against your vault: search frontmatter, follow
+      links, read a note. The recommended default is the <b>cyanheads <code>obsidian-mcp-server</code></b> — it
+      works directly against the vault's files and frontmatter, which is exactly what the cohort makes queryable,
+      and it does not require Obsidian to be running.
     </p>
     <ul>
-      <li><strong>When it helps:</strong> only when a specific downstream system demands that shape. Nothing
-      above requires either.</li>
-      <li><strong>The brain-stem consideration:</strong> keep the native files simple and human-first and
-      translate at the edge. Run search and retrieval over the plain Markdown directly rather than making a
-      server a mandatory intermediary between you and your own files.</li>
+      <li>If you specifically want a <b>permalink / AI-memory</b> model (stable note URLs an assistant can cite and
+        write back to), <b>basic-memory</b> is the better fit.</li>
+      <li>Avoid making <b>mcp-obsidian</b> your default: it drives the app through the Local REST API plugin, so it
+        needs that plugin installed <em>and</em> Obsidian open — more moving parts for the common case.</li>
     </ul>
 
-    <div class="callout danger">
-      <div class="label">Warning — never launch a Claude Code session from the brain folder</div>
-      <p>Launching from the corpus puts the entire corpus in the session's scope. That risks polluting
-      per-project memory and context, and it spends tokens on material the session does not need. Launch
-      every session from the project you are working in; the corpus is reached through the project binder's
-      pointers (<a href="session-loading.html">What loads each session</a>).</p>
-    </div>
+    <h3>Batch corpora — a CLI exporter for RAG / GraphRAG</h3>
+    <p>
+      For retrieval-augmented generation or a graph pipeline, you do not need a live server — you need a clean,
+      one-shot export. A CLI exporter walks the vault and emits a corpus (the note bodies plus their cohort
+      frontmatter as structured metadata) that a RAG or GraphRAG toolchain ingests. Because every note already
+      carries <code>type</code>, <code>description</code>, <code>id</code>, and dates, the export needs no
+      per-tool adapter — the metadata a retriever wants is already there.
+    </p>
 
-    <div class="callout key">
-      <div class="label">The through-line</div>
-      <p>brain-stem governs files and folders so that its own hooks can read them deterministically. Typed
-      metadata, addresses instead of app-resolved links, an index at every level, a machine-readable map of the
-      whole: every one of those guarantees is exactly what an outside reader or a retrieval layer needs too.
-      Extending the graph means pointing something new at conventions that already hold.</p>
+    <h3>Interchange formats — only at the boundary</h3>
+    <p>
+      Formats like schema.org / JSON-LD (and the broader Open Knowledge Foundation vocabularies) are for
+      <em>publishing</em> and <em>exchange</em>, not for how your notes are shaped day to day. Map to them at a
+      publish or export boundary if a downstream system asks for them; keep your native frontmatter simple and
+      human-first everywhere else. This keeps the vault legible to you and to Obsidian while still being able to
+      speak a formal vocabulary when it has to.
+    </p>
+
+    <div class="callout">
+      <p><b>The through-line.</b> Own Layer 0 well — a small typed cohort, applied consistently — and every other
+      layer becomes a choice rather than a rebuild. Humans get Bases views, Claude gets legible context, and an
+      external AI gets a corpus it can serve, all from the same seven fields.</p>
     </div>
 
     <div id="site-foot-nav"></div>
     <div class="foot">
-      brain-stem · documentation · Knowledge-graph extendability.
+      brain-stem · documentation · Knowledge graph &amp; external AI.
     </div>
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bringing outside information into the graph · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<title>Why: automated capture · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -13,78 +13,84 @@
   <aside class="sidebar" id="site-nav"></aside>
 
   <main class="content">
-    <p class="eyebrow">Automated capture · rationale</p>
-    <h1>Bringing outside information into the graph</h1>
+    <p class="eyebrow">Automated capture · design rationale</p>
+    <h1>Why these choices — automated capture</h1>
     <p class="lede">
-      Baseline Claude&nbsp;Code can transport or trigger outside information, but it does not prescribe how
-      many automated sources should share destinations, preserve provenance, resolve collisions, or avoid
-      unnecessary model cost. Without that ingestion architecture, capture can create silos, overwrite edits,
-      or spend tokens on deterministic work. brain-stem supplies one governed route into the graph:
-      <strong>registered writers, deterministic processing by default, isolated model judgment, and replayable provenance</strong>.
+      The writer and ingestion system is built around a small set of decisions that look simple on the
+      surface but each displaced a plausible alternative. This page traces those choices: what brain-stem
+      picked, what it beat, and why.
     </p>
-    <p class="page-meta">Decision rationale · citations resolve to the <a href="research-rationale.html#citations">central source register</a>. General write-time controls are covered under <a href="governance-rationale.html">governance</a>.</p>
+    <p class="page-meta">
+      Decision tables only — the central citation register and the meta-framework (constraint vs. convergence,
+      the six design principles) live on <a href="research-rationale.html">The research rationale</a>.
+      Every citation here links back to the register entry on that page.
+    </p>
 
-    <div class="callout key">
-      <div class="label">Native primitives</div>
-      <p>The implementation builds on MCP, channels, hooks, scheduled tasks, scripts, plugins, and remote
-      execution. See
-      <a href="https://code.claude.com/docs/en/mcp">MCP</a>,
-      <a href="https://code.claude.com/docs/en/channels">channels</a>, and
-      <a href="https://code.claude.com/docs/en/scheduled-tasks">scheduled tasks</a>.</p>
+    <div class="callout note">
+      <div class="label">Scope of this page</div>
+      <p>This page covers the writer and ingestion decisions: the sole-writer reconciler, the opt-in
+      staging pipeline, content-addressed packets, the file-watch and timer triggers, the doc-amender
+      AI lane, log segregation, sentinel-guarded index regeneration, and the writer registration command.
+      The two write-time guards (date warning, writer-reference check) and the survivorship rule
+      (operator-edit-wins) belong to
+      <a href="governance-rationale.html">Why: write-time governance</a> — the two guards are
+      write-time doorman decisions; the survivorship rule is enforced here in the reconciler, but
+      its rationale lives there.</p>
     </div>
-    <p class="decision-key"><strong>Decision key:</strong> <span class="pill">constraint</span> platform-shaped · <span class="pill ok">convergence</span> independently supported · <span class="pill muted">local parameter</span> exact implementation choice not independently determined.</p>
 
-    <!-- ============ MIRROR: vault-writers.html ============ -->
+    <div class="callout note">
+      <div class="label">How to read these tables</div>
+      <p>Each row records what brain-stem chose, what it chose it over, why, and the ground the
+      decision rests on. <span class="pill">constraint</span> means the platform forces the shape;
+      <span class="pill ok">convergence</span> means unrelated fields independently arrived at the
+      same answer; <span class="pill muted">design judgment</span> means neither applies — the choice
+      is a reasoned bet, not a necessity. The strongest signal is a row that earns both the constraint and convergence labels at once.</p>
+    </div>
+
+    <!-- ============ VAULT — WRITER / INGESTION ============ -->
     <p class="pillar-band">Automated capture</p>
-    <h2 id="vault-writer-system">The vault-writer system</h2>
+    <h2 id="vault-writers">The writer and ingestion pipeline</h2>
     <p>
-      Route outside information safely and efficiently. The graph is shared by human, assistant, and automated writers. Left uncoordinated, captured material
-      becomes a second pile: two writes race, logs pollute reference, regenerations clobber edits, and outputs
-      arrive without the metadata or placement that make them retrievable later. The writer pipeline connects
-      ingestion to brain-stem's governance model. Its <strong>single-writer staged lane</strong> is a deliberate solution for
-      contended destinations, supported by convergent practice—not the only architecture Claude Code could host.
+      The vault is a shared folder with two authors: a person editing by hand, and scripts writing on
+      their own. Left uncoordinated, that combination drifts — two writes race and clobber each other,
+      machine logs pile up where human notes belong, a regeneration overwrites a hand-edit. The writer
+      pipeline is the small set of programs that prevent those failure modes. The design is reached on
+      <strong>both grounds</strong>: the platform ships no shared-write coordinator (forcing the
+      single-writer funnel), and three unrelated fields — content-addressable storage, event-driven
+      systems, and knowledge management — each landed on the same structural answers independently.
     </p>
     <p>
-      The pipeline's default posture is <strong>deterministic: mechanical direct-write, no model in the loop</strong>.
+      The pipeline's default posture is deterministic: mechanical direct-write, no model in the loop.
       The LLM reasoning lane is an opt-in addition for the judgment calls that determinism cannot handle —
-      not the default path, and not the writer. This limits unnecessary token use and keeps repeated imports
-      reproducible. That distinction runs through every row below.
+      not the default path, and not the writer. That distinction runs through every row below.
     </p>
 
-    <table class="decision">
+    <table>
       <thead>
         <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td>Register every automated source as <strong>a governed writer</strong> into known destinations</td>
-          <td>Letting each connector invent its own output shape and landing place</td>
-          <td>Registration declares source, authentication expectation, destination rights, output type, and
-          schedule. Captured information therefore enters structures the rest of brain-stem can index,
-          govern, retrieve, and expose to projects instead of becoming an automation-specific silo.</td>
-          <td><span class="pill ok">convergence</span></td>
-        </tr>
-        <tr>
-          <td><strong>One reconciler as the sole writer</strong> of every staged file</td>
+          <td>One reconciler as the sole writer of every staged file</td>
           <td>Every writer writing the destination directly</td>
           <td>Two saves can overlap and silently clobber each other with no record. The platform ships no
-          shared-write coordinator for custom connectors; brain-stem chooses a single-writer funnel for
-          destinations that opt into staging. Funneling through one program is independently the
+          shared-write coordinator, so the single-writer funnel is forced; funneling through one program
+          is independently the
           <a class="cite" href="research-rationale.html#cite-singlewriter">Single Writer Principle</a>,
           enforced by a real batch lock
           <a class="cite" href="research-rationale.html#cite-lockf">lockf</a>.</td>
-          <td><span class="pill ok">convergence</span></td>
+          <td><span class="pill">constraint</span> <span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td><strong>Direct write by default</strong>; the staging pipeline opt-in per destination</td>
+          <td>Direct write by default; the staging pipeline opt-in per destination</td>
           <td>Staged packets everywhere, or direct-write only</td>
           <td>Staging everywhere taxes the common single-writer case for no benefit; direct-only can't
           protect genuinely contended files. Per-destination opt-in pays the cost only where contention
           or survivorship is real.</td>
-          <td><span class="pill ok">convergence</span></td>
+          <td><span class="pill muted">design judgment</span></td>
         </tr>
         <tr>
-          <td>Content-hash-named packets, <strong>written by atomic rename</strong></td>
+          <td>Content-hash-named packets, written by atomic rename</td>
           <td>Hand-composed packets written in place</td>
           <td>Naming by content hash gives free deduplication; atomic temp-then-rename means no reader
           ever sees a half-written file. This is content-addressable storage plus POSIX atomic rename —
@@ -93,26 +99,26 @@
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>A file-watch trigger <strong>plus a relaxed timer backstop</strong></td>
+          <td>A file-watch trigger plus a relaxed timer backstop</td>
           <td>Pure timer-poll, or pure event-watch</td>
           <td>Blind polling adds minutes of latency; pure event-watch loses a dropped event forever.
           macOS launchd expresses both in one job
           <a class="cite" href="research-rationale.html#cite-launchd">launchd</a> — seconds-level
           response plus insurance.</td>
-          <td><span class="pill ok">convergence</span></td>
+          <td><span class="pill">constraint</span></td>
         </tr>
         <tr>
-          <td>The AI merge lane <strong>never writes the destination</strong> — it emits a packet back to staging</td>
+          <td>The AI merge lane never writes the destination — it emits a packet back to staging</td>
           <td>Letting the smartest lane be the final writer of record</td>
           <td>The optional <code>doc-amender</code> runs content through the model
           <a class="cite" href="research-rationale.html#cite-cc-headless">headless mode</a> but drops
           a new packet back into staging, so the one mechanical reconciler still performs the final
           write — keeping a single accountable chokepoint. Conflicts are block-and-log, never silent
           overwrite.</td>
-          <td><span class="pill ok">convergence</span></td>
+          <td><span class="pill muted">design judgment</span></td>
         </tr>
         <tr>
-          <td>Relocate machine logs <strong>out of the vault entirely</strong></td>
+          <td>Relocate machine logs out of the vault entirely</td>
           <td>Keeping exhaust in the vault and "excluding it from search"</td>
           <td>Excluding only <em>hides</em> a file — it still leaks into the search index and graph
           view. Machine exhaust lands under the XDG state root
@@ -123,16 +129,16 @@
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>Regenerated indexes with <strong>sentinel-guarded in-note regions</strong></td>
+          <td>Regenerated indexes with sentinel-guarded in-note regions</td>
           <td>Hand-tended indexes; or regeneration that erases the human prose around a table</td>
           <td>Hand-tended indexes are the documented capture-then-rot pattern
           <a class="cite" href="research-rationale.html#cite-secondbrain">second brain</a>. Sweeps
-          replace only the sentinel-bracketed machine region, copy everything else verbatim, and
-          re-create that region when its sentinels are missing — freshness made structural, not disciplinary.</td>
-          <td><span class="pill ok">convergence</span></td>
+          replace only the sentinel-bracketed machine region, copy everything else verbatim, and refuse
+          to write if the sentinels are missing — freshness made structural, not disciplinary.</td>
+          <td><span class="pill muted">design judgment</span></td>
         </tr>
         <tr>
-          <td>Granting write rights is <strong>a guided, validated command</strong></td>
+          <td>Granting write rights is a guided, validated command</td>
           <td>Hand-editing the writer catalog or the overlay directly</td>
           <td>You run <code>/govern register --kind writer</code>
           <a class="cite" href="research-rationale.html#cite-cc-skills">CC skills</a>; the blocking
@@ -144,18 +150,13 @@
         </tr>
       </tbody>
     </table>
-    <p class="system-link"><strong>Deep dive:</strong> <a href="vault-writers.html">the vault-writer system</a> — registered writers, the staged single-writer lane, and the deterministic-by-default posture, end to end.</p>
-
-    <p class="system-link"><strong>System connection:</strong> registered outputs enter governed structures,
-    generated indexes, project routing, and the shared context gateway; personalization supplies the registration
-    seam for new writers and destinations.</p>
 
     <div id="site-foot-nav"></div>
-    <div class="foot">brain-stem · rationale · bringing outside information into the graph.</div>
+    <div class="foot">brain-stem · documentation · Why: automated capture.</div>
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

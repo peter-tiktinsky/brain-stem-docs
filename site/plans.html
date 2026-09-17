@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Plans · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -121,7 +121,7 @@
     <p>
       Read the whole arc in one picture: an idea is shaped into a plan, the plan is prepared, then executed
       under human gates, and "done" is <em>earned</em>, not declared. Each phase is detailed in its own
-      section below, except orchestration, which has its own page; this is the map.
+      section below; this is the map.
     </p>
     <div class="sysmap">
       <div class="phases">
@@ -223,18 +223,19 @@
       — and every reader resolves it through one shared library. That placement is what scopes it: two projects
       arm at the same time without contention; a session receives the spec of the plan armed in the project it
       was launched from, and nothing else; and a session in a project with nothing armed receives nothing at all,
-      so the largest hook payload brain-stem ships loads only into sessions launched from an armed project. An older
+      so the largest hook payload brain-stem ships no longer loads into every session on the machine. An older
       corpus-wide pointer at the plans root is still honoured as a read-only fallback so nothing breaks on the way
       over, but nothing writes it any more.
     </p>
 
     <p>How a plan is executed and scheduled &rarr; <a href="orchestration.html">Orchestration &amp; scheduling</a>.</p>
 
-    <h2>Earning done — six statuses, two terminals</h2>
+    <h2>Earning done — six statuses, one terminal</h2>
     <p>
       The lifecycle's load-bearing guard is the difference between a claim and a fact. The status model is
-      deliberately small — <strong>six statuses</strong>, and only vocabulary the system actually enforces.
-      A plan ends at <code>completed</code> (stamped with a completion timestamp on the record) or
+      deliberately small — <strong>six statuses</strong>, and only vocabulary the system actually enforces:
+      statuses that asserted guarantees no machinery delivered were retired outright rather than left as
+      theater. A plan ends at <code>completed</code> (stamped with a completion timestamp on the record) or
       <code>superseded</code>. Done-integrity does not come from extra status words — it comes from the
       <strong>manifest being the source of truth</strong>, every human-readable list being generated from
       it, and <strong>independent read-only verification passes</strong> that audit the record against the
@@ -257,8 +258,8 @@
       <div class="label">A claim, checked — not a stack of status words</div>
       <p><strong>Completed</strong> is a claim on the record — and the record is checkable, because the
       manifest is the source of truth and independent read-only passes audit it against what is actually
-      on disk. A status you could set without any machinery behind it would be theater, so the vocabulary is
-      held to what the machinery can actually check. <em>Done is not something you get to declare twice.</em>
+      on disk. A status you could set without any machinery behind it would be theater, which is exactly
+      why the old decorative stages were retired. <em>Done is not something you get to declare twice.</em>
       (Archival is a display-only view filter in the rendered indexes — older completed plans are tucked
       out of sight without any status change.)</p>
     </div>
@@ -266,7 +267,7 @@
     <h2>Rolling up into the project binder</h2>
     <p>
       As a plan is worked and completed, its durable output populates <strong>up</strong> into
-      the project binder — automatically, once the project is registered. Each plan names its project; every
+      the project binder — automatically, with no roster to maintain. Each plan names its project; every
       plan naming that project is gathered, sub-plans grouped by lineage.
     </p>
     <div class="sysmap">
@@ -284,7 +285,7 @@
         <div class="hubwrap">
           <div class="smnode hub"><b>_situating.md — the cover (generated · loaded each session)</b><small>the binder's machine-derived cover; points to the generated pages below</small></div>
           <div class="ptrcards">
-            <div class="ptrcard"><b>research-index.md</b><small>Generated — every plan's findings, rolled into one index, each row linking back to its <code>_research/</code>.</small></div>
+            <div class="ptrcard"><b>research-index.md</b><small>Generated — every plan's findings, rolled into one index, with a symlink farm back to each <code>_research/</code>.</small></div>
             <div class="ptrcard"><b>decision-log.md</b><small>Generated — every plan's ADRs in one list; superseded records forward-linked, never dropped.</small></div>
             <div class="ptrcard"><b>handoff-chronicle.md</b><small>Generated — one block per session, newest-first, each carrying its <code>Next session:</code> line.</small></div>
           </div>
@@ -369,7 +370,7 @@
       <li><code>~/.claude-plans/_inbox/</code> + <code>_backlog.md</code> — the idea funnel: cheap capture (no number) → a librarian-generated backlog → triage (<code>/backlog-triage</code>) → research (<code>/backlog-research</code>) → graduate (<code>/new-plan</code>). The inbox is a <strong>ledger</strong>: each captured idea records its owning project and disposition target in machine-readable form at capture, and a settled ledger plus an inbox index close the loop — so the backlog can answer which ideas are fully settled and which are still owed an outcome. <strong>Settled means settled:</strong> a note that reaches a terminal resolution is stamped and moved to <code>_inbox/_settled/</code> in the same run, so the inbox folder holds live ideas only (notes settled before this model stay where they are — the ledger and index link both populations at their real locations). The settled ledger derives from three sources — graduations, the absorbed-notes lists plans record, and terminally-resolved notes — with a note&rsquo;s own richer record winning when both exist.</li>
       <li><strong>Status lifecycle</strong> — <code>researching → planned → in-progress ⇄ paused → completed</code> (terminal, completion-timestamped), or <code>superseded</code> (terminal). Archival is a display-only view filter in the rendered indexes, not a status.</li>
       <li><strong>Execution &amp; scheduling</strong> — how a plan is run, the propose-and-gate dispatch model, HITL/HOTL gates, and scheduling: see <a href="orchestration.html">Orchestration &amp; scheduling</a>.</li>
-      <li><strong>The project binder</strong> — <code>~/.claude-plans/_projects/&lt;project&gt;/</code> → <code>Projects/</code>: all generated — <code>_situating.md</code> (the situating card, the binder's cover, loaded each session), <code>research-index.md</code>, <code>decision-log.md</code> and <code>handoff-chronicle.md</code>.</li>
+      <li><strong>The project binder</strong> — <code>~/.claude-plans/_projects/&lt;project&gt;/</code> → <code>Projects/</code>: all generated — <code>_situating.md</code> (the situating card, the binder's cover, loaded each session), <code>research-index.md</code>, <code>decision-log.md</code>, <code>handoff-chronicle.md</code>, and a <code>research/</code> symlink farm.</li>
       <li>The vault <code>Plans/</code> symlink — the whole tree, browsable in your notes app.</li>
     </ul>
 
@@ -380,7 +381,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

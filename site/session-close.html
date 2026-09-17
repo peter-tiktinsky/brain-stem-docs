@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Session close · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -13,344 +13,181 @@
   <aside class="sidebar" id="site-nav"></aside>
 
   <main class="content">
-    <p class="eyebrow">Session management · close-out</p>
+    <p class="eyebrow">Sessions · tidying up</p>
     <h1>Session close</h1>
     <p class="lede">
-      Every session leaves residue: records to settle, indexes that are now out of date, plans whose status
-      moved, a project binder that no longer reflects what just happened. brain-stem ships a
-      <strong>session-close</strong> capability that handles all of that housekeeping for you, together with the
-      brain-folder maintenance and governance audits that keep the knowledge layer well-structured over time.
-      It runs <strong>automatically at the end of every session</strong>. You can also run it yourself, on
-      demand, whenever you want the tidy-up now rather than at exit.
+      Ending a session has an <strong>always-on</strong> side that happens whether you ask or not — your
+      session leaves the registry, and on a clean exit the vault gets an automatic integrity pass — and an
+      <strong>explicit close</strong> you can run to do that tidying on demand and get a backup offer.
+      Either way a whole checklist of housekeeping runs in the right order, so you don't have to remember a
+      dozen steps yourself.
     </p>
-    <p class="page-meta">Fully autonomous by default. Regenerates what the machine owns, reports on what you own, never commits.</p>
+    <p class="page-meta">Always-on: <code>session-deregister.sh</code>. Explicit: <code>/librarian session-close</code>.</p>
 
-    <h2>It runs on its own</h2>
+    <h2>The always-on half — auto-close and reconcile</h2>
     <p>
-      When a session ends, Claude&nbsp;Code fires its session-end event and brain-stem's three end-of-session
-      hooks run in order:
+      A session leaves the registry without you doing anything — and there are two cases, because a session
+      doesn't always end cleanly:
     </p>
-    <ol>
-      <li><strong>Deregister and launch the close.</strong> One hook marks your row in the session registry
-      <code>closed</code>, spawns the registry reconciler in the background, and then spawns the librarian's
-      session close itself — detached, so it can do real work without holding up the exit. The only thing that
-      stops the launch is a close receipt less than a minute old, which is how a close you ran by hand just
-      before exiting is not run twice.</li>
-      <li><strong>Write the episodic-memory row.</strong> A small, model-free hook records the session's
-      anchor, touched files and next-session pointer; the close backfills its summary a moment later.</li>
-      <li><strong>Check whether memory consolidation is due.</strong> If at least a day and five sessions have
-      passed since the last pass, a propose-only consolidation run is detached. It never deletes anything.</li>
-    </ol>
-    <div class="callout note">
-      <div class="label">Graceful exit versus crash</div>
-      <p>Claude&nbsp;Code fires the session-end event on a graceful termination — ending the session from the
-      prompt, clearing it, or logging out. A killed process, a crash, or a terminal that disappears may never
-      fire it. brain-stem covers that case with a <strong>backstop at the next session start</strong>: it
-      scans the registry for a session that went stale without a clean close and runs the close for it,
-      attributed to that session and its project directory, so the crashed session's own records are settled
-      rather than whichever project you happen to open next.</p>
-    </div>
-
-    <h2>What the close does</h2>
-    <p>
-      The close first <strong>auto-detects its scope</strong> from the registry. Alone, it runs everything.
-      With peers still active, it runs everything except the shared registry sweep, which is deferred to
-      whoever closes last. As the last one out, it runs the deferred sweep on everyone's behalf. Then it works
-      through the chores below. They run in a fixed sequence, but the sequence matters only to the machine; what
-      matters to you is what each chore does, why, and whether it <strong>writes</strong> or only
-      <strong>reports</strong>.
-    </p>
-
-    <h3>Your files — audited, never rewritten</h3>
-    <p>
-      The write-time hook only sees edits made through Claude&nbsp;Code's own file tools. These sweeps catch
-      what arrived any other way (see <a href="write-time-governance.html">what falls through the write</a>),
-      and every one of them reports rather than fixes, because a file you wrote is yours to change.
-    </p>
-    <table>
-      <thead><tr><th>Chore</th><th>What it does, and why</th><th>Writes or reports</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Frontmatter enforcement</strong></td><td>Checks the two surfaces the vault reaches through symlinks — your work projects and the plans tree — for missing required fields, malformed values and off-vocabulary tags, because those are the files the write-time stamp does not reach. Notes that live in the vault itself are stamped at write time and audited by the whole-vault sweep you run on demand.</td><td>Reports (check mode)</td></tr>
-        <tr><td><strong>Cross-reference check</strong></td><td>Walks every link in both grammars, wikilinks and Markdown paths, and records the link graph; broken targets and orphaned files become findings.</td><td>Reports; records the graph</td></tr>
-        <tr><td><strong>Placement and staleness</strong></td><td>Flags files sitting where the routing rules say they should not, and generated surfaces that have fallen behind their sources — a stale binder page means the maintenance pipeline missed a beat, which is worth knowing.</td><td>Reports</td></tr>
-        <tr><td><strong>Pointer currency</strong></td><td>Flags "latest handoff" and similar pointers that no longer point at the newest thing.</td><td>Reports</td></tr>
-      </tbody>
-    </table>
-
-    <h3>This session's records — settled</h3>
-    <p>What the session itself produced is written down where the next session will find it.</p>
-    <table>
-      <thead><tr><th>Chore</th><th>What it does, and why</th><th>Writes or reports</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Episodic summary</strong></td><td>Fills in the summary line of the episodic-memory row the end hook wrote, and keeps the chronicle indexed and rotated, so the last sessions remain a readable history.</td><td>Writes the chronicle</td></tr>
-        <tr><td><strong>Handoff into the binder</strong></td><td>Appends the session's handoff to the project's handoff chronicle, newest first, so any later session in the project resumes from the right pointer.</td><td>Writes the binder chronicle</td></tr>
-        <tr><td><strong>Handoff dispositions</strong></td><td>Scans the handoff for follow-up language ("later", "worth watching", "TODO") that carries no disposition, because an undispositioned follow-up is a follow-up nobody will remember.</td><td>Reports</td></tr>
-        <tr><td><strong>Research declared</strong></td><td>Records the research artifacts the session produced on the plan's manifest, so they roll up into the binder's research index instead of sitting undeclared in a folder.</td><td>Writes the plan manifest</td></tr>
-        <tr><td><strong>Completion stamp</strong></td><td>Stamps a plan that reached its terminal status with its completion time — and <strong>refuses</strong> if the plan's task ledger was never advanced, recording the refusal in the receipt rather than stamping a claim over an unfinished ledger.</td><td>Writes the plan manifest, or refuses</td></tr>
-        <tr><td><strong>Task ledger</strong></td><td>Re-derives the armed plan's task ledger from its manifest, inside the sentinel markers, so the human-readable ledger never disagrees with the structured source.</td><td>Writes the sentinel region</td></tr>
-      </tbody>
-    </table>
-
-    <h3>Plans and the backlog — kept consistent</h3>
-    <table>
-      <thead><tr><th>Chore</th><th>What it does, and why</th><th>Writes or reports</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Master roll-ups</strong></td><td>Re-syncs each master plan's roll-up of its sub-plans against their real status, before the indexes below are rendered, so the same close that changed a sub-plan reflects it one level up.</td><td>Writes master manifests</td></tr>
-        <tr><td><strong>Plan index and backlog</strong></td><td>Re-renders the corpus-wide plan index, the backlog and the idea-inbox roster from the manifests. Nobody hand-tends these; the close is what keeps them true.</td><td>Writes the derived indexes</td></tr>
-        <tr><td><strong>Lifecycle checks</strong></td><td>Flags a parent plan marked finished over a child still open, and a sub-plan whose parent cannot be resolved, so a lifecycle never quietly closes over unfinished work.</td><td>Reports</td></tr>
-      </tbody>
-    </table>
-
-    <h3>The project binder and work surface — regenerated</h3>
-    <p>
-      Scoped to the project you closed in: these regenerate exactly the context the next session in that project
-      loads at start (<a href="project-binder.html">The project binder</a>).
-    </p>
-    <table>
-      <thead><tr><th>Chore</th><th>What it does, and why</th><th>Writes or reports</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Binder indexes and situating card</strong></td><td>Re-derives the project's research index, decision log and handoff chronicle from its plans, then the situating card that summarizes them — card last, so it reflects the fresh indexes.</td><td>Writes the binder</td></tr>
-        <tr><td><strong>Work-surface map and folder indexes</strong></td><td>Refreshes the project's directory map (inside its markers) and the folder indexes under its deliverables and reference folders.</td><td>Writes the sentinel regions</td></tr>
-      </tbody>
-    </table>
-
-    <h3>Catalogs, renames and the system's own checks</h3>
-    <table>
-      <thead><tr><th>Chore</th><th>What it does, and why</th><th>Writes or reports</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Writer catalogs</strong></td><td>Refreshes the vault-writer index and overlap matrix from the writer registrations.</td><td>Writes the catalogs</td></tr>
-        <tr><td><strong>Renames</strong></td><td>Detects files renamed in the last day, records the rename history durably, and produces a <em>proposal</em> for rewriting inbound links — never applied unattended, because a link rewrite across the corpus deserves a human look.</td><td>Writes the history; proposes the cascade</td></tr>
-        <tr><td><strong>Parity and integrity audits</strong></td><td>Checks that governance surfaces moved together, that the capability registry matches the capabilities on disk, that the librarian's manifest validates, and that audit coverage has no gaps.</td><td>Reports</td></tr>
-        <tr><td><strong>Registry sweep and drift</strong></td><td>Reaps stale and closed rows from the session registry (skipped when peers are active) and checks the plan-tree trinity for status drift.</td><td>Writes the registry; reports drift</td></tr>
-      </tbody>
-    </table>
-
-    <h3>Periodic maintenance — on its own schedule</h3>
-    <p>
-      Some maintenance is worth running daily or weekly rather than at every close: folder-index sweeps, the
-      library and rules indexes, memory hygiene, the tag and waiver audits. brain-stem does not install a
-      scheduler for them. Instead, each close checks when each sweep last ran and fires it only if its window
-      has elapsed. A sweep never runs more than once per window, however many sessions you close inside it, and
-      a window that elapses while you are away is caught at your next close.
-    </p>
-    <table>
-      <thead><tr><th>Sweep</th><th>Schedule</th><th>What it does</th><th>Writes or reports</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Folder-index maintenance</strong></td><td>Daily</td><td>Walks every folder index in the vault for mechanical drift: row sets, line counts, types, timestamps. At close it runs as a dry run; the correcting pass is yours to run.</td><td>Reports at close</td></tr>
-        <tr><td><strong>Library indexes</strong></td><td>Daily</td><td>Re-derives the library's topic indexes and rotates the library log.</td><td>Writes the derived indexes</td></tr>
-        <tr><td><strong>Context-budget index</strong></td><td>Daily</td><td>Renders what the always-on context cost in the last session against declared thresholds (<a href="session-loading.html">What loads each session</a>).</td><td>Writes the census replica</td></tr>
-        <tr><td><strong>Rules index</strong></td><td>Weekly</td><td>Re-derives the generated index of governance rules.</td><td>Writes the derived index</td></tr>
-        <tr><td><strong>Link repair</strong></td><td>Weekly</td><td>Detects dangling links in both grammars. For a wikilink whose target is unambiguous in the relationship registry it proposes a repair; a broken Markdown path is reported for you to fix, since a path has no candidate to guess from. The rewrite waits for your apply.</td><td>Reports at close</td></tr>
-        <tr><td><strong>Log archive</strong></td><td>Weekly</td><td>Moves aged logs into their retention folders.</td><td>Writes (moves files)</td></tr>
-        <tr><td><strong>Memory hygiene and staleness</strong></td><td>Weekly</td><td>Audits the memory corpus for hygiene drift and for entries past their revalidation window; anything needing judgment lands in the review queue rather than being changed.</td><td>Reports; queues for review</td></tr>
-        <tr><td><strong>Rules hygiene</strong></td><td>Weekly</td><td>Runs the deterministic drift classes headless; the judgment class waits for an attended run.</td><td>Reports</td></tr>
-        <tr><td><strong>Tag coverage, waivers, skills, log subtypes</strong></td><td>Weekly</td><td>Tag-coverage audit, waiver audit, skill-registry parity, and unregistered log-subtype detection.</td><td>Reports</td></tr>
-      </tbody>
-    </table>
-
-    <h2>Limits and caveats</h2>
     <ul>
-      <li><strong>"Advisory" means the chain never stops on a failure — it does not mean read-only.</strong> A
-      chore that fails is logged and the next one runs. But the close does write: every machine-owned derived
-      file above, and the plan-manifest stamps listed. What it never writes is prose you authored. Every write
-      is either a whole derived file or a sentinel-bounded region, with everything outside the markers preserved
-      byte-for-byte.</li>
-      <li><strong>The dividing line is mechanical versus judgment.</strong> A fix runs unattended only when it is
-      deterministic, loses no information, and is reversible or idempotent — regenerating an index from its
-      source qualifies; rewriting a link across the corpus, backfilling fields on a note you wrote, or pruning a
-      memory does not. Those are proposed, and you apply them (next section).</li>
-      <li><strong>It never commits.</strong> No git write is reachable from any close path, automatic or manual,
-      and a registry audit enforces that invariant on every capability that can commit. Backup is a separate,
-      by-hand capability.</li>
-      <li><strong>It exits cleanly, with one deliberate exception.</strong> A required capability that is present
-      on disk but not executable is an install defect, and the close reports it with a non-zero exit instead of
-      hiding it.</li>
-      <li><strong>Every run leaves a receipt.</strong> One dated session-close log under the machine-local state
-      directory, never in the vault: each chore marked <code>ok</code>, <code>skip</code>, <code>dry-run</code>,
-      <code>refused</code>, <code>stub</code> or <code>error</code>, then a digest of the top finding categories
-      with counts.</li>
+      <li><strong>A clean end.</strong> Closing the window fires the SessionEnd hook
+      <code>session-deregister.sh</code>, which marks your registry row <code>closed</code> and, if a peer
+      left work pending, spawns the reconciler in the background — detached and non-blocking.</li>
+      <li><strong>An abandoned or crashed session.</strong> If the process just vanishes and SessionEnd
+      never fires, your row is left behind as a ghost — and it is <strong>auto-closed by the
+      reconciler</strong>. A row is reaped once it looks gone — its process is dead <em>or</em> its
+      heartbeat has gone stale (older than ~30 minutes) — but a fresh heartbeat is a hard keep that
+      overrides a pid which merely <em>looks</em> dead, so a live session that is still heartbeating is
+      never wrongly reaped.</li>
     </ul>
-
-    <h2>Running it yourself</h2>
     <p>
-      <code>/librarian session-close</code> runs the <strong>identical chain</strong>. Two things differ. Its
-      output reaches you in the session, so the chain results, any refusal and the receipt path are in front of
-      you as they happen. And at the end it <strong>offers to run a backup</strong> if tracked targets have
-      uncommitted changes — an explicit yes-or-no, never fired on its own. The automatic close, running detached,
-      writes the same receipt and offers nothing.
+      This reconciliation is <strong>effectively always-on</strong>: it runs at session lifecycle moments —
+      a new session reaps on start, a closing session spawns it when a peer is pending — reaping the stale,
+      closed, and pending rows under a lock, clearing the pending flag, and stamping the time. It is
+      idempotent (running it twice changes nothing). Its job is to keep peer-awareness honest so the shared
+      "whiteboard" never fills with ghosts. Note what it is: <strong>registry cleanup</strong> — the
+      automatic close of a session's <em>coordination</em> footprint — <strong>not</strong> the thorough
+      housekeeping sweep itself.
+    </p>
+    <p>
+      That registry cleanup is not the only thing that happens on its own. When a session ends
+      <em>cleanly</em> without a formal close, brain-stem also spawns the <strong>integrity subset of the
+      close automatically</strong>, detached in the background — so the thorough housekeeping mostly runs
+      without you asking: it re-checks conventions, refreshes the plan and writer indexes, re-syncs master
+      plans, flags drift, and refreshes the project binder and work-surface. It is structurally
+      <strong>commit-free</strong> (it never commits, never offers a backup, and never rewrites your
+      authored content), it auto-detects its scope, and it stands down if you already ran a formal close.
+      If a session <em>crashes</em> before it can run, the next session's start-up runs it as a backstop.
+      So a formal <code>/librarian session-close</code> is mostly about doing this <em>now</em>, on demand —
+      plus the one thing the automatic pass deliberately won't do: <strong>offer to back up</strong>.
+    </p>
+
+    <h2>The explicit half — <code>/librarian session-close</code></h2>
+    <p>
+      When you declare you're done, the close capability first <strong>auto-detects its scope</strong> from
+      the registry, then chains a fixed sequence of cleanup chores:
+    </p>
+    <div class="card-grid">
+      <div class="card"><div class="kicker">Scope: solo</div><h3>You're the only session</h3><p>Run the full cleanup, including the shared reconciliation.</p></div>
+      <div class="card"><div class="kicker">Scope: scoped</div><h3>Peers still active</h3><p>Do only your own part; defer the shared sweep to whoever closes last.</p></div>
+      <div class="card"><div class="kicker">Scope: reconciler</div><h3>You're the last one out</h3><p>Run your part <em>and</em> the deferred shared sweep on everyone's behalf.</p></div>
+    </div>
+    <p>The chore chain, in order:</p>
+    <div class="flow">
+      <div class="fstep"><b>Re-check conventions</b><small>frontmatter, naming, placement, staleness</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Refresh indexes</b><small>the plan list, the cross-project backlog, and writer catalogs</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Refresh the binder</b><small>append the handoff; re-derive the project's research, decision, and handoff indexes; refresh its situating card</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Refresh the work surface</b><small>update the project's directory map and folder indexes</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Re-sync masters</b><small>each master plan's roll-up against its subs' real status</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Cascade renames</b><small>renamed files surfaced as a dry-run proposal</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Reconcile + drift</b><small>registry sweep + plan-trinity drift check</small></div>
+      <div class="farr">›</div>
+      <div class="fstep"><b>Due maintenance</b><small>the periodic sweeps whose cadence has come around — close is what runs them</small></div>
+    </div>
+    <p class="flow-note">The binder and work-surface refreshes are scoped to the project you're closing in — they regenerate exactly the context the next session in that project loads at start.</p>
+    <div class="callout note">
+      <div class="label">Close-time surfaces a plan-lifecycle lag</div>
+      <p>The drift check does one more thing worth calling out: if a project's <strong>parent</strong> plan is
+      marked finished while a <strong>child</strong> plan under it is still left open, the close
+      <strong>surfaces that lag</strong> instead of letting it drift on unnoticed — so a parent never quietly
+      finishes over an unfinished child.</p>
+    </div>
+    <div class="callout note">
+      <div class="label">Advisory, never wedged</div>
+      <p>The whole flow is <strong>advisory</strong>: a chore that fails is logged and the flow continues,
+      and the close <strong>always exits cleanly</strong>. It never blocks you and never leaves a session
+      stuck. The drift check is read-only; the cascade-rename is a proposal, not an auto-apply. The close
+      also never commits anything itself — a manual close just ends by <em>offering</em> to run
+      <code>/librarian backup</code> if you want to commit the working state.</p>
+    </div>
+
+    <h2>The receipt — the session-close log</h2>
+    <p>
+      Every close writes one aggregated <strong>session-close log</strong> — the librarian's notes on what
+      the close actually did, with each chore marked <code>ok</code> / <code>skip</code> / <code>error</code>.
+      It's the always-there receipt: a record exists even when the cleanup ran quietly in the background. It
+      lives in machine-local state, <strong>not the vault</strong> — machine exhaust stays out of your
+      indexed knowledge.
+    </p>
+
+    <h2>How the two work in concert</h2>
+    <p>
+      The two halves are designed as a <strong>floor and a sweep</strong>. The always-on deregister is the
+      floor: every session, no matter how it ends, leaves the registry honest and triggers background
+      reconciliation when a peer needs it — so concurrent sessions never corrupt the shared list. The
+      thorough integrity sweep runs on top — automatically on a clean exit, or on demand when you close
+      formally. The coordinating rule is <strong>"last session
+      out does the shared cleanup":</strong> if peers are still active when you formally close, your close
+      does only <em>your</em> part and <strong>defers</strong> the shared reconciliation to
+      whoever closes last — which is why two closing sessions never trample each other or run the global
+      cleanup twice. Because the reconciler is idempotent, that deferral is always safe.
+    </p>
+    <table>
+      <thead><tr><th>What happens at the end</th><th>Auto-close<br><small>window close / SessionEnd</small></th><th>Formal close<br><small><code>/librarian session-close</code></small></th></tr></thead>
+      <tbody>
+        <tr><td>Remove your session from the registry</td><td>On a clean end, immediately; if abandoned, auto-reaped when stale (~30 min)</td><td>Yes</td></tr>
+        <tr><td>Background reconcile (only if a peer left work pending)</td><td>Always</td><td>Yes — and runs the full sweep itself when last out</td></tr>
+        <tr><td>Write the session's episodic-memory row</td><td>Always</td><td>(already written; close backfills its summary)</td></tr>
+        <tr><td>Re-check conventions · refresh indexes (including the backlog) · re-sync masters · flag drift · run due maintenance</td><td>On a clean exit (the integrity pass)</td><td>Yes</td></tr>
+        <tr><td>Refresh the project binder + work-surface indexes (active project)</td><td>On a clean exit (the integrity pass)</td><td>Yes</td></tr>
+        <tr><td>Cascade-rename proposal (dry-run)</td><td>On a clean exit (the integrity pass)</td><td>Yes</td></tr>
+        <tr><td>Write the session-close receipt log</td><td>On a clean exit (the integrity pass)</td><td>Yes</td></tr>
+        <tr><td>Offer to back up (<code>/librarian backup</code>)</td><td>Never — backup is by hand only</td><td>Yes — offered after the chain</td></tr>
+      </tbody>
+    </table>
+
+    <h2>What if you never formally close?</h2>
+    <p>
+      Less is lost than you'd think. Closing the window cleanly already triggers the automatic integrity
+      pass above, so the thorough housekeeping mostly runs on its own. What a formal close adds is doing it
+      <em>now</em> and on your terms — plus the one chore that is never automatic: the backup offer.
     </p>
     <div class="callout note">
-      <div class="label">After an automatic close, ask for the receipt</div>
-      <p>Findings from a detached close go to the receipt file. Two classes are re-surfaced at the next session
-      start on their own: open placement findings at the plans root, and research declared against a plan that
-      had already closed its scope. Everything else waits in the log. If you rely on the automatic close, start
-      a session by asking Claude&nbsp;Code to read the latest session-close receipt and tell you what needs
-      review — that is the one habit the automation does not replace.</p>
+      <div class="label">Still happens automatically</div>
+      <p>Your session is marked closed in the registry; if a peer left work pending, the reconciler runs in
+      the background; the session's episodic-memory row is written; and — on a clean exit — the integrity
+      pass re-checks conventions, refreshes the indexes, re-syncs masters, flags drift, and refreshes the
+      project binder and work-surface, writing its own receipt. Your actual work — every file you wrote —
+      stays in the vault and the plan tree, untouched.</p>
     </div>
-    <div class="callout note">
-      <div class="label">About backup</div>
-      <p><code>/librarian backup</code> is git-based: it commits your vault, install home, plans and work roots,
-      excludes secret-bearing files and scans staged content for provider tokens before committing, then pushes
-      to whatever remote <em>you</em> configured. A target with no remote still commits locally when you declare
-      it local-only. You can run it any time, with or without a close; nothing in brain-stem runs it for you.
-      Keep at least one backup off the machine — a local commit does not survive a lost disk.</p>
+    <div class="callout warn">
+      <div class="label">What you actually give up</div>
+      <p>Two things. First, <strong>backup is never automatic</strong> — only a manual close offers
+      <code>/librarian backup</code>; nothing commits or pushes on your behalf, so the working state isn't
+      backed up until you run it yourself. Second, the automatic integrity pass runs on a <em>clean</em>
+      exit; if a session <strong>crashes</strong> before it fires, the housekeeping waits until the next
+      session's start-up backstop catches it. That recovery close is <em>session-attributed</em>: the
+      backstop reads which session crashed — and, when the registry row recorded one, the project
+      directory it was working in — and threads both into the close, so the crashed session's own
+      records are reconciled, not whichever project the rescuing session happens to open in.</p>
     </div>
-
-    <div class="toc-band" id="beyond">Beyond the close — acting on what it reports</div>
     <p>
-      Everything above is the close. What follows is its companion: the capabilities <em>you</em> invoke to act
-      on what the close reported. Every entry is a librarian capability unless marked as a skill — invoke it as
-      <code>/librarian &lt;name&gt;</code> with the flags shown; the prefix is left off below. Every one that
-      writes defaults to a check or dry run; the flag is what turns it into a write.
+      The practical takeaway: closing the window loses no work and still tidies the vault; running
+      <code>/librarian session-close</code> yourself is how you tidy <em>on demand</em> and get the backup
+      offer. Backup, run periodically by hand, is the one habit the automation deliberately leaves to you.
     </p>
-    <div class="legend">
-      <span class="chip"><span class="sw direct"></span>Direct counterpart — the same capability the close runs, in the apply mode the close withholds</span>
-      <span class="chip"><span class="sw related"></span>Related — shares the close's purpose, but needs your judgment, your approval, or a different trigger</span>
-    </div>
-
-    <div class="capref-group"><span class="sw direct"></span>Direct counterparts</div>
-    <div class="capref">
-      <div class="capref-head"><code>frontmatter-enforce --fix</code><span class="capref-badge">At close: check mode</span></div>
-      <p class="capref-lede">The vault-wide frontmatter auditor, and the backfiller for the identity cohort.</p>
-      <dl>
-        <dt>What it does</dt><dd>Validates required fields, value formats and the tag vocabulary. In fix mode it writes only the fields a file lacks: <code>created</code> from the first commit or birth date, <code>id</code> from the path, the schema version, and a description drafted from the first heading; tags outside the vocabulary are repaired. Nothing already present is rewritten.</dd>
-        <dt>Scope flags</dt><dd>Recently touched files by default; <code>--full</code> for the whole vault; <code>--scope &lt;folder&gt;</code> for one surface, following the work symlink. At upgrade, <code>--frontmatter-fix</code> runs it once after the new files land.</dd>
-        <dt>Run it when</dt><dd>The close reports missing cohort fields, after you import or hand-write notes outside Claude&nbsp;Code, or after an upgrade. Run the check first and read the proposals; then fix.</dd>
-      </dl>
-    </div>
-    <div class="capref">
-      <div class="capref-head"><code>index-maintain</code><span class="capref-badge">At close: dry run, daily</span></div>
-      <p class="capref-lede">The self-healing sweep for every folder's <code>_index.md</code>.</p>
-      <dl>
-        <dt>What it does</dt><dd>The bare invocation is the mechanical tier: it bootstraps a missing index and, inside the sentinel markers, corrects the row set, line counts, types, the path-derived parent and the timestamp. Everything outside the markers is preserved verbatim.</dd>
-        <dt>Deeper</dt><dd><code>--deep</code> adds the semantic tier — descriptions, ordering, the folder-context paragraph — as findings only. It never overwrites them.</dd>
-        <dt>Run it when</dt><dd>The daily dry run reported drift, or after you added, moved or removed many files by hand.</dd>
-      </dl>
-    </div>
-    <div class="capref">
-      <div class="capref-head"><code>wikilink-repair --apply</code><span class="capref-badge">At close: dry run, weekly</span></div>
-      <p class="capref-lede">Repairs dangling wikilinks from the relationship registry, with no guessing.</p>
-      <dl>
-        <dt>What it does</dt><dd>Proposes a repair only when the broken target's name exactly matches a registered primary or mirror file. Several candidates are flagged as ambiguous and left alone; there is no fuzzy matching. Broken Markdown paths are reported, not repaired — a path has no candidate to guess from.</dd>
-        <dt>Apply</dt><dd><code>--apply</code> rewrites the proposed batch.</dd>
-        <dt>Run it when</dt><dd>The weekly sweep reported repairable wikilinks.</dd>
-      </dl>
-    </div>
-    <div class="capref">
-      <div class="capref-head"><code>rename-cascade --apply</code><span class="capref-badge">At close: proposal only</span></div>
-      <p class="capref-lede">Rewrites every inbound link, in both grammars, after a file is renamed.</p>
-      <dl>
-        <dt>What it does</dt><dd>Reads the renames the close detected over the last day — or, with <code>--from-history</code>, the durable rename history the close recorded — resolves each inbound link against the old path, and shows the rewrite set. <code>--apply</code> performs it.</dd>
-        <dt>Run it when</dt><dd>The close's rename proposal lists inbound links. For a rename older than a day, use the history form.</dd>
-      </dl>
-    </div>
-    <div class="capref">
-      <div class="capref-head"><code>review</code><span class="capref-badge">At close: queued, weekly</span></div>
-      <p class="capref-lede">The guided walk through the memory review queue, in session.</p>
-      <dl>
-        <dt>What it does</dt><dd>Presents each queued item as a confirm-or-decline. A confirm stamps the entry revalidated or applies the promotion. It never auto-fires, and nothing in the queue changes until you say so — with one exception: a low-severity hygiene item you have dismissed three times is suppressed instead of presented again (revalidation items are never suppressed).</dd>
-        <dt>Fed by</dt><dd>The staleness sweep (entries past their revalidation window), the consolidation pass at session end, and the promotions the <code>/mem-promote</code> skill proposes.</dd>
-        <dt>Run it when</dt><dd>The session-start banner reports pending review items.</dd>
-      </dl>
-    </div>
-    <div class="capref">
-      <div class="capref-head"><code>rules-compact --apply · memory-globalize --apply</code><span class="capref-badge">At close: deterministic classes, weekly</span></div>
-      <p class="capref-lede">The two writers that act on what rules hygiene finds.</p>
-      <dl>
-        <dt>rules-compact</dt><dd>Trims a rule whose enforcement already lives in a registered, inline-blocking hook to a short stub naming that hook, and moves the full text to a rationale folder nothing loads. It refuses any rule missing the keep-and-why markers, so a rule is never emptied by accident.</dd>
-        <dt>memory-globalize</dt><dd>Promotes a memory marked global in scope into your rules directory; <code>--target</code> chooses which.</dd>
-        <dt>Run them when</dt><dd>Rules hygiene flags a hook-backed rule or a global-scope memory. The judgment class of rules hygiene itself waits for an attended run: <code>rules-hygiene</code> in session.</dd>
-      </dl>
-    </div>
-
-    <div class="capref-group"><span class="sw related"></span>Related capabilities the close never runs</div>
-    <div class="capref related">
-      <div class="capref-head"><code>link-grammar-convert</code><span class="capref-badge">Not in the close: needs approval, commits</span></div>
-      <p class="capref-lede">The one-time migration of your own prose from wikilinks to the path grammar every machine-written link already uses.</p>
-      <dl>
-        <dt>What it does</dt><dd>A dry run writes a converted sibling of each file plus an approval register. On apply it leaves a pre-image beside each file and commits per batch when the root is a git repository, under confirmation.</dd>
-        <dt>Refuses when</dt><dd>The approval is blank, a scheduled fire window is open, Obsidian is running, the tree is dirty, or any converted link would resolve to a different file than before — the resolution set must be identical or nothing is written.</dd>
-        <dt>Run it when</dt><dd>Once, when you decide your prose should use paths too.</dd>
-        <dt>Close relation</dt><dd>The cross-reference and link-repair sweeps check links; nothing at close changes their grammar.</dd>
-      </dl>
-    </div>
-    <div class="capref related">
-      <div class="capref-head"><code>library-scrub --apply</code><span class="capref-badge">Not in the close: a deliberate promotion</span></div>
-      <p class="capref-lede">Promotion of a plan's research into the universal library.</p>
-      <dl>
-        <dt>What it does</dt><dd>Proposes by default. On apply it copies the raw artifact, writes the scrubbed article, stamps the plan's library references, and archives the workshop copy.</dd>
-        <dt>Run it when</dt><dd>A research artifact turns out to have value beyond the plan that produced it.</dd>
-        <dt>Close relation</dt><dd>The close declares what a plan produced; lifting it into the library is a judgment the close never makes for you.</dd>
-      </dl>
-    </div>
-    <div class="capref related">
-      <div class="capref-head"><code>inbox-settle --apply</code><span class="capref-badge">Not in the close: a judgment call</span></div>
-      <p class="capref-lede">Settling an idea note by your decision.</p>
-      <dl>
-        <dt>What it does</dt><dd>Stamps a resolution from the strict vocabulary — promoted, absorbed, resolved, dropped, superseded, discharged — and moves the note into the settled folder. Dry run until you apply; refuses to settle a note twice.</dd>
-        <dt>Run it when</dt><dd>An idea reached its outcome without becoming a plan.</dd>
-        <dt>Close relation</dt><dd>The backlog refresh at close settles notes automatically once their plan reaches a terminal status; this handles the ones with no plan.</dd>
-      </dl>
-    </div>
-    <div class="capref related">
-      <div class="capref-head"><code>/backlog-hygiene</code><span class="capref-badge">Not in the close: a skill, periodic</span></div>
-      <p class="capref-lede">An audit of the backlog's lifecycle rules across the idea inbox and in-flight plan manifests.</p>
-      <dl>
-        <dt>What it does</dt><dd>Reports staleness, missing dispositions and out-of-vocabulary statuses. <code>--fix</code> applies the one safe maintenance operation; table regeneration is delegated to the same backlog index the close renders.</dd>
-        <dt>Run it when</dt><dd>A periodic backlog review, or when the close's plan-lifecycle checks keep flagging the same rows.</dd>
-      </dl>
-    </div>
-    <div class="capref related">
-      <div class="capref-head"><code>managed-surface-census</code><span class="capref-badge">Not in the close: on demand or in a full sweep</span></div>
-      <p class="capref-lede">A hash of every installed brain-stem file against the install receipt.</p>
-      <dl>
-        <dt>What it does</dt><dd>Detects and never fixes. De-duplicates against its last snapshot, and classifies your overlay and sidecar files as legitimate rather than flagging them.</dd>
-        <dt>Run it when</dt><dd>You suspect a shipped file was edited in place by something other than Claude&nbsp;Code (<a href='packaging-runtime.html#managed'>Managed surfaces</a>).</dd>
-        <dt>Close relation</dt><dd>The close chain's per-entity checks — plan-trinity drift, memory hygiene, skill-registry parity — compare related records against each other; this checks the installed bytes themselves.</dd>
-      </dl>
-    </div>
-    <div class="capref related">
-      <div class="capref-head"><code>/mem-promote</code><span class="capref-badge">Not in the close: a skill, proposes only</span></div>
-      <p class="capref-lede">Proposals to promote observations from the optional claude-mem plugin into your curated memory files.</p>
-      <dl>
-        <dt>What it does</dt><dd>Gathers, reshapes, routes conflicts, and proposes. It never writes; every proposal lands in the review queue and is applied through <code>review</code>.</dd>
-        <dt>Run it when</dt><dd>After a run of sessions rich in decisions the memory files should carry.</dd>
-        <dt>Close relation</dt><dd>The consolidation check at session end is the automatic half of the same loop.</dd>
-      </dl>
-    </div>
-    <div class="capref related">
-      <div class="capref-head"><code>full</code><span class="capref-badge">Not in the close: the manual audit-set sweep</span></div>
-      <p class="capref-lede">Every audit in one receipt.</p>
-      <dl>
-        <dt>What it does</dt><dd>Runs the whole roster, including the three audits the close never reaches: the managed-surface census, the schema-drift detector, and the vault-writer health audit (dormant until you register a writer). It never runs a backup.</dd>
-        <dt>Run it when</dt><dd>Periodically, or before a release of your own overlay.</dd>
-      </dl>
-    </div>
-    <div class="capref related">
-      <div class="capref-head"><code>matrix-render · sanctioned-schema-drift-detect</code><span class="capref-badge">Not in the close: two smaller siblings</span></div>
-      <p class="capref-lede">Per-plan rendering, and schema drift detection.</p>
-      <dl>
-        <dt>matrix-render</dt><dd>Renders one plan's traceability matrix from its manifest, the same way the close renders the armed plan's task ledger. Runs per plan, on demand.</dd>
-        <dt>schema drift</dt><dd>Reports drift between the installed schemas and the distribution source they came from, exiting non-zero when it finds any; on an install with no second copy to compare against, it skips cleanly. Runs in a full sweep or by hand.</dd>
-      </dl>
-    </div>
 
     <div class="callout key">
       <div class="label">How this ties back to memory and the binder</div>
       <p>Close-out is where a session's contributions settle: episodic memory records what happened, the
-      binder's generated pages and its situating card re-derive from the plans you touched, and the indexes
-      refresh — so the next session in the project starts already oriented. The session keeps your place while
-      you work (<a href="checkpoints.html">checkpoints</a>) and coordinates with peers
-      (<a href="multi-session.html">the registry</a>); close hands the durable residue back to
+      binder's generated pages and its situating card re-derive from the plans you touched, and indexes
+      refresh — so the next session in this project starts already oriented. The session keeps
+      your place while you work (<a href="checkpoints.html">checkpoints</a>) and coordinates with peers
+      (<a href="multi-session.html">the registry</a>); close is where it hands the durable residue back to
       <a href="context-and-memory.html">context and memory</a>.</p>
     </div>
 
     <h2>Reference</h2>
     <ul>
-      <li>End-of-session hooks — <code>session-deregister.sh</code> (marks closed, spawns the reconciler and the detached close), <code>session-episode-write.sh</code>, <code>memory-consolidation-check.sh</code>.</li>
-      <li>Crash backstop — <code>session-start-integrity-backstop.sh</code> at the next session start, session-attributed.</li>
-      <li>On demand — <code>/librarian session-close</code>: identical chain, in-session output, backup offer.</li>
-      <li>The receipt — a dated <code>session-close-*.md</code> log in <code>~/.local/state/brain-stem/logs/</code>.</li>
+      <li>Always-on — <code>session-deregister.sh</code> (SessionEnd): marks closed, spawns the background reconciler when a pending peer exists.</li>
+      <li>Explicit — <code>/librarian session-close</code>: auto-detects scope (solo / scoped / reconciler), chains the cleanup chores, advisory semantics, always exits cleanly.</li>
+      <li>The receipt — a dated <code>session-close-*.md</code> log in <code>~/.local/state/brain-stem/logs/</code> (machine-local, not the vault).</li>
     </ul>
 
     <div id="site-foot-nav"></div>
@@ -360,7 +197,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

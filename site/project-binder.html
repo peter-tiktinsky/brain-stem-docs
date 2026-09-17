@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The project binder · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -29,19 +29,18 @@
       <p>A binder is the roll-up of <strong>every plan that belongs to a project</strong> — its research,
       its decisions, its handoffs — gathered into one view, with sub-plans grouped underneath their master
       by lineage. <strong>Membership is automatic:</strong> each plan's control file names the project it
-      belongs to, so every plan naming this project is gathered in, with no list of plans to maintain by hand. The
+      belongs to, so every plan naming this project is gathered in, with no roster to maintain by hand. The
       binder doesn't copy the plans' contents — it <strong>indexes</strong> them, linking back to the
       canonical plan folders.</p>
     </div>
 
     <h2>How a project is identified — the launch directory</h2>
     <p>
-      All of this depends on one question: <em>which project am I in?</em> brain-stem answers it from where
-      you launched — <strong>register a folder as a project once, and every launch from inside it resolves
-      to that project.</strong> The two project-scoped surfaces key off that slightly differently: this
-      project's memory follows the folder itself and needs no registration, while this project's binder
-      follows the registered project, so an unregistered folder shares the catch-all binder rather than
-      getting its own. Registering is <strong>one command</strong>.
+      All of this depends on one question: <em>which project am I in?</em> brain-stem answers it the
+      simplest way — <strong>a project is the directory you launched Claude from.</strong> Start
+      Claude&nbsp;Code inside a folder and that folder <em>is</em> the project's identity; both
+      project-scoped surfaces — this project's memory and this project's binder — are selected by it, every
+      session. There is <strong>no list of projects to maintain</strong>.
     </p>
     <table>
       <thead><tr><th>Project kind</th><th>Launched from</th><th>Binder gathers</th></tr></thead>
@@ -51,11 +50,10 @@
       </tbody>
     </table>
     <div class="callout note">
-      <div class="label">Why identity comes from where you launch</div>
-      <p>Naming the project by hand in every session is the thing that drifts — you forget, and the work
-      lands in the wrong place. Reading the project from where you launched means the match is made fresh
-      each session against the folder anchors you registered; move a folder, update its anchor, and the
-      identity follows you. (The full mechanics of what a launch resolves are on
+      <div class="label">Why the launch directory, not a declared list</div>
+      <p>A hand-maintained roster of "what counts as this project" drifts out of date the moment you forget
+      to update it. Reading the project from where you launched means there is nothing to keep in sync — the
+      identity is read fresh from reality each session. (The full mechanics of what a launch resolves are on
       <a href="session-loading.html">What loads each session</a>.)</p>
     </div>
 
@@ -67,12 +65,12 @@
       are read on demand by following its pointers.
     </p>
 
-    <div class="hubwrap">
+    <div class="hubwrap" style="margin:22px 0;">
       <div class="smnode hub"><b>_situating.md — the cover (generated · loaded each session)</b><small>The binder's orientation card and cover page: the project's plan roster, its overall status, the active focus (the in-progress plan and its current task), and a latest-handoff pointer for each active plan — derived entirely from the plans and loaded into every session the instant it opens, so the assistant self-orients before its first reply. It carries pointers to the three indices below.</small></div>
       <div class="ptrcards">
-        <div class="ptrcard"><b>research-index.md <span class="qualifier generated">· generated</span></b><small>Every plan's findings rolled into one index, organized by plan, with a link straight into each plan's <code>_research/</code> folder.</small></div>
-        <div class="ptrcard"><b>decision-log.md <span class="qualifier generated">· generated</span></b><small>Every plan's decisions in one cross-plan list; superseded records are forward-linked, never dropped — so settled choices aren't re-litigated.</small></div>
-        <div class="ptrcard"><b>handoff-chronicle.md <span class="qualifier generated">· generated</span></b><small>The session-handoff records across the project, newest-first, each carrying its <code>Next session:</code> line — so any session resumes cleanly.</small></div>
+        <div class="ptrcard"><b>research-index.md <span style="font-weight:400;color:var(--ok)">· generated</span></b><small>Every plan's findings rolled into one index, organized by plan, with a link straight into each plan's <code>_research/</code> folder.</small></div>
+        <div class="ptrcard"><b>decision-log.md <span style="font-weight:400;color:var(--ok)">· generated</span></b><small>Every plan's decisions in one cross-plan list; superseded records are forward-linked, never dropped — so settled choices aren't re-litigated.</small></div>
+        <div class="ptrcard"><b>handoff-chronicle.md <span style="font-weight:400;color:var(--ok)">· generated</span></b><small>The session-handoff records across the project, newest-first, each carrying its <code>Next session:</code> line — so any session resumes cleanly.</small></div>
       </div>
     </div>
     <p class="figcap">The binder's own pages are the generated orientation card — its cover — and three generated indices. The card additionally points <em>outward</em> — for non-coding work, to the project's <strong>deliverables</strong> (the <code>Work/</code> view) — a surface it links to, not a binder page.</p>
@@ -125,7 +123,7 @@
       plans (the canonical content stays in the plan folders), the binder is regenerable, not a fragile
       dependency: delete a generated page and the next librarian pass rebuilds it. The full
       reasoning — why auto-generated surfaces survive while hand-maintained ones rot — is on
-      <a href="project-management-rationale.html#binder">the project-management rationale</a>.</p>
+      <a href="research-rationale.html#context-library">the research rationale</a>.</p>
     </div>
 
     <h2>Research is the one facet that travels</h2>
@@ -176,7 +174,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

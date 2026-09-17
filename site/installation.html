@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Install &amp; upgrade guide · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -23,7 +23,7 @@
     </p>
     <p class="page-meta">Nothing here is magic. Installation is a careful, recorded file copy — preview-first, and every consequential step asks before it acts.</p>
 
-    <h2 id="before">Before you begin</h2>
+    <h2>Before you begin</h2>
     <p>You need four things in place. Each is a one-time setup that lives outside brain-stem itself.</p>
     <table>
       <thead><tr><th>You need</th><th>What it is</th><th>How to check</th></tr></thead>
@@ -35,7 +35,7 @@
       </tbody>
     </table>
 
-    <h2 id="step1">Step 1 — Install the foundation</h2>
+    <h2>Step 1 — Install the foundation</h2>
     <p>
       "Installing" means copying brain-stem out of its downloaded folder and into the one directory
       Claude&nbsp;Code reads from when it starts up — by convention <code>~/.claude</code> in your home folder.
@@ -57,11 +57,9 @@ bash install.sh | jq .</pre>
     <p>
       The dry run is safe even on a home that already has an older brain-stem in it — it does not treat your
       existing files as an error. The plan's <code>file_dispositions</code> field lists each managed file an
-      install would touch and how — nine dispositions in all, the ones you see most being <code>replace</code>
-      (take the new version), <code>new-ship</code> (a file that did not exist yet), and <code>sidecar</code>
-      (take the new version, but first save a copy of your edited one alongside it). On a home with no
-      brain-stem in it yet the list is empty, because there is nothing to reconcile.
-      When you have read the plan and want to proceed, name the install target and
+      install would touch and how: <code>replace</code> (take the new version), <code>new-ship</code> (a file
+      that did not exist yet), or <code>sidecar</code> (take the new version, but first save a copy of your
+      edited one alongside it). When you have read the plan and want to proceed, name the install target and
       re-run the <strong>same</strong> command with one word added:
     </p>
     <pre>export CLAUDE_HOME=~/.claude
@@ -77,7 +75,7 @@ bash install.sh --apply</pre>
       later lets the system detect tampering and lets an uninstall remove only its own files.
     </p>
 
-    <h3 id="existing-files">Installing into a folder that already has files</h3>
+    <h3>Installing into a folder that already has files</h3>
     <p>
       If <code>~/.claude</code> already contains content that did not come from brain-stem, the installer
       <strong>stops and refuses</strong> rather than overwrite it. The dry run tells you <em>everything</em> it
@@ -134,13 +132,11 @@ bash install.sh --apply --force-install --i-understand-overwrite-risk --backup-d
       the folder onboarding built, and you are set up.
     </p>
 
-    <h2 id="upgrade">Upgrading an existing install</h2>
+    <h2>Upgrading an existing install</h2>
     <p>
       If brain-stem is already installed and a newer version has been released, you do <strong>not</strong>
       uninstall and start over. You upgrade in place — with the <strong>same</strong> entrypoint you used to
-      install. There is no separate upgrade command to learn. The
-      <a href="https://github.com/peter-tiktinsky/brain-stem/blob/main/CHANGELOG.md">release notes</a>
-      list what every version changed, before you pull.
+      install. There is no separate upgrade command to learn.
     </p>
     <p><strong>1 — Get the new source.</strong> Go to the folder you cloned earlier and pull the latest code:</p>
     <pre>cd brain-stem
@@ -164,12 +160,11 @@ git reset --hard origin/main</pre>
       <code>--upgrade</code> is the one-command lane. It first <strong>asserts that an install is already
       there</strong> (on a machine with none it fails rather than quietly becoming a first install), detects the
       installed version and the shape of your setup, and <strong>resolves the install home itself</strong> from
-      the existing version stamp — there is nothing to export for an upgrade (an exported
-      <code>CLAUDE_HOME</code> is still honoured). It then prints the full <strong>upgrade plan</strong>: <code>file_dispositions</code>
-      lists every managed file the upgrade would touch and what it would do — one of nine dispositions, most
-      often <code>replace</code>, <code>new-ship</code>, or <code>sidecar</code> (take the new version, but first
-      save a copy of any file you had edited alongside it as <code>&lt;file&gt;.foundation-local</code>) —
-      together with the exact apply
+      the existing version stamp — you no longer export <code>CLAUDE_HOME</code> for an upgrade (an exported
+      value is still honoured). It then prints the full <strong>upgrade plan</strong>: <code>file_dispositions</code>
+      lists every managed file the upgrade would touch and what it would do — <code>replace</code>,
+      <code>new-ship</code>, or <code>sidecar</code> (take the new version, but first save a copy of any file you
+      had edited alongside it as <code>&lt;file&gt;.foundation-local</code>) — together with the exact apply
       command it recommends for your setup. The preview exits cleanly and changes nothing, even if your current
       files are older than the new ones.
     </p>
@@ -188,7 +183,7 @@ git reset --hard origin/main</pre>
       leaves everything else untouched, so it warns instead of demanding the overwrite acknowledgement.</li>
       <li><strong>The plan-directory guard waives itself.</strong> A plan tree already under
       <code>~/.claude-plans</code> was minted by the product; the upgrade never modifies it, so
-      the lane proceeds without the <code>--retrofit-existing</code> acknowledgement.</li>
+      <code>--retrofit-existing</code> is no longer asked for.</li>
       <li><strong>The backup directory is derived.</strong> Because an upgrade replaces your merged
       <code>settings.json</code>, a backup is still taken first — into a timestamped folder under
       <code>~/.claude-backups/</code> that the installer names for you (pass <code>--backup-dir</code> only to
@@ -209,8 +204,8 @@ git reset --hard origin/main</pre>
       directories (the skills, the orchestrator, the installer support files, the vault seed). Files you edited
       yourself are never lost: each is updated with your copy saved alongside as
       <code>&lt;file&gt;.foundation-local</code>, so your changes are preserved and clearly flagged. And once the
-      install is live, editing one of its managed files draws an in-flight advisory, and a census you run — by
-      hand or in a full librarian pass — reports the divergence, whatever caused it — see <a href="packaging-runtime.html#managed">Managed surfaces</a>.
+      install is live, editing one of its managed files draws an in-flight advisory and a daily census reports any
+      divergence, whatever caused it — see <a href="packaging-runtime.html#managed">Managed surfaces</a>.
     </p>
 
     <div class="callout key">
@@ -229,7 +224,7 @@ git reset --hard origin/main</pre>
       <p>
         brain-stem ships three starter <strong>Obsidian Bases</strong> views — Bases is Obsidian's built-in,
         table-driven way to browse notes by their frontmatter, and these views read the typed frontmatter cohort
-        directly (see <a href="knowledge-graph.html">Knowledge-graph extendability</a>). A <em>fresh</em>
+        directly (see <a href="knowledge-graph.html">Knowledge graph &amp; external AI</a>). A <em>fresh</em>
         onboarding seeds them into your new vault automatically; an <strong>upgrade never reaches into your
         vault</strong>, so on a vault you already have you add them once, by hand:
       </p>
@@ -254,8 +249,7 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
     </p>
     <p>
       The general rule: <strong>a migration preserves your data and moves it for you.</strong> If a release
-      introduces one, its <a href="https://github.com/peter-tiktinsky/brain-stem/blob/main/CHANGELOG.md">release
-      notes</a> will say exactly what moved, and the upgrade will carry it out during
+      introduces one, its release notes will say exactly what moved, and the upgrade will carry it out during
       <code>--apply</code> — so an upgrade across any version holds no surprises.
     </p>
 
@@ -350,10 +344,9 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
     <div class="callout note">
       <div class="label">Removing brain-stem instead</div>
       <p>If you ever want to remove it, run <code>bash uninstall.sh</code> from your cloned <code>brain-stem</code>
-      folder with <code>CLAUDE_HOME</code> set (the uninstaller is not copied into <code>~/.claude</code>). It copies your install to a backup first — everything except <code>.git</code> and <code>projects/</code> — then removes
-      only the untouched files it originally installed. Any file you edited, and your vault, are preserved; the two
-      top-level configuration files, <code>settings.json</code> and <code>settings.local.json</code>, are the exception
-      and are removed by name, so take your version back out of the backup. The full story is on <a href="uninstalling.html">Uninstalling</a> and
+      folder with <code>CLAUDE_HOME</code> set (the uninstaller is not copied into <code>~/.claude</code>). It backs
+      everything up first, then removes only the untouched files it originally installed — any file you edited, and
+      your vault, are preserved. The full story is on <a href="uninstalling.html">Uninstalling</a> and
       <a href="packaging-runtime.html">Packaging &amp; runtime</a>.</p>
     </div>
 
@@ -364,7 +357,7 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

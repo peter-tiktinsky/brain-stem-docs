@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Uninstalling · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=32">
+<link rel="stylesheet" href="assets/style.css?v=27">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -17,11 +17,9 @@
     <h1>Uninstalling</h1>
     <p class="lede">
       Removing brain-stem is one command. The important thing to understand first is what it will and will not
-      touch — because the uninstaller is deliberately careful: inside the folders it installed it removes
-      <strong>only the untouched files it originally laid down</strong>, it copies your install to a backup before
-      it starts, and it leaves your notes alone. The exception is the two top-level configuration files,
-      <code>settings.json</code> and <code>settings.local.json</code>: those are removed by name whether or not you
-      edited them, so your version of them lives in the backup.
+      touch — because the uninstaller is deliberately careful: it removes <strong>only the untouched files it
+      originally installed</strong>, backs everything up before it starts, and leaves your notes and any file you
+      edited alone.
     </p>
     <p class="page-meta">For <em>why</em> uninstall behaves this way, see <a href="packaging-runtime.html">Packaging &amp; runtime</a>.</p>
 
@@ -34,11 +32,11 @@
     <div class="flow">
       <div class="fstep gate"><b>1 · Verify</b><small>confirm this is really a brain-stem install, via the provenance log</small></div>
       <div class="farr">›</div>
-      <div class="fstep proj"><b>2 · Back up</b><small>copy the install folder, minus session transcripts, to a timestamped backup first</small></div>
+      <div class="fstep proj"><b>2 · Back up</b><small>copy the whole install folder to a timestamped backup first</small></div>
       <div class="farr">›</div>
       <div class="fstep"><b>3 · Stop jobs</b><small>stop only background jobs in the <code>com.brain-stem</code> name-space</small></div>
       <div class="farr">›</div>
-      <div class="fstep mark"><b>4 · Remove</b><small>file by file — remove untouched originals, keep files you edited in the installed folders</small></div>
+      <div class="fstep mark"><b>4 · Remove</b><small>file by file — remove untouched originals, keep anything you edited</small></div>
     </div>
 
     <ol>
@@ -47,29 +45,21 @@
       folder it wrote to. The uninstaller reads that record and confirms the folder you are removing matches.
       <strong>If there is no install record, it refuses</strong> — you should not "reverse" an install that was
       never made.</li>
-      <li><strong>It backs your install up first.</strong> Before removing a single file, it copies the install
-      folder into a timestamped backup named <code>.pre-uninstall-&lt;timestamp&gt;/</code>. Three things stay out
-      of that copy: the source repository's <code>.git</code> history, the <code>projects/</code> folder of Claude
-      Code session transcripts (they can contain credentials you pasted into a session, and there is no way to
-      redact them), and any earlier <code>.pre-uninstall-*</code> backup. Everything else is the safety net: an
-      unexpected outcome is recoverable from that copy.</li>
+      <li><strong>It backs everything up first.</strong> Before removing a single file, it copies the entire
+      install folder into a timestamped backup named <code>.pre-uninstall-&lt;timestamp&gt;/</code>. This is the
+      safety net: even an unexpected outcome is fully recoverable from that copy.</li>
       <li><strong>It stops brain-stem's background jobs — and only those.</strong> Every scheduled job brain-stem
       creates is named starting with <code>com.brain-stem</code>. The uninstaller stops and removes only jobs in
       that reserved name-space. If it ever finds a job whose name merely <em>looks</em> similar but sits outside
       that prefix, it aborts rather than risk stopping something unrelated (your backup stays intact).</li>
-      <li><strong>Inside the installed folders, it removes files one at a time, checking each.</strong> For every
-      file the install originally laid down there, the uninstaller re-computes that file's <em>fingerprint</em> (a
-      signature of its exact contents) and compares it to the receipt recorded at install time:
+      <li><strong>It removes files one at a time, checking each.</strong> For every file the install originally
+      laid down, the uninstaller re-computes that file's <em>fingerprint</em> (a signature of its exact contents)
+      and compares it to the receipt recorded at install time:
         <ul>
-          <li><strong>Unchanged</strong> — exactly as brain-stem shipped it, in this release or an earlier
-          one → it is removed.</li>
-          <li><strong>Edited by you</strong> — the contents match no version brain-stem ever shipped → it
-          is <strong>kept</strong>, unless you pass <code>--force-rm-edited</code>.</li>
+          <li><strong>Unchanged</strong> — exactly as shipped → it is removed.</li>
+          <li><strong>Edited by you</strong> — the contents differ → it is <strong>kept</strong>.</li>
         </ul>
-        So your personal edits inside those folders survive by default. Two things sit outside this per-file
-        check and are removed outright: the top-level <code>settings.json</code> and
-        <code>settings.local.json</code>, and brain-stem's own bookkeeping under <code>governance/</code> — the
-        installed-file receipts, the governance action log, the install-state records and the project registry.</li>
+        So your personal edits survive by default. The uninstaller only deletes files it is certain you never touched.</li>
     </ol>
 
     <h2>What is preserved</h2>
@@ -77,10 +67,8 @@
       <div class="card">
         <div class="kicker">Kept</div>
         <h3>Your vault &amp; your edits</h3>
-        <p>Your notes folder is yours; uninstall does not delete it. And a shipped file you changed inside the
-        installed folders is left in place, named on screen as it is preserved. The top-level
-        <code>settings.json</code> and <code>settings.local.json</code> are the exception — they are removed by
-        name, so take your version back out of the backup.</p>
+        <p>Your notes folder is yours; uninstall does not delete it. And any shipped file you changed is left in
+        place — never silently deleted.</p>
       </div>
       <div class="card">
         <div class="kicker">Kept</div>
@@ -97,9 +85,8 @@
       <p>brain-stem keeps a small registry of the projects (spokes) you have registered. Unlike your notes and
       your own edits, that registry is <strong>brain-stem's own state, not content you authored</strong> — it
       lives inside the install, so a full uninstall removes it along with everything else brain-stem laid down.
-      (An <em>upgrade</em> does the opposite and preserves it.) If you reinstall later you start with the shipped
-      starter registry — two entries: the fallback identity for a folder you have not registered, and
-      brain-stem's own workspace — and re-register your projects. The projects themselves, on disk under
+      (An <em>upgrade</em> does the opposite and preserves it.) If you reinstall later you start with the empty
+      starter registry and re-register your projects — the projects themselves, on disk under
       <code>~/work/</code>, are never touched.</p>
     </div>
 
@@ -107,14 +94,12 @@
     <div class="callout warn">
       <div class="label">There is no dry-run / preview for uninstall</div>
       <p>Unlike the installer — whose default <em>is</em> a write-free preview — the uninstaller does not show you
-      a plan first. The mandatory backup taken in step&nbsp;2 is the safety mechanism instead. Expect it to copy your
-      install aside, not to rehearse.</p>
+      a plan first. The mandatory backup taken in step&nbsp;2 is the safety mechanism instead. Expect it to back
+      everything up, not to rehearse.</p>
     </div>
     <ul>
-      <li><strong>If something looks wrong afterward,</strong> everything the uninstaller removed from your
-      install folder is in the <code>.pre-uninstall-&lt;timestamp&gt;/</code> backup folder it made before starting.
-      The one thing not copied there is the scheduled-job definitions it removes from
-      <code>~/Library/LaunchAgents</code> — reinstalling writes those again.</li>
+      <li><strong>If something looks wrong afterward,</strong> everything the uninstaller removed is in the
+      <code>.pre-uninstall-&lt;timestamp&gt;/</code> backup folder it made before starting. Nothing is gone for good.</li>
       <li><strong>Reinstalling later</strong> is the same first-time path as before: clone, preview,
       <code>--apply</code>. See the <a href="installation.html">Install &amp; upgrade guide</a>.</li>
     </ul>
@@ -126,7 +111,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=25"></script>
+<script src="assets/nav.js?v=21"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>
