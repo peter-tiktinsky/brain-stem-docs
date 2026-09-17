@@ -28,7 +28,12 @@
     var layout = document.querySelector('.layout');
     if (!main || !layout) return;
 
-    var heads = main.querySelectorAll(':scope > h2');
+    /* Every top-level section heading, wherever the page wraps it — some pages
+       group each section in its own <section> or closing <div>. Headings that
+       belong to a component rather than to the page spine are excluded. */
+    var heads = [].slice.call(main.querySelectorAll('h2')).filter(function (h) {
+      return !h.closest('.card, table, details, aside, nav, figure, .sysmap, .callout, .toc');
+    });
     if (heads.length < 2) return;      /* nothing worth a rail */
 
     var taken = {};
@@ -36,15 +41,28 @@
 
     var items = [];
     heads.forEach(function (h) {
-      var label = (h.textContent || '').trim();
+      /* The rail carries the section's name only. A heading may also show an
+         ordinal and a descriptive tail on the page; both are dropped here. */
+      var clone = h.cloneNode(true);
+      [].forEach.call(clone.querySelectorAll('.section-number, .section-desc'), function (n) {
+        n.parentNode.removeChild(n);
+      });
+      var label = (clone.textContent || '').trim().replace(/^\d+[.\s]*/, '').replace(/\s*[—–-]\s*$/, '');
       if (!label) return;
+      /* anchor on the heading, or on the section wrapping it when that is what
+         the page's own in-page links already point at */
+      var target = h;
       if (!h.id) {
+        var sec = h.parentElement;
+        if (sec && sec.id && sec.firstElementChild === h) target = sec;
+      }
+      if (!target.id) {
         var base = slug(label), id = base, n = 2;
         while (taken[id]) { id = base + '-' + n++; }
-        h.id = id;
+        target.id = id;
       }
-      taken[h.id] = true;
-      items.push({ id: h.id, label: label, el: h });
+      taken[target.id] = true;
+      items.push({ id: target.id, label: label, el: h });
     });
     if (items.length < 2) return;
 

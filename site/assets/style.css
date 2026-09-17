@@ -205,6 +205,23 @@ a:hover { border-bottom-color: var(--clay); }
   margin: 0 0 10px;
 }
 .page-meta { font-size: 13.5px; color: var(--muted); margin: 0 0 30px; }
+
+/* The opening summary is closed by the same hairline that separates sections, so
+   its larger type reads as a deliberate lede rather than an accident of size. The
+   rule sits on the last element of the opening block — the standfirst where a page
+   has one, otherwise the element after the lede — because those run the full
+   column width, while the lede itself is held to a 72-character measure. */
+.content > .page-meta {
+  padding-bottom: 26px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 32px;
+}
+.content > .lede + p:not(.page-meta),
+.content > .lede + h2 {
+  border-top: 1px solid var(--line);
+  padding-top: 30px;
+  margin-top: 30px;
+}
 .decision-key {
   color: var(--muted);
   font-size: 12.5px;
