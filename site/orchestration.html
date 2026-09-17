@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Orchestration &amp; scheduling · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=27">
+<link rel="stylesheet" href="assets/style.css?v=32">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -18,7 +18,7 @@
     <p class="lede">
       <a href="plans.html">Plans</a> describe the work. <strong>Orchestration</strong> runs it — dispatching
       tasks to fresh AI sessions under human-gated supervision. <strong>Scheduling</strong> decides
-      <em>when</em>: from always-on capture to an overnight batch you wake up to. This page covers how both are
+      <em>when</em>: from always-on capture to overnight runs you schedule yourself. This page covers how both are
       set up and governed, and is honest about what's turnkey versus what you assemble.
     </p>
     <p class="page-meta">A deep page. The orchestrator, its gates, programmatic sessions, and the real scheduling surface.</p>
@@ -95,8 +95,8 @@
       <tbody>
         <tr>
           <td>Always-on capture (the writer pipeline)</td>
-          <td>The two foundation jobs — the writer-reconciler and the doc-amender — ship as launchd templates with a renderer; install stages them, and the next session you open in a real (logged-in) desktop context detects any staged-but-not-yet-loaded job and bootstraps it automatically. The documented manual bootstrap step remains as the fallback for headless installs. Out of the box neither job touches anything beyond your machine: the reconciler never calls a model, and the doc-amender runs one only for a prompt-guided writer you register.</td>
-          <td><span class="pill advise">Bootstraps itself</span></td>
+          <td>The two foundation jobs — the writer-reconciler and the doc-amender — ship as launchd templates with a renderer; you render them once after install, and the next session you open in a real (logged-in) desktop context detects any staged-but-not-yet-loaded job and bootstraps it automatically. The documented manual bootstrap step remains as the fallback for headless installs. Out of the box neither job touches anything beyond your machine: the reconciler never calls a model, and the doc-amender runs one only for a prompt-guided writer you register.</td>
+          <td><span class="pill advise">Render once, then self-loading</span></td>
         </tr>
         <tr>
           <td>Run a plan or a task once at a future time</td>
@@ -124,13 +124,13 @@
     <div class="pillars">
       <div class="pillar">
         <div class="ph"><span class="pn">A</span><h3>A daily system audit + backup</h3></div>
-        <p class="keeps">Run a full librarian sweep once a day: it audits your vault and pushes a Git backup of your vault, install, and plans.</p>
-        <p class="row"><b>Reality</b>The payload is one shipped command (a full librarian run <em>includes</em> the backup, which commits and pushes to a remote you've configured). Only the daily timer is a small launchd job you add.</p>
+        <p class="keeps">Run a full librarian sweep once a day, followed by a backup run that pushes a Git backup of your vault, install, and plans.</p>
+        <p class="row"><b>Reality</b>The payload is two shipped commands — the full audit sweep, and a separate backup run that commits and pushes to a remote you've configured (it asks you to confirm first). Only the daily timer is a small launchd job you add.</p>
         <div class="vrow"><span class="pill ok">Payload shipped</span> <span class="pill advise">schedule it yourself</span></div>
       </div>
       <div class="pillar">
         <div class="ph"><span class="pn">B</span><h3>Overnight idea triage</h3></div>
-        <p class="keeps">Drop ideas into your inbox through the day; one overnight run triages and researches them, so you wake up to ready-to-review plan drafts.</p>
+        <p class="keeps">Drop ideas into your inbox through the day; schedule one overnight run that triages and researches them, so you wake up to ready-to-review plan drafts.</p>
         <p class="row"><b>Reality</b>Every piece exists as a skill — triage, research, plan scaffolding, and one-off scheduled dispatch — but there's no shipped overnight sweep that chains them. This one is a recipe you compose, not a feature you switch on.</p>
         <div class="vrow"><span class="pill advise">Composable</span></div>
       </div>
@@ -158,7 +158,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=21"></script>
+<script src="assets/nav.js?v=25"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

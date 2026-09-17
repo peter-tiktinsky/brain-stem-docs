@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Governance personalization · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=27">
+<link rel="stylesheet" href="assets/style.css?v=32">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -59,12 +59,12 @@
       The eight pillars don't arrive as eight files you wire together. They are composed —
       <strong>at release time</strong> — into one sealed bundle, <code>foundation-master.json</code>, with one
       slot per pillar. The composition is deterministic (same inputs produce a byte-identical output; the
-      version is a content hash that excludes build timestamps). You never build it; the installer ships only
-      the composed artifact, and your overlay merges on top.
+      version is a content hash that excludes build timestamps). You never build it; the pillar sources stay in
+      the repo, the installer ships the composed artifact, and your overlay merges on top.
     </p>
     <p>
       The picture is simplest as <strong>two sources merging into one</strong>: the sealed rulebook that ships,
-      and the overlay you own. They deep-merge at every write into the single live rulebook the guard consults.
+      and the overlay you own. They deep-merge into the single live rulebook the guard consults, on every Edit and Write the assistant makes; a file written straight through the shell never reaches that gate.
     </p>
     <div class="flow">
       <div class="fstep mark"><b>Shipped foundation</b><small>8 pillars + file-type contracts, composed at release into <code>foundation-master.json</code> — deterministic, sealed, never edited</small></div>
@@ -128,7 +128,7 @@
         multi-rule registration either lands whole or not at all; and every action — committed, rejected, or
         skipped — appends a row to an immutable action log (<code>governance-action-log.jsonl</code>). On any
         validation or write failure the registration <strong>blocks and logs</strong> rather than leaving a
-        half-formed rule behind. New assets are create-only, and the project scaffold refuses to clobber a
+        half-formed rule behind. A new doc-amender prompt is create-only — the registration refuses to overwrite one that already exists — and the project scaffold refuses to clobber a
         non-empty directory.
       </p>
     </div>
@@ -136,7 +136,7 @@
     <p class="page-meta">
       What <code>/govern register</code> deliberately does <em>not</em> do: there is no <code>list</code>,
       <code>audit</code>, or <code>unregister</code> verb. Inspecting what you've registered and catching drift
-      is the <strong>librarian's parity audit</strong> — a separate capability. And there is no permanent way to
+      is the <strong>librarian's audit sweeps</strong> — separate capabilities. And there is no permanent way to
       switch off a shipped rule: overriding one takes a reason every time, and the single one-off escape hatch
       (<code>R52_FORCE_OVERRIDE</code>) clears one write at the guard, not a setting on this command.
     </p>
@@ -161,8 +161,9 @@
       Both land through the one governed seam you've already met — and nothing you add ever edits the foundation.
     </p>
     <p>
-      Taken together, those additions are your own <strong>overlay package</strong> — the shape of your work,
-      captured. You build it through four moves:
+      Taken together, those additions are your own <strong>overlay</strong> — the shape of your work,
+      captured. Two of the four moves below register through the governed seam; the other two are yours to
+      arrange:
     </p>
     <div class="card-grid two">
       <div class="card">
@@ -175,20 +176,21 @@
         <div class="kicker">2 · Your document types</div>
         <h3>Teach it your kinds of file</h3>
         <p>Register the documents you actually work in — a statement of work, a design spec, a status report —
-        each with its own rules for fields, naming, and where it lives. From then on they're governed like
-        anything brain-stem ships.</p>
+        each with its own rules for which fields it carries and where it lives. From then on they're governed
+        like anything brain-stem ships.</p>
       </div>
       <div class="card">
         <div class="kicker">3 · Your templates</div>
         <h3>Seed your own starting points</h3>
-        <p>Drop in starting skeletons for those documents — a blank SoW, an empty design brief — that you then
-        own and edit. Nothing is seeded for you by default; this space is reserved for what you bring.</p>
+        <p>Drop in starting skeletons for those documents — a blank SoW, an empty design brief — in a folder of
+        your own making. Nothing is registered or seeded here: these are ordinary files you own and edit.</p>
       </div>
       <div class="card">
         <div class="kicker">4 · Your reusable package</div>
         <h3>Bundle it to reuse</h3>
-        <p>Capture the whole setup — folders, rules, and templates — as one package you can re-apply to your next
-        project of the same kind, or hand to a teammate. Your overlay, your profile, portable.</p>
+        <p>Your folder and document-type registrations all live in one overlay file, so copying that file is how
+        you carry your rules to your next project of the same kind, or hand them to a teammate. Your overlay,
+        portable.</p>
       </div>
     </div>
     <div class="callout key">
@@ -197,8 +199,7 @@
       the only files that change are the ones under your project and in your overlay. <strong>No shipped
       foundation file is modified:</strong> not the master rulebook, not a contract, not a skill or a hook. That's
       exactly what keeps your setup portable and an upgrade safe — your layer merges straight back on top of the
-      next version, every time. A test asserts both halves at once: a real working setup is produced, and the
-      foundation is left byte-for-byte unchanged.</p>
+      next version, every time.</p>
     </div>
 
     <h2>Feeds that fill the structure for you</h2>
@@ -223,13 +224,14 @@
       <code>tag-extension</code> · <code>writer</code> · <code>doc-amender-prompt</code> (the five governable
       assets) plus <code>project</code> (the work-folder on-ramp). Each runs propose → redline → commit (or skip),
       schema-validated and recorded in an append-only action log. No <code>list</code> / <code>audit</code> /
-      <code>unregister</code> verb — inspection and drift-catching are the librarian's parity audit.</li>
-      <li>The four ways to build your own <strong>overlay package</strong> — your folders · your document types ·
-      your templates · bundled for reuse. Every one lands in your overlay or your project, never the foundation;
-      a test asserts a full setup leaves the shipped foundation byte-unchanged.</li>
+      <code>unregister</code> verb — inspection and drift-catching are the librarian's audit sweeps.</li>
+      <li>The four ways to build your own <strong>overlay</strong> — your folders · your document types ·
+      your templates · carrying it forward. Folders and document types register through the governed seam;
+      templates and portability are yours to arrange. Every registration lands in your overlay or your project,
+      never the foundation.</li>
       <li>A <strong>vault-writer</strong> — registered via <code>/govern register --kind writer</code>; a
       writer-reference under <code>Vault Writers/</code> declares its kind, its destinations, and each
-      destination's output type (markdown · JSON · database). See
+      destination's output type (markdown · JSON · SQLite · database · opaque). See
       <a href="vault-writers.html">the vault-writer system</a>.</li>
     </ul>
 
@@ -240,7 +242,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=21"></script>
+<script src="assets/nav.js?v=25"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

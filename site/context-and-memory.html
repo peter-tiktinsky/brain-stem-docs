@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Context and memory · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=27">
+<link rel="stylesheet" href="assets/style.css?v=32">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -16,12 +16,30 @@
     <p class="eyebrow">Context &amp; memory · the map</p>
     <h1>Context and memory</h1>
     <p class="lede">
-      Out of the box, Claude&nbsp;Code starts every session blank. brain-stem fixes that by keeping durable
+      Out of the box, Claude&nbsp;Code loads instructions, settings, and memory — and leaves organizing
+      that material into a coherent, current brief to you. brain-stem closes that gap by keeping durable
       knowledge in plain-text files on disk — and there are <strong>two kinds</strong> of it, answering two
       different questions. This page is the map that ties them together; the deep dives that follow take
       each apart.
     </p>
     <p class="page-meta">The organizing model: <strong>operational vs contextual</strong> knowledge, each at <strong>project or universal</strong> scope.</p>
+
+    <h2>What Claude Code gives you — and what's missing</h2>
+    <p>
+      Natively, Claude&nbsp;Code persists more than a blank slate would suggest: instructions and
+      <code>CLAUDE.md</code> load every session, and auto memory keeps a small index on disk with topic
+      files it can pull in on demand. What persistence alone doesn't do is govern what accumulates —
+      duplication, contradiction, scope and staleness are left for the adopter to reconcile as the corpus
+      grows.
+    </p>
+    <table>
+      <thead><tr><th>Claude Code gives you</th><th>What's missing</th><th>brain-stem adds</th></tr></thead>
+      <tbody>
+        <tr><td>Auto memory that persists across sessions</td><td>Duplication, contradiction and staleness in the growing corpus are left for the adopter to reconcile</td><td>A typed three-kind <a href="memory-model.html">memory model</a> with write-time guards and housekeeping <em>(brain-stem specific)</em></td></tr>
+        <tr><td>A small auto-loaded memory index with fetch-on-demand detail</td><td>Startup context can bloat while the material the current task needs stays hard to find</td><td>A curated <a href="context-library.html">context library</a> routing into the wider corpus on demand <em>(built on the native loading shape)</em></td></tr>
+        <tr><td>A platform size check on the memory index after writes</td><td>The check governs one file, leaving the wider context layer without a maintenance rule</td><td>A deliberate <a href="session-loading.html">loading split</a> — a small always-on core, everything else fetched on demand <em>(built on native)</em></td></tr>
+      </tbody>
+    </table>
 
     <h2>Two kinds of durable knowledge</h2>
     <p>
@@ -53,12 +71,12 @@
     </table>
 
     <div class="callout note">
-      <div class="label">A third pillar: the structural blueprint</div>
-      <p>The matrix above holds the <em>knowledge</em>. One more durable surface frames the
-      <em>work itself</em>: the <a href="plans.html">plan tree</a> — spec, manifest, tasks, handoff. It's
-      neither operational nor contextual; it's the project's blueprint, authored by you and the system
-      together. So the honest picture is <strong>three pillars</strong> — operational, contextual, and
-      structural — not a tidy 2×2.</p>
+      <div class="label">Worth calling out: the structural blueprint</div>
+      <p>One contextual surface deserves its own mention: the <a href="plans.html">plan tree</a> —
+      spec, manifest, tasks, handoff. It answers the same contextual question — what the work is and
+      where it stands — in a specifically <em>structural</em> form: the project's blueprint, authored by
+      you and the system together. It is a distinctive kind of contextual knowledge, not a third pillar
+      beside operational and contextual; the two-question model above is the whole map.</p>
     </div>
 
     <h2>"Context" is the filing cabinet, not the desk</h2>
@@ -82,7 +100,7 @@
         <tr><td><code>claude-mem</code> (optional)</td><td>Contextual · project</td><td>Granular observations, if installed</td><td>on demand</td></tr>
         <tr><td>The Library</td><td>Contextual · universal</td><td>Reusable reference for any project</td><td>moment-of-need only</td></tr>
         <tr><td>The Workshop</td><td>Staging</td><td>Raw, in-progress research</td><td>never auto-loaded</td></tr>
-        <tr><td>The plan tree</td><td>Structural · project</td><td>The blueprint: spec · manifest · tasks · handoff</td><td>active plan's goal auto-injected at start; detail on demand</td></tr>
+        <tr><td>The plan tree</td><td>Contextual (structural) · project</td><td>The blueprint: spec · manifest · tasks · handoff</td><td>active plan's goal auto-injected at start; detail on demand</td></tr>
       </tbody>
     </table>
 
@@ -147,7 +165,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=21"></script>
+<script src="assets/nav.js?v=25"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

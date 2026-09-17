@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Why: write-time governance · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=27">
+<title>Keeping the knowledge graph reliable · brain-stem</title>
+<link rel="stylesheet" href="assets/style.css?v=32">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -14,88 +14,73 @@
 
   <main class="content">
     <p class="eyebrow">Write-time governance · rationale</p>
-    <h1>Why these choices — write-time governance</h1>
+    <h1>Keeping the knowledge graph reliable</h1>
     <p class="lede">
-      Two questions settled the governance design: where do you put a doorman, and how strict should it be?
-      This page is the decision record behind both — the governance engine's core posture decisions and the
-      vault's two write-time guards.
+      Baseline Claude&nbsp;Code can follow instructions and intercept supported tool calls, but it does not
+      supply an information architecture or keep durable artifacts correctly shaped, placed, linked, and
+      readable as the corpus changes. When those guarantees depend on memory and convention, drift becomes
+      context debt. brain-stem turns the native controls into <strong>layered governance</strong>: real-time guidance protects
+      supported writes, while generated navigation, reconciliation, and audits maintain wider relationships.
     </p>
-    <p class="page-meta">
-      Decision tables extracted from the central research rationale. Citations link to
-      <a href="research-rationale.html#citations">the full citation register</a> on that page.
-    </p>
+    <p class="page-meta">Decision rationale · citations resolve to the <a href="research-rationale.html#citations">central source register</a>. Extension ownership is covered under <a href="personalization-rationale.html">personalization</a>; ingestion under <a href="automated-capture-rationale.html">automated capture</a>.</p>
 
-    <div class="callout note">
-      <div class="label">How this page fits</div>
-      <p>The <a href="research-rationale.html">research rationale</a> is the meta spine — two kinds of
-      optimal, six principles, pillar-by-pillar tables, and the full citation register. This page pulls
-      out the decisions that belong to write-time governance specifically: the core doorman posture from
-      the Governance engine pillar, and the write-time guards and survivorship rule from the Vault
-      integrity pillar. Overlay, <code>_override_reason</code>, and <code>/govern register</code>
-      extension decisions live on
-      <a href="personalization-rationale.html">the personalization rationale page</a>; writer-pipeline
-      and ingestion decisions live on
-      <a href="automated-capture-rationale.html">the automated capture rationale page</a>.</p>
+    <div class="callout key">
+      <div class="label">Native primitives</div>
+      <p>The implementation builds on scoped instructions, permissions, and hooks; after-action feedback can
+      correct Claude, but cannot undo a write that already landed. See
+      <a href="https://code.claude.com/docs/en/hooks">hooks reference</a>.</p>
     </div>
+    <p class="decision-key"><strong>Decision key:</strong> <span class="pill">constraint</span> platform-shaped · <span class="pill ok">convergence</span> independently supported · <span class="pill muted">local parameter</span> exact implementation choice not independently determined.</p>
 
-    <div class="callout note">
-      <div class="label">How to read these tables</div>
-      <p>Each row records what brain-stem chose, what it chose it over, why, and the ground the
-      decision rests on. <span class="pill">constraint</span> means the platform forces the shape;
-      <span class="pill ok">convergence</span> means unrelated fields independently arrived at the
-      same answer; <span class="pill muted">design judgment</span> means neither applies — the choice
-      is a reasoned bet, not a necessity. The strongest signal is a row that earns both the constraint
-      and convergence labels at once.</p>
-    </div>
-
-    <!-- ============ GOVERNANCE ENGINE — CORE DOORMAN ============ -->
     <p class="pillar-band">Write-time governance</p>
-    <h2 id="governance-doorman">The governance engine — core doorman decisions</h2>
+
+    <!-- ============ MIRROR: governance-engine.html ============ -->
+    <h2 id="governance-engine">The governance engine</h2>
     <p>
-      Claude&nbsp;Code can write files on your machine. The instant it can, something has to decide
-      whether each write is a good idea. The governance engine is that something: a rulebook consulted
-      every single time a file is created or edited, returning <strong>allow</strong>,
-      <strong>deny</strong>, or allow-but-<strong>advise</strong>. The platform exposes exactly one
-      place to intervene before a write lands (the <code>PreToolUse</code> hook), so the shape — a
-      doorman on that single point — is forced. The teach-gently, block-rarely posture is what
-      unrelated policy systems converged on independently.
+      Guide writes before they become context debt. Claude&nbsp;Code can write files without imposing a
+      knowledge-architecture contract on them. If those files are meant to remain discoverable and
+      trustworthy as one corpus, conventions alone are not enough. brain-stem's rulebook covers types,
+      fields, placement, names, tags, links, indexes, and document relationships. <code>PreToolUse</code> is
+      the prevention point for supported Edit and Write calls; post-write checks, close-time reconciliation,
+      and periodic audits cover invariants that cannot be judged from one proposed file. The <strong>teach-gently,
+      block-rarely posture</strong> is what unrelated policy systems converged on.
     </p>
-    <table>
+    <table class="decision">
       <thead>
         <tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td>Enforce every rule in a write-time hook</td>
+          <td>Use <strong>a write-time hook</strong> for rules that must be evaluated before a supported write lands</td>
           <td>Standing rules in a prose preferences file</td>
           <td>Prose rules degrade over a handful of sessions and get rationalized away under pressure
           <a class="cite" href="research-rationale.html#cite-issue33603">#33603</a>
           <a class="cite" href="research-rationale.html#cite-issue56393">#56393</a> — a documented
           platform failure, not a hunch. A hook fires regardless of whether the assistant is
           cooperating.</td>
-          <td><span class="pill">constraint</span></td>
+          <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>Intercept <em>before</em> the write (<code>PreToolUse</code>)</td>
-          <td>Checking after the write (<code>PostToolUse</code>)</td>
-          <td>An after-the-fact check can't prevent a bad write and can't even inject a correction
-          back into the conversation
-          <a class="cite" href="research-rationale.html#cite-issue18427">#18427</a>. The pre-write
-          hook is the only point that can stop or shape a write — the complete-mediation principle
+          <td><strong>Intercept <em>before</em> the write</strong> (<code>PreToolUse</code>) when prevention is required</td>
+          <td>Relying only on after-the-write feedback (<code>PostToolUse</code>)</td>
+          <td>Modern <code>PostToolUse</code> hooks can inject corrective context and replace the tool output
+          Claude sees, but the action has already happened. <code>PreToolUse</code> remains the supported point
+          that can stop or reshape a tool write before it lands — the complete-mediation principle
           <a class="cite" href="research-rationale.html#cite-saltzer">Saltzer &amp; Schroeder</a>.</td>
           <td><span class="pill">constraint</span></td>
         </tr>
         <tr>
-          <td>A third verdict — <em>advise</em></td>
-          <td>The platform's binary allow / deny
-          <a class="cite" href="research-rationale.html#cite-cc-hooks">CC hooks</a></td>
-          <td>Allow-or-block alone can't <em>teach</em>, and most policy should be taught. Advise is
-          "allow, plus a reminder"; the write is never stopped. A missing tag earns a nudge, not a
-          block.</td>
+          <td>A stable policy vocabulary — <strong><em>allow, advise, deny</em></strong></td>
+          <td>Exposing raw hook mechanics independently in every rule</td>
+          <td>Claude Code hooks support richer control than a binary gate, including allow, ask, defer, deny,
+          input updates, and additional context
+          <a class="cite" href="research-rationale.html#cite-cc-hooks">CC hooks</a>. brain-stem's three verdicts
+          are its own simpler governance semantics: advise maps to allowing the write while returning a targeted
+          reminder. A missing tag earns a nudge, not a block.</td>
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>Advise by default; reserve hard denial for structural corruption</td>
+          <td><strong>Advise by default</strong>; reserve hard denial for structural corruption</td>
           <td>Block on every imperfection (deny-first)</td>
           <td>Deny-first is hostile and trains people to disable the guard. Deny is kept for the few
           writes that would corrupt structure (an unknown document type, a malformed required field).
@@ -107,7 +92,7 @@
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>Let rules earn the right to get strict (data-gated)</td>
+          <td><strong>Let rules earn the right to get strict</strong> (data-gated)</td>
           <td>Asserting strictness on a hunch</td>
           <td>An advisory is promoted to a hard block only once real usage shows it rarely
           false-alarms — so it never retroactively denies older work. Matches the
@@ -117,53 +102,66 @@
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>Fail open — a broken guard never locks you out</td>
+          <td><strong>Fail open</strong> — a broken guard never locks you out</td>
           <td>Fail-closed (block on self-failure)</td>
           <td>A missing rulebook allows the write; a corrupt overlay falls back to foundation-only.
           Defensible because the engine governs <em>content</em>, not <em>access</em>
           <a class="cite" href="research-rationale.html#cite-authzed">authzed</a>. It deliberately
           pulls against
           <a class="cite" href="research-rationale.html#cite-saltzer">Saltzer &amp; Schroeder</a>
-          fail-safe-defaults — an honest, domain-scoped exception (there is no fail-closed mode
-          today).</td>
-          <td><span class="pill muted">design doctrine</span></td>
+          fail-safe-defaults — an honest, domain-scoped exception rather than a security-control claim.</td>
+          <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>Three tiers — schema, guard, safety-net — at deliberately different breadth</td>
+          <td><strong>Three tiers</strong> — schema, guard, safety-net — at deliberately different breadth</td>
           <td>Treating "the JSON schema" as the thing enforced at write-time</td>
           <td>The schema is the broad authoring <em>contract</em>; the pre-write guard is the narrow
-          authoritative <em>block</em>; the post-write verifier is the advisory-but-complete
-          <em>net</em>. A single hook sees one file before it lands
+          authoritative <em>block</em>; post-write and close-time verification form the advisory-but-broader
+          <em>net</em>. A single hook sees one proposed tool call before it lands
           <a class="cite" href="research-rationale.html#cite-cc-hooks">CC hooks</a>, so
           full-shape conformance is too broad to block on without being hostile.</td>
-          <td><span class="pill">constraint</span></td>
+          <td><span class="pill">constraint</span> <span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>Keep rules as data in the bundle, read at runtime</td>
+          <td><strong>Keep rules as data</strong> in the bundle, read at runtime</td>
           <td>Hardcoding limits and enums in the hook body</td>
           <td>A limit — the MEMORY.md index cap, say — lives in a contract the guard
           reads, so tuning is a data change, not a code change. Hardcoded limits and enums would force
           a code edit for every tweak.</td>
-          <td><span class="pill muted">design judgment</span></td>
+          <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>Pair every hand-curated enforcement list with a gate-independent backstop</td>
+          <td>Pair every hand-curated enforcement list with <strong>a gate-independent backstop</strong></td>
           <td>Trusting deterministic gates alone</td>
           <td>A guard can be present-but-dead — non-executable and failing on every install, yet
           still invisible to deterministic gates that all read green. Because a dead guard passes
           every automated check, completeness assurance has to be gate-independent.</td>
-          <td><span class="pill muted">design judgment</span></td>
+          <td><span class="pill ok">convergence</span></td>
         </tr>
       </tbody>
     </table>
+    <p class="system-link"><strong>Deep dive:</strong> <a href="governance-engine.html">the governance engine</a> — how the rulebook is built and where the guard acts.</p>
 
-    <!-- ============ VAULT INTEGRITY — GUARDS & SURVIVORSHIP ============ -->
-    <h2 id="vault-guards">Vault integrity — write-time guards and survivorship</h2>
+    <!-- ============ MIRROR: single-document.html ============ -->
+    <h2 id="single-document">The single document</h2>
     <p>
-      The vault is a shared notes folder with two authors — a person editing by hand, and an assistant
-      writing on its own. Two specific write-time rules stop the most common collision: a guard that
-      splits advisory from blocking by what's actually at stake, and a survivorship rule that
-      guarantees the person's hand-edits always win.
+      The single document is where governance touches each file on its own: the four pillars that
+      decide how a file is <strong>identified and labeled</strong> — frontmatter, tags, naming, and
+      the type contract — and what its body must carry. These rules are applications of the engine
+      decisions above, enforced through the same write-time contract merge rather than by separate
+      machinery; the pillar-by-pillar reasoning, with its evidence, lives on
+      <strong>the deep dive and its per-decision entries in the central register</strong>.
+    </p>
+    <p class="system-link"><strong>Deep dive:</strong> <a href="single-document.html">the single document</a> — the rules that govern one file in isolation, pillar by pillar.</p>
+
+    <!-- ============ MIRROR: across-documents.html ============ -->
+    <h2 id="across-documents">Across documents and folders</h2>
+    <p>
+      Repair drift without overwriting people. The graph is a shared corpus with human, assistant, and
+      automated writers. Immediate guards protect high-value structure; generated indexes keep navigation
+      synchronized; relationship checks surface coupled documents that drift; and survivorship logic makes
+      <strong>human edits win over routine regeneration</strong>. The rows below isolate the two write-time guard choices
+      and the survivorship rule.
     </p>
     <div class="callout note">
       <div class="label">Scope of this section</div>
@@ -173,22 +171,23 @@
       capture design and are covered on the
       <a href="automated-capture-rationale.html">automated capture rationale page</a>.</p>
     </div>
-    <table>
+    <table class="decision">
       <thead><tr><th>brain-stem chose</th><th>over</th><th>because</th><th>ground</th></tr></thead>
       <tbody>
         <tr>
-          <td>Two write-time guards split by posture — advisory date-warning, blocking
+          <td>Two write-time guards <strong>split by posture</strong> — advisory date-warning, blocking
           writer-reference check</td>
           <td>Hard-blocking every imperfect note the same way</td>
           <td>Editing an old note is a legitimate judgment call (warn), but a malformed registry
-          entry silently breaks a sweep (refuse). The platform's hook can only advise-or-block
+          entry silently breaks a sweep (refuse). brain-stem deliberately narrows Claude Code's richer hook
+          controls into advise-or-block policy outcomes for these two checks
           <a class="cite" href="research-rationale.html#cite-cc-hooks">CC hooks</a>, and checking
-          every write is the complete-mediation principle
+          every write it sees is the complete-mediation principle
           <a class="cite" href="research-rationale.html#cite-saltzer">Saltzer &amp; Schroeder</a>.</td>
           <td><span class="pill">constraint</span> <span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>Two-signal survivorship — a human hand-edit always wins</td>
+          <td>Two-signal survivorship — <strong>a human hand-edit always wins</strong></td>
           <td>Letting the last writer be the final writer, no check</td>
           <td>Otherwise a routine regeneration silently overwrites a person's edit. A hand-edit is
           detected by <em>either</em> a newer edit-timestamp <em>or</em> a content-hash mismatch —
@@ -199,13 +198,18 @@
         </tr>
       </tbody>
     </table>
+    <p class="system-link"><strong>Deep dive:</strong> <a href="across-documents.html">across documents and folders</a> — mandatory files, doc-dependencies, and why write-time can't see a cascade.</p>
+
+    <p class="system-link"><strong>System connection:</strong> context and project management define what must
+    remain usable; session close runs broader checks; capture registers more writers; personalization lets custom
+    structures inherit the same controls.</p>
 
     <div id="site-foot-nav"></div>
-    <div class="foot">brain-stem · documentation · Why: write-time governance.</div>
+    <div class="foot">brain-stem · rationale · keeping the knowledge graph reliable.</div>
   </main>
 </div>
 
-<script src="assets/nav.js?v=21"></script>
+<script src="assets/nav.js?v=25"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

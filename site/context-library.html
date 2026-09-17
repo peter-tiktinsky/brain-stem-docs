@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dual context layers · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=27">
+<link rel="stylesheet" href="assets/style.css?v=32">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -31,9 +31,9 @@
     </p>
 
     <div class="legend" aria-label="color key">
-      <span class="chip"><span class="sw" style="background:#e6efec;border-color:#b6cec6"></span> Project layer — this project's research</span>
-      <span class="chip"><span class="sw" style="background:#f3ddd0;border-color:#b1532e"></span> The promotion gate (scrub)</span>
-      <span class="chip"><span class="sw" style="background:#e8ddf0;border-color:#b79fcf"></span> Universal layer — the Library</span>
+      <span class="chip"><span class="sw project"></span> Project layer — this project's research</span>
+      <span class="chip"><span class="sw gate"></span> The promotion gate (scrub)</span>
+      <span class="chip"><span class="sw universal"></span> Universal layer — the Library</span>
     </div>
 
     <div class="flow">
@@ -87,8 +87,9 @@
       <li><strong>The immutable raw source.</strong> The project material an article was distilled from is
       kept unchanged in a <code>_raw/</code> sub-folder. The polished article can be rewritten freely; the
       record of where it came from never is.</li>
-      <li><strong>One change log.</strong> A single library-wide <code>log.md</code> records one line per
-      event — added, updated, superseded — so there's one place to see what changed and when.</li>
+      <li><strong>One change log.</strong> A single library-wide <code>log.md</code> records one timestamped
+      line per article added — one for the promoted article, one for the raw original it came from — so there's one
+      place to see what arrived and when.</li>
     </ul>
     <div class="callout note">
       <div class="label">Each layer keeps a raw-and-finished pair — for different reasons</div>
@@ -129,8 +130,8 @@
 
     <h2>Where the assets live — the file map</h2>
     <p>
-      Concretely, a research asset moves through three homes (with a scratch pre-stage), each a real place
-      on disk. The whole tree lives under <code>~/.claude-plans/</code>, mirrored into your notes app by
+      Concretely, a research asset moves through two homes (with a scratch pre-stage), each a real place
+      on disk, and the project binder indexes it along the way. The whole tree lives under <code>~/.claude-plans/</code>, mirrored into your notes app by
       symlink:
     </p>
     <div class="flow">
@@ -138,7 +139,7 @@
       <div class="farr">›</div>
       <div class="fstep proj"><b>In the project</b><small>a plan's <code>_research/</code> — declared finalized in its manifest</small></div>
       <div class="farr">›</div>
-      <div class="fstep proj"><b>Into the binder</b><small>rolled up automatically under <code>_projects/&lt;project&gt;/</code> → <code>Projects/</code></small></div>
+      <div class="fstep proj"><b>Into the binder</b><small>indexed automatically under <code>_projects/&lt;project&gt;/</code> → <code>Projects/</code> — an index, not a copy</small></div>
       <div class="farr">›</div>
       <div class="fstep univ"><b>To the Universal Store</b><small>promotion (scrub) lands a copy in <code>_library/&lt;topic&gt;/</code> → <code>Wiki/</code></small></div>
     </div>
@@ -150,11 +151,10 @@
 │       └── &lt;artifact&gt;.md
 └── _projects/&lt;project&gt;/             the project binder            → surfaced as Projects/&lt;project&gt;/
     ├── _situating.md                the cover card (generated; loaded each session)
-    ├── research-index.md            rolls up every plan's research (generated)
-    └── research/&lt;plan&gt;/  →          symlinks back to each plan's _research/</pre>
+    └── research-index.md            rolls up every plan's research (generated)</pre>
     <pre>~/.claude-plans/_library/            the Universal Store          → surfaced as Wiki/
 ├── _index.md                       root index of every topic
-├── log.md                          one line per event: added · updated · superseded
+├── log.md                          one line per article added: the promoted article and its raw original
 └── &lt;topic&gt;/
     ├── _index.md                   topic index
     ├── &lt;article&gt;.md                the scrubbed reference article (type: reference)
@@ -186,9 +186,11 @@
 
     <h2>How a project is identified</h2>
     <p>
-      All of this depends on one question — <em>which project am I in?</em> — answered the simplest way:
-      <strong>a project is the directory you launched from.</strong> Both project-scoped surfaces (this
-      project's memory and its research/binder) key off it, every session, with no list to keep in sync.
+      All of this depends on one question — <em>which project am I in?</em> — answered from where you are:
+      <strong>the directory you launched from is matched against the registry of project anchors</strong>
+      (longest match wins; a directory matching none of them falls back to a shared catch-all). Both
+      project-scoped surfaces (this project's memory and its research/binder) key off the project that
+      resolves to, every session.
       (See <a href="session-loading.html">What loads each session</a>.)
     </p>
 
@@ -220,7 +222,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=21"></script>
+<script src="assets/nav.js?v=25"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Project management · brain-stem</title>
-<link rel="stylesheet" href="assets/style.css?v=27">
+<link rel="stylesheet" href="assets/style.css?v=32">
 <script src="assets/mobile.js?v=1"></script>
 </head>
 <body>
@@ -23,9 +23,25 @@
     </p>
     <p class="page-meta">Process governance lives here. Write-time conventions (how individual files are shaped and governed at the moment they are created) live in Write-time governance.</p>
 
+    <h2>What Claude Code gives you — and what's missing</h2>
+    <p>
+      Natively, Claude&nbsp;Code persists plans and tasks across sessions and can coordinate parallel
+      agents. What those primitives don't form is <strong>a durable lifecycle from raw idea through research,
+      decision, execution, verification and reuse</strong> — without one control model, duplicate ideas survive,
+      evidence separates from the work, and status drifts from what's actually on disk.
+    </p>
+    <table>
+      <thead><tr><th>Claude Code gives you</th><th>What's missing</th><th>brain-stem adds</th></tr></thead>
+      <tbody>
+        <tr><td>Plans and tasks that persist across sessions</td><td>Duplicate ideas survive and status becomes a claim rather than something checked against artifacts</td><td>An inbox-to-plan pipeline with an executable control file and independent verification <a href="plans.html">(plans)</a> <em>(brain-stem specific)</em></td></tr>
+        <tr><td>Parallel-work primitives, including experimental agent teams</td><td>Direct teammate messaging leaves agent reporting outside the durable plan record</td><td><a href="orchestration.html">Human-gated orchestration</a> that routes agent work back through the plan <em>(built on native)</em></td></tr>
+        <tr><td>Session transcripts the platform can resume</td><td>A resumed transcript carries the conversation, not the project's semantic state</td><td>A generated <a href="project-binder.html">project binder</a> with an append-only handoff journal <em>(brain-stem specific)</em></td></tr>
+      </tbody>
+    </table>
+
     <h2>Two kinds of governance — and where each lives</h2>
     <p>
-      brain-stem splits its governance concerns into two categories so they stay separate and legible.
+      brain-stem splits its governance concerns into two categories so they stay <strong>separate and legible</strong>.
     </p>
     <div class="card-grid two">
       <div class="card">
@@ -33,15 +49,16 @@
         <h3>Process governance</h3>
         <p>How work is organized and tracked over time: where project work lives, how plans are made and
         progressed, how execution is orchestrated safely, and how a project's knowledge rolls up into one
-        view. The rules here are about <em>workflow</em> — how a multi-step effort moves from idea to
-        done.</p>
+        view. The rules here are about <em>workflow</em> — <strong>how a multi-step effort moves from idea to
+        done</strong>.</p>
       </div>
       <div class="card">
         <div class="kicker">Write-time governance section</div>
         <h3>Write-time governance</h3>
         <p>How each file is shaped the moment it is created: the frontmatter it requires, the folder it
-        belongs in, the naming it must follow. These rules fire at write time to keep every file
-        discoverable by Claude and findable by you — independent of any particular plan or project.</p>
+        belongs in, the naming it must follow. These rules <strong>fire on every Edit and Write</strong> to keep files
+        discoverable by Claude and findable by you, with a librarian sweep as the backstop for files
+        written by other means — independent of any particular plan or project.</p>
       </div>
     </div>
 
@@ -59,7 +76,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=21"></script>
+<script src="assets/nav.js?v=25"></script>
 <script src="assets/nav-foot.js"></script>
 </body>
 </html>
