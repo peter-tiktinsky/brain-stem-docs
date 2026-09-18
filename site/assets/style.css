@@ -211,7 +211,7 @@ a:hover { border-bottom-color: var(--clay); }
    rule sits on the last element of the opening block — the standfirst where a page
    has one, otherwise the element after the lede — because those run the full
    column width, while the lede itself is held to a 72-character measure. */
-.content > .page-meta {
+.content > .lede + .page-meta {
   padding-bottom: 26px;
   border-bottom: 1px solid var(--line);
   margin-bottom: 32px;

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Explore Your Brain · Brain Stem</title>
-<link rel="stylesheet" href="assets/style.css?v=36">
+<link rel="stylesheet" href="assets/style.css?v=37">
 <script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
@@ -68,8 +68,10 @@
       <li><strong>Claude generates &amp; maintains it</strong> — Brain Stem ships it and Claude refreshes it on
         its own. These are the supporting files and indexes that keep the graph navigable and every change
         trackable. You never hand-edit them.</li>
-      <li><strong>Ships ready to use</strong> — written once at install and then left alone, like the guide file
-        at the top of the vault and the editor config.</li>
+      <li><strong>Ships ready to use</strong> — it exists from the moment you install. Some of these are finished
+        files written once and then left alone, like the guide at the top of the vault and the editor config.
+        The rest are the folders themselves — <code>Work</code>, <code>Plans</code>, <code>Projects</code>,
+        <code>Wiki</code> — which arrive empty and ready, and fill with the rows beneath them as you work.</li>
       <li><strong>Only surfaced here</strong> — Brain Stem neither creates nor maintains it; it simply appears on
         this surface so you can see it alongside everything else. Exactly one thing falls in this bucket.</li>
     </ul>
@@ -162,7 +164,7 @@
       clar: ['It is a reference, not a launch point — you never start a session from the vault root (see the orientation note above).', 'It does NOT hold the rules; it only describes the layout.', 'It is not Claude-specific — any AI you point at the folder can read it.'],
       tips: ['Deliberately short — a map, not a manual. The depth lives in what it points to.']
     }, {
-      id: 'work', label: 'Work', kind: 'symlink', origin: 'authored', place: 'symlink', target: '~/work',
+      id: 'work', label: 'Work', kind: 'symlink', origin: 'shipped', place: 'symlink', target: '~/work',
       one: 'The home for all your non-code work — one folder per project, kept just outside the vault.',
       why: 'Every project lands in the same predictable shape, so Claude always knows where the brief, the log, and the finished work are — no re-explaining yourself per project. And because it lives outside the vault, rebuilding or deleting the vault never touches your actual work.',
       what: 'A shortcut into <code>~/work</code>, beside the vault. Everything that is not code goes here — consulting, writing, analysis (code lives in repos under <code>~/Code</code>, which you open directly). You make one folder per project, and that folder is the one you start a session from. Empty on day one; it fills one project at a time.',
@@ -373,7 +375,7 @@
         }]
       }]
     }, {
-      id: 'projects', label: 'Projects', kind: 'symlink', origin: 'generated', place: 'symlink', target: '~/.claude-plans/_projects',
+      id: 'projects', label: 'Projects', kind: 'symlink', origin: 'shipped', place: 'symlink', target: '~/.claude-plans/_projects',
       one: 'One home page per project — a single place to see a whole project even when its work spans many plans.',
       why: 'Plans get created one at a time, often months apart, and you usually can&rsquo;t know up front which will end up belonging together — so you can&rsquo;t just file them into one folder by hand (nobody maintains that past week two). A binder solves the after-the-fact problem: it watches each plan&rsquo;s project name and auto-gathers the matching ones, so a project grown across ten plans stays coherent — its research, decisions, and history all reachable from one page.',
       what: 'A shortcut into where your binders are kept. A binder gathers every plan belonging to the same project into one view. It holds no copies — it points at the real plans and refreshes whenever they change.',
@@ -427,7 +429,7 @@
         }]
       }]
     }, {
-      id: 'wiki', label: 'Wiki', kind: 'symlink', origin: 'generated', place: 'symlink', target: '~/.claude-plans/_library',
+      id: 'wiki', label: 'Wiki', kind: 'symlink', origin: 'shipped', place: 'symlink', target: '~/.claude-plans/_library',
       one: 'Your permanent reference library — curated, reusable knowledge that outlives any single project. (The folder is labeled Wiki; everything calls it the Library.)',
       why: 'This is what stops you re-researching what you already figured out. Work out a vendor&rsquo;s compliance rules for one project, and six months later a different project needs the same rules — without the Library that finding is trapped in the first project and you pay the research cost again. Here a hard-won finding becomes a reusable asset, surfaced the moment you&rsquo;re about to need it again.',
       what: 'A shortcut into your Library: short, polished articles, one idea each, sorted onto shelves by topic, that ANY project can pull from. The opposite of a project folder (which holds one project&rsquo;s work and ends with it). Only finished, cleaned-up knowledge gets shelved here — not messy in-progress notes.',
@@ -481,7 +483,7 @@
         }]
       }]
     }, {
-      id: 'plans', label: 'Plans', kind: 'symlink', origin: 'authored', place: 'symlink', target: '~/.claude-plans',
+      id: 'plans', label: 'Plans', kind: 'symlink', origin: 'shipped', place: 'symlink', target: '~/.claude-plans',
       one: 'One window onto everything you&rsquo;re running — every project, plus the raw ideas not yet promoted to one.',
       why: 'This is where multi-session work gets a permanent home that survives the end of any one conversation. Without it, a multi-week project lives only in your chat history and your head — you re-explain the goal every session and lose track of what&rsquo;s actually done versus merely claimed-done. The plan tree is the spine that lets you pick an initiative back up weeks later and know exactly where it stands.',
       what: 'A shortcut into all your long-running work at <code>~/.claude-plans/</code>. Inside: one numbered folder per project, two list pages the librarian keeps current (<code>_index.md</code>, <code>_backlog.md</code>), and an <code>_inbox/</code> where new ideas wait. A fresh install starts empty.',
@@ -506,7 +508,7 @@
         clar: ['The not-yet-started queue only — the instant you start something, it leaves this page for <code>_index.md</code>.'],
         tips: ['A companion cleanup pass (<code>/backlog-hygiene</code>) keeps this honest — flagging stale items and ones missing a decision. It never moves or archives rows; finished plans drop off this view on their own.']
       }, {
-        id: 'inbox', label: '_inbox/', kind: 'folder', origin: 'authored',
+        id: 'inbox', label: '_inbox/', kind: 'folder', origin: 'shipped',
         one: 'The no-commitment holding pen for raw ideas, before any becomes a plan.',
         why: 'This makes capturing an idea effortless and commitment-free — you jot it in seconds and sort it later. Without it, every fleeting idea would force an upfront decision (&ldquo;is this worth a whole numbered project?&rdquo;), so you&rsquo;d either over-commit to half-baked ideas or, far more likely, never write them down.',
         what: 'A folder where each new idea lands as one quick note, passing through three stages as you sort it — new, triaged, briefed. An idea here costs nothing and uses no plan number; numbers are handed out only when an idea graduates into a real plan. Ideas that reach their end WITHOUT becoming a plan don&rsquo;t linger either: the note is stamped with its resolution and moved into a <code>_settled/</code> subfolder, so this folder holds live ideas only. Empty on a fresh install.',
@@ -731,7 +733,13 @@
   // ---- flatten + parent map ----
   const byId = {}, parent = {};
   (function walk(nodes, par) {
-    for (const n of nodes) { byId[n.id] = n; parent[n.id] = par; if (n.children) walk(n.children, n.id); }
+    for (const n of nodes) {
+      byId[n.id] = n; parent[n.id] = par;
+      /* Everything below a shortcut is reached by that same shortcut, so the
+         location is inherited rather than repeated on every descendant. */
+      if (par && byId[par].place === 'symlink') n.place = 'symlink';
+      if (n.children) walk(n.children, n.id);
+    }
   })(TREE, null);
 
   const folderIds = Object.keys(byId).filter(k => byId[k].children && byId[k].children.length);
