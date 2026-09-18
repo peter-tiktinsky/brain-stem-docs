@@ -128,6 +128,16 @@ body {
 .nav-core .nav-group { margin-top: 18px; }
 .nav-core .nav-group:first-child { margin-top: 2px; }
 
+/* The one place on the site that speaks in the first person. It is set apart so
+   the change of voice is visible rather than something the reader trips over. */
+.devnote {
+  border-left: 2px solid var(--clay-soft);
+  padding: 4px 0 4px 22px;
+  margin: 4px 0 8px;
+}
+.devnote p { color: var(--ink-soft); }
+.devnote p:last-child { margin-bottom: 0; }
+
 /* ---------- on-page table of contents (right rail) ----------
    Built by toc.js from the page's own section headings. It appears only where
    there is room for it beside the prose measure; below that width the page
@@ -261,8 +271,12 @@ hr { border: none; border-top: 1px solid var(--line); margin: 40px 0; }
 }
 .card-grid.two { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
 /* Three tracks fit the reading column, so a row of exactly four cards would
-   strand the fourth alone. Those go two-by-two instead. */
-.card-grid:has(> :nth-child(4):last-child) { grid-template-columns: repeat(2, 1fr); }
+   strand the fourth alone. Those go two-by-two instead — above the phone
+   breakpoint only, where the single-column stack already applies. */
+@media (min-width: 821px) {
+  .card-grid:has(> :nth-child(4):last-child) { grid-template-columns: repeat(2, 1fr); }
+  .pillars:has(> :nth-child(4):last-child)   { grid-template-columns: repeat(2, 1fr); }
+}
 
 .card {
   display: flex;
@@ -460,6 +474,10 @@ code {
   padding: 1px 5px;
 }
 pre {
+  /* Without this, a listing falls back to the browser's generic monospace while
+     every inline code span beside it uses the site stack — two different
+     typefaces for the same kind of content. */
+  font-family: var(--mono);
   background-color: #2c2823;
   color: #f3ece0;
   border-radius: 12px;
@@ -514,6 +532,7 @@ pre.mermaid { background: none; color: inherit; border: none; padding: 0; box-sh
 /* ---------- documentation map (Getting started) ---------- */
 .toc { margin: 6px 0 8px; }
 /* meta-band: groups the six architecture/capability sections */
+h2.toc-band { border-top: none; padding-top: 22px; }
 .toc-band { font-family: var(--serif); font-size: 21px; font-weight: 600; color: var(--ink); margin: 34px 0 4px; padding-top: 22px; border-top: 2px solid var(--line-strong); }
 /* card panel that groups the architecture block and closes it off from Reference */
 .toc-arch { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 22px 18px; margin: 16px 0 22px; }
@@ -833,7 +852,7 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
 
 .vx-detail { flex: 1; min-width: 0; padding: 22px 26px 26px; overflow-y: auto; }
 .vx-detail .vx-path { font-family: var(--mono); font-size: 12px; color: var(--muted); margin: 0 0 12px; word-break: break-word; }
-.vx-detail .vx-title { font-family: var(--mono); font-size: 21px; margin: 0 0 6px; color: var(--ink); }
+.vx-detail .vx-title { font-family: var(--mono); font-size: 21px; font-weight: 600; line-height: 1.2; margin: 0 0 6px; color: var(--ink); }
 .vx-detail .vx-oneliner { font-family: var(--serif); font-size: 18px; line-height: 1.45; color: var(--ink-soft); margin: 0 0 14px; }
 .vx-badges { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 6px; }
 .vx-kind {

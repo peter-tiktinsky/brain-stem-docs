@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Explore Your Brain · Brain Stem</title>
-<link rel="stylesheet" href="assets/style.css?v=42">
+<link rel="stylesheet" href="assets/style.css?v=47">
 <script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
@@ -802,7 +802,7 @@
   function renderDetail(id) {
     const n = byId[id];
     let h = '<p class="vx-path">' + pathOf(id) + '</p>';
-    h += '<h3 class="vx-title">' + n.label + '</h3>';
+    h += '<p class="vx-title">' + n.label + '</p>';
     if (n.one) h += '<p class="vx-oneliner">' + n.one + '</p>';
     h += '<div class="vx-badges"><span class="vx-kind">' + kindLabel(n.kind) + '</span>';
     if (n.origin) h += '<span class="vx-badge vx-b-' + n.origin + '">' + originLabel(n.origin) + '</span>';
