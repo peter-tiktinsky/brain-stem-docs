@@ -251,6 +251,9 @@ hr { border: none; border-top: 1px solid var(--line); margin: 40px 0; }
   margin: 24px 0 8px;
 }
 .card-grid.two { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+/* Three tracks fit the reading column, so a row of exactly four cards would
+   strand the fourth alone. Those go two-by-two instead. */
+.card-grid:has(> :nth-child(4):last-child) { grid-template-columns: repeat(2, 1fr); }
 
 .card {
   display: flex;
@@ -438,6 +441,10 @@ details.pillar-fold > summary:focus-visible { outline: 2px solid var(--clay); ou
 code {
   font-family: var(--mono);
   font-size: 13.5px;
+  /* File paths and flags are long single tokens. Without this they refuse to
+     break and push out of whatever box holds them — at every width, not just
+     on a phone, which is where this rule used to live. */
+  overflow-wrap: anywhere;
   background: var(--surface-alt);
   border: 1px solid var(--line);
   border-radius: 5px;
@@ -1007,7 +1014,6 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
   .content table.decision td:nth-child(2)::before { content: "over"; }
   .content table.decision td:nth-child(3)::before { content: "because"; }
   .content table.decision td:nth-child(4)::before { content: "ground"; }
-  code { overflow-wrap: anywhere; }
 
   /* -- vault explorer stacks its two panes -- */
   .vx { flex-direction: column; min-height: 0; }
