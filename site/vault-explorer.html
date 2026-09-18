@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Explore Your Brain · Brain Stem</title>
-<link rel="stylesheet" href="assets/style.css?v=34">
+<link rel="stylesheet" href="assets/style.css?v=35">
 <script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
@@ -16,35 +16,12 @@
     <p class="eyebrow">Orientation</p>
     <h1>Explore Your Brain</h1>
     <p class="lede">
-      The brain Brain Stem ships you is a single folder — named, fittingly, <code>brain</code>. Here is
-      exactly what lands in it on day one, where every piece comes from, and — for each one —
-      <strong>why it matters</strong>. Click any entry in the tree to open it.
+      Brain Stem builds a set of folder and file structures for you, in several places on your disk — then
+      gathers every one of them into a single folder, named <code>brain</code>, using shortcuts. That gives you
+      <strong>one way in</strong> to everything your work produces. Here is exactly what lands on day one, where
+      each piece really lives, and why it matters. Click any entry to open it.
     </p>
     <p class="page-meta">A click-in map of the shipped vault, verified against the scaffolder.</p>
-
-    <div class="callout key">
-      <div class="label">The one idea to hold first</div>
-      <p>On a fresh install Brain Stem seeds almost nothing: one guide file (<code>CLAUDE.md</code>), two real
-      folders (<code>Vault&nbsp;Writers/</code> and <code>Bases/</code>), an <code>.obsidian/</code> config, and
-      <strong>five shortcuts</strong>. A shortcut (technically a <em>symlink</em>) is a signpost to a folder that lives
-      elsewhere on disk — it shows up here for easy browsing, but the real files stay in their own home, so
-      deleting the vault never touches your plans, projects, or Library. The vault arrives nearly empty and is
-      <strong>grown</strong> over time. And you never start a session from the vault root — you always launch
-      from a <strong>project folder</strong> (a code repo, or a project under Work).</p>
-    </div>
-
-    <div class="callout key">
-      <div class="label">Who creates what — read the colors this way</div>
-      <p>Almost nothing in your brain is purely hand-typed by you. Brain Stem lays down the structure at install,
-      and from there <strong>you provide the direction and the raw inputs while Claude generates the artifacts</strong>
-      — filing each one in its proper place, under governance and curation, and keeping the derived pages current.
-      So read the colors as <em>where a piece mostly comes from</em>, not as solo authorship; the honest rule of
-      thumb is <strong>you steer, Claude builds and maintains</strong>. Green marks the files your direction and
-      inputs drive (Brain Stem scaffolds the shell and Claude fills it with you); red marks the pages Claude
-      generates and refreshes on its own, which you never hand-edit.</p>
-    </div>
-    <p class="page-meta">Unfamiliar with a term here — <em>the librarian</em>, a <em>shortcut</em>, a
-    <em>binder</em>? Every coined word on the site is defined on the <a href="glossary.html">Glossary</a>.</p>
 
     <div class="vx" id="vx">
       <div class="vx-tree">
@@ -58,11 +35,80 @@
     </div>
 
     <div class="vx-legend">
-      <span class="lchip"><span class="lsw shipped"></span> Shipped on install</span>
-      <span class="lchip"><span class="lsw symlink"></span> Symlink to a home outside the vault</span>
-      <span class="lchip"><span class="lsw generated"></span> Claude generates &amp; maintains it</span>
-      <span class="lchip"><span class="lsw authored"></span> You direct; Claude builds it</span>
+      <div class="lrow">
+        <span class="lhead">Who fills it</span>
+        <span class="lchip"><span class="lsw authored"></span> You direct; Claude builds it</span>
+        <span class="lchip"><span class="lsw generated"></span> Claude generates &amp; maintains it</span>
+        <span class="lchip"><span class="lsw shipped"></span> Ships ready to use</span>
+        <span class="lchip"><span class="lsw passthrough"></span> Only surfaced here</span>
+      </div>
+      <div class="lrow">
+        <span class="lhead">Where it lives</span>
+        <span class="lchip"><span class="lsw place"></span> Inside the brain folder</span>
+        <span class="lchip"><span class="lsw place ring"></span> Reached by a shortcut</span>
+      </div>
     </div>
+
+    <h2>How to read the map</h2>
+    <p>
+      Every row carries two marks, and they answer different questions. <strong>The colour says who fills the
+      thing. The shape says where it really lives.</strong> A row can be any combination of the two — the folder
+      Claude maintains on its own is just as likely to sit outside the vault as inside it.
+    </p>
+    <p>
+      Almost nothing here is hand-typed by you. Brain Stem lays down the structure at install, and from there
+      <strong>you supply the direction and the raw inputs while Claude generates the artifacts</strong> — filing
+      each one in its proper place under the governance rules, and keeping the derived pages current. So read the
+      colour as <em>where a piece mostly comes from</em>, not as solo authorship. The honest rule of thumb is
+      <strong>you steer, Claude builds and maintains</strong>.
+    </p>
+    <ul>
+      <li><strong>You direct; Claude builds it</strong> — Brain Stem ships the shell, and your direction and
+        inputs fill it, with Claude doing the writing. Your plans, your projects, your work.</li>
+      <li><strong>Claude generates &amp; maintains it</strong> — Brain Stem ships it and Claude refreshes it on
+        its own. These are the supporting files and indexes that keep the graph navigable and every change
+        trackable. You never hand-edit them.</li>
+      <li><strong>Ships ready to use</strong> — written once at install and then left alone, like the guide file
+        at the top of the vault and the editor config.</li>
+      <li><strong>Only surfaced here</strong> — Brain Stem neither creates nor maintains it; it simply appears on
+        this surface so you can see it alongside everything else. Exactly one thing falls in this bucket.</li>
+    </ul>
+
+    <div class="callout key">
+      <div class="label">What install actually seeds</div>
+      <p>The brain folder is <strong>one surface among several</strong>, not the whole system. At install Brain
+      Stem writes this folder's own contents — a guide file (<code>CLAUDE.md</code>), two real folders
+      (<code>Vault&nbsp;Writers/</code> and <code>Bases/</code>) and an <code>.obsidian/</code> config — and it
+      creates the other structures the system needs in their own homes elsewhere on disk. It then points at those
+      from here with <strong>five shortcuts</strong>: <code>Work</code>, <code>Projects</code>, <code>Wiki</code>,
+      <code>Plans</code> and <code>Skills</code>. A shortcut (technically a <em>symlink</em>) is a signpost: it
+      shows up here for easy browsing, but the real files stay in their own home, so deleting the vault never
+      touches your plans, projects or Library. The vault arrives nearly empty and is <strong>grown</strong> over
+      time.</p>
+    </div>
+
+    <div class="callout key">
+      <div class="label">Three of the five shortcuts lead to the same place</div>
+      <p><code>Plans</code>, <code>Projects</code> and <code>Wiki</code> all resolve inside the same plans
+      structure at <code>~/.claude-plans</code> — <code>Projects</code> and <code>Wiki</code> are folders
+      <em>within</em> it. They are surfaced separately here so each is <strong>one click away instead of buried a
+      level down</strong>, which is the whole point of the shortcut layer: the real hierarchy stays intact on
+      disk, while the things you reach for most sit at the top. <code>Work</code> is the exception — it has its
+      own home at <code>~/work</code>.</p>
+    </div>
+
+    <div class="callout key">
+      <div class="label">Skills is the one pass-through</div>
+      <p>Nothing special happens to <code>Skills</code>. Brain Stem adds your existing global skills as a shortcut
+      so they sit on the same surface as everything else and can be <strong>tracked against your knowledge
+      graph</strong>. It does not create them, fill them, or maintain them — which is why it is the only row on
+      the map in grey.</p>
+    </div>
+
+    <p class="page-meta">You never start a session from the vault root — you always launch from a
+    <strong>project folder</strong> (a code repo, or a project under Work). Unfamiliar with a term here —
+    <em>the librarian</em>, a <em>shortcut</em>, a <em>binder</em>? Every coined word on the site is defined on
+    the <a href="glossary.html">Glossary</a>.</p>
 
     <h2>What the brain folder is for</h2>
     <p>
@@ -116,7 +162,7 @@
       clar: ['It is a reference, not a launch point — you never start a session from the vault root (see the orientation note above).', 'It does NOT hold the rules; it only describes the layout.', 'It is not Claude-specific — any AI you point at the folder can read it.'],
       tips: ['Deliberately short — a map, not a manual. The depth lives in what it points to.']
     }, {
-      id: 'work', label: 'Work', kind: 'symlink', origin: 'symlink', target: '~/work',
+      id: 'work', label: 'Work', kind: 'symlink', origin: 'authored', place: 'symlink', target: '~/work',
       one: 'The home for all your non-code work — one folder per project, kept just outside the vault.',
       why: 'Every project lands in the same predictable shape, so Claude always knows where the brief, the log, and the finished work are — no re-explaining yourself per project. And because it lives outside the vault, rebuilding or deleting the vault never touches your actual work.',
       what: 'A shortcut into <code>~/work</code>, beside the vault. Everything that is not code goes here — consulting, writing, analysis (code lives in repos under <code>~/Code</code>, which you open directly). You make one folder per project, and that folder is the one you start a session from. Empty on day one; it fills one project at a time.',
@@ -327,7 +373,7 @@
         }]
       }]
     }, {
-      id: 'projects', label: 'Projects', kind: 'symlink', origin: 'symlink', target: '~/.claude-plans/_projects',
+      id: 'projects', label: 'Projects', kind: 'symlink', origin: 'generated', place: 'symlink', target: '~/.claude-plans/_projects',
       one: 'One home page per project — a single place to see a whole project even when its work spans many plans.',
       why: 'Plans get created one at a time, often months apart, and you usually can&rsquo;t know up front which will end up belonging together — so you can&rsquo;t just file them into one folder by hand (nobody maintains that past week two). A binder solves the after-the-fact problem: it watches each plan&rsquo;s project name and auto-gathers the matching ones, so a project grown across ten plans stays coherent — its research, decisions, and history all reachable from one page.',
       what: 'A shortcut into where your binders are kept. A binder gathers every plan belonging to the same project into one view. It holds no copies — it points at the real plans and refreshes whenever they change.',
@@ -381,7 +427,7 @@
         }]
       }]
     }, {
-      id: 'wiki', label: 'Wiki', kind: 'symlink', origin: 'symlink', target: '~/.claude-plans/_library',
+      id: 'wiki', label: 'Wiki', kind: 'symlink', origin: 'generated', place: 'symlink', target: '~/.claude-plans/_library',
       one: 'Your permanent reference library — curated, reusable knowledge that outlives any single project. (The folder is labeled Wiki; everything calls it the Library.)',
       why: 'This is what stops you re-researching what you already figured out. Work out a vendor&rsquo;s compliance rules for one project, and six months later a different project needs the same rules — without the Library that finding is trapped in the first project and you pay the research cost again. Here a hard-won finding becomes a reusable asset, surfaced the moment you&rsquo;re about to need it again.',
       what: 'A shortcut into your Library: short, polished articles, one idea each, sorted onto shelves by topic, that ANY project can pull from. The opposite of a project folder (which holds one project&rsquo;s work and ends with it). Only finished, cleaned-up knowledge gets shelved here — not messy in-progress notes.',
@@ -435,7 +481,7 @@
         }]
       }]
     }, {
-      id: 'plans', label: 'Plans', kind: 'symlink', origin: 'symlink', target: '~/.claude-plans',
+      id: 'plans', label: 'Plans', kind: 'symlink', origin: 'authored', place: 'symlink', target: '~/.claude-plans',
       one: 'One window onto everything you&rsquo;re running — every project, plus the raw ideas not yet promoted to one.',
       why: 'This is where multi-session work gets a permanent home that survives the end of any one conversation. Without it, a multi-week project lives only in your chat history and your head — you re-explain the goal every session and lose track of what&rsquo;s actually done versus merely claimed-done. The plan tree is the spine that lets you pick an initiative back up weeks later and know exactly where it stands.',
       what: 'A shortcut into all your long-running work at <code>~/.claude-plans/</code>. Inside: one numbered folder per project, two list pages the librarian keeps current (<code>_index.md</code>, <code>_backlog.md</code>), and an <code>_inbox/</code> where new ideas wait. A fresh install starts empty.',
@@ -619,7 +665,7 @@
         }]
       }]
     }, {
-      id: 'skills', label: 'Skills', kind: 'symlink', origin: 'symlink', target: '~/.claude/skills',
+      id: 'skills', label: 'Skills', kind: 'symlink', origin: 'passthrough', place: 'symlink', target: '~/.claude/skills',
       one: 'A shortcut into your global skills — the /commands you can run in any project.',
       why: 'This is the one place inside the vault where you can answer &ldquo;what can I actually type and run right now?&rdquo; without leaving Obsidian. The skills themselves live in Claude Code&rsquo;s own settings folder; this link lets you see your whole toolkit from where you already work.',
       what: 'A shortcut to where Claude Code keeps your skills. Skills are the named things you trigger by typing a slash command in a session — like <code>/new-plan</code>, <code>/backlog-research</code>, or a meeting processor. These are your global skills, available in every project, not tied to one.',
@@ -696,8 +742,11 @@
   const detailEl = document.getElementById('vx-detail');
   const allBtn = document.getElementById('vx-toggle-all');
 
+  /* Two things are marked on every row, and they are independent of each other.
+     The colour says who fills the thing; the shape says where it really lives —
+     a solid dot sits inside the brain folder, a ring is reached by shortcut. */
   function originColor(o) {
-    return { shipped: '#b8862f', symlink: '#3f516b', generated: '#b1532e', authored: '#4a7c4e' }[o] || '#7a7163';
+    return { shipped: '#b8862f', generated: '#b1532e', authored: '#4a7c4e', passthrough: '#7a7163' }[o] || '#7a7163';
   }
   function icon(n) {
     const c = n.origin ? originColor(n.origin) : '#b1532e';
@@ -723,8 +772,9 @@
                 : '<span class="vx-tw"></span>';
       h += icon(n);
       h += '<span class="vx-lbl">' + n.label + '</span>';
-      if (n.kind === 'symlink') h += '<span class="vx-arrow">→</span>';
-      if (n.origin) h += '<span class="vx-dot" style="background:' + originColor(n.origin) + '"></span>';
+      if (n.place === 'symlink') h += '<span class="vx-arrow">→</span>';
+      if (n.origin) h += '<span class="vx-dot' + (n.place === 'symlink' ? ' link' : '')
+        + '" style="color:' + originColor(n.origin) + '"></span>';
       h += '</button>';
       if (kids && exp) h += rows(n.children, depth + 1);
     }
@@ -735,8 +785,11 @@
     while (c) { parts.unshift(byId[c].label.replace(/\/$/, '')); c = parent[c]; }
     return parts.join(' / ');
   }
-  function kindLabel(k) { return { root: 'vault', file: 'file', folder: 'folder', symlink: 'symlink' }[k] || k; }
-  function originLabel(o) { return { shipped: 'Shipped on install', symlink: 'Symlink', generated: 'Claude generates &amp; maintains', authored: 'You direct; Claude builds' }[o]; }
+  function kindLabel(k) { return { root: 'vault', file: 'file', folder: 'folder', symlink: 'folder' }[k] || k; }
+  function originLabel(o) {
+    return { shipped: 'Ships ready to use', generated: 'Claude generates &amp; maintains it',
+             authored: 'You direct; Claude builds it', passthrough: 'Only surfaced here' }[o];
+  }
 
   function renderDetail(id) {
     const n = byId[id];
@@ -745,8 +798,9 @@
     if (n.one) h += '<p class="vx-oneliner">' + n.one + '</p>';
     h += '<div class="vx-badges"><span class="vx-kind">' + kindLabel(n.kind) + '</span>';
     if (n.origin) h += '<span class="vx-badge vx-b-' + n.origin + '">' + originLabel(n.origin) + '</span>';
+    h += '<span class="vx-badge vx-b-place">' + (n.place === 'symlink' ? 'Reached by shortcut' : 'Inside the brain folder') + '</span>';
     h += '</div>';
-    if (n.kind === 'symlink') h += '<div class="vx-target">Points to <code>' + n.target + '</code> <span class="vx-tnote">— a home outside the vault</span></div>';
+    if (n.place === 'symlink') h += '<div class="vx-target">Really lives at <code>' + n.target + '</code> <span class="vx-tnote">— a home outside the vault, surfaced here by a shortcut</span></div>';
     if (n.why) h += '<div class="vx-why"><h4>Why it matters</h4><p>' + n.why + '</p></div>';
     if (n.what) h += '<div class="vx-field"><h4>What it is</h4><p>' + n.what + '</p></div>';
     if (n.from) h += '<div class="vx-field"><h4>Where it comes from</h4><p>' + n.from + '</p></div>';
