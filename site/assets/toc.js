@@ -41,6 +41,21 @@
 
     var items = [];
     heads.forEach(function (h) {
+      /* A long section heading reads fine at full width but wraps to three or
+         four lines in a 248px rail. Such a heading may carry data-toc with a
+         short form to list instead; the heading on the page is untouched. */
+      if (h.getAttribute('data-toc')) {
+        var short = h.getAttribute('data-toc').trim();
+        var tid = h.id;
+        if (!tid) {
+          var sb = slug(short), si = sb, sn = 2;
+          while (taken[si]) { si = sb + '-' + sn++; }
+          h.id = tid = si;
+        }
+        taken[tid] = true;
+        items.push({ id: tid, label: short, el: h });
+        return;
+      }
       /* The rail carries the section's name only. A heading may also show an
          ordinal and a descriptive tail on the page; both are dropped here. */
       var clone = h.cloneNode(true);
@@ -68,8 +83,8 @@
 
     var html = '<p class="onpage-h">On this page</p><nav class="onpage-list">';
     items.forEach(function (it) {
-      html += '<a href="#' + it.id + '">'
-        + it.label.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</a>';
+      var esc = it.label.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+      html += '<a href="#' + it.id + '" title="' + esc + '">' + esc + '</a>';
     });
     html += '</nav>';
 

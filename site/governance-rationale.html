@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Keeping the knowledge graph reliable · Brain Stem</title>
-<link rel="stylesheet" href="assets/style.css?v=37">
+<link rel="stylesheet" href="assets/style.css?v=42">
 <script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
@@ -30,7 +30,7 @@
       correct Claude, but cannot undo a write that already landed. See
       <a href="https://code.claude.com/docs/en/hooks">hooks reference</a>.</p>
     </div>
-    <p class="decision-key"><strong>Decision key:</strong> <span class="pill">constraint</span> platform-shaped · <span class="pill ok">convergence</span> independently supported · <span class="pill muted">local parameter</span> exact implementation choice not independently determined.</p>
+    <p class="decision-key"><strong>Decision key:</strong> <span class="pill ground">constraint</span> platform-shaped · <span class="pill ok">convergence</span> independently supported · <span class="pill muted">local parameter</span> exact implementation choice not independently determined.</p>
 
     <p class="pillar-band">Write-time governance</p>
 
@@ -67,7 +67,7 @@
           Claude sees, but the action has already happened. <code>PreToolUse</code> remains the supported point
           that can stop or reshape a tool write before it lands — the complete-mediation principle
           <a class="cite" href="research-rationale.html#cite-saltzer">Saltzer &amp; Schroeder</a>.</td>
-          <td><span class="pill">constraint</span></td>
+          <td><span class="pill ground">constraint</span></td>
         </tr>
         <tr>
           <td>A stable policy vocabulary — <strong><em>allow, advise, deny</em></strong></td>
@@ -120,7 +120,7 @@
           <em>net</em>. A single hook sees one proposed tool call before it lands
           <a class="cite" href="research-rationale.html#cite-cc-hooks">CC hooks</a>, so
           full-shape conformance is too broad to block on without being hostile.</td>
-          <td><span class="pill">constraint</span> <span class="pill ok">convergence</span></td>
+          <td><span class="pill ground">constraint</span> <span class="pill ok">convergence</span></td>
         </tr>
         <tr>
           <td><strong>Keep rules as data</strong> in the bundle, read at runtime</td>
@@ -184,7 +184,7 @@
           <a class="cite" href="research-rationale.html#cite-cc-hooks">CC hooks</a>, and checking
           every write it sees is the complete-mediation principle
           <a class="cite" href="research-rationale.html#cite-saltzer">Saltzer &amp; Schroeder</a>.</td>
-          <td><span class="pill">constraint</span> <span class="pill ok">convergence</span></td>
+          <td><span class="pill ground">constraint</span> <span class="pill ok">convergence</span></td>
         </tr>
         <tr>
           <td>Two-signal survivorship — <strong>a human hand-edit always wins</strong></td>
@@ -211,6 +211,6 @@
 
 <script src="assets/nav.js?v=26"></script>
 <script src="assets/nav-foot.js"></script>
-<script src="assets/toc.js?v=3"></script>
+<script src="assets/toc.js?v=4"></script>
 </body>
 </html>

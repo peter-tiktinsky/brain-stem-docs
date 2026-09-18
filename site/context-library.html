@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dual Context Layers · Brain Stem</title>
-<link rel="stylesheet" href="assets/style.css?v=37">
+<link rel="stylesheet" href="assets/style.css?v=42">
 <script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
@@ -147,14 +147,14 @@
     <pre>~/.claude-plans/
 ├── &lt;plan&gt;/                         a plan, in the plans folder
 │   ├── manifest.json                declares research_artifacts[] (finalized = promotable)
-│   └── _research/                   finished project research lives here  ← the source of truth
+│   └── _research/                   finished project research lives here ← source of truth
 │       └── &lt;artifact&gt;.md
-└── _projects/&lt;project&gt;/             the project binder            → surfaced as Projects/&lt;project&gt;/
+└── _projects/&lt;project&gt;/             the project binder      → surfaced as Projects/&lt;project&gt;/
     ├── _situating.md                the cover card (generated; loaded each session)
     └── research-index.md            rolls up every plan's research (generated)</pre>
     <pre>~/.claude-plans/_library/            the Universal Store          → surfaced as Wiki/
 ├── _index.md                       root index of every topic
-├── log.md                          one line per article added: the promoted article and its raw original
+├── log.md                          one line per article: the promoted one and its raw original
 └── &lt;topic&gt;/
     ├── _index.md                   topic index
     ├── &lt;article&gt;.md                the scrubbed reference article (type: reference)
@@ -224,6 +224,6 @@
 
 <script src="assets/nav.js?v=26"></script>
 <script src="assets/nav-foot.js"></script>
-<script src="assets/toc.js?v=3"></script>
+<script src="assets/toc.js?v=4"></script>
 </body>
 </html>
