@@ -26,19 +26,20 @@
     <h2>Context pressure — the fuel gauge</h2>
     <p>
       Context pressure is just how full the working window is, as a percent. The fuller the tank, the more
-      urgently the system insists you save your place. It's <strong>a ladder, not a single alarm</strong>:
+      urgently the system asks you to save your place. It's <strong>a ladder, not a single alarm</strong>:
     </p>
     <div class="flow">
       <div class="fstep"><b>~35% · autosave</b><small>a lightweight checkpoint is written silently, if none is fresh</small></div>
       <div class="farr">›</div>
-      <div class="fstep"><b>~45% · gentle nudge</b><small>"checkpoint at your next natural break"</small></div>
+      <div class="fstep"><b>~45% · warning banner</b><small>shown to you once: "at your next natural break, run /session-checkpoint, then /compact"</small></div>
       <div class="farr">›</div>
-      <div class="fstep gate"><b>~48% · mandate</b><small>"checkpoint now before responding" — re-fires every message until fresh</small></div>
+      <div class="fstep gate"><b>~48% · urgent banner</b><small>shown to you once: "run /session-checkpoint now, then /compact" — or start a fresh session</small></div>
       <div class="farr">›</div>
-      <div class="fstep cap"><b>~48–90% · stop-gate</b><small>refuses to let the session end on a stale or missing checkpoint</small></div>
+      <div class="fstep cap"><b>~48–90% · stop-gate</b><small>refuses to let the session end without an adequate checkpoint</small></div>
     </div>
     <div class="flow-branch">
-      <div class="fb"><b>The stop-gate, precisely →</b> in the ~48–80% band the checkpoint must be fresh (&lt;10&nbsp;min) to stop; in ~80–90% it must merely exist; above ~90% a safety valve always lets you stop (the window's too full to keep working anyway).</div>
+      <div class="fb"><b>The banners, precisely →</b> each banner appears once when the gauge enters its band, not on every message; leaving the band and coming back shows it again. The banners are a percentage of the window at which the platform auto-compacts, so a smaller auto-compact window brings them earlier. The banners go to you, not to the model: nothing forces a checkpoint mid-task.</div>
+      <div class="fb"><b>The stop-gate, precisely →</b> in the ~48–80% band a full Continuity Block lets you stop at any age, while a lighter checkpoint must be fresh (&lt;10&nbsp;min); in ~80–90% any checkpoint will do; above ~90% a safety valve always lets you stop (the window's too full to keep working anyway).</div>
     </div>
 
     <h2>What a checkpoint holds — the Continuity Block</h2>
@@ -46,7 +47,9 @@
       The checkpoint follows a fixed schema, the <strong>Session Continuity Block</strong>. Nothing is
       silently skipped — a field that can't be filled is marked <code>[MISSING]</code> rather than dropped.
       The first three fields are written as plain single lines on purpose: the pre-compaction hook
-      <em>counts</em> them to recognize a freshly written rich checkpoint and avoid clobbering it.
+      <em>counts</em> them to recognize a rich checkpoint and avoid clobbering it, at any age. A block the
+      pre-compaction hook extracted itself is marked with its source and never counts as rich, so the next
+      compaction refreshes it instead of carrying an old snapshot forward.
     </p>
     <pre># Session Continuity Block
 plan_id:        the active plan
@@ -68,9 +71,9 @@ context_pct_at_checkpoint:   the gauge at write time</pre>
     <table>
       <thead><tr><th>Writer</th><th>When</th><th>Richness</th></tr></thead>
       <tbody>
-        <tr><td><code>/session-checkpoint</code> skill</td><td>On request, or auto-fired by the nudge/mandate</td><td>Richest — the full block</td></tr>
+        <tr><td><code>/session-checkpoint</code> skill</td><td>On request — the banners recommend it, and the stop-gate asks for it</td><td>Richest — the full block</td></tr>
         <tr><td>The per-message hook</td><td>~35% autosave, only if none is fresh</td><td>Lightweight</td></tr>
-        <tr><td>The pre-compaction hook</td><td>Just before compaction, only if none is fresh</td><td>Mechanical fallback — no model call</td></tr>
+        <tr><td>The pre-compaction hook</td><td>Just before compaction, unless a full block from the skill is there</td><td>Mechanical fallback — no model call; refreshed at each compaction</td></tr>
       </tbody>
     </table>
 
@@ -95,9 +98,9 @@ context_pct_at_checkpoint:   the gauge at write time</pre>
     <h2>Reference</h2>
     <ul>
       <li>Checkpoint file — <code>~/.local/state/brain-stem/sessions/&lt;session-id&gt;/checkpoint.md</code> (one per session).</li>
-      <li>Writers — the <code>/session-checkpoint</code> skill (richest; atomic write + verify; failure mode is block-and-log), <code>prompt-context.sh</code> (~35% autosave + nudges), <code>pre-compact-checkpoint.sh</code> (fallback extract).</li>
-      <li>Stop-gate — <code>stop-checkpoint-check.sh</code> uses exit code 2 to keep a session going until the checkpoint is fresh.</li>
-      <li>Thresholds — the warn/mandate percents are settings-driven; the stop-gate bands are fixed in hook code (the session-continuity rule set).</li>
+      <li>Writers — the <code>/session-checkpoint</code> skill (richest; atomic write + verify; failure mode is block-and-log), <code>prompt-context.sh</code> (~35% autosave + the two banners), <code>pre-compact-checkpoint.sh</code> (fallback extract).</li>
+      <li>Stop-gate — <code>stop-checkpoint-check.sh</code> uses exit code 2 to keep a session going until the checkpoint is adequate for the band.</li>
+      <li>Thresholds — the warn/mandate banner percents are settings-driven and measured against the auto-compact window (<code>CLAUDE_CODE_AUTO_COMPACT_WINDOW</code>, else <code>autoCompactWindow</code> in user settings, else the model window); the autosave and stop-gate bands read the raw gauge and are fixed in hook code (the session-continuity rule set).</li>
       <li>Project orientation at session start — <code>session-start-project-context.sh</code> (the newest SessionStart hook) loads the project's situating card (<code>_situating.md</code>) as context before the first turn, on every session start; advisory and fails open. Distinct from the checkpoint: the checkpoint carries this work thread's state, the card carries project-wide orientation. See <a href="project-binder.html">The project binder</a> for the card's content and lifecycle.</li>
     </ul>
 
