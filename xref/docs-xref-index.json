@@ -1,0 +1,4459 @@
+{
+  "schema": "docs-xref-index/1",
+  "tokens": {
+    "/govern register": {
+      "class": "glossary",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "automated-capture-rationale.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "configuration.html": [
+          "mention"
+        ],
+        "faq.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "session-loading.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "vault-writers.html": [
+          "mention"
+        ],
+        "work-folder-guidebook.html": [
+          "mention"
+        ]
+      }
+    },
+    "ADR": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "project-management-rationale.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ]
+      }
+    },
+    "Brain Stem": {
+      "class": "glossary",
+      "pages": {
+        "README.md#brain-stem": [
+          "mention"
+        ],
+        "README.md#contributing": [
+          "mention"
+        ],
+        "README.md#documentation": [
+          "mention"
+        ],
+        "README.md#optional-the-claude-mem-plugin": [
+          "mention"
+        ],
+        "README.md#security": [
+          "mention"
+        ],
+        "README.md#what-brain-stem-ships": [
+          "mention"
+        ],
+        "across-documents.html": [
+          "mention"
+        ],
+        "automated-capture-rationale.html": [
+          "mention"
+        ],
+        "automated-capture.html": [
+          "mention"
+        ],
+        "checkpoints.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "configuration.html": [
+          "mention"
+        ],
+        "context-and-memory.html": [
+          "mention"
+        ],
+        "context-library.html": [
+          "mention"
+        ],
+        "context-memory-rationale.html": [
+          "mention"
+        ],
+        "decision-quality.html": [
+          "mention"
+        ],
+        "faq.html": [
+          "mention"
+        ],
+        "getting-started.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "governance-rationale.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "installation.html": [
+          "mention"
+        ],
+        "knowledge-graph.html": [
+          "mention"
+        ],
+        "memory-model.html": [
+          "mention"
+        ],
+        "multi-session.html": [
+          "mention"
+        ],
+        "onboarding.html": [
+          "mention"
+        ],
+        "orchestration.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "project-binder.html": [
+          "mention"
+        ],
+        "project-management-rationale.html": [
+          "mention"
+        ],
+        "project-management.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "session-loading.html": [
+          "mention"
+        ],
+        "session-management-rationale.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "system-personalization.html": [
+          "mention"
+        ],
+        "troubleshooting.html": [
+          "mention"
+        ],
+        "uninstalling.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ],
+        "vault-explorer.html": [
+          "mention"
+        ],
+        "vault-writers.html": [
+          "mention"
+        ],
+        "work-folder-guidebook.html": [
+          "mention"
+        ],
+        "work-surface.html": [
+          "mention"
+        ],
+        "write-time-governance.html": [
+          "mention"
+        ]
+      }
+    },
+    "CLAUDE.md": {
+      "class": "glossary",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "context-and-memory.html": [
+          "mention"
+        ],
+        "context-memory-rationale.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "installation.html": [
+          "mention"
+        ],
+        "memory-model.html": [
+          "mention"
+        ],
+        "onboarding.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "session-management-rationale.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "vault-explorer.html": [
+          "mention"
+        ],
+        "work-folder-guidebook.html": [
+          "mention"
+        ],
+        "work-surface.html": [
+          "mention"
+        ]
+      }
+    },
+    "CLAUDE.md.json": {
+      "class": "file",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ]
+      }
+    },
+    "Claude Code": {
+      "class": "glossary",
+      "pages": {
+        "README.md#brain-stem": [
+          "mention"
+        ],
+        "README.md#quickstart--five-minutes-four-moves": [
+          "mention"
+        ],
+        "README.md#what-brain-stem-ships": [
+          "mention"
+        ],
+        "across-documents.html": [
+          "mention"
+        ],
+        "automated-capture-rationale.html": [
+          "mention"
+        ],
+        "automated-capture.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "configuration.html": [
+          "mention"
+        ],
+        "context-and-memory.html": [
+          "mention"
+        ],
+        "context-memory-rationale.html": [
+          "mention"
+        ],
+        "faq.html": [
+          "mention"
+        ],
+        "getting-started.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "governance-rationale.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "installation.html": [
+          "mention"
+        ],
+        "knowledge-graph.html": [
+          "mention"
+        ],
+        "memory-model.html": [
+          "mention"
+        ],
+        "onboarding.html": [
+          "mention"
+        ],
+        "orchestration.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "project-binder.html": [
+          "mention"
+        ],
+        "project-management-rationale.html": [
+          "mention"
+        ],
+        "project-management.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "session-loading.html": [
+          "mention"
+        ],
+        "session-management-rationale.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "system-personalization.html": [
+          "mention"
+        ],
+        "uninstalling.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ],
+        "vault-explorer.html": [
+          "mention"
+        ],
+        "work-folder-guidebook.html": [
+          "mention"
+        ],
+        "work-surface.html": [
+          "mention"
+        ],
+        "write-time-governance.html": [
+          "mention"
+        ]
+      }
+    },
+    "HITL / HOTL": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "Markdown": {
+      "class": "glossary",
+      "pages": {
+        "automated-capture.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "knowledge-graph.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "project-management-rationale.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "session-loading.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ],
+        "vault-explorer.html": [
+          "mention"
+        ],
+        "vault-writers.html": [
+          "mention"
+        ],
+        "work-surface.html": [
+          "mention"
+        ]
+      }
+    },
+    "Obsidian": {
+      "class": "glossary",
+      "pages": {
+        "README.md#quickstart--five-minutes-four-moves": [
+          "mention"
+        ],
+        "README.md#what-brain-stem-ships": [
+          "mention"
+        ],
+        "context-memory-rationale.html": [
+          "mention"
+        ],
+        "faq.html": [
+          "mention"
+        ],
+        "getting-started.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "installation.html": [
+          "mention"
+        ],
+        "knowledge-graph.html": [
+          "mention"
+        ],
+        "onboarding.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "vault-explorer.html": [
+          "mention"
+        ]
+      }
+    },
+    "PreToolUse hook": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "write-time-governance.html": [
+          "mention"
+        ]
+      }
+    },
+    "RAG": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "knowledge-graph.html": [
+          "mention"
+        ]
+      }
+    },
+    "SQLite": {
+      "class": "glossary",
+      "pages": {
+        "automated-capture.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ],
+        "vault-writers.html": [
+          "mention"
+        ],
+        "work-folder-guidebook.html": [
+          "mention"
+        ]
+      }
+    },
+    "_index.md.json": {
+      "class": "file",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ]
+      }
+    },
+    "_override_reason": {
+      "class": "glossary",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ]
+      }
+    },
+    "across-documents": {
+      "class": "page",
+      "pages": {
+        "governance-engine.html": [
+          "link"
+        ],
+        "governance-rationale.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "single-document.html": [
+          "link"
+        ],
+        "write-time-governance.html": [
+          "link"
+        ]
+      }
+    },
+    "allow / advise / deny": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ]
+      }
+    },
+    "always-on context budget": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "armed plan": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "project-binder.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "atomic write": {
+      "class": "glossary",
+      "pages": {
+        "checkpoints.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "auto-loaded memory file": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ]
+      }
+    },
+    "automated-capture": {
+      "class": "page",
+      "pages": {
+        "README.md#what-brain-stem-ships": [
+          "link"
+        ],
+        "glossary.html": [
+          "link"
+        ],
+        "governance-engine.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ]
+      }
+    },
+    "automated-capture-rationale": {
+      "class": "page",
+      "pages": {
+        "automated-capture.html": [
+          "link"
+        ],
+        "governance-rationale.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "research-rationale.html": [
+          "link"
+        ],
+        "value-add.html": [
+          "link"
+        ]
+      }
+    },
+    "backlog-hygiene": {
+      "class": "skill",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "backlog-index": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "backlog-research": {
+      "class": "skill",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ]
+      }
+    },
+    "backlog-triage": {
+      "class": "skill",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ]
+      }
+    },
+    "backup": {
+      "class": "capability",
+      "pages": {
+        "README.md#security": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "configuration.html": [
+          "mention"
+        ],
+        "faq.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "installation.html": [
+          "mention"
+        ],
+        "onboarding.html": [
+          "mention"
+        ],
+        "orchestration.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "troubleshooting.html": [
+          "mention"
+        ],
+        "uninstalling.html": [
+          "mention"
+        ]
+      }
+    },
+    "binder-handoff-append-wrapper": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "capability-registry-parity": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "checkpoint": {
+      "class": "glossary",
+      "pages": {
+        "checkpoints.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "session-management-rationale.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ]
+      }
+    },
+    "checkpoints": {
+      "class": "page",
+      "pages": {
+        "commands.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "session-close.html": [
+          "link"
+        ],
+        "session-management-rationale.html": [
+          "link"
+        ],
+        "sessions.html": [
+          "link"
+        ]
+      }
+    },
+    "chronicle-index": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "circuit-breaker": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "orchestration.html": [
+          "mention"
+        ],
+        "project-management-rationale.html": [
+          "mention"
+        ]
+      }
+    },
+    "claude-mem": {
+      "class": "glossary",
+      "pages": {
+        "README.md#optional-the-claude-mem-plugin": [
+          "mention"
+        ],
+        "automated-capture-rationale.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "configuration.html": [
+          "mention"
+        ],
+        "context-and-memory.html": [
+          "mention"
+        ],
+        "faq.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "memory-model.html": [
+          "mention"
+        ],
+        "onboarding.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "commands": {
+      "class": "page",
+      "pages": {
+        "README.md#documentation": [
+          "link"
+        ],
+        "faq.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ]
+      }
+    },
+    "compaction": {
+      "class": "glossary",
+      "pages": {
+        "checkpoints.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "project-management-rationale.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "session-management-rationale.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ]
+      }
+    },
+    "compliance tiers": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ]
+      }
+    },
+    "configuration": {
+      "class": "page",
+      "pages": {
+        "index.html": [
+          "link"
+        ],
+        "packaging-runtime.html": [
+          "link"
+        ],
+        "troubleshooting.html": [
+          "link"
+        ]
+      }
+    },
+    "connector": {
+      "class": "glossary",
+      "pages": {
+        "automated-capture-rationale.html": [
+          "mention"
+        ],
+        "automated-capture.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ],
+        "vault-writers.html": [
+          "mention"
+        ]
+      }
+    },
+    "content hash": {
+      "class": "glossary",
+      "pages": {
+        "automated-capture-rationale.html": [
+          "mention"
+        ],
+        "automated-capture.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "vault-writers.html": [
+          "mention"
+        ]
+      }
+    },
+    "context pressure": {
+      "class": "glossary",
+      "pages": {
+        "checkpoints.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ]
+      }
+    },
+    "context window": {
+      "class": "glossary",
+      "pages": {
+        "context-memory-rationale.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "project-management-rationale.html": [
+          "mention"
+        ],
+        "session-management-rationale.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ]
+      }
+    },
+    "context-and-memory": {
+      "class": "page",
+      "pages": {
+        "README.md#what-brain-stem-ships": [
+          "link"
+        ],
+        "faq.html": [
+          "link"
+        ],
+        "glossary.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "session-close.html": [
+          "link"
+        ]
+      }
+    },
+    "context-budget-index": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "session-loading.html": [
+          "mention"
+        ]
+      }
+    },
+    "context-library": {
+      "class": "page",
+      "pages": {
+        "context-and-memory.html": [
+          "link"
+        ],
+        "context-memory-rationale.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "memory-model.html": [
+          "link"
+        ],
+        "plans.html": [
+          "link"
+        ],
+        "project-binder.html": [
+          "link"
+        ]
+      }
+    },
+    "context-memory-rationale": {
+      "class": "page",
+      "pages": {
+        "context-and-memory.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "research-rationale.html": [
+          "link"
+        ],
+        "value-add.html": [
+          "link"
+        ]
+      }
+    },
+    "coverage-guard": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "decision-quality": {
+      "class": "page",
+      "pages": {
+        "configuration.html": [
+          "link"
+        ],
+        "faq.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "session-management-rationale.html": [
+          "link"
+        ],
+        "sessions.html": [
+          "link"
+        ]
+      }
+    },
+    "deduplication": {
+      "class": "glossary",
+      "pages": {
+        "automated-capture-rationale.html": [
+          "mention"
+        ],
+        "automated-capture.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ],
+        "vault-writers.html": [
+          "mention"
+        ]
+      }
+    },
+    "deliverable.md.json": {
+      "class": "file",
+      "pages": {
+        "work-surface.html": [
+          "mention"
+        ]
+      }
+    },
+    "dispatch.sh": {
+      "class": "file",
+      "pages": {
+        "automated-capture.html": [
+          "mention"
+        ]
+      }
+    },
+    "doc-amender": {
+      "class": "skill",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "automated-capture-rationale.html": [
+          "mention"
+        ],
+        "automated-capture.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "orchestration.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "vault-writers.html": [
+          "mention"
+        ]
+      }
+    },
+    "doc-dependency": {
+      "class": "glossary",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "write-time-governance.html": [
+          "mention"
+        ]
+      }
+    },
+    "drift-sweep": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "fail-open": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ]
+      }
+    },
+    "fan-in / fan-out": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "faq": {
+      "class": "page",
+      "pages": {
+        "README.md#quickstart--five-minutes-four-moves": [
+          "link"
+        ],
+        "getting-started.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "troubleshooting.html": [
+          "link"
+        ]
+      }
+    },
+    "file-type contract": {
+      "class": "glossary",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "vault-writers.html": [
+          "mention"
+        ],
+        "work-folder-guidebook.html": [
+          "mention"
+        ]
+      }
+    },
+    "forgeable checkbox": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "foundation-master.json": {
+      "class": "file",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ]
+      }
+    },
+    "frontmatter": {
+      "class": "glossary",
+      "pages": {
+        "README.md#what-brain-stem-ships": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "configuration.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "governance-rationale.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "installation.html": [
+          "mention"
+        ],
+        "knowledge-graph.html": [
+          "mention"
+        ],
+        "memory-model.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "project-management.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "vault-writers.html": [
+          "mention"
+        ],
+        "work-surface.html": [
+          "mention"
+        ],
+        "write-time-governance.html": [
+          "mention"
+        ]
+      }
+    },
+    "frontmatter-enforce": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "getting-started": {
+      "class": "page",
+      "pages": {
+        "README.md#documentation": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "installation.html": [
+          "link"
+        ]
+      }
+    },
+    "globalize": {
+      "class": "glossary",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "context-and-memory.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "memory-model.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "glossary": {
+      "class": "page",
+      "pages": {
+        "README.md#documentation": [
+          "link"
+        ],
+        "faq.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "vault-explorer.html": [
+          "link"
+        ]
+      }
+    },
+    "govern": {
+      "class": "skill",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "automated-capture-rationale.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "configuration.html": [
+          "mention"
+        ],
+        "context-and-memory.html": [
+          "mention"
+        ],
+        "context-memory-rationale.html": [
+          "mention"
+        ],
+        "faq.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "governance-rationale.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "memory-model.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "project-management-rationale.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "session-loading.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ],
+        "vault-writers.html": [
+          "mention"
+        ],
+        "work-folder-guidebook.html": [
+          "mention"
+        ],
+        "write-time-governance.html": [
+          "mention"
+        ]
+      }
+    },
+    "governance-engine": {
+      "class": "page",
+      "pages": {
+        "across-documents.html": [
+          "link"
+        ],
+        "commands.html": [
+          "link"
+        ],
+        "governance-personalization.html": [
+          "link"
+        ],
+        "governance-rationale.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "knowledge-graph.html": [
+          "link"
+        ],
+        "sessions.html": [
+          "link"
+        ],
+        "single-document.html": [
+          "link"
+        ],
+        "write-time-governance.html": [
+          "link"
+        ]
+      }
+    },
+    "governance-parity-audit": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "governance-personalization": {
+      "class": "page",
+      "pages": {
+        "commands.html": [
+          "link"
+        ],
+        "configuration.html": [
+          "link"
+        ],
+        "faq.html": [
+          "link"
+        ],
+        "governance-engine.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "packaging-runtime.html": [
+          "link"
+        ],
+        "personalization-rationale.html": [
+          "link"
+        ],
+        "system-personalization.html": [
+          "link"
+        ],
+        "work-folder-guidebook.html": [
+          "link"
+        ],
+        "write-time-governance.html": [
+          "link"
+        ]
+      }
+    },
+    "governance-rationale": {
+      "class": "page",
+      "pages": {
+        "automated-capture-rationale.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "personalization-rationale.html": [
+          "link"
+        ],
+        "research-rationale.html": [
+          "link"
+        ],
+        "value-add.html": [
+          "link"
+        ],
+        "write-time-governance.html": [
+          "link"
+        ]
+      }
+    },
+    "handoff-disposition-check": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "handoff.md": {
+      "class": "glossary",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ]
+      }
+    },
+    "hook": {
+      "class": "glossary",
+      "pages": {
+        "README.md#optional-the-claude-mem-plugin": [
+          "mention"
+        ],
+        "across-documents.html": [
+          "mention"
+        ],
+        "checkpoints.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "configuration.html": [
+          "mention"
+        ],
+        "context-memory-rationale.html": [
+          "mention"
+        ],
+        "decision-quality.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "governance-rationale.html": [
+          "mention"
+        ],
+        "installation.html": [
+          "mention"
+        ],
+        "memory-model.html": [
+          "mention"
+        ],
+        "multi-session.html": [
+          "mention"
+        ],
+        "onboarding.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "session-loading.html": [
+          "mention"
+        ],
+        "session-management-rationale.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ],
+        "write-time-governance.html": [
+          "mention"
+        ]
+      }
+    },
+    "ideation brief": {
+      "class": "glossary",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ]
+      }
+    },
+    "idempotent": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "installation.html": [
+          "mention"
+        ],
+        "memory-model.html": [
+          "mention"
+        ],
+        "multi-session.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "inbox-settle": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "index": {
+      "class": "page",
+      "pages": {
+        "getting-started.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ]
+      }
+    },
+    "index-maintain": {
+      "class": "capability",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "install.sh": {
+      "class": "file",
+      "pages": {
+        "README.md#quickstart--five-minutes-four-moves": [
+          "mention"
+        ],
+        "configuration.html": [
+          "mention"
+        ],
+        "faq.html": [
+          "mention"
+        ],
+        "getting-started.html": [
+          "mention"
+        ],
+        "installation.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "troubleshooting.html": [
+          "mention"
+        ]
+      }
+    },
+    "installation": {
+      "class": "page",
+      "pages": {
+        "README.md#documentation": [
+          "link"
+        ],
+        "README.md#quickstart--five-minutes-four-moves": [
+          "link"
+        ],
+        "faq.html": [
+          "link"
+        ],
+        "getting-started.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "onboarding.html": [
+          "link"
+        ],
+        "packaging-runtime.html": [
+          "link"
+        ],
+        "troubleshooting.html": [
+          "link"
+        ],
+        "uninstalling.html": [
+          "link"
+        ]
+      }
+    },
+    "kebab-case / slug": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "knowledge-graph": {
+      "class": "page",
+      "pages": {
+        "index.html": [
+          "link"
+        ],
+        "installation.html": [
+          "link"
+        ],
+        "personalization-rationale.html": [
+          "link"
+        ],
+        "single-document.html": [
+          "link"
+        ],
+        "system-personalization.html": [
+          "link"
+        ],
+        "vault-explorer.html": [
+          "link"
+        ]
+      }
+    },
+    "launchd": {
+      "class": "glossary",
+      "pages": {
+        "automated-capture-rationale.html": [
+          "mention"
+        ],
+        "automated-capture.html": [
+          "mention"
+        ],
+        "faq.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "orchestration.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ]
+      }
+    },
+    "librarian": {
+      "class": "skill",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "context-library.html": [
+          "mention"
+        ],
+        "faq.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "installation.html": [
+          "mention"
+        ],
+        "knowledge-graph.html": [
+          "mention"
+        ],
+        "memory-model.html": [
+          "mention"
+        ],
+        "orchestration.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "project-binder.html": [
+          "mention"
+        ],
+        "project-management.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "session-loading.html": [
+          "mention"
+        ],
+        "session-management-rationale.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "troubleshooting.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ],
+        "vault-explorer.html": [
+          "mention"
+        ],
+        "work-surface.html": [
+          "mention"
+        ],
+        "write-time-governance.html": [
+          "mention"
+        ]
+      }
+    },
+    "librarian-manifest-validate": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "library-index": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "library-log-rotate": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "library-scrub": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "link-grammar-convert": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "log-archive": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "log-subtype-canonical": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "managed surface": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "troubleshooting.html": [
+          "mention"
+        ]
+      }
+    },
+    "managed-surface-census": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "mandatory _index.md": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "manifest.json": {
+      "class": "glossary",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "context-library.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "installation.html": [
+          "mention"
+        ],
+        "onboarding.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ]
+      }
+    },
+    "master plan & sub-plans": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "matrix-render": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "mem-promote": {
+      "class": "skill",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "memory-consolidation-check.sh": {
+      "class": "file",
+      "pages": {
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "memory-globalize": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "memory-hygiene": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "memory-model": {
+      "class": "page",
+      "pages": {
+        "commands.html": [
+          "link"
+        ],
+        "context-and-memory.html": [
+          "link"
+        ],
+        "context-memory-rationale.html": [
+          "link"
+        ],
+        "faq.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ]
+      }
+    },
+    "memory-schema.json": {
+      "class": "file",
+      "pages": {
+        "memory-model.html": [
+          "mention"
+        ]
+      }
+    },
+    "memory-staleness": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "multi-session": {
+      "class": "page",
+      "pages": {
+        "index.html": [
+          "link"
+        ],
+        "session-close.html": [
+          "link"
+        ],
+        "session-management-rationale.html": [
+          "link"
+        ],
+        "sessions.html": [
+          "link"
+        ]
+      }
+    },
+    "new-plan": {
+      "class": "skill",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ]
+      }
+    },
+    "onboarding": {
+      "class": "page",
+      "pages": {
+        "README.md#documentation": [
+          "link"
+        ],
+        "README.md#what-brain-stem-ships": [
+          "link"
+        ],
+        "commands.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "installation.html": [
+          "link"
+        ],
+        "personalization-rationale.html": [
+          "link"
+        ],
+        "troubleshooting.html": [
+          "link"
+        ]
+      }
+    },
+    "orchestration": {
+      "class": "page",
+      "pages": {
+        "automated-capture.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "plans.html": [
+          "link"
+        ],
+        "project-management-rationale.html": [
+          "link"
+        ],
+        "project-management.html": [
+          "link"
+        ],
+        "vault-writers.html": [
+          "link"
+        ],
+        "work-folder-guidebook.html": [
+          "link"
+        ]
+      }
+    },
+    "overlay-master.json": {
+      "class": "file",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ]
+      }
+    },
+    "packaging-runtime": {
+      "class": "page",
+      "pages": {
+        "commands.html": [
+          "link"
+        ],
+        "configuration.html": [
+          "link"
+        ],
+        "faq.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "installation.html": [
+          "link"
+        ],
+        "personalization-rationale.html": [
+          "link"
+        ],
+        "troubleshooting.html": [
+          "link"
+        ],
+        "uninstalling.html": [
+          "link"
+        ],
+        "write-time-governance.html": [
+          "link"
+        ]
+      }
+    },
+    "personalization-rationale": {
+      "class": "page",
+      "pages": {
+        "governance-rationale.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "research-rationale.html": [
+          "link"
+        ],
+        "system-personalization.html": [
+          "link"
+        ],
+        "value-add.html": [
+          "link"
+        ]
+      }
+    },
+    "placement-validate": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "plan mode": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ]
+      }
+    },
+    "plan-decision-log": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "plan-handoff-index": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "plan-index": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "plan-parent-resolve": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "plan-research-declare": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "plan-research-index": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "plan-terminal-lag-check": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "plans": {
+      "class": "page",
+      "pages": {
+        "commands.html": [
+          "link"
+        ],
+        "context-and-memory.html": [
+          "link"
+        ],
+        "governance-engine.html": [
+          "link"
+        ],
+        "governance-personalization.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "orchestration.html": [
+          "link"
+        ],
+        "project-binder.html": [
+          "link"
+        ],
+        "project-management-rationale.html": [
+          "link"
+        ],
+        "project-management.html": [
+          "link"
+        ],
+        "single-document.html": [
+          "link"
+        ]
+      }
+    },
+    "pointer-currency-scan": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "pre-asq-guard.sh": {
+      "class": "file",
+      "pages": {
+        "decision-quality.html": [
+          "mention"
+        ]
+      }
+    },
+    "pre-compact-checkpoint.sh": {
+      "class": "file",
+      "pages": {
+        "checkpoints.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ]
+      }
+    },
+    "pre-write-guard.sh": {
+      "class": "file",
+      "pages": {
+        "governance-engine.html": [
+          "mention"
+        ]
+      }
+    },
+    "print mode / headless": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "project-binder": {
+      "class": "page",
+      "pages": {
+        "checkpoints.html": [
+          "link"
+        ],
+        "context-and-memory.html": [
+          "link"
+        ],
+        "context-library.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "memory-model.html": [
+          "link"
+        ],
+        "plans.html": [
+          "link"
+        ],
+        "project-management-rationale.html": [
+          "link"
+        ],
+        "project-management.html": [
+          "link"
+        ],
+        "session-close.html": [
+          "link"
+        ],
+        "session-loading.html": [
+          "link"
+        ],
+        "sessions.html": [
+          "link"
+        ],
+        "work-surface.html": [
+          "link"
+        ]
+      }
+    },
+    "project-context-situating": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "project-management": {
+      "class": "page",
+      "pages": {
+        "README.md#what-brain-stem-ships": [
+          "link"
+        ],
+        "glossary.html": [
+          "link"
+        ],
+        "governance-engine.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "write-time-governance.html": [
+          "link"
+        ]
+      }
+    },
+    "project-management-rationale": {
+      "class": "page",
+      "pages": {
+        "index.html": [
+          "link"
+        ],
+        "project-binder.html": [
+          "link"
+        ],
+        "project-management.html": [
+          "link"
+        ],
+        "research-rationale.html": [
+          "link"
+        ],
+        "value-add.html": [
+          "link"
+        ]
+      }
+    },
+    "promotion / scrub": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "prompt-context.sh": {
+      "class": "file",
+      "pages": {
+        "checkpoints.html": [
+          "mention"
+        ],
+        "multi-session.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ]
+      }
+    },
+    "reconcile-sessions.sh": {
+      "class": "file",
+      "pages": {
+        "multi-session.html": [
+          "mention"
+        ]
+      }
+    },
+    "rename-cascade": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "rename-detect": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "rename-history-sync": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "research-rationale": {
+      "class": "page",
+      "pages": {
+        "across-documents.html": [
+          "link"
+        ],
+        "automated-capture-rationale.html": [
+          "link"
+        ],
+        "context-memory-rationale.html": [
+          "link"
+        ],
+        "governance-rationale.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "personalization-rationale.html": [
+          "link"
+        ],
+        "project-management-rationale.html": [
+          "link"
+        ],
+        "session-management-rationale.html": [
+          "link"
+        ],
+        "single-document.html": [
+          "link"
+        ]
+      }
+    },
+    "review": {
+      "class": "capability",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "context-library.html": [
+          "mention"
+        ],
+        "faq.html": [
+          "mention"
+        ],
+        "orchestration.html": [
+          "mention"
+        ],
+        "project-management-rationale.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "session-loading.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ]
+      }
+    },
+    "routines": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "multi-session.html": [
+          "mention"
+        ],
+        "orchestration.html": [
+          "mention"
+        ]
+      }
+    },
+    "rules-hygiene": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "rules-index": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "sanctioned-schema-drift-detect": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "schema": {
+      "class": "glossary",
+      "pages": {
+        "checkpoints.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "governance-rationale.html": [
+          "mention"
+        ],
+        "knowledge-graph.html": [
+          "mention"
+        ],
+        "memory-model.html": [
+          "mention"
+        ],
+        "onboarding.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "session-loading.html": [
+          "mention"
+        ],
+        "session-management-rationale.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "write-time-governance.html": [
+          "mention"
+        ]
+      }
+    },
+    "second brain": {
+      "class": "glossary",
+      "pages": {
+        "automated-capture-rationale.html": [
+          "mention"
+        ],
+        "context-memory-rationale.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ]
+      }
+    },
+    "semantic / procedural / episodic memory": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "sentinel markers": {
+      "class": "glossary",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ]
+      }
+    },
+    "session close": {
+      "class": "glossary",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "decision-quality.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "governance-rationale.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "memory-model.html": [
+          "mention"
+        ],
+        "multi-session.html": [
+          "mention"
+        ],
+        "project-management-rationale.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "session-management-rationale.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ],
+        "work-surface.html": [
+          "mention"
+        ],
+        "write-time-governance.html": [
+          "mention"
+        ]
+      }
+    },
+    "session-checkpoint": {
+      "class": "skill",
+      "pages": {
+        "checkpoints.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ]
+      }
+    },
+    "session-close": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "link",
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "multi-session.html": [
+          "link"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "project-binder.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "session-management-rationale.html": [
+          "link",
+          "mention"
+        ],
+        "sessions.html": [
+          "link",
+          "mention"
+        ],
+        "write-time-governance.html": [
+          "link"
+        ]
+      }
+    },
+    "session-deregister.sh": {
+      "class": "file",
+      "pages": {
+        "session-close.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ]
+      }
+    },
+    "session-episode-write.sh": {
+      "class": "file",
+      "pages": {
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "session-loading": {
+      "class": "page",
+      "pages": {
+        "commands.html": [
+          "link"
+        ],
+        "context-and-memory.html": [
+          "link"
+        ],
+        "context-library.html": [
+          "link"
+        ],
+        "context-memory-rationale.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "knowledge-graph.html": [
+          "link"
+        ],
+        "memory-model.html": [
+          "link"
+        ],
+        "project-binder.html": [
+          "link"
+        ],
+        "session-close.html": [
+          "link"
+        ],
+        "work-surface.html": [
+          "link"
+        ]
+      }
+    },
+    "session-management-rationale": {
+      "class": "page",
+      "pages": {
+        "index.html": [
+          "link"
+        ],
+        "research-rationale.html": [
+          "link"
+        ],
+        "sessions.html": [
+          "link"
+        ],
+        "value-add.html": [
+          "link"
+        ]
+      }
+    },
+    "session-register.sh": {
+      "class": "file",
+      "pages": {
+        "sessions.html": [
+          "mention"
+        ]
+      }
+    },
+    "session-start-integrity-backstop.sh": {
+      "class": "file",
+      "pages": {
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "session-start-project-context.sh": {
+      "class": "file",
+      "pages": {
+        "checkpoints.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ]
+      }
+    },
+    "sessions": {
+      "class": "page",
+      "pages": {
+        "README.md#what-brain-stem-ships": [
+          "link"
+        ],
+        "commands.html": [
+          "link"
+        ],
+        "glossary.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ]
+      }
+    },
+    "settings / permissions": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "settings.json": {
+      "class": "file",
+      "pages": {
+        "README.md#optional-the-claude-mem-plugin": [
+          "mention"
+        ],
+        "configuration.html": [
+          "mention"
+        ],
+        "faq.html": [
+          "mention"
+        ],
+        "installation.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "troubleshooting.html": [
+          "mention"
+        ],
+        "uninstalling.html": [
+          "mention"
+        ]
+      }
+    },
+    "settled note": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "shame-slug": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ]
+      }
+    },
+    "single-document": {
+      "class": "page",
+      "pages": {
+        "across-documents.html": [
+          "link"
+        ],
+        "governance-engine.html": [
+          "link"
+        ],
+        "governance-rationale.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "knowledge-graph.html": [
+          "link"
+        ],
+        "write-time-governance.html": [
+          "link"
+        ]
+      }
+    },
+    "situating card": {
+      "class": "glossary",
+      "pages": {
+        "checkpoints.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "context-and-memory.html": [
+          "mention"
+        ],
+        "context-memory-rationale.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "knowledge-graph.html": [
+          "mention"
+        ],
+        "memory-model.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "project-binder.html": [
+          "mention"
+        ],
+        "project-management-rationale.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "session-loading.html": [
+          "mention"
+        ],
+        "session-management-rationale.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ],
+        "work-folder-guidebook.html": [
+          "mention"
+        ],
+        "work-surface.html": [
+          "mention"
+        ]
+      }
+    },
+    "skill / slash command": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "skill-parity": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "staging packet": {
+      "class": "glossary",
+      "pages": {
+        "automated-capture-rationale.html": [
+          "mention"
+        ],
+        "automated-capture.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "vault-writers.html": [
+          "mention"
+        ]
+      }
+    },
+    "stale-detect": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "stop-checkpoint-check.sh": {
+      "class": "file",
+      "pages": {
+        "checkpoints.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ]
+      }
+    },
+    "subplan-aggregate": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "survivorship": {
+      "class": "glossary",
+      "pages": {
+        "automated-capture-rationale.html": [
+          "mention"
+        ],
+        "context-memory-rationale.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-rationale.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "write-time-governance.html": [
+          "mention"
+        ]
+      }
+    },
+    "symlink": {
+      "class": "glossary",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "context-library.html": [
+          "mention"
+        ],
+        "context-memory-rationale.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "knowledge-graph.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "vault-explorer.html": [
+          "mention"
+        ]
+      }
+    },
+    "system-personalization": {
+      "class": "page",
+      "pages": {
+        "README.md#what-brain-stem-ships": [
+          "link"
+        ],
+        "glossary.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ]
+      }
+    },
+    "tag-coverage-audit": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "tasks-render": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "the Library": {
+      "class": "glossary",
+      "pages": {
+        "README.md#what-brain-stem-ships": [
+          "mention"
+        ],
+        "across-documents.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "context-and-memory.html": [
+          "mention"
+        ],
+        "context-library.html": [
+          "mention"
+        ],
+        "context-memory-rationale.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "knowledge-graph.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "project-binder.html": [
+          "mention"
+        ],
+        "project-management-rationale.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ],
+        "vault-explorer.html": [
+          "mention"
+        ],
+        "work-surface.html": [
+          "mention"
+        ]
+      }
+    },
+    "the Work folder": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "work-folder-guidebook.html": [
+          "mention"
+        ],
+        "work-surface.html": [
+          "mention"
+        ]
+      }
+    },
+    "the Workshop": {
+      "class": "glossary",
+      "pages": {
+        "context-and-memory.html": [
+          "mention"
+        ],
+        "context-library.html": [
+          "mention"
+        ],
+        "context-memory-rationale.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "the decision-quality protocol": {
+      "class": "glossary",
+      "pages": {
+        "configuration.html": [
+          "mention"
+        ],
+        "decision-quality.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "session-management-rationale.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ]
+      }
+    },
+    "the doorman": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ]
+      }
+    },
+    "the eight pillars": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ]
+      }
+    },
+    "the foundation & the overlay": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "the governance engine": {
+      "class": "glossary",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "governance-rationale.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "knowledge-graph.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "session-management-rationale.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "write-time-governance.html": [
+          "mention"
+        ]
+      }
+    },
+    "the hot index": {
+      "class": "glossary",
+      "pages": {
+        "context-and-memory.html": [
+          "mention"
+        ],
+        "context-memory-rationale.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "memory-model.html": [
+          "mention"
+        ]
+      }
+    },
+    "the idea funnel": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ]
+      }
+    },
+    "the librarian": {
+      "class": "glossary",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "context-library.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "knowledge-graph.html": [
+          "mention"
+        ],
+        "memory-model.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "project-binder.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "session-loading.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ],
+        "vault-explorer.html": [
+          "mention"
+        ],
+        "write-time-governance.html": [
+          "mention"
+        ]
+      }
+    },
+    "the moment-of-need Library check": {
+      "class": "glossary",
+      "pages": {
+        "context-library.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "the note type": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "the orchestrator": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "installation.html": [
+          "mention"
+        ],
+        "orchestration.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "project-management-rationale.html": [
+          "mention"
+        ],
+        "project-management.html": [
+          "mention"
+        ]
+      }
+    },
+    "the plan tree": {
+      "class": "glossary",
+      "pages": {
+        "context-and-memory.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "work-folder-guidebook.html": [
+          "mention"
+        ],
+        "write-time-governance.html": [
+          "mention"
+        ]
+      }
+    },
+    "the project binder": {
+      "class": "glossary",
+      "pages": {
+        "checkpoints.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "context-and-memory.html": [
+          "mention"
+        ],
+        "context-library.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "knowledge-graph.html": [
+          "mention"
+        ],
+        "memory-model.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "project-binder.html": [
+          "mention"
+        ],
+        "project-management-rationale.html": [
+          "mention"
+        ],
+        "project-management.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "session-loading.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ],
+        "work-folder-guidebook.html": [
+          "mention"
+        ],
+        "work-surface.html": [
+          "mention"
+        ]
+      }
+    },
+    "the quartet": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ]
+      }
+    },
+    "the session registry": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "multi-session.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "the six statuses": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "the three generated binder indexes": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
+    "the vault": {
+      "class": "glossary",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "automated-capture-rationale.html": [
+          "mention"
+        ],
+        "automated-capture.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "configuration.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "installation.html": [
+          "mention"
+        ],
+        "multi-session.html": [
+          "mention"
+        ],
+        "onboarding.html": [
+          "mention"
+        ],
+        "orchestration.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "sessions.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "vault-explorer.html": [
+          "mention"
+        ],
+        "vault-writers.html": [
+          "mention"
+        ],
+        "work-folder-guidebook.html": [
+          "mention"
+        ],
+        "work-surface.html": [
+          "mention"
+        ]
+      }
+    },
+    "the vault-writer system": {
+      "class": "glossary",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "automated-capture-rationale.html": [
+          "mention"
+        ],
+        "automated-capture.html": [
+          "mention"
+        ],
+        "configuration.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "orchestration.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "vault-writers.html": [
+          "mention"
+        ],
+        "work-folder-guidebook.html": [
+          "mention"
+        ],
+        "work-surface.html": [
+          "mention"
+        ]
+      }
+    },
+    "trinity-drift-detect": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "troubleshooting": {
+      "class": "page",
+      "pages": {
+        "README.md#documentation": [
+          "link"
+        ],
+        "README.md#quickstart--five-minutes-four-moves": [
+          "link"
+        ],
+        "getting-started.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ]
+      }
+    },
+    "uninstall.sh": {
+      "class": "file",
+      "pages": {
+        "faq.html": [
+          "mention"
+        ],
+        "installation.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
+        "troubleshooting.html": [
+          "mention"
+        ],
+        "uninstalling.html": [
+          "mention"
+        ]
+      }
+    },
+    "uninstalling": {
+      "class": "page",
+      "pages": {
+        "configuration.html": [
+          "link"
+        ],
+        "faq.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "installation.html": [
+          "link"
+        ],
+        "packaging-runtime.html": [
+          "link"
+        ],
+        "troubleshooting.html": [
+          "link"
+        ]
+      }
+    },
+    "user-manifest-schema.json": {
+      "class": "file",
+      "pages": {
+        "onboarding.html": [
+          "mention"
+        ]
+      }
+    },
+    "value-add": {
+      "class": "page",
+      "pages": {
+        "faq.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ]
+      }
+    },
+    "vault-explorer": {
+      "class": "page",
+      "pages": {
+        "README.md#what-brain-stem-ships": [
+          "link"
+        ],
+        "configuration.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ]
+      }
+    },
+    "vault-writer": {
+      "class": "glossary",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "automated-capture-rationale.html": [
+          "mention"
+        ],
+        "automated-capture.html": [
+          "mention"
+        ],
+        "configuration.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "governance-personalization.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "orchestration.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ],
+        "vault-writers.html": [
+          "mention"
+        ],
+        "work-folder-guidebook.html": [
+          "mention"
+        ],
+        "work-surface.html": [
+          "mention"
+        ]
+      }
+    },
+    "vault-writers": {
+      "class": "page",
+      "pages": {
+        "across-documents.html": [
+          "link"
+        ],
+        "automated-capture-rationale.html": [
+          "link"
+        ],
+        "automated-capture.html": [
+          "link"
+        ],
+        "governance-engine.html": [
+          "link"
+        ],
+        "governance-personalization.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "orchestration.html": [
+          "link"
+        ],
+        "single-document.html": [
+          "link"
+        ],
+        "work-folder-guidebook.html": [
+          "link"
+        ],
+        "work-surface.html": [
+          "link"
+        ]
+      }
+    },
+    "waiver-audit": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "wikilink-repair": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
+    "work-folder-guidebook": {
+      "class": "page",
+      "pages": {
+        "context-memory-rationale.html": [
+          "link"
+        ],
+        "governance-personalization.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "personalization-rationale.html": [
+          "link"
+        ],
+        "system-personalization.html": [
+          "link"
+        ],
+        "work-surface.html": [
+          "link"
+        ]
+      }
+    },
+    "work-index-maintain": {
+      "class": "capability",
+      "pages": {
+        "across-documents.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "work-map-generate": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "work-surface.html": [
+          "mention"
+        ]
+      }
+    },
+    "work-surface": {
+      "class": "page",
+      "pages": {
+        "governance-engine.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "project-binder.html": [
+          "link"
+        ],
+        "project-management-rationale.html": [
+          "link"
+        ],
+        "project-management.html": [
+          "link"
+        ],
+        "session-loading.html": [
+          "link"
+        ],
+        "work-folder-guidebook.html": [
+          "link"
+        ]
+      }
+    },
+    "workstream": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "vault-writers.html": [
+          "mention"
+        ],
+        "work-folder-guidebook.html": [
+          "mention"
+        ],
+        "work-surface.html": [
+          "mention"
+        ]
+      }
+    },
+    "write-shape": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "single-document.html": [
+          "mention"
+        ]
+      }
+    },
+    "write-time governance": {
+      "class": "glossary",
+      "pages": {
+        "README.md#brain-stem": [
+          "mention"
+        ],
+        "README.md#what-brain-stem-ships": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "faq.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "governance-rationale.html": [
+          "mention"
+        ],
+        "index.html": [
+          "mention"
+        ],
+        "knowledge-graph.html": [
+          "mention"
+        ],
+        "personalization-rationale.html": [
+          "mention"
+        ],
+        "project-management.html": [
+          "mention"
+        ],
+        "research-rationale.html": [
+          "mention"
+        ],
+        "value-add.html": [
+          "mention"
+        ],
+        "write-time-governance.html": [
+          "mention"
+        ]
+      }
+    },
+    "write-time-governance": {
+      "class": "page",
+      "pages": {
+        "README.md#what-brain-stem-ships": [
+          "link"
+        ],
+        "commands.html": [
+          "link"
+        ],
+        "glossary.html": [
+          "link"
+        ],
+        "index.html": [
+          "link"
+        ],
+        "session-close.html": [
+          "link"
+        ]
+      }
+    },
+    "writer-reconciler": {
+      "class": "skill",
+      "pages": {
+        "automated-capture-rationale.html": [
+          "mention"
+        ],
+        "automated-capture.html": [
+          "mention"
+        ],
+        "commands.html": [
+          "mention"
+        ],
+        "faq.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "orchestration.html": [
+          "mention"
+        ],
+        "vault-writers.html": [
+          "mention"
+        ]
+      }
+    },
+    "writers-health-audit": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "writers-index-refresh": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "writers-overlap-refresh": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "xref-check": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    }
+  }
+}
