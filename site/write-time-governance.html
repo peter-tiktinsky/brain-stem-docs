@@ -99,7 +99,7 @@
         <tr><td>A link that no longer resolves, in either grammar</td><td>Cross-reference check, wikilink repair, and the rename cascade</td><td>Findings and proposals at close; repair and cascade apply by hand</td></tr>
         <tr><td>A file in the wrong place, or a stale one</td><td>Placement validation and stale detection</td><td>Findings</td></tr>
         <tr><td>A change that should have landed across several surfaces at once</td><td>Per-entity parity checks — plan-trinity drift, memory hygiene, skill-registry parity — and manifest validation audits</td><td>Findings at close; the commit groups a change set atomically, but no hook stands there</td></tr>
-        <tr><td>A shipped, managed file edited in place by anything other than Claude&nbsp;Code</td><td>The managed-surface census: every installed file hashed against the install receipt (<a href="packaging-runtime.html#managed">Managed surfaces</a>)</td><td>Detect, never auto-fix; runs in a full librarian run or by hand</td></tr>
+        <tr><td>A shipped, managed file edited in place by anything other than Claude&nbsp;Code</td><td>The managed-surface census: every installed file hashed against the install receipt (<a href="packaging-runtime.html#managed">Managed surfaces</a>)</td><td>Detect, never auto-fix; runs at session close at most once a day, in a full librarian run, or by hand</td></tr>
       </tbody>
     </table>
     <p>

@@ -262,6 +262,15 @@
         <dt>Run them when</dt><dd>Rules hygiene flags a hook-backed rule or a global-scope memory. The judgment class of rules hygiene itself waits for an attended run: <code>rules-hygiene</code> in session.</dd>
       </dl>
     </div>
+    <div class="capref">
+      <div class="capref-head"><code>managed-surface-census</code><span class="capref-badge">At close: detect only, daily</span></div>
+      <p class="capref-lede">A hash of every installed Brain Stem file against the install receipt.</p>
+      <dl>
+        <dt>What it does</dt><dd>Detects and never fixes. De-duplicates against its last snapshot, and classifies your overlay, your <code>.gitignore</code> and sidecar files as legitimate rather than flagging them: the installer appends its own block to your <code>.gitignore</code>, and your lines in it are expected divergence, reported as classified rather than as a fork. The close fires it at most once a day; a full sweep or a run by hand fires it any time.</dd>
+        <dt>Run it when</dt><dd>You suspect a shipped file was edited in place by something other than Claude&nbsp;Code (<a href='packaging-runtime.html#managed'>Managed surfaces</a>).</dd>
+        <dt>Close relation</dt><dd>The close chain's per-entity checks — plan-trinity drift, memory hygiene, skill-registry parity — compare related records against each other; this checks the installed bytes themselves.</dd>
+      </dl>
+    </div>
 
     <div class="capref-group"><span class="sw related"></span>Related capabilities the close never runs</div>
     <div class="capref related">
@@ -301,15 +310,6 @@
       </dl>
     </div>
     <div class="capref related">
-      <div class="capref-head"><code>managed-surface-census</code><span class="capref-badge">Not in the close: on demand or in a full sweep</span></div>
-      <p class="capref-lede">A hash of every installed Brain Stem file against the install receipt.</p>
-      <dl>
-        <dt>What it does</dt><dd>Detects and never fixes. De-duplicates against its last snapshot, and classifies your overlay and sidecar files as legitimate rather than flagging them.</dd>
-        <dt>Run it when</dt><dd>You suspect a shipped file was edited in place by something other than Claude&nbsp;Code (<a href='packaging-runtime.html#managed'>Managed surfaces</a>).</dd>
-        <dt>Close relation</dt><dd>The close chain's per-entity checks — plan-trinity drift, memory hygiene, skill-registry parity — compare related records against each other; this checks the installed bytes themselves.</dd>
-      </dl>
-    </div>
-    <div class="capref related">
       <div class="capref-head"><code>/mem-promote</code><span class="capref-badge">Not in the close: a skill, proposes only</span></div>
       <p class="capref-lede">Proposals to promote observations from the optional claude-mem plugin into your curated memory files.</p>
       <dl>
@@ -322,7 +322,7 @@
       <div class="capref-head"><code>full</code><span class="capref-badge">Not in the close: the manual audit-set sweep</span></div>
       <p class="capref-lede">Every audit in one receipt.</p>
       <dl>
-        <dt>What it does</dt><dd>Runs the whole roster, including the three audits the close never reaches: the managed-surface census, the schema-drift detector, and the vault-writer health audit (dormant until you register a writer). It never runs a backup.</dd>
+        <dt>What it does</dt><dd>Runs the whole roster, including the schema-drift detector, the vault-writer health audit (dormant until you register a writer), and the managed-surface census, which the close also fires at most once a day. It never runs a backup.</dd>
         <dt>Run it when</dt><dd>Periodically, or before a release of your own overlay.</dd>
       </dl>
     </div>

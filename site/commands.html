@@ -210,7 +210,7 @@
       <table>
         <thead><tr><th>Capability</th><th>What it does</th><th>Mode</th><th>When</th></tr></thead>
         <tbody>
-          <tr><td><code>managed-surface-census</code></td><td>Hashes every installed file against the install receipt and reports each divergence — the layer that catches edits which bypassed the write-time doorman</td><td>audit</td><td>full</td></tr>
+          <tr><td><code>managed-surface-census</code></td><td>Hashes every installed file against the install receipt and reports each divergence — the layer that catches edits which bypassed the write-time doorman</td><td>audit</td><td>full · daily</td></tr>
           <tr><td><code>writers-health-audit</code></td><td>Read-only sweep of writer references, the skill registry, and path routing; it switches on once you have registered a vault writer</td><td>audit</td><td>full</td></tr>
           <tr><td><code>writers-index-refresh</code></td><td>Regenerates the Vault Writers catalog table</td><td>maintain</td><td>full · close</td></tr>
           <tr><td><code>writers-overlap-refresh</code></td><td>Regenerates the writer overlap matrix — which registered writers touch which surfaces</td><td>maintain</td><td>full · close</td></tr>

@@ -96,7 +96,7 @@
       <tbody>
         <tr><td><strong>Where</strong> — <code>CLAUDE_HOME</code></td><td>Which folder receives the install; defaults to <code>~/.claude</code></td><td>A preview may assume a target, but apply refuses an unset one outright — files must never land in a folder you did not consciously choose</td></tr>
         <tr><td><strong>How much safety you step around</strong> — the override flags</td><td>Which confirmation gates you consciously bypass (an existing unrelated setup, a plan tree already present, a major-version boundary)</td><td>Every override is its own typed flag with its own refusal — there is no single blanket "I know what I'm doing" switch, so you cannot accidentally wave through three different risks at once</td></tr>
-        <tr><td><strong>What happens to your settings</strong> — the merge rule</td><td>How the foundation's entries join your existing <code>settings.json</code></td><td>The merge is field by field and atomic, and it refuses to silently delete a key you already set — your configuration is never the cost of installing</td></tr>
+        <tr><td><strong>What happens to your settings</strong> — the merge rule</td><td>How the foundation's entries join your existing <code>settings.json</code></td><td>The merge is field by field and atomic, and it refuses to silently delete a key you already set — your configuration is never the cost of installing. It also appends ask rules to <code>permissions.ask</code>, so Claude&nbsp;Code asks before it edits a directory an upgrade replaces; each rule is offered once, so a rule you remove is never added back</td></tr>
       </tbody>
     </table>
     <p>
@@ -187,14 +187,16 @@
         </tr>
         <tr>
           <td><strong>The census</strong></td>
-          <td>In every <code>/librarian full</code> run, or by hand, any time, as
-          <code>managed-surface-census</code>. It declares a daily cadence, but nothing on your install fires it on a schedule</td>
+          <td>Automatically at the close of a session, at most once a day; also in every
+          <code>/librarian full</code> run, or by hand, any time, as <code>managed-surface-census</code></td>
           <td>Hashes every file in the manifest against the fingerprint recorded for it and reports each mismatch
           as a <code>managed-surface-fork</code> finding (modified or missing). Divergence does not only arrive
           through an editor — a scheduled job, an outside tool, or an edit that predates the advisory can fork a
           file too — and the census catches every vector within one cycle. It detects and never auto-fixes;
           findings are de-duplicated against the previous run's snapshot so a known fork is not re-reported on every
-          run; and the files that legitimately differ — your merged overlay, and any
+          run; and the files that legitimately differ — your merged overlay, your <code>.gitignore</code> (the
+          installer appends its own block to it and keeps every rule of yours, so your lines are expected
+          divergence, reported as classified rather than as a fork), and any
           <code>.foundation-local</code> or <code>.foundation-retired</code> sidecar — are classified, never
           flagged. It needs no copy of the source: it compares live bytes against the receipt, so it runs
           identically on every install.</td>
@@ -296,7 +298,12 @@
       <strong>refuses</strong>. And Claude&nbsp;Code reads a single config file, <code>~/.claude/settings.json</code>;
       the installer <strong>deep-merges</strong> the foundation's settings into it field by field rather than
       overwriting — atomically (it fully succeeds or leaves the original untouched), and refusing to proceed if the
-      merge would silently delete any of your existing keys.
+      merge would silently delete any of your existing keys. Install and upgrade also append rules to
+      <code>permissions.ask</code>, one for each top-level directory the installer manages and one for each skill it
+      ships, so Claude&nbsp;Code asks before it edits a directory that every upgrade replaces. Each rule is offered
+      once, and the install keeps a record of what it offered: a rule you remove is never added back, and a rule a
+      later release adds is offered on that upgrade. Your own allow, deny, ask and defaultMode entries are never
+      removed, rewritten or reordered; the seeded rules go after them.
     </p>
 
     <h2 id="failures">The failure modes this packaging design defends against</h2>
@@ -315,7 +322,7 @@
         <tr><td><strong><code>com.brain-stem.*</code> label fence</strong></td><td>A careless cleanup stopping unrelated background jobs.</td></tr>
         <tr><td><strong>Two-root state split</strong></td><td>Program churn (uninstall/reinstall) endangering your accumulated working data.</td></tr>
         <tr><td><strong>Provenance-log check</strong></td><td>An uninstaller pointed at the wrong or never-installed folder.</td></tr>
-        <tr><td><strong><code>settings.json</code> deep-merge</strong></td><td>Overwriting your existing configuration.</td></tr>
+        <tr><td><strong><code>settings.json</code> deep-merge</strong></td><td>Overwriting your existing configuration, or bringing back an ask rule you removed: each seeded rule is offered once.</td></tr>
       </tbody>
     </table>
     <div class="callout note">

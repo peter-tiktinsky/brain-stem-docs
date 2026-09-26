@@ -68,7 +68,7 @@
     <p>
       Claude&nbsp;Code reads one config file, <code>settings.json</code>, and the installer
       <strong>deep-merges</strong> the foundation's entries into yours rather than overwriting.
-      Three properties of that merge are the whole story:
+      Four properties of that merge are the whole story:
     </p>
     <table>
       <thead><tr><th>Property</th><th>What it means for you</th></tr></thead>
@@ -76,6 +76,7 @@
         <tr><td><strong>Field by field</strong></td><td>Keys you already set are joined, not replaced — the foundation's entries arrive beside yours, not instead of them.</td></tr>
         <tr><td><strong>Atomic</strong></td><td>The merge fully succeeds or leaves your original file untouched; a half-merged settings file cannot exist.</td></tr>
         <tr><td><strong>No silent deletion</strong></td><td>If a merge would silently drop a key you already set, the installer refuses to proceed instead.</td></tr>
+        <tr><td><strong>Ask rules, offered once</strong></td><td>Install and upgrade append rules to <code>permissions.ask</code> — one for each top-level directory the installer manages and one for each skill it ships — so Claude&nbsp;Code asks before it edits a directory that every upgrade replaces. Each rule is offered once, and the install keeps a record of what it offered: a rule you remove is never added back, and a rule a later release adds is offered on that upgrade. Your own allow, deny, ask and defaultMode entries are never removed, rewritten or reordered; the seeded rules go after them.</td></tr>
       </tbody>
     </table>
     <p>
