@@ -638,6 +638,9 @@ h2.lead { border-top: none; padding-top: 4px; margin-top: 8px; }
 /* .pill.caps sets the pill in the micro-label type (above) — for a status tag
    that reads as a label: the capability badges, value-add's New / Enhanced.
    The vault explorer's origin badges are pills coloured by .vx-b-<origin>. */
+/* A caps badge is a sentence, not a word — it wraps inside its card instead of
+   pushing the page wider than the viewport; every other pill stays one line. */
+.pill.caps { white-space: normal; }
 
 .quadrant td.hl { background: var(--clay-soft); }
 .quadrant td.hl strong { color: var(--clay-deep); }
