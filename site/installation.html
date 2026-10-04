@@ -212,7 +212,7 @@ git reset --hard origin/main</pre>
       directories (the skills, the orchestrator, the installer support files, the vault seed). Files you edited
       yourself are never lost: each is updated with your copy saved alongside as
       <code>&lt;file&gt;.foundation-local</code>, so your changes are preserved and clearly flagged. And once the
-      install is live, editing one of its managed files draws an in-flight advisory, and a census you run — by
+      install is live, editing one of its managed files is stopped by the write guard, and a census you run — by
       hand or in a full librarian pass — reports the divergence, whatever caused it — see <a href="packaging-runtime.html#managed">Managed surfaces</a>.
     </p>
 

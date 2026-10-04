@@ -161,28 +161,29 @@
       picks up the unfinished work and converges. A half-delivered home is never recorded as a finished upgrade.</p>
     </div>
 
-    <h2 id="managed">Managed surfaces — the write advisory and the census</h2>
+    <h2 id="managed">Managed surfaces — the write guard and the census</h2>
     <p>
       Every file the installer lays down is a <strong>managed surface</strong>. The product's rule has always been
       that changes to one flow through the release pipeline — change the source, ship it, upgrade — because a hand
       edit to an installed file silently forks your install from the product: the next upgrade either overwrites
-      the edit or preserves a divergence nobody remembers making. Two layers now make that fork visible the moment
-      it exists. Neither one blocks you.
+      the edit or preserves a divergence nobody remembers making. Two layers catch that fork: one stops the edit as
+      it happens, the other finds it afterwards.
     </p>
     <table>
       <thead><tr><th>Layer</th><th>When it acts</th><th>What it does</th></tr></thead>
       <tbody>
         <tr>
-          <td><strong>The write advisory</strong></td>
+          <td><strong>The write guard</strong></td>
           <td>In flight, on any assistant edit or write to a file listed in the install receipt (the manifest)</td>
-          <td>Draws an advisory naming the managed surface and the sanctioned route, then <strong>lets the write
-          proceed</strong>. Membership is mechanical — the target's path relative to the install home must appear
-          in the manifest — never a hand-kept list, and the text repeats at most once per file per session.
+          <td>By default <strong>denies the write</strong> with a <code>MANAGED-SURFACE DENY</code> message naming
+          the managed surface and the sanctioned route (the <code>MANAGED_SURFACE_PHASE</code> setting reads
+          <code>2-blocking</code>; set it to <code>1-advisory</code> and the guard draws an advisory instead and
+          allows the write, repeating the text at most once per file per session). Membership is mechanical — the
+          target's path relative to the install home must appear in the manifest — never a hand-kept list.
           Setting <code>MANAGED_SURFACE_OK=1</code> in the environment acknowledges a deliberate exception (a
-          temporary live test you will port back and clean up); every acknowledged use is written to the local
-          audit log, and every fire — acknowledged or not — appends one row to a local telemetry ledger, so the
-          posture can later be tightened on evidence rather than assumption (a blocking posture exists, off by
-          default). If the manifest is absent or unreadable the advisory stays silent: it is a content guard,
+          temporary live test you will port back and clean up) and lets that write through; every acknowledged use
+          is written to the local audit log, and every fire — acknowledged or not — appends one row to a local
+          telemetry ledger. If the manifest is absent or unreadable the guard stays silent: it is a content guard,
           not access control.</td>
         </tr>
         <tr>
@@ -191,7 +192,7 @@
           <code>/librarian full</code> run, or by hand, any time, as <code>managed-surface-census</code></td>
           <td>Hashes every file in the manifest against the fingerprint recorded for it and reports each mismatch
           as a <code>managed-surface-fork</code> finding (modified or missing). Divergence does not only arrive
-          through an editor — a scheduled job, an outside tool, or an edit that predates the advisory can fork a
+          through an editor — a scheduled job, an outside tool, or an edit that predates the guard can fork a
           file too — and the census catches every vector within one cycle. It detects and never auto-fixes;
           findings are de-duplicated against the previous run's snapshot so a known fork is not re-reported on every
           run; and the files that legitimately differ — your merged overlay, your <code>.gitignore</code> (the

@@ -125,8 +125,8 @@
       <thead><tr><th>You see</th><th>What it means</th><th>Do this</th></tr></thead>
       <tbody>
         <tr>
-          <td>An in-flight message says you are editing a <strong>managed surface</strong>.</td>
-          <td>The write advisory: the file you touched is on the install receipt, and hand-edits silently fork your install from the product. The write still proceeds — the advisory teaches.</td>
+          <td>A <code>MANAGED-SURFACE DENY</code> message says the file you are editing is a <strong>managed surface</strong>.</td>
+          <td>The write guard: the file you touched is on the install receipt, and hand-edits silently fork your install from the product, so the write is blocked and the message names the sanctioned route.</td>
           <td>Prefer the sanctioned routes: change it upstream and upgrade, or express the difference through the overlay. <code>MANAGED_SURFACE_OK=1</code> acknowledges a deliberate temporary exception. <a href="packaging-runtime.html#managed">→ Packaging: managed surfaces</a> · <a href="configuration.html">→ Configuration</a></td>
         </tr>
         <tr>
