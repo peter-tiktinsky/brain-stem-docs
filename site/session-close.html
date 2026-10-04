@@ -287,7 +287,7 @@
       <div class="capref-head"><code>library-scrub --apply</code><span class="pill caps">Not in the close: a deliberate promotion</span></div>
       <p class="capref-lede">Promotion of a plan's research into the universal library.</p>
       <dl>
-        <dt>What it does</dt><dd>Proposes by default. On apply it copies the raw artifact, writes the scrubbed article, stamps the plan's library references, and archives the workshop copy.</dd>
+        <dt>What it does</dt><dd>Proposes by default. On apply it copies the raw artifact, writes the scrubbed article, stamps the plan's library references, and archives the workshop copy. <code>--census</code> reports which completed plans still hold unpromoted research, the input the promotion queue draws from; the promotion modes read the <code>behavioral.hook_preferences.library_promotion</code> setting (<code>prompt</code>, <code>auto</code> or <code>off</code>; unset reads <code>off</code>).</dd>
         <dt>Run it when</dt><dd>A research artifact turns out to have value beyond the plan that produced it.</dd>
         <dt>Close relation</dt><dd>The close declares what a plan produced; lifting it into the library is a judgment the close never makes for you.</dd>
       </dl>
@@ -331,7 +331,7 @@
       <p class="capref-lede">Per-plan rendering, and schema drift detection.</p>
       <dl>
         <dt>matrix-render</dt><dd>Renders one plan's traceability matrix from its manifest, the same way the close renders the armed plan's task ledger. Runs per plan, on demand.</dd>
-        <dt>schema drift</dt><dd>Reports drift between the installed schemas and the distribution source they came from, exiting non-zero when it finds any; on an install with no second copy to compare against, it skips cleanly. Runs in a full sweep or by hand.</dd>
+        <dt>schema drift</dt><dd>Reports drift between the installed schemas and the distribution source they came from, exiting non-zero when it finds any; on an install with no second copy to compare against, it skips cleanly. Runs weekly through the close cadence roster, in a full sweep, or by hand.</dd>
       </dl>
     </div>
 
@@ -348,7 +348,7 @@
     <h2>Reference</h2>
     <ul>
       <li>End-of-session hooks — <code>session-deregister.sh</code> (marks closed, spawns the reconciler and the detached close), <code>session-episode-write.sh</code>, <code>memory-consolidation-check.sh</code>.</li>
-      <li>Crash backstop — <code>session-start-integrity-backstop.sh</code> at the next session start, session-attributed.</li>
+      <li>Crash backstop — <code>session-start-integrity-backstop.sh</code> at the next session start, session-attributed, extracting a mechanical checkpoint per crashed session's registry row before the recovery close.</li>
       <li>On demand — <code>/librarian session-close</code>: identical chain, in-session output, backup offer.</li>
       <li>The receipt — a dated <code>session-close-*.md</code> log in <code>~/.local/state/brain-stem/logs/</code>.</li>
     </ul>

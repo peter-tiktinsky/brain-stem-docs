@@ -100,7 +100,8 @@
       every other part of the system reads your details from there rather than re-asking you. Before it is saved
       it is checked against a strict blueprint (<code>user-manifest-schema.json</code>) — if the data does not
       fit, the write is refused rather than saved broken — and it is written <strong>atomically</strong>, so you
-      never end up with a half-written, corrupted file.
+      never end up with a half-written, corrupted file. The blueprint includes
+      <code>behavioral.hook_preferences.library_promotion</code> (<code>prompt</code>, <code>auto</code> or <code>off</code>), the setting that turns library promotion on; unset reads <code>off</code>.
     </p>
 
     <h3>The two <code>CLAUDE.md</code> files</h3>

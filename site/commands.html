@@ -141,7 +141,7 @@
           <tr><td><code>rules-compact</code></td><td>Trims a rule whose enforcement already lives in a hook down to a short stub naming that hook</td><td>asks first</td><td>live</td></tr>
           <tr><td><code>rules-hygiene</code></td><td>Audits your rules folder for lifecycle problems — dead references, staleness, drift — and proposes the cleanup</td><td>asks first</td><td>weekly</td></tr>
           <tr><td><code>rules-index</code></td><td>Regenerates the governance rules index from the rule files themselves</td><td>maintain</td><td>full · weekly</td></tr>
-          <tr><td><code>sanctioned-schema-drift-detect</code></td><td>Compares the shipped schemas against their distribution source — a build guard that is inert on a normal install</td><td>audit</td><td>full</td></tr>
+          <tr><td><code>sanctioned-schema-drift-detect</code></td><td>Compares the shipped schemas against their distribution source — a build guard that is inert on a normal install</td><td>audit</td><td>full · weekly</td></tr>
           <tr><td><code>skill-parity</code></td><td>Audits the skill registry against the shipped skill bodies, so a renamed or removed skill cannot leave the registry stale</td><td>audit</td><td>full · weekly</td></tr>
           <tr><td><code>tag-coverage-audit</code></td><td>Audits vault tag usage against the declared taxonomy — unregistered tags, unused dimensions</td><td>audit</td><td>full · weekly</td></tr>
           <tr><td><code>waiver-audit</code></td><td>Read-only audit of the governance waiver registry — the record of sanctioned exceptions</td><td>audit</td><td>full · weekly</td></tr>
@@ -178,7 +178,7 @@
           <tr><td><code>index-maintain</code></td><td>Reconciles each folder's auto-generated index with what is actually on disk</td><td>maintain</td><td>full · daily</td></tr>
           <tr><td><code>library-index</code></td><td>Re-derives the Library's per-topic indexes</td><td>maintain</td><td>full · daily</td></tr>
           <tr><td><code>library-log-rotate</code></td><td>Rotates the Library's change log into per-year archives when it passes its size threshold</td><td>maintain</td><td>full · daily</td></tr>
-          <tr><td><code>library-scrub</code></td><td>The promotion scrub: workshop project research in, a clean universal Library article out</td><td>asks first</td><td>live</td></tr>
+          <tr><td><code>library-scrub</code></td><td>The promotion scrub: workshop project research in, a clean universal Library article out. <code>--census</code> lists the unpromoted research of completed plans; the promotion host modes (<code>--candidates</code>, <code>--triage</code>, <code>--next</code>, <code>--answer</code>, <code>--mode</code>) queue and triage promotions and stay dormant until the mode is set</td><td>asks first</td><td>live</td></tr>
           <tr><td><code>link-grammar-convert</code></td><td>Converts a corpus of wiki-style links to the ruled plain-Markdown link grammar</td><td>asks first</td><td>by name</td></tr>
           <tr><td><code>log-subtype-canonical</code></td><td>Detects <code>#log/</code> and <code>#status/</code> subtypes that were never registered in the tag taxonomy</td><td>audit</td><td>full · weekly</td></tr>
           <tr><td><code>rename-cascade</code></td><td>After a detected rename, cascades the wikilink and Markdown-link updates across the vault — dry-run first, applied on review</td><td>maintain</td><td>full · close</td></tr>

@@ -112,7 +112,7 @@
 
     <h2>Reference</h2>
     <ul>
-      <li>Session hooks — <code>session-register.sh</code> (start — registration), <code>session-start-project-context.sh</code> (start — auto-loads the project situating card), <code>prompt-context.sh</code> (each message), <code>stop-checkpoint-check.sh</code> (stop), <code>pre-compact-checkpoint.sh</code> (before compaction), <code>session-deregister.sh</code> (end).</li>
+      <li>Session hooks — <code>session-register.sh</code> (start — registration, recording each session's transcript path so a crashed session's checkpoint can find its transcript), <code>session-start-project-context.sh</code> (start — auto-loads the project situating card), <code>prompt-context.sh</code> (each message), <code>stop-checkpoint-check.sh</code> (stop), <code>pre-compact-checkpoint.sh</code> (before compaction), <code>session-deregister.sh</code> (end).</li>
       <li>On-demand — the <code>/session-checkpoint</code> skill and the <code>/librarian session-close</code> capability.</li>
       <li>Coordination registry — machine-local at <code>~/.local/state/brain-stem/.coordination/session-registry.json</code>; never in the vault.</li>
     </ul>
