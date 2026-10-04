@@ -599,7 +599,7 @@
         one: 'A large effort split into sub-plans — a coordinating master over several full plans, each a numbered sub-folder.',
         why: 'Some efforts are too big for one flat plan: many phases or work-streams, weeks of work. Rather than one sprawling task list, the master splits the effort into sub-plans — each a complete plan in its own right — numbered in the order they run. The master coordinates; the sub-plans do the work and report their status up. A master is never auto-created — it takes the explicit <code>--master</code> choice.',
         what: 'A plan folder that coordinates sub-plans. At its root sit the four core plan files — <code>spec.md</code>, <code>manifest.json</code>, <code>tasks.md</code>, <code>handoff.md</code> — for the overall effort (but no ideation brief; that is a flat-plan file only). Beneath them, one numbered sub-folder per sub-plan (<code>01-…/</code>, <code>02-…/</code>), each a full plan with its own quartet. Sub-plans are numbered in execution order and never talk to each other — they only publish status up to the master.',
-        from: 'Scaffolded by <code>/new-plan --master</code>, which also seeds the first sub-plan. More sub-plans are added later with <code>/new-plan --add-subplan</code>. The master&rsquo;s manifest tracks them and their order.',
+        from: 'Scaffolded by <code>/new-plan --master</code>, which also seeds the first sub-plan. More sub-plans are added later with <code>/new-plan --add-subplan</code>, and a flat plan becomes a master with <code>/new-plan --graduate &lt;flat-plan&gt; --sub &lt;sub-slug&gt;</code>, which makes the flat plan&rsquo;s content its first sub-plan (<code>--dry-run</code> runs every check and writes nothing). The master&rsquo;s manifest tracks them and their order.',
         clar: ['Reach for this only for genuinely large efforts — almost every plan is flat (the example above).', 'The master root carries the quartet but NO <code>00-ideation-brief.md</code> — the brief is a flat-plan file only.', 'Each sub-folder is a complete plan, not a checklist item — its own spec, manifest, tasks, and handoff.', 'Sub-plans are numbered in execution order (01, 02, …), which is not the same as the master&rsquo;s own creation-order number.'],
         tips: ['Default to flat. Split into a master only when the effort is genuinely too big for one task list.'],
         link: { href: 'plans.html', label: 'Plans' },
@@ -620,8 +620,8 @@
         }, {
           id: 'pm-tasks', label: 'tasks.md', kind: 'file', origin: 'authored',
           one: 'The master&rsquo;s readable rollup — its sub-plan map and overall progress.',
-          what: 'A readable view of the master — the sub-plan map and overall progress rather than a single task list. A flat plan&rsquo;s <code>tasks.md</code> is rebuilt from its manifest; the renderer leaves a master&rsquo;s alone, so this rollup is yours to keep current.',
-          from: 'Written and kept current by hand as the sub-plans progress; one of the four core files at the master root.',
+          what: 'A readable view of the master — the sub-plan map and overall progress rather than a single task list. A flat plan&rsquo;s <code>tasks.md</code> is rebuilt from its manifest; the renderer leaves a master&rsquo;s alone, and <code>/new-plan --rollup &lt;master&gt;</code> rewrites the rollup rows from the master&rsquo;s sub-plan list.',
+          from: 'Its rollup table is refreshed by <code>--rollup</code>, not by hand, one row per sub-plan; one of the four core files at the master root.',
           clar: ['The roster in <code>manifest.json</code> is still the source of truth — this page is its readable companion, which you maintain alongside it.'],
           tips: []
         }, {
