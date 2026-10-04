@@ -72,7 +72,7 @@
     <table>
       <thead><tr><th>File</th><th>Job</th><th>Owner</th></tr></thead>
       <tbody>
-        <tr><td><code>spec.md</code></td><td>The goal and constraints — the north star. Fixed once set.</td><td>Human-authored</td></tr>
+        <tr><td><code>spec.md</code></td><td>The goal and constraints — the north star. Fixed once set, and capped at 1100 lines.</td><td>Human-authored</td></tr>
         <tr><td><code>manifest.json</code></td><td><strong>The source of truth</strong> — status plus the structured task list, schema-validated.</td><td>Machine-validated</td></tr>
         <tr><td><code>tasks.md</code></td><td>The human-readable to-do — a <em>generated render</em> of the manifest, between sentinel markers.</td><td>Machine-rendered</td></tr>
         <tr><td><code>handoff.md</code></td><td>Append-only, newest-first session diary; its <code>Next session:</code> line carries the resume.</td><td>Appended per session</td></tr>
@@ -118,7 +118,11 @@
       immutable decision records (each <code>Context</code> · <code>Decision</code> ·
       <code>Consequences</code>), declared in <code>decision_records[]</code>. A decision never changes in
       place — a new ADR <em>supersedes</em> the old one, forward-linked. On resume, Claude reloads the
-      non-superseded ADRs straight from the manifest pointer, not from spec archaeology.</li>
+      non-superseded ADRs straight from the manifest pointer, not from spec archaeology. An accepted ADR is
+      locked: an edit to its body above the first <code>## Amendment</code> heading is denied with
+      <code>[ADR LOCK]</code>, which names the two routes — append an amendment section, or run
+      <code>/librarian adr-supersede &lt;plan-dir&gt; &lt;old-ADR&gt; &lt;new-ADR&gt;</code>, which marks the replaced
+      ADR superseded in its Status line, its frontmatter and the manifest's <code>decision_records[]</code>.</li>
     </ul>
 
     <h2>From idea to done — the funnel</h2>

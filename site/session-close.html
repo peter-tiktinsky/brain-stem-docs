@@ -173,6 +173,9 @@
       directory, never in the vault: each chore marked <code>ok</code>, <code>skip</code>, <code>dry-run</code>,
       <code>refused</code>, <code>stub</code> or <code>error</code>, then a digest of the top finding categories
       with counts.</li>
+      <li><strong>Logs the vault keeps carry a registered subtype.</strong> Four <code>#log/</code> subtypes exist:
+      <code>session-close</code> for the close's own artifacts, <code>audit-report</code> for the output of the
+      librarian's audit capabilities, <code>backlog-hygiene</code> and <code>library-change</code>.</li>
     </ul>
 
     <h2>Running it yourself</h2>

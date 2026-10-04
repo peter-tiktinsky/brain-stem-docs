@@ -65,7 +65,13 @@
     "ADR": {
       "class": "glossary",
       "pages": {
+        "commands.html": [
+          "mention"
+        ],
         "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
           "mention"
         ],
         "plans.html": [
@@ -645,6 +651,20 @@
         ]
       }
     },
+    "adr-supersede": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ]
+      }
+    },
     "allow / advise / deny": {
       "class": "glossary",
       "pages": {
@@ -747,6 +767,9 @@
           "mention"
         ],
         "session-close.html": [
+          "mention"
+        ],
+        "single-document.html": [
           "mention"
         ]
       }
@@ -1422,6 +1445,9 @@
         "personalization-rationale.html": [
           "mention"
         ],
+        "plans.html": [
+          "mention"
+        ],
         "project-management.html": [
           "mention"
         ],
@@ -1992,6 +2018,9 @@
         "index.html": [
           "mention"
         ],
+        "installation.html": [
+          "mention"
+        ],
         "orchestration.html": [
           "mention"
         ],
@@ -2022,6 +2051,9 @@
           "mention"
         ],
         "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
           "mention"
         ],
         "governance-personalization.html": [
@@ -2813,6 +2845,14 @@
         ]
       }
     },
+    "render-launchd.sh": {
+      "class": "file",
+      "pages": {
+        "installation.html": [
+          "mention"
+        ]
+      }
+    },
     "research-rationale": {
       "class": "page",
       "pages": {
@@ -3126,6 +3166,9 @@
         ],
         "sessions.html": [
           "link",
+          "mention"
+        ],
+        "single-document.html": [
           "mention"
         ],
         "write-time-governance.html": [
@@ -3783,6 +3826,9 @@
           "mention"
         ],
         "glossary.html": [
+          "mention"
+        ],
+        "governance-engine.html": [
           "mention"
         ],
         "governance-personalization.html": [

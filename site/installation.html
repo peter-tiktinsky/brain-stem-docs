@@ -119,7 +119,9 @@ bash install.sh --apply --force-install --i-understand-overwrite-risk --backup-d
       want the assistant to work. From your answers it writes a settings file, your personal
       <code>~/.claude/CLAUDE.md</code> preferences, and your <strong>vault</strong>. The full walkthrough — every
       output, how your vault is built, the optional add-ons, and how setup protects your files from a careless
-      second run — is on <a href="onboarding.html">Onboarding</a>.
+      second run — is on <a href="onboarding.html">Onboarding</a>. If the vault location you chose is a non-empty
+      folder that is not already a Brain Stem vault, the build refuses and says to pass <code>--force</code> or to
+      point <code>--vault-root</code> at an empty directory; it never retrofits a foreign vault.
     </p>
 
     <h2>Step 3 — Open your vault</h2>
@@ -214,6 +216,12 @@ git reset --hard origin/main</pre>
       <code>&lt;file&gt;.foundation-local</code>, so your changes are preserved and clearly flagged. And once the
       install is live, editing one of its managed files is stopped by the write guard, and a census you run — by
       hand or in a full librarian pass — reports the divergence, whatever caused it — see <a href="packaging-runtime.html#managed">Managed surfaces</a>.
+    </p>
+    <p>
+      An upgrade never renders a scheduled job for you. When a release changes a launchd template, the closing
+      guidance of the upgrade tells you to re-render each job with <code>installer/render-launchd.sh</code>
+      (<code>&lt;job&gt;</code> names the job); the next session you open in a logged-in desktop context then
+      bootstraps the plist you rendered, and the hook that does so never renders one itself.
     </p>
 
     <div class="callout key">

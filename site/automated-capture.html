@@ -88,7 +88,9 @@
     <p>
       Capture connectors run on whatever schedule you set. The two turnkey scheduled jobs in Brain Stem
       are <strong>the writer-reconciler and the doc-amender</strong>; everything else is a hand-rolled
-      <code>launchd</code> plist calling <code>dispatch.sh</code>. For how the orchestration layer
+      <code>launchd</code> plist calling <code>dispatch.sh</code>. The doc-amender's watch job is installed with
+      <code>install-watch.sh</code>, whose <code>--staging-root</code> flag points it at a staging folder other than the
+      default; the rendered job carries that folder as <code>WRITER_STAGING_ROOT</code>. For how the orchestration layer
       handles scheduling, headless runs, and the propose-and-gate flow, see
       <a href="orchestration.html">Orchestration &amp; scheduling</a>.
     </p>

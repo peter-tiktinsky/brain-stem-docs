@@ -76,7 +76,8 @@
         Captures a raw, pre-plan idea into your idea inbox and automatically classifies it as <strong>new</strong>,
         a <strong>duplicate</strong>, an <strong>overlap</strong> with something existing, or
         <strong>deferred</strong> — so the backlog does not accumulate near-identical entries. Use it the moment an
-        idea occurs to you.
+        idea occurs to you. The backlog table it feeds is a derived read-replica: run
+        <code>/librarian backlog-index</code> to refresh it.
       </p>
       <p>
         Every capture is born decided. The capture helper this command drives
@@ -97,7 +98,8 @@
         Does deep research on a triaged idea (or an in-flight plan): it reads your vault, your setup, and outside
         best practices, then writes an <strong>ideation brief</strong> and a <strong>draft plan directory</strong>.
         A <code>--promote</code> flag graduates a captured idea straight into a plan. Use it when an idea is
-        promising enough to be worth investigating before committing to it.
+        promising enough to be worth investigating before committing to it. When it changes a plan's status, run
+        <code>/librarian backlog-index</code> to refresh the backlog.
       </p>
     </div>
     <div class="cmd" id="backlog-hygiene">
@@ -132,7 +134,7 @@
         a working session.
       </p>
       <p>
-        It is one skill with a catalog of <strong>65 named capabilities</strong> beneath it. Any one can be run
+        It is one skill with a catalog of <strong>66 named capabilities</strong> beneath it. Any one can be run
         directly — <code>/librarian inbox-settle</code> — and <code>/librarian full</code> sweeps the whole
         audit set. Much of the catalog also runs itself: a fixed chain reconciles at every session close, and
         a scheduled subset re-fires on its own cadence. The catalog, broken down by focus area:
@@ -154,7 +156,7 @@
           <tr><td><code>rules-hygiene</code></td><td>Audits your rules folder for lifecycle problems — dead references, staleness, drift — and proposes the cleanup</td><td>asks first</td><td>weekly</td></tr>
           <tr><td><code>rules-index</code></td><td>Regenerates the governance rules index from the rule files themselves</td><td>maintain</td><td>full · weekly</td></tr>
           <tr><td><code>sanctioned-schema-drift-detect</code></td><td>Compares the shipped schemas against their distribution source — a build guard that is inert on a normal install</td><td>audit</td><td>full · weekly</td></tr>
-          <tr><td><code>skill-parity</code></td><td>Audits the skill registry against the shipped skill bodies, so a renamed or removed skill cannot leave the registry stale</td><td>audit</td><td>full · weekly</td></tr>
+          <tr><td><code>skill-parity</code></td><td>Audits the skill registry against the shipped skill bodies, so a renamed or removed skill cannot leave the registry stale. <code>skill-parity --fix</code> edits no skill file: it prints the file and the <code>name:</code> line to add in your brain-stem clone</td><td>audit</td><td>full · weekly</td></tr>
           <tr><td><code>tag-coverage-audit</code></td><td>Audits vault tag usage against the declared taxonomy — unregistered tags, unused dimensions</td><td>audit</td><td>full · weekly</td></tr>
           <tr><td><code>waiver-audit</code></td><td>Read-only audit of the governance waiver registry — the record of sanctioned exceptions</td><td>audit</td><td>full · weekly</td></tr>
         </tbody>
@@ -164,6 +166,7 @@
       <table>
         <thead><tr><th>Capability</th><th>What it does</th><th>Mode</th><th>When</th></tr></thead>
         <tbody>
+          <tr><td><code>adr-supersede</code></td><td>Records that a new decision replaces an accepted one: marks the replaced ADR superseded in its Status line, its frontmatter and the plan manifest's <code>decision_records[]</code>, and touches nothing else. A refusal exits 2 and writes nothing</td><td>maintain</td><td>by name</td></tr>
           <tr><td><code>backlog-index</code></td><td>Regenerates the backlog table from plan manifests — a derived read-replica you never hand-edit. It re-opens a parked NO-BUILD note once its registered gate is met, and <code>--freeze-check</code> reports captures made after a capture freeze that carry no target</td><td>maintain</td><td>close</td></tr>
           <tr><td><code>coverage-guard</code></td><td>The project's own regression guard over its test corpus — a no-op on a normal install</td><td>audit</td><td>full · close</td></tr>
           <tr><td><code>handoff-disposition-check</code></td><td>Checks every close-out follow-up in a handoff carries a disposition tag, and that a STANDALONE, ABSORB or NO-BUILD tag in the newest session entry names a target that resolves on disk — nothing leaves a session as a loose "remember this"</td><td>audit</td><td>full · close</td></tr>
@@ -198,7 +201,7 @@
           <tr><td><code>library-log-rotate</code></td><td>Rotates the Library's change log into per-year archives when it passes its size threshold</td><td>maintain</td><td>full · daily</td></tr>
           <tr><td><code>library-scrub</code></td><td>The promotion scrub: workshop project research in, a clean universal Library article out. <code>--census</code> lists the unpromoted research of completed plans; the promotion host modes (<code>--candidates</code>, <code>--triage</code>, <code>--next</code>, <code>--answer</code>, <code>--mode</code>) queue and triage promotions and stay dormant until the mode is set</td><td>asks first</td><td>live</td></tr>
           <tr><td><code>link-grammar-convert</code></td><td>Converts a corpus of wiki-style links to the ruled plain-Markdown link grammar</td><td>asks first</td><td>by name</td></tr>
-          <tr><td><code>log-subtype-canonical</code></td><td>Detects <code>#log/</code> and <code>#status/</code> subtypes that were never registered in the tag taxonomy</td><td>audit</td><td>full · weekly</td></tr>
+          <tr><td><code>log-subtype-canonical</code></td><td>Detects <code>#log/</code> and <code>#status/</code> subtypes that were never registered in the tag taxonomy. Four <code>#log/</code> subtypes are registered: <code>session-close</code>, <code>audit-report</code>, <code>backlog-hygiene</code> and <code>library-change</code></td><td>audit</td><td>full · weekly</td></tr>
           <tr><td><code>rename-cascade</code></td><td>After a detected rename, cascades the wikilink and Markdown-link updates across the vault — dry-run first, applied on review</td><td>maintain</td><td>full · close</td></tr>
           <tr><td><code>rename-detect</code></td><td>Detects file renames from git history, across the vault and the plans tree</td><td>audit</td><td>full · close</td></tr>
           <tr><td><code>rename-history-sync</code></td><td>Appends detected renames to the cross-document dependency registry, so later tools know what moved</td><td>maintain</td><td>full</td></tr>

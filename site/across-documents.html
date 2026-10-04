@@ -158,7 +158,7 @@
       <tbody>
         <tr><td><strong>Cascade advisory</strong></td><td><code>doc_dependencies</code> cascade</td><td>When an upstream doc declared in the registry is edited, its declared downstream consumers/mirrors should follow — the hook names them in the same session, at the moment of the edit. <span class="pill advise">advise</span></td></tr>
         <tr><td><strong>Broken-wikilink advisory</strong></td><td><code>[[wikilink]]</code> target check</td><td>A file written with a <code>[[target]]</code> wikilink to a non-existent target surfaces the broken target(s) at write time, pointing you to repair it or create the file. <span class="pill advise">advise</span></td></tr>
-        <tr><td><strong>Writer fan-in entry</strong></td><td><code>kind: writer-fan-in</code></td><td>The one active registered kind — a destination fed by several named writers. The doc-amender consults the entry's amendment strategy to merge each emission, so it can actually act for you (see <a href="vault-writers.html">the vault-writer system</a>).</td></tr>
+        <tr><td><strong>Writer fan-in entry</strong></td><td><code>kind: writer-fan-in</code></td><td>The one active registered kind — a destination fed by several named writers. The doc-amender consults the entry's amendment strategy to merge each emission, so it can actually act for you (see <a href="vault-writers.html">the vault-writer system</a>). <code>/govern register --kind doc-amender-prompt --with-fan-in</code> appends the entry to your overlay's <code>doc_dependencies</code> for you.</td></tr>
       </tbody>
     </table>
     <p>

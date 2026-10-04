@@ -64,6 +64,12 @@
       </tbody>
     </table>
 
+    <p>
+      Onboarding's vault build has its own guard. It refuses to scaffold into a non-empty directory that is not
+      already a Brain Stem vault, and says to pass <code>--force</code> or to point <code>--vault-root</code> at
+      an empty directory. There is no flow that retrofits a foreign vault.
+    </p>
+
     <h2 id="merge">The settings merge rule</h2>
     <p>
       Claude&nbsp;Code reads one config file, <code>settings.json</code>, and the installer
