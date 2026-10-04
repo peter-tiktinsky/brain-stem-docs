@@ -78,6 +78,18 @@
         <strong>deferred</strong> — so the backlog does not accumulate near-identical entries. Use it the moment an
         idea occurs to you.
       </p>
+      <p>
+        Every capture is born decided. The capture helper this command drives
+        (<code>promote-from-inbox.sh --capture</code>) requires <code>--disposition</code>, and <strong>FIX NOW is
+        refused</strong>, because a fix-now item is fixed rather than captured. ABSORB requires
+        <code>--absorbed-into</code>, a plan key (optionally followed by <code>:: T-N</code>) whose manifest exists.
+        STANDALONE requires <code>--release-class</code> (<code>local-release</code>, <code>public-release</code>,
+        <code>post-release</code> or <code>docs</code>) and <code>--size</code> (<code>day</code> or
+        <code>build</code>). NO-BUILD, the disposition of a deferred idea, requires <code>--reopen-gate</code>, the
+        id of a registered re-open gate. A capture that resembles an open note is refused unless it is folded into
+        that note with <code>--amend</code>, or declared distinct with <code>--distinct-from</code> and a
+        <code>--distinct-scope</code> line.
+      </p>
     </div>
     <div class="cmd" id="backlog-research">
       <h3><code>/backlog-research</code></h3>
@@ -120,7 +132,7 @@
         a working session.
       </p>
       <p>
-        It is one skill with a catalog of <strong>64 named capabilities</strong> beneath it. Any one can be run
+        It is one skill with a catalog of <strong>65 named capabilities</strong> beneath it. Any one can be run
         directly — <code>/librarian inbox-settle</code> — and <code>/librarian full</code> sweeps the whole
         audit set. Much of the catalog also runs itself: a fixed chain reconciles at every session close, and
         a scheduled subset re-fires on its own cadence. The catalog, broken down by focus area:
@@ -152,10 +164,11 @@
       <table>
         <thead><tr><th>Capability</th><th>What it does</th><th>Mode</th><th>When</th></tr></thead>
         <tbody>
-          <tr><td><code>backlog-index</code></td><td>Regenerates the backlog table from plan manifests — a derived read-replica you never hand-edit</td><td>maintain</td><td>close</td></tr>
+          <tr><td><code>backlog-index</code></td><td>Regenerates the backlog table from plan manifests — a derived read-replica you never hand-edit. It re-opens a parked NO-BUILD note once its registered gate is met, and <code>--freeze-check</code> reports captures made after a capture freeze that carry no target</td><td>maintain</td><td>close</td></tr>
           <tr><td><code>coverage-guard</code></td><td>The project's own regression guard over its test corpus — a no-op on a normal install</td><td>audit</td><td>full · close</td></tr>
-          <tr><td><code>handoff-disposition-check</code></td><td>Checks every close-out follow-up in a handoff carries one of the three required dispositions — nothing leaves a session as a loose "remember this"</td><td>audit</td><td>full · close</td></tr>
+          <tr><td><code>handoff-disposition-check</code></td><td>Checks every close-out follow-up in a handoff carries a disposition tag, and that a STANDALONE, ABSORB or NO-BUILD tag in the newest session entry names a target that resolves on disk — nothing leaves a session as a loose "remember this"</td><td>audit</td><td>full · close</td></tr>
           <tr><td><code>handoff-entry</code></td><td>Stamps the next session entry at the top of a plan's handoff, with its identity header and the section skeleton the handoff contract lists</td><td>maintain</td><td>by name</td></tr>
+          <tr><td><code>inbox-drain-check</code></td><td>Blocks the session close while an inbox note the session captured is still undecided, and records the open undecided count for the next session start</td><td>audit</td><td>close</td></tr>
           <tr><td><code>inbox-settle</code></td><td>Settles an inbox idea by judgment — stamps the resolution and moves the note to the settled ledger, dry-run until you apply</td><td>asks first</td><td>live</td></tr>
           <tr><td><code>matrix-render</code></td><td>Regenerates a plan's traceability matrix from its manifest — one row per task, your verdicts preserved across re-renders</td><td>maintain</td><td>live</td></tr>
           <tr><td><code>plan-asset</code></td><td>Records one of a plan's extra top-level entries in its manifest, a path and its purpose per row</td><td>maintain</td><td>by name</td></tr>

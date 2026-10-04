@@ -1829,6 +1829,17 @@
         ]
       }
     },
+    "inbox-drain-check": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "session-close.html": [
+          "mention"
+        ]
+      }
+    },
     "inbox-settle": {
       "class": "capability",
       "pages": {

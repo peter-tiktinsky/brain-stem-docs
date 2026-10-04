@@ -195,7 +195,9 @@
       by default, strict resolution vocabulary, and it refuses to settle the same note twice. When a plan
       absorbs several notes, the plan's manifest records the absorbed notes from its side too, so the
       settled ledger can derive the whole story from three sources: graduations, absorptions, and
-      terminally-resolved notes.
+      terminally-resolved notes. A capture is decided when it is made: STANDALONE (with a release class and a
+      size), ABSORB (into a named plan) or NO-BUILD, a decided no-for-now that names a registered re-open gate and
+      comes back into the inbox when the backlog index finds the gate met.
     </p>
 
     <h2>Stage two — preparing the plan</h2>
