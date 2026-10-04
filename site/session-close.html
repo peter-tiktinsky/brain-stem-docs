@@ -39,7 +39,10 @@
       <li><strong>Write the episodic-memory row.</strong> A small, model-free hook records the session's
       anchor, touched files and next-session pointer; the close backfills its summary a moment later.</li>
       <li><strong>Check whether memory consolidation is due.</strong> If at least a day and five sessions have
-      passed since the last pass, a propose-only consolidation run is detached. It never deletes anything.</li>
+      passed since the last pass, a propose-only consolidation run is detached. It never deletes anything. A run
+      that aborts partway is visible: its state records a failed result with a <code>last_error</code> naming the
+      check and its exit code, the session counter is left alone so the next session retries, and the log gains an
+      <code>Aborted</code> block.</li>
     </ol>
     <div class="callout note">
       <div class="label">Graceful exit versus crash</div>
@@ -314,7 +317,7 @@
       <div class="capref-head"><code>/mem-promote</code><span class="pill caps">Not in the close: a skill, proposes only</span></div>
       <p class="capref-lede">Proposals to promote observations from the optional claude-mem plugin into your curated memory files.</p>
       <dl>
-        <dt>What it does</dt><dd>Gathers, reshapes, routes conflicts, and proposes. It never writes; every proposal lands in the review queue and is applied through <code>review</code>.</dd>
+        <dt>What it does</dt><dd>Gathers, reshapes, routes conflicts, and proposes. It never writes; every proposal lands in the review queue and is applied through <code>review</code>. Each cluster's candidate id hashes the title of its earliest observation, so a re-run keeps one stable id.</dd>
         <dt>Run it when</dt><dd>After a run of sessions rich in decisions the memory files should carry.</dd>
         <dt>Close relation</dt><dd>The consolidation check at session end is the automatic half of the same loop.</dd>
       </dl>
