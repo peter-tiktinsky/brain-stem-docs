@@ -148,6 +148,15 @@
         Claude&nbsp;Code does automatically when a conversation gets long). It is also fired automatically as a
         session fills up; you can run it yourself before a long task or when you want a clean handoff.
       </p>
+      <p>
+        The mechanical steps run as one command, <code>checkpoint-gather.sh [--path FILE]</code>: the assistant writes
+        the nine session fields on its input, and the command finds the session's checkpoint file, reads context
+        pressure for the tenth field, stamps the header, validates, writes atomically and verifies, then prints one
+        line with the path and the pressure. <code>--path</code> replaces the resolved target with an absolute path
+        ending in <code>/sessions/&lt;id&gt;/checkpoint.md</code>. <code>checkpoint-gather.sh</code> exits 0, 1 or 2:
+        0 written and verified, 1 the write or the verify failed with the prior checkpoint left in place, 2 refused
+        with nothing written.
+      </p>
       <p class="cmd-more">How sessions stay on-track: <a href="sessions.html">Session management</a> · <a href="checkpoints.html">Checkpoints</a></p>
     </div>
     <div class="cmd" id="librarian">
