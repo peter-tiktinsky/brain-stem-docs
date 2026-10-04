@@ -1687,6 +1687,14 @@
         ]
       }
     },
+    "handoff-entry": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
     "handoff.md": {
       "class": "glossary",
       "pages": {
@@ -1756,9 +1764,6 @@
           "mention"
         ],
         "personalization-rationale.html": [
-          "mention"
-        ],
-        "plans.html": [
           "mention"
         ],
         "research-rationale.html": [
@@ -2470,6 +2475,31 @@
         ]
       }
     },
+    "plan-asset": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "plan-context": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ],
+        "project-binder.html": [
+          "mention"
+        ],
+        "session-loading.html": [
+          "mention"
+        ]
+      }
+    },
     "plan-decision-log": {
       "class": "capability",
       "pages": {
@@ -2511,6 +2541,25 @@
       }
     },
     "plan-research-index": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "plan-research-supersede": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ]
+      }
+    },
+    "plan-rule": {
       "class": "capability",
       "pages": {
         "commands.html": [

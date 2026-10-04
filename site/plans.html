@@ -106,10 +106,14 @@
     </p>
     <ul>
       <li><strong>Research — <code>_research/</code>.</strong> Durable findings, each declared in the
-      manifest's <code>research_artifacts[]</code> (with a status of <code>active</code> /
-      <code>finalized</code> / <code>deferred</code>). A <code>finalized</code> finding is the stock the
+      manifest's <code>research_artifacts[]</code> (with a status of <code>active</code>,
+      <code>finalized</code>, <code>deferred</code> or <code>superseded</code>). The folder holds the curated
+      canonical set: gate records and prefix-collision files live in the plan's <code>_gates/</code> folder, never
+      in <code>_research/</code>. A <code>finalized</code> finding is the stock the
       <a href="context-library.html">Library</a> promotes from, and every finding rolls into the binder's
-      research index.</li>
+      research index, canonical findings first and superseded ones after, each forward-linked to its replacement.
+      A replaced finding is marked with <code>plan-research-supersede</code> (a banner on the replaced file plus a
+      <code>superseded_by</code> link in the manifest), never deleted or renamed in place.</li>
       <li><strong>Decisions — the ADR ledger.</strong> A per-plan <code>decisions/</code> folder of
       immutable decision records (each <code>Context</code> · <code>Decision</code> ·
       <code>Consequences</code>), declared in <code>decision_records[]</code>. A decision never changes in
@@ -218,12 +222,14 @@
     <h3>Arming a plan for build — scoped to the project that armed it</h3>
     <p>
       When a plan is ready to execute you <strong>arm</strong> it: a small pointer names it as the plan under
-      build, and from then on its spec is injected into sessions as the authority a brief must defer to. The
+      build, and from then on sessions are pointed at its spec as the authority a brief must defer to: the
+      payload is a <code>SPEC AUTHORITY</code> banner, the spec's path, the current task, the active decision
+      records and the <code>plan-context</code> query that prints any slice, never the spec body itself. The
       pointer lives inside the project's own binder directory — <code>_projects/&lt;spoke&gt;/.active-plan</code>
       — and every reader resolves it through one shared library. That placement is what scopes it: two projects
-      arm at the same time without contention; a session receives the spec of the plan armed in the project it
-      was launched from, and nothing else; and a session in a project with nothing armed receives nothing at all,
-      so the largest hook payload Brain Stem ships loads only into sessions launched from an armed project. An older
+      arm at the same time without contention; a session receives the pointer for the plan armed in the project it
+      was launched from, and nothing else; and a session in a project with nothing armed receives none, so the
+      payload loads only into sessions launched from an armed project. An older
       corpus-wide pointer at the plans root is still honoured as a read-only fallback so nothing breaks on the way
       over, but nothing writes it any more.
     </p>

@@ -68,9 +68,9 @@
     </p>
 
     <div class="hubwrap">
-      <div class="smnode hub"><b>_situating.md — the cover (generated · loaded each session)</b><small>The binder's orientation card and cover page: the project's plan roster, its overall status, the active focus (the in-progress plan and its current task), and a latest-handoff pointer for each active plan — derived entirely from the plans and loaded into every session the instant it opens, so the assistant self-orients before its first reply. It carries pointers to the three indices below.</small></div>
+      <div class="smnode hub"><b>_situating.md — the cover (generated · loaded each session)</b><small>The binder's orientation card and cover page: the project's plan roster, its overall status, the active focus (the in-progress plan and its current task), and a latest-handoff pointer for each active plan — derived entirely from the plans and loaded into every session the instant it opens, so the assistant self-orients before its first reply. It carries pointers to the three indices below, each naming its <code>plan-context</code> query.</small></div>
       <div class="ptrcards">
-        <div class="ptrcard"><b>research-index.md <span class="qualifier generated">· generated</span></b><small>Every plan's findings rolled into one index, organized by plan, with a link straight into each plan's <code>_research/</code> folder.</small></div>
+        <div class="ptrcard"><b>research-index.md <span class="qualifier generated">· generated</span></b><small>Every plan's findings rolled into one index, organized by plan and listed canonical-first, superseded findings forward-linked to their replacements, with a link straight into each plan's <code>_research/</code> folder.</small></div>
         <div class="ptrcard"><b>decision-log.md <span class="qualifier generated">· generated</span></b><small>Every plan's decisions in one cross-plan list; superseded records are forward-linked, never dropped — so settled choices aren't re-litigated.</small></div>
         <div class="ptrcard"><b>handoff-chronicle.md <span class="qualifier generated">· generated</span></b><small>The session-handoff records across the project, newest-first, each carrying its <code>Next session:</code> line — so any session resumes cleanly.</small></div>
       </div>
@@ -90,8 +90,9 @@
     <p>
       The binder directory also holds one small non-page: the <strong><code>.active-plan</code> pointer</strong>,
       written when you arm one of the project's plans for build. Its placement here — rather than at the plans
-      root — is what keeps arming <strong>per project</strong>: the armed plan's spec is injected only into
-      sessions launched from this project's directory, and a project with no pointer receives no spec at all.
+      root — is what keeps arming <strong>per project</strong>: the armed plan's spec authority notice (the spec's path, the current task and the
+      <code>plan-context</code> query) is injected only into sessions launched from this project's directory, and
+      a project with no pointer receives none.
       See <a href="plans.html">Plans</a> for the arming step.
     </p>
 
