@@ -214,9 +214,11 @@
 
     <div class="callout note">
       <div class="label">Fail-open by design</div>
-      <p>If the rulebook is missing, the engine allows the write. A corrupt overlay falls back to the
-      foundation-only view. Missing machine identity exits quietly. The engine degrades toward letting
-      you work, never toward locking you out.</p>
+      <p>If the rulebook is missing or a key is simply unconfigured, the engine allows the write. A corrupt
+      overlay falls back to the foundation-only view. Missing machine identity exits quietly. A governance
+      source that exists but cannot be parsed is never silently skipped: the inflow guard denies the write and
+      names the source, and the session-close gate, the placement sweep and plan-rule each name the failure on
+      their own terminal. Everything else degrades toward letting you work.</p>
     </div>
 
     <h2>Why this design</h2>

@@ -200,7 +200,7 @@
         <tr><td><strong>schema</strong> <span class="muted">(schema-validated)</span></td><td>A declared contract for a file&rsquo;s fields that the system checks a write against before accepting it.</td></tr>
         <tr><td><strong>sentinel markers</strong></td><td>Hidden marker lines that fence off the region of a file a machine regenerates, so generated content and your hand-written prose coexist in one file.</td></tr>
         <tr><td><strong>kebab-case / slug</strong></td><td>A lowercase identifier of letters, digits, and hyphens (no spaces or mixed case) used for every filename and id so consumers can normalize them.</td></tr>
-        <tr><td><strong>fail-open</strong></td><td>Designing the guard to degrade toward letting you work (allowing the write) when something is missing or corrupt, never toward locking you out.</td></tr>
+        <tr><td><strong>fail-open</strong></td><td>Designing the guard to degrade toward letting you work (allowing the write) when something is missing, never toward locking you out. A source that exists but is corrupt is surfaced on the guard's own terminal, never silently swallowed.</td></tr>
         <tr><td><strong>launchd</strong></td><td>macOS&rsquo;s built-in scheduler, which Brain Stem uses to run capture jobs and timed dispatches locally.</td></tr>
         <tr><td><strong>SQLite</strong></td><td>A lightweight database kept as a single file on disk — one of the shapes captured content can land in for later querying.</td></tr>
       </tbody>
