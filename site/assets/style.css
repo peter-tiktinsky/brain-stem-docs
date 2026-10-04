@@ -259,7 +259,6 @@ ul, ol { margin: 0 0 16px; padding-left: 22px; }
 li { margin: 5px 0; }
 
 strong { color: var(--ink); }
-hr { border: none; border-top: 1px solid var(--line); margin: 40px 0; }
 
 /* ---------- cards (uniform tiles) ---------- */
 .card-grid {
@@ -373,8 +372,6 @@ td code { font-size: 12.5px; }
 
 /* unified capability → pitfall table: the merged (rowspan) capability cell.
    A subtle tint + right border visually anchors the group of pitfall rows it spans. */
-td.cap { background: var(--surface-alt); border-right: 1px solid var(--line-strong); min-width: 150px; }
-td.cap strong { font-size: 14px; color: var(--ink); }
 
 /* inline muted qualifier — e.g. a parenthetical after a glossary term */
 .muted { color: var(--muted); font-weight: 400; font-size: 0.9em; }
@@ -603,7 +600,6 @@ h2.toc-band { border-top: none; padding-top: 22px; }
 /* a body-level band introduces a long-form section: stronger divider + breathing room */
 .content > .pillar-band { margin: 56px 0 0; padding-top: 20px; border-top: 2px solid var(--line-strong); }
 /* the first H2 after a band drops its own rule — the band already divides */
-h2.lead { border-top: none; padding-top: 4px; margin-top: 8px; }
 
 /* the grouped card map at the top of the rationale */
 .pillar-map { margin: 22px 0 6px; }
@@ -643,7 +639,6 @@ h2.lead { border-top: none; padding-top: 4px; margin-top: 8px; }
 .pill.caps { white-space: normal; }
 
 .quadrant td.hl { background: var(--clay-soft); }
-.quadrant td.hl strong { color: var(--clay-deep); }
 
 /* ---------- citations (research-rationale page) ----------
    Standardized in-text citation markers that link down to the master register;
