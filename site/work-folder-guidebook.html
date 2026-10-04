@@ -182,7 +182,10 @@
 /govern register --kind project --under &lt;project&gt; --add-folder &lt;name&gt;
 
 # promote a stream to its own top-level project (after you move it)
-/govern register --kind project --adopt</code></pre>
+/govern register --kind project --adopt
+
+# register a launch directory outside ~/work (a code repo) as a spoke
+/govern register --kind project --anchor &lt;dir&gt; [--spoke-key &lt;key&gt;]</code></pre>
     <p>
       <code>--add-folder</code> is the lightweight one: it mints a <strong>plain top-level folder</strong>
       inside the spoke and a vault-view rule so writes into it are governed — but it is <em>not</em> a

@@ -282,6 +282,9 @@
         "research-rationale.html": [
           "mention"
         ],
+        "session-loading.html": [
+          "mention"
+        ],
         "session-management-rationale.html": [
           "mention"
         ],
@@ -705,6 +708,9 @@
       "class": "glossary",
       "pages": {
         "checkpoints.html": [
+          "mention"
+        ],
+        "commands.html": [
           "mention"
         ],
         "configuration.html": [

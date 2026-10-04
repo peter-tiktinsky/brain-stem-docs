@@ -50,7 +50,10 @@
         few questions in your own words — and from your answers writes a settings file
         (<code>user-manifest.json</code>), your personal <code>~/.claude/CLAUDE.md</code> preferences file, and a
         freshly built <strong>vault</strong>. It also records whether you want a couple of optional external
-        integrations. It is safe to run more than once; it will not clobber what it already wrote.
+        integrations. It is safe to run more than once; it will not clobber what it already wrote. At the pause
+        between the two sections it prints the exact next command as a <code># HANDOFF:</code> line carrying a
+        shell-quoted <code>resume-with</code> command that runs verbatim and keeps the flags the run was given;
+        <code>--resume</code> without an <code>--extraction-stub</code> reads the conventional staged stub.
       </p>
       <p class="cmd-more">Full walkthrough: <a href="onboarding.html">Onboarding</a></p>
     </div>
@@ -287,6 +290,17 @@
         </tbody>
       </table>
       <pre>/govern register --kind folder --target &lt;vault-relative-path&gt; [--inherit-from &lt;parent-path&gt;]</pre>
+      <p>
+        The flow is propose, then your per-field accept, edit or reject, then commit. When you have ruled on a proposal,
+        <code>process.sh assemble &lt;kind&gt; --proposal &lt;file&gt; --rulings &lt;file&gt;</code> composes the validated
+        record from the two in one atomic write; a refusal is one line beginning <code>govern-assemble: refused:</code>.
+        The <code>project</code> kind has these sub-modes: <code>--retract-sub &lt;sub&gt;</code> removes the routing
+        rule a sub-project leaves behind once it has been promoted; <code>--emit-moves &lt;mapping.json&gt;</code>
+        prints the validated <code>git mv</code> lines for a mapping you write and moves nothing; and
+        <code>--anchor &lt;dir&gt;</code>, with an optional <code>--spoke-key &lt;key&gt;</code>, registers a launch
+        directory outside your work home, such as a code repository, as a project: one registry entry, a one-line
+        identity <code>CLAUDE.md</code> and its binder home.
+      </p>
       <p class="cmd-more">Why governance is extended this way: <a href="governance-personalization.html">Governance personalization</a> · <a href="governance-engine.html">The governance engine</a></p>
     </div>
 

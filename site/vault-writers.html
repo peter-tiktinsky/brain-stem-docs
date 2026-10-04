@@ -196,7 +196,9 @@
       You register a writer and declare where its output should land and in what shape; for a destination you
       stage, the substrate takes it from there. A single agentic writer can <strong>fan out</strong> to many destination files at once —
       appending where things should append, updating where they should update — and every applied change is
-      recorded in the append-only manifest, which is your immutable audit trail of what the system did.
+      recorded in the append-only manifest, which is your immutable audit trail of what the system did. Registry
+      writes are locked too: every project registration that records a spoke (create, adopt or anchor) goes through
+      one kernel-locked writer, <code>registry-add-spoke.sh</code>, so two registrations never overwrite each other.
     </p>
 
     <div class="callout key">
