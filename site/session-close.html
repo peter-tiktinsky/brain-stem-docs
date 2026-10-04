@@ -258,7 +258,7 @@
       <dl>
         <dt>What it does</dt><dd>Presents each queued item as a confirm-or-decline. A confirm stamps the entry revalidated or applies the promotion. It never auto-fires, and nothing in the queue changes until you say so — with one exception: a low-severity hygiene item you have dismissed three times is suppressed instead of presented again (revalidation items are never suppressed).</dd>
         <dt>Fed by</dt><dd>The staleness sweep (entries past their revalidation window), the consolidation pass at session end, and the promotions the <code>/mem-promote</code> skill proposes.</dd>
-        <dt>Run it when</dt><dd>The session-start banner reports pending review items.</dd>
+        <dt>Run it when</dt><dd>The session-start banner reports pending review items. Type <code>/librarian review</code> to start the walk; its steps are the <code>list</code>, <code>show</code>, <code>confirm</code>, <code>reject</code>, <code>defer</code> and <code>report</code> subcommands.</dd>
       </dl>
     </div>
     <div class="capref">

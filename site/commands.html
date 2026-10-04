@@ -169,7 +169,7 @@
         a working session.
       </p>
       <p>
-        It is one skill with a catalog of <strong>66 named capabilities</strong> beneath it. Any one can be run
+        It is one skill with a catalog of <strong>68 named capabilities</strong> beneath it. Any one can be run
         directly — <code>/librarian inbox-settle</code> — and <code>/librarian full</code> sweeps the whole
         audit set. Much of the catalog also runs itself: a fixed chain reconciles at every session close, and
         a scheduled subset re-fires on its own cadence. The catalog, broken down by focus area:
@@ -188,10 +188,11 @@
           <tr><td><code>librarian-manifest-validate</code></td><td>Validates a staged librarian run manifest before anything is applied — a malformed sweep stops before it writes</td><td>audit</td><td>full · close</td></tr>
           <tr><td><code>placement-validate</code></td><td>Checks every vault file sits in the folder the rules assign to its type, and flags what doesn't</td><td>audit</td><td>full · close</td></tr>
           <tr><td><code>rules-compact</code></td><td>Trims a rule whose enforcement already lives in a hook down to a short stub naming that hook</td><td>asks first</td><td>live</td></tr>
-          <tr><td><code>rules-hygiene</code></td><td>Audits your rules folder for lifecycle problems — dead references, staleness, drift — and proposes the cleanup</td><td>asks first</td><td>weekly</td></tr>
+          <tr><td><code>rules-hygiene</code></td><td>Audits your rules folder for lifecycle problems — dead references, staleness, drift — and proposes the cleanup. <code>--check-load &lt;rule&gt;</code> answers from the instructions-loaded log whether a path-scoped rule loaded (exit 0 loaded, 1 not loaded, 2 refused, 3 no log). <code>--compare-retired &lt;rule&gt;</code> prints a rule the installer retires beside the shipped hook that now delivers it (exit 0 done, 2 refused, 3 the carrier is missing)</td><td>asks first</td><td>weekly</td></tr>
           <tr><td><code>rules-index</code></td><td>Regenerates the governance rules index from the rule files themselves</td><td>maintain</td><td>full · weekly</td></tr>
           <tr><td><code>sanctioned-schema-drift-detect</code></td><td>Compares the shipped schemas against their distribution source — a build guard that is inert on a normal install</td><td>audit</td><td>full · weekly</td></tr>
           <tr><td><code>skill-parity</code></td><td>Audits the skill registry against the shipped skill bodies, so a renamed or removed skill cannot leave the registry stale. <code>skill-parity --fix</code> edits no skill file: it prints the file and the <code>name:</code> line to add in your brain-stem clone</td><td>audit</td><td>full · weekly</td></tr>
+          <tr><td><code>skill-referrers</code></td><td>Lists every file that references a skill by name, so the check after a skill changes is one command. It writes nothing; zero referrers prints the header alone with exit 0, and a refusal exits 2</td><td>audit</td><td>by name</td></tr>
           <tr><td><code>tag-coverage-audit</code></td><td>Audits vault tag usage against the declared taxonomy — unregistered tags, unused dimensions</td><td>audit</td><td>full · weekly</td></tr>
           <tr><td><code>waiver-audit</code></td><td>Read-only audit of the governance waiver registry — the record of sanctioned exceptions</td><td>audit</td><td>full · weekly</td></tr>
         </tbody>
@@ -257,9 +258,10 @@
           <tr><td><code>context-budget-index</code></td><td>Measures what the always-on context surfaces cost, against declared thresholds, and renders the green / yellow / red budget readout</td><td>audit</td><td>full · daily</td></tr>
           <tr><td><code>memory-globalize</code></td><td>Promotes a memory entry into a global rule file</td><td>asks first</td><td>live</td></tr>
           <tr><td><code>memory-hygiene</code></td><td>The memory lifecycle auditor — index health and staleness across every project, each cleanup confirmed</td><td>asks first</td><td>weekly</td></tr>
+          <tr><td><code>memory-spill</code></td><td>Moves the coldest non-episodic entries of the <code>MEMORY.md</code> index to <code>MEMORY-archive.md</code>, leaving one pointer line. It previews by default; <code>--apply</code> acts only at the YELLOW band or above, under the consolidation lock, and writes the archive first. Exit 0 done, 2 refused before anything was read, 3 refused by the plan or a failed write, exit 75 the lock is held</td><td>asks first</td><td>by name</td></tr>
           <tr><td><code>memory-staleness</code></td><td>Flags memory entries past their revalidation bounds</td><td>audit</td><td>weekly</td></tr>
           <tr><td><code>pointer-currency-scan</code></td><td>Checks that plain-path pointers in memory and rules still resolve on disk — propose-only, never rewrites</td><td>audit</td><td>full · close</td></tr>
-          <tr><td><code>review</code></td><td>Works the review queue — confirm or reject pending memory consolidations, one by one</td><td>asks first</td><td>live</td></tr>
+          <tr><td><code>review</code></td><td>Works the review queue — confirm or reject pending memory consolidations, one by one. Its steps are subcommands: <code>review list</code>, <code>review show</code>, <code>review confirm</code>, <code>review reject</code>, <code>review defer</code> and <code>review report</code>; a deferred item still counts as open. Exit codes: 0 done; 2 refused with the queue unchanged; 3 a write or a primitive failed</td><td>asks first</td><td>live</td></tr>
         </tbody>
       </table>
 

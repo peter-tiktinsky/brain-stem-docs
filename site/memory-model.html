@@ -121,14 +121,15 @@
       raw and with comments stripped and gating on whichever is larger, so hiding bulk in comments buys
       no headroom. It records; it prunes nothing.</li>
     </ul>
-    <div class="callout warn">
-      <div class="label">Documented, not yet built</div>
-      <p>The planned overflow path — a <strong>cold-spill</strong> that relocates the coldest
-      non-episodic entries (Procedural first, then Semantic, never Episodic) to an on-demand
-      <code>MEMORY-archive.md</code>, leaving a pointer in the index — is <strong>designed but not yet
-      implemented</strong>. It is volume-gated (built when a real index nears the cap), not
-      calendar-based, and the config records this honestly. Today, the guard warns and the monitor
-      grades; the spill itself is future work.</p>
+    <div class="callout note">
+      <div class="label">The overflow path</div>
+      <p>A <strong>cold-spill</strong> relocates the coldest non-episodic entries (Procedural first, then
+      Semantic, never Episodic) to an on-demand <code>MEMORY-archive.md</code>, leaving one pointer line in
+      the index. <code>/librarian memory-spill</code> previews the move; <code>memory-spill --apply</code> performs
+      it, only at the YELLOW band or above, under the consolidation lock, writing the archive first. The
+      consolidation runner and the memory auditor read the archive, so a spilled entry is not an orphan. It is
+      volume-gated, not calendar-based: the guard warns, the monitor grades, and you spill when a real index nears
+      the cap.</p>
     </div>
 
     <h2>How memory is written and classified</h2>

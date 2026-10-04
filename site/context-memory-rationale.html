@@ -274,7 +274,7 @@
           <td>A calendar trigger or an order that changes between writes</td>
           <td>The Semantic→Procedural→Episodic order makes the cold boundary knowable from the index.
           The trigger follows actual pressure on the bounded index rather than an arbitrary rule such as
-          "wait 30 days."</td>
+          "wait 30 days." <code>memory-spill</code> is the shipped command that acts on that trigger, relocating the coldest entries to <code>MEMORY-archive.md</code>.</td>
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>

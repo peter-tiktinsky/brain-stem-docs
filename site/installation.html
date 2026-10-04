@@ -345,6 +345,12 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
       already written the current body. If the recognition table or a hashing tool is unavailable, the whole
       migration degrades to a no-op rather than guessing.</li>
     </ul>
+    <p>
+      To see what delivers the guidance of a rule the rules migration retires, run
+      <code>/librarian rules-hygiene --compare-retired &lt;rule&gt;</code>: it prints the rule file beside the shipped
+      hook that now delivers it (exit 0 done, 2 refused, 3 the carrier is missing). The migration's advisory ends with
+      a <code>Check:</code> line that names this command.
+    </p>
 
     <div class="callout key">
       <div class="label">Confirm the migrations landed — the post-apply self-check</div>

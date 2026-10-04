@@ -2356,6 +2356,20 @@
         ]
       }
     },
+    "memory-spill": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ],
+        "context-memory-rationale.html": [
+          "mention"
+        ],
+        "memory-model.html": [
+          "mention"
+        ]
+      }
+    },
     "memory-staleness": {
       "class": "capability",
       "pages": {
@@ -2963,7 +2977,13 @@
         "commands.html": [
           "mention"
         ],
+        "installation.html": [
+          "mention"
+        ],
         "session-close.html": [
+          "mention"
+        ],
+        "session-loading.html": [
           "mention"
         ]
       }
@@ -3464,6 +3484,14 @@
       }
     },
     "skill-parity": {
+      "class": "capability",
+      "pages": {
+        "commands.html": [
+          "mention"
+        ]
+      }
+    },
+    "skill-referrers": {
       "class": "capability",
       "pages": {
         "commands.html": [

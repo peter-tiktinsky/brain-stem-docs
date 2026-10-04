@@ -169,6 +169,8 @@
       harness's 10,000-character cap and was spilled to disk instead of delivered, and the librarian capability
       <code>context-budget-index</code> renders those measurements against declared per-surface thresholds with
       warning and red bands (the thresholds live in the shipped governance bundle, so your overlay can tune them).
+      To check that a path-scoped rule loaded, <code>rules-hygiene.sh --check-load &lt;rule&gt;</code> reads that
+      instructions-loaded log and answers loaded, not loaded or no log.
       And a rule that only restates what a deterministic hook already enforces can be <strong>compacted</strong>:
       the <code>rules-compact</code> capability trims it to a short stub naming the enforcing hook, records the
       link in the rules schema's <code>enforced_by</code> field, and refuses any rule that lacks the keep-and-why
