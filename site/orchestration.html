@@ -45,8 +45,8 @@
       <code>tasks</code>, <code>handoff</code>, research, and decisions are left untouched; status transitions
       are driven by you, the hooks, and the harness, not by the dispatcher. A queued run can be paused and
       resumed without losing its place: <code>--hold</code> makes the executor skip it and
-      <code>--unhold</code> returns it to the queue. Every change to the queue runs under a kernel-backed
-      <code>lockf</code> lock, so two dispatches never overwrite each other; a change that cannot take the lock
+      <code>--unhold</code> returns it to the queue. Where <code>lockf</code> is installed, every change to the queue runs under a kernel-backed
+      lock (and runs unlocked where it is not), so two dispatches never overwrite each other; a change that cannot take the lock
       within two seconds fails with a visible lock-contention message rather than being skipped silently.
     </p>
 

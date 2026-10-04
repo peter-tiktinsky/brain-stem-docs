@@ -169,7 +169,7 @@
         a working session.
       </p>
       <p>
-        It is one skill with a catalog of <strong>68 named capabilities</strong> beneath it. Any one can be run
+        It is one skill with a catalog of <strong>67 named capabilities</strong> beneath it. Any one can be run
         directly — <code>/librarian inbox-settle</code> — and <code>/librarian full</code> sweeps the whole
         audit set. Much of the catalog also runs itself: a fixed chain reconciles at every session close, and
         a scheduled subset re-fires on its own cadence. The catalog, broken down by focus area:
@@ -187,7 +187,6 @@
           <tr><td><code>governance-parity-audit</code></td><td>Cross-checks the two surfaces that declare the governance rules, so a rule changed on one cannot silently diverge on the other</td><td>audit</td><td>full · close</td></tr>
           <tr><td><code>librarian-manifest-validate</code></td><td>Validates a staged librarian run manifest before anything is applied — a malformed sweep stops before it writes</td><td>audit</td><td>full · close</td></tr>
           <tr><td><code>placement-validate</code></td><td>Checks every vault file sits in the folder the rules assign to its type, and flags what doesn't</td><td>audit</td><td>full · close</td></tr>
-          <tr><td><code>rules-compact</code></td><td>Trims a rule whose enforcement already lives in a hook down to a short stub naming that hook</td><td>asks first</td><td>live</td></tr>
           <tr><td><code>rules-hygiene</code></td><td>Audits your rules folder for lifecycle problems — dead references, staleness, drift — and proposes the cleanup. <code>--check-load &lt;rule&gt;</code> answers from the instructions-loaded log whether a path-scoped rule loaded (exit 0 loaded, 1 not loaded, 2 refused, 3 no log). <code>--compare-retired &lt;rule&gt;</code> prints a rule the installer retires beside the shipped hook that now delivers it (exit 0 done, 2 refused, 3 the carrier is missing)</td><td>asks first</td><td>weekly</td></tr>
           <tr><td><code>rules-index</code></td><td>Regenerates the governance rules index from the rule files themselves</td><td>maintain</td><td>full · weekly</td></tr>
           <tr><td><code>sanctioned-schema-drift-detect</code></td><td>Compares the shipped schemas against their distribution source — a build guard that is inert on a normal install</td><td>audit</td><td>full · weekly</td></tr>
@@ -235,7 +234,7 @@
           <tr><td><code>index-maintain</code></td><td>Reconciles each folder's auto-generated index with what is actually on disk</td><td>maintain</td><td>full · daily</td></tr>
           <tr><td><code>library-index</code></td><td>Re-derives the Library's per-topic indexes</td><td>maintain</td><td>full · daily</td></tr>
           <tr><td><code>library-log-rotate</code></td><td>Rotates the Library's change log into per-year archives when it passes its size threshold</td><td>maintain</td><td>full · daily</td></tr>
-          <tr><td><code>library-scrub</code></td><td>The promotion scrub: workshop project research in, a clean universal Library article out. <code>--census</code> lists the unpromoted research of completed plans; the promotion host modes (<code>--candidates</code>, <code>--triage</code>, <code>--next</code>, <code>--answer</code>, <code>--mode</code>) queue and triage promotions and stay dormant until the mode is set</td><td>asks first</td><td>live</td></tr>
+          <tr><td><code>library-scrub</code></td><td>The promotion scrub: workshop project research in, a clean universal Library article out. <code>--census</code> lists the unpromoted research of completed plans; the promotion host modes queue and triage promotions: <code>--candidates</code>, <code>--triage</code> and <code>--next</code> stay dormant (exit 0, no model call, no write) until the mode is set, <code>--answer</code> records a reply, and <code>--mode</code> reads or sets the mode</td><td>asks first</td><td>live</td></tr>
           <tr><td><code>link-grammar-convert</code></td><td>Converts a corpus of wiki-style links to the ruled plain-Markdown link grammar</td><td>asks first</td><td>by name</td></tr>
           <tr><td><code>log-subtype-canonical</code></td><td>Detects <code>#log/</code> and <code>#status/</code> subtypes that were never registered in the tag taxonomy. Four <code>#log/</code> subtypes are registered: <code>session-close</code>, <code>audit-report</code>, <code>backlog-hygiene</code> and <code>library-change</code></td><td>audit</td><td>full · weekly</td></tr>
           <tr><td><code>rename-cascade</code></td><td>After a detected rename, cascades the wikilink and Markdown-link updates across the vault — dry-run first, applied on review</td><td>maintain</td><td>full · close</td></tr>

@@ -2566,6 +2566,9 @@
         "commands.html": [
           "mention"
         ],
+        "glossary.html": [
+          "mention"
+        ],
         "plans.html": [
           "mention"
         ],
@@ -3044,9 +3047,6 @@
           "mention"
         ],
         "session-close.html": [
-          "mention"
-        ],
-        "session-loading.html": [
           "mention"
         ],
         "session-management-rationale.html": [
@@ -3886,6 +3886,9 @@
           "mention"
         ],
         "governance-personalization.html": [
+          "mention"
+        ],
+        "installation.html": [
           "mention"
         ],
         "knowledge-graph.html": [

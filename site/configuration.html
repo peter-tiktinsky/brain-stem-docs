@@ -131,8 +131,8 @@
       Exit codes: 0 done or a documented no-op; 2 refused with nothing written, on a line that starts
       <code>field-set: refused:</code>; 3 refused by a governance gate (the close ordering gate, the claude-mem
       protection that keeps <code>settings hook off</code> from removing the memory-consolidation hook, or a
-      capture freeze that is already open); 75 lock contention, reported loudly and never skipped silently. Every
-      write takes one lock, so two concurrent callers cannot overwrite each other's field.
+      capture freeze that is already open); 75 lock contention, reported loudly and never skipped silently. Where <code>lockf</code> is installed, every
+      write takes one kernel-backed lock (and runs unlocked where it is not), so two concurrent callers cannot overwrite each other's field.
     </p>
 
     <h2 id="data">Where your data lives</h2>

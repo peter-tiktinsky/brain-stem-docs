@@ -333,17 +333,26 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
       the upgrade re-converges the corpus. The pre-image files are recovery artifacts, safe to delete once you
       have verified the upgrade.</li>
       <li><strong>Rules refresh</strong> (<code>0010-class-a-rules-refresh</code>, over your rules directory).
-      The installer seeds its rule entries preserve-on-exist — it never overwrites a rules file that is already
-      there — so a shortened seed could never reach an install that is already seeded, and a seed the installer
-      stops writing would never be removed. This migration is the only delivery path for both, and every arm of
-      it acts only on a file it recognises as bytes Brain Stem itself wrote, checked against a shipped table of
-      every body ever seeded: it replaces a seeded entry that still matches an older shipped body with the current
+      Every arm of this migration acts only on a file it recognises as bytes Brain Stem itself wrote, checked
+      against a shipped table of every body ever seeded: it replaces a seeded entry that still matches an older shipped body with the current
       shortened one; it retires the rules README when it matches a shipped seed, and otherwise preserves your
       content as <code>rules/README.md.foundation-retired</code>, a name the harness does not load; and it retires
       the former bounded-spoke rule when it matches. A file that matches no seed is left exactly as it is, with an
-      advisory naming it. A missing entry is a no-op, because the seeder runs earlier in the same upgrade and has
-      already written the current body. If the recognition table or a hashing tool is unavailable, the whole
+      advisory naming it. A missing entry is a no-op. If the recognition table or a hashing tool is unavailable, the whole
       migration degrades to a no-op rather than guessing.</li>
+    </ul>
+    <p>
+      The installer seeds no rule files, and two further migrations carry that through an existing install — both
+      automatic, both idempotent:
+    </p>
+    <ul>
+      <li><strong>Rule seeds</strong> (<code>0011-class-a-rules-retire</code>, over your rules directory). It retires
+      the four always-on rule entries an earlier install seeded. An entry whose bytes it recognises as Brain Stem's own
+      is removed, with a line naming the shipped hook that delivers its guidance; an entry you edited is left in place
+      with an action advisory naming it; a rules directory that never held them is a no-op.</li>
+      <li><strong>The rules-compact capability</strong> (<code>0012-rules-compact-retire</code>, over the librarian's
+      capabilities). It removes that capability from an existing install: an unmodified copy is deleted,
+      and one you changed is renamed aside with a <code>.foundation-retired</code> suffix so nothing of yours is lost.</li>
     </ul>
     <p>
       To see what delivers the guidance of a rule the rules migration retires, run
@@ -362,8 +371,8 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
       <p>If either <code>0009-task-status-vocabulary</code> or <code>0010-class-a-rules-refresh</code> is
       missing, run <code>bash install.sh --upgrade --apply</code> once more — the runner selects any migration
       whose id is not yet in that list and heals the install. No manual step is ever needed. And if you had
-      edited a seeded rule entry, the rules refresh leaves your file alone and names it in an advisory; compare
-      it against the shortened body at your convenience.</p>
+      edited a seeded rule entry, the rules refresh leaves your file alone and names it in an advisory; the <code>Check:</code> line of the rules migration's advisory
+      and <code>/librarian rules-hygiene --compare-retired</code>, described above, show what delivers that rule's guidance.</p>
     </div>
 
     <div class="callout note">
