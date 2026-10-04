@@ -112,6 +112,29 @@
     </table>
     <p class="page-meta">Where a switch guards a behavior documented elsewhere, the behavior's page carries the detail: <a href="packaging-runtime.html#managed">managed surfaces</a> for <code>MANAGED_SURFACE_OK</code>, <a href="decision-quality.html">the decision-quality protocol</a> for its phase knob.</p>
 
+    <h2 id="field-set">Setting one field from the command line</h2>
+    <p>
+      Some settings are a single field in a JSON record you would otherwise edit by hand. One setter,
+      <code>field-set.sh</code>, writes them: it validates the value against the record's own schema, writes
+      atomically, and leaves the file byte-identical when it refuses. It covers <code>user-manifest set</code>
+      (one scalar in your user manifest), <code>settings hook off</code> and <code>on</code> (turn a hook off or back
+      on), <code>settings env set</code> (an environment entry in settings), <code>plan set</code> (a plan's status,
+      paused reason or disposition) and <code>capture-freeze open</code> or <code>lift</code> (a spoke's capture freeze).
+    </p>
+    <ul>
+      <li>Turning off a hook the installer requires prints a note that the next upgrade puts it back.</li>
+      <li>Turning a hook back on restores each entry at the position it held before.</li>
+      <li>A <code>plan set status=completed</code> applies the session-close rules first, in order: the ordering gate, the research declaration, then one atomic write, and the plan binder and task list re-render afterwards.</li>
+      <li>A path flag given an empty value is refused.</li>
+    </ul>
+    <p>
+      Exit codes: 0 done or a documented no-op; 2 refused with nothing written, on a line that starts
+      <code>field-set: refused:</code>; 3 refused by a governance gate (the close ordering gate, the claude-mem
+      protection that keeps <code>settings hook off</code> from removing the memory-consolidation hook, or a
+      capture freeze that is already open); 75 lock contention, reported loudly and never skipped silently. Every
+      write takes one lock, so two concurrent callers cannot overwrite each other's field.
+    </p>
+
     <h2 id="data">Where your data lives</h2>
     <p>
       Configuration questions are often really location questions, so the map in one breath —
