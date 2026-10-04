@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bringing outside information into the graph · Brain Stem</title>
-<link rel="stylesheet" href="assets/style.css?v=47">
+<link rel="stylesheet" href="assets/style.css?v=48">
 <script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
@@ -65,6 +65,17 @@
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
+          <td>Ship the <strong>substrate</strong>, and leave the connectors to you</td>
+          <td>Shipping ready-made connectors for particular sources</td>
+          <td>Claude&nbsp;Code already carries the transports — MCP servers, channels, hooks, scheduled tasks.
+          What it leaves open is the destination: who may write where, with what provenance, and who wins a
+          collision. Brain Stem ships that part — writer registration, the staging packet, the
+          writer-reconciler, the manifest — and a connector stays a script you own, so its source, its
+          credentials and its routing stay yours. The source names in a registration are labels, not
+          shipped code.</td>
+          <td><span class="pill ground">constraint</span></td>
+        </tr>
+        <tr>
           <td><strong>One reconciler as the sole writer</strong> of every staged file</td>
           <td>Every writer writing the destination directly</td>
           <td>Two saves can overlap and silently clobber each other with no record. The platform ships no
@@ -102,6 +113,18 @@
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
+          <td><strong>Deterministic processing by default</strong>; a model only where you opt in</td>
+          <td>Running every capture through a model</td>
+          <td>A fixed transform gives the same result on every run, so a repeated import is reproducible and
+          the same fact arriving twice collapses the same way; a model's phrasing drifts, and every call
+          spends tokens, a finite resource
+          <a class="cite" href="research-rationale.html#cite-anthropic-ctx">context engineering</a>.
+          The shipped path is mechanical end to end. The model lane runs through
+          <a class="cite" href="research-rationale.html#cite-cc-headless">headless mode</a> only for a
+          writer you register with a prompt-guided strategy; out of the box it composes nothing.</td>
+          <td><span class="pill ground">constraint</span> <span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
           <td>The AI merge lane <strong>never writes the destination</strong> — it emits a packet back to staging</td>
           <td>Letting the smartest lane be the final writer of record</td>
           <td>The optional <code>doc-amender</code> runs content through the model
@@ -110,6 +133,18 @@
           write — keeping a single accountable chokepoint. Conflicts are block-and-log, never silent
           overwrite.</td>
           <td><span class="pill ok">convergence</span></td>
+        </tr>
+        <tr>
+          <td>Keep the captured record <strong>locally and permanently</strong></td>
+          <td>Discarding a source once it has been processed</td>
+          <td>Only the in-flight staging packet is ephemeral. A writer's registration declares whether its raw
+          source is kept — by default for model-driven writers, by choice for a plain connector — and a kept
+          raw file is written once and never changed; the manifest records every applied write, and outputs
+          stay where they landed. A later change of mind — a second source, a dashboard — then builds on
+          data already kept instead of re-extracting it from prose. The record lives under the XDG data
+          root, outside the vault
+          <a class="cite" href="research-rationale.html#cite-xdg">XDG</a>.</td>
+          <td><span class="pill muted">local parameter</span></td>
         </tr>
         <tr>
           <td>Relocate machine logs <strong>out of the vault entirely</strong></td>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Session Close · Brain Stem</title>
-<link rel="stylesheet" href="assets/style.css?v=47">
+<link rel="stylesheet" href="assets/style.css?v=48">
 <script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
@@ -210,7 +210,7 @@
 
     <div class="capref-group"><span class="sw direct"></span>Direct counterparts</div>
     <div class="capref">
-      <div class="capref-head"><code>frontmatter-enforce --fix</code><span class="capref-badge">At close: check mode</span></div>
+      <div class="capref-head"><code>frontmatter-enforce --fix</code><span class="pill caps ok">At close: check mode</span></div>
       <p class="capref-lede">The vault-wide frontmatter auditor, and the backfiller for the identity cohort.</p>
       <dl>
         <dt>What it does</dt><dd>Validates required fields, value formats and the tag vocabulary. In fix mode it writes only the fields a file lacks: <code>created</code> from the first commit or birth date, <code>id</code> from the path, the schema version, and a description drafted from the first heading; tags outside the vocabulary are repaired. Nothing already present is rewritten.</dd>
@@ -219,7 +219,7 @@
       </dl>
     </div>
     <div class="capref">
-      <div class="capref-head"><code>index-maintain</code><span class="capref-badge">At close: dry run, daily</span></div>
+      <div class="capref-head"><code>index-maintain</code><span class="pill caps ok">At close: dry run, daily</span></div>
       <p class="capref-lede">The self-healing sweep for every folder's <code>_index.md</code>.</p>
       <dl>
         <dt>What it does</dt><dd>The bare invocation is the mechanical tier: it bootstraps a missing index and, inside the sentinel markers, corrects the row set, line counts, types, the path-derived parent and the timestamp. Everything outside the markers is preserved verbatim.</dd>
@@ -228,7 +228,7 @@
       </dl>
     </div>
     <div class="capref">
-      <div class="capref-head"><code>wikilink-repair --apply</code><span class="capref-badge">At close: dry run, weekly</span></div>
+      <div class="capref-head"><code>wikilink-repair --apply</code><span class="pill caps ok">At close: dry run, weekly</span></div>
       <p class="capref-lede">Repairs dangling wikilinks from the relationship registry, with no guessing.</p>
       <dl>
         <dt>What it does</dt><dd>Proposes a repair only when the broken target's name exactly matches a registered primary or mirror file. Several candidates are flagged as ambiguous and left alone; there is no fuzzy matching. Broken Markdown paths are reported, not repaired — a path has no candidate to guess from.</dd>
@@ -237,7 +237,7 @@
       </dl>
     </div>
     <div class="capref">
-      <div class="capref-head"><code>rename-cascade --apply</code><span class="capref-badge">At close: proposal only</span></div>
+      <div class="capref-head"><code>rename-cascade --apply</code><span class="pill caps ok">At close: proposal only</span></div>
       <p class="capref-lede">Rewrites every inbound link, in both grammars, after a file is renamed.</p>
       <dl>
         <dt>What it does</dt><dd>Reads the renames the close detected over the last day — or, with <code>--from-history</code>, the durable rename history the close recorded — resolves each inbound link against the old path, and shows the rewrite set. <code>--apply</code> performs it.</dd>
@@ -245,7 +245,7 @@
       </dl>
     </div>
     <div class="capref">
-      <div class="capref-head"><code>review</code><span class="capref-badge">At close: queued, weekly</span></div>
+      <div class="capref-head"><code>review</code><span class="pill caps ok">At close: queued, weekly</span></div>
       <p class="capref-lede">The guided walk through the memory review queue, in session.</p>
       <dl>
         <dt>What it does</dt><dd>Presents each queued item as a confirm-or-decline. A confirm stamps the entry revalidated or applies the promotion. It never auto-fires, and nothing in the queue changes until you say so — with one exception: a low-severity hygiene item you have dismissed three times is suppressed instead of presented again (revalidation items are never suppressed).</dd>
@@ -254,7 +254,7 @@
       </dl>
     </div>
     <div class="capref">
-      <div class="capref-head"><code>rules-compact --apply · memory-globalize --apply</code><span class="capref-badge">At close: deterministic classes, weekly</span></div>
+      <div class="capref-head"><code>rules-compact --apply · memory-globalize --apply</code><span class="pill caps ok">At close: deterministic classes, weekly</span></div>
       <p class="capref-lede">The two writers that act on what rules hygiene finds.</p>
       <dl>
         <dt>rules-compact</dt><dd>Trims a rule whose enforcement already lives in a registered, inline-blocking hook to a short stub naming that hook, and moves the full text to a rationale folder nothing loads. It refuses any rule missing the keep-and-why markers, so a rule is never emptied by accident.</dd>
@@ -263,7 +263,7 @@
       </dl>
     </div>
     <div class="capref">
-      <div class="capref-head"><code>managed-surface-census</code><span class="capref-badge">At close: detect only, daily</span></div>
+      <div class="capref-head"><code>managed-surface-census</code><span class="pill caps">At close: detect only, daily</span></div>
       <p class="capref-lede">A hash of every installed Brain Stem file against the install receipt.</p>
       <dl>
         <dt>What it does</dt><dd>Detects and never fixes. De-duplicates against its last snapshot, and classifies your overlay, your <code>.gitignore</code> and sidecar files as legitimate rather than flagging them: the installer appends its own block to your <code>.gitignore</code>, and your lines in it are expected divergence, reported as classified rather than as a fork. The close fires it at most once a day; a full sweep or a run by hand fires it any time.</dd>
@@ -274,7 +274,7 @@
 
     <div class="capref-group"><span class="sw related"></span>Related capabilities the close never runs</div>
     <div class="capref related">
-      <div class="capref-head"><code>link-grammar-convert</code><span class="capref-badge">Not in the close: needs approval, commits</span></div>
+      <div class="capref-head"><code>link-grammar-convert</code><span class="pill caps">Not in the close: needs approval, commits</span></div>
       <p class="capref-lede">The one-time migration of your own prose from wikilinks to the path grammar every machine-written link already uses.</p>
       <dl>
         <dt>What it does</dt><dd>A dry run writes a converted sibling of each file plus an approval register. On apply it leaves a pre-image beside each file and commits per batch when the root is a git repository, under confirmation.</dd>
@@ -284,7 +284,7 @@
       </dl>
     </div>
     <div class="capref related">
-      <div class="capref-head"><code>library-scrub --apply</code><span class="capref-badge">Not in the close: a deliberate promotion</span></div>
+      <div class="capref-head"><code>library-scrub --apply</code><span class="pill caps">Not in the close: a deliberate promotion</span></div>
       <p class="capref-lede">Promotion of a plan's research into the universal library.</p>
       <dl>
         <dt>What it does</dt><dd>Proposes by default. On apply it copies the raw artifact, writes the scrubbed article, stamps the plan's library references, and archives the workshop copy.</dd>
@@ -293,7 +293,7 @@
       </dl>
     </div>
     <div class="capref related">
-      <div class="capref-head"><code>inbox-settle --apply</code><span class="capref-badge">Not in the close: a judgment call</span></div>
+      <div class="capref-head"><code>inbox-settle --apply</code><span class="pill caps">Not in the close: a judgment call</span></div>
       <p class="capref-lede">Settling an idea note by your decision.</p>
       <dl>
         <dt>What it does</dt><dd>Stamps a resolution from the strict vocabulary — promoted, absorbed, resolved, dropped, superseded, discharged — and moves the note into the settled folder. Dry run until you apply; refuses to settle a note twice.</dd>
@@ -302,7 +302,7 @@
       </dl>
     </div>
     <div class="capref related">
-      <div class="capref-head"><code>/backlog-hygiene</code><span class="capref-badge">Not in the close: a skill, periodic</span></div>
+      <div class="capref-head"><code>/backlog-hygiene</code><span class="pill caps">Not in the close: a skill, periodic</span></div>
       <p class="capref-lede">An audit of the backlog's lifecycle rules across the idea inbox and in-flight plan manifests.</p>
       <dl>
         <dt>What it does</dt><dd>Reports staleness, missing dispositions and out-of-vocabulary statuses. <code>--fix</code> applies the one safe maintenance operation; table regeneration is delegated to the same backlog index the close renders.</dd>
@@ -310,7 +310,7 @@
       </dl>
     </div>
     <div class="capref related">
-      <div class="capref-head"><code>/mem-promote</code><span class="capref-badge">Not in the close: a skill, proposes only</span></div>
+      <div class="capref-head"><code>/mem-promote</code><span class="pill caps">Not in the close: a skill, proposes only</span></div>
       <p class="capref-lede">Proposals to promote observations from the optional claude-mem plugin into your curated memory files.</p>
       <dl>
         <dt>What it does</dt><dd>Gathers, reshapes, routes conflicts, and proposes. It never writes; every proposal lands in the review queue and is applied through <code>review</code>.</dd>
@@ -319,7 +319,7 @@
       </dl>
     </div>
     <div class="capref related">
-      <div class="capref-head"><code>full</code><span class="capref-badge">Not in the close: the manual audit-set sweep</span></div>
+      <div class="capref-head"><code>full</code><span class="pill caps">Not in the close: the manual audit-set sweep</span></div>
       <p class="capref-lede">Every audit in one receipt.</p>
       <dl>
         <dt>What it does</dt><dd>Runs the whole roster, including the schema-drift detector, the vault-writer health audit (dormant until you register a writer), and the managed-surface census, which the close also fires at most once a day. It never runs a backup.</dd>
@@ -327,7 +327,7 @@
       </dl>
     </div>
     <div class="capref related">
-      <div class="capref-head"><code>matrix-render · sanctioned-schema-drift-detect</code><span class="capref-badge">Not in the close: two smaller siblings</span></div>
+      <div class="capref-head"><code>matrix-render · sanctioned-schema-drift-detect</code><span class="pill caps">Not in the close: two smaller siblings</span></div>
       <p class="capref-lede">Per-plan rendering, and schema drift detection.</p>
       <dl>
         <dt>matrix-render</dt><dd>Renders one plan's traceability matrix from its manifest, the same way the close renders the armed plan's task ledger. Runs per plan, on demand.</dd>

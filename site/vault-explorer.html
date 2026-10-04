@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Explore Your Brain · Brain Stem</title>
-<link rel="stylesheet" href="assets/style.css?v=47">
+<link rel="stylesheet" href="assets/style.css?v=48">
 <script src="assets/mobile.js?v=2"></script>
 </head>
 <body>
@@ -805,8 +805,8 @@
     h += '<p class="vx-title">' + n.label + '</p>';
     if (n.one) h += '<p class="vx-oneliner">' + n.one + '</p>';
     h += '<div class="vx-badges"><span class="vx-kind">' + kindLabel(n.kind) + '</span>';
-    if (n.origin) h += '<span class="vx-badge vx-b-' + n.origin + '">' + originLabel(n.origin) + '</span>';
-    h += '<span class="vx-badge vx-b-place">' + (n.place === 'symlink' ? 'Reached by shortcut' : 'Inside the brain folder') + '</span>';
+    if (n.origin) h += '<span class="pill vx-b-' + n.origin + '">' + originLabel(n.origin) + '</span>';
+    h += '<span class="pill ground">' + (n.place === 'symlink' ? 'Reached by shortcut' : 'Inside the brain folder') + '</span>';
     h += '</div>';
     if (n.place === 'symlink') h += '<div class="vx-target">Really lives at <code>' + n.target + '</code> <span class="vx-tnote">— a home outside the vault, surfaced here by a shortcut</span></div>';
     if (n.why) h += '<div class="vx-why"><h4>Why it matters</h4><p>' + n.why + '</p></div>';

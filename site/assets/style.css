@@ -68,7 +68,6 @@ body {
   padding: 56px clamp(24px, 6vw, 84px) 96px;
 }
 .content > * { max-width: var(--maxw); }
-.content > .diagram { max-width: 1040px; }   /* diagrams run wider than the prose measure */
 
 /* ---------- sidebar nav ---------- */
 .brand { display: block; text-decoration: none; margin-bottom: 4px; }
@@ -79,17 +78,11 @@ body {
   color: var(--ink);
   letter-spacing: .2px;
 }
-.brand .sub { display:block; font-size: 12.5px; color: var(--muted); margin-top: 2px; letter-spacing:.3px; }
 
 .nav-group { margin-top: 26px; }
 .nav-group h4 {
-  font-family: var(--sans);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: .12em;
   color: var(--muted);
   margin: 0 0 8px 8px;
-  font-weight: 700;
 }
 .nav-group a {
   display: block;
@@ -104,11 +97,6 @@ body {
 .nav-group a.active { background: var(--clay); color: #fff; }
 /* red section bands — Orientation, Getting started, Architecture and Capabilities, Reference */
 .nav-band {
-  font-family: var(--sans);
-  font-size: 10.5px;
-  text-transform: uppercase;
-  letter-spacing: .14em;
-  font-weight: 800;
   color: var(--clay-deep);
   margin: 30px 8px 2px;
   padding-top: 18px;
@@ -164,11 +152,6 @@ body {
 }
 
 .onpage-h {
-  font-family: var(--sans);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  font-weight: 700;
   color: var(--muted);
   margin: 0 0 10px 11px;
 }
@@ -215,15 +198,31 @@ a:hover { border-bottom-color: var(--clay); }
 
 .lede { font-size: 18px; line-height: 1.52; color: var(--ink-soft); max-width: 72ch; }
 .eyebrow {
-  font-family: var(--sans);
-  text-transform: uppercase;
-  letter-spacing: .14em;
-  font-size: 12px;
-  font-weight: 700;
   color: var(--clay);
   margin: 0 0 10px;
 }
 .page-meta { font-size: 13.5px; color: var(--muted); margin: 0 0 30px; }
+
+/* ---------- micro-label: the one small uppercase label ----------
+   Every small uppercase label on the site shares one type: sans, bold, tracked
+   .1em, at 11px. Labels that head a whole section or table (eyebrows, table
+   heads, TOC and group headings, pillar bands, the menu button) take the 12px
+   step. Member rules elsewhere set no type of their own, only colour, spacing
+   and box; .micro-label is the class for a label with no component of its own. */
+.micro-label,
+.nav-band, .nav-group h4, .onpage-h, .section-jump .sj-label,
+.card .kicker, .callout .label, .capref dt, .pill.caps,
+.sysmap .band-tag, .sysmap .sub-h, .pillar .row b,
+.vx-kind, .vx-field h4, .vx-legend .lhead, .vx-why h4, .vx-mixups h4,
+.content table.decision td::before,
+.eyebrow, th, .toc h3, .capref-group, .verdict .vh, .pillar-band, .mnav-toggle {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.eyebrow, th, .toc h3, .capref-group, .verdict .vh, .pillar-band, .mnav-toggle { font-size: 12px; }
 
 /* The opening summary is closed by the same hairline that separates sections, so
    its larger type reads as a deliberate lede rather than an accident of size. The
@@ -295,11 +294,6 @@ a.card:hover {
   box-shadow: 0 2px 4px rgba(42,38,32,.06), 0 14px 32px rgba(42,38,32,.10);
 }
 .card .kicker {
-  font-family: var(--sans);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  font-weight: 700;
   color: var(--clay);
   margin-bottom: 8px;
 }
@@ -327,14 +321,7 @@ a.card:hover .more { color: var(--clay); }
   margin: 22px 0;
   font-size: 15px;
 }
-.callout .label {
-  font-family: var(--sans);
-  font-size: 11.5px;
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
+.callout .label { margin-bottom: 6px; }
 .callout p:last-child { margin-bottom: 0; }
 .callout.key  { border-left-color: var(--clay); }
 .callout.key .label { color: var(--clay); }
@@ -350,14 +337,12 @@ a.card:hover .more { color: var(--clay); }
 .capref.related { border-left-color: var(--clay); }
 .capref-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-bottom: 8px; }
 .capref-head code { font-size: 14.5px; font-weight: 600; padding: 3px 8px; }
-.capref-badge { font-family: var(--sans); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; color: #2f6b31; background: #e6f0e6; border-radius: 999px; padding: 4px 10px; }
-.capref.related .capref-badge { color: var(--clay-deep); background: var(--clay-soft); }
 .capref-lede { margin: 0 0 10px; font-size: 15px; color: var(--ink); }
 .capref dl { display: grid; grid-template-columns: 118px 1fr; gap: 8px 16px; margin: 0; }
-.capref dt { font-family: var(--sans); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; color: var(--muted); padding-top: 3px; }
+.capref dt { color: var(--muted); padding-top: 3px; }
 .capref dd { margin: 0; font-size: 14px; line-height: 1.5; color: var(--ink-soft); }
 .capref dd code { font-size: 12.5px; }
-.capref-group { margin: 26px 0 8px; font-family: var(--sans); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; font-weight: 700; color: var(--muted); display: flex; align-items: center; gap: 10px; }
+.capref-group { margin: 26px 0 8px; color: var(--muted); display: flex; align-items: center; gap: 10px; }
 .capref-group .sw { width: 14px; height: 14px; border-radius: 4px; display: inline-block; }
 .capref-group .sw.direct { background: var(--ok); }
 .capref-group .sw.related { background: var(--clay); }
@@ -381,81 +366,15 @@ table.decision th:nth-child(4), table.decision td:nth-child(4) { width: 12%; }
 th, td { text-align: left; padding: 11px 14px; vertical-align: top; border-bottom: 1px solid var(--line); }
 th {
   background: var(--surface-alt);
-  font-family: var(--sans);
-  font-size: 12.5px;
-  text-transform: uppercase;
-  letter-spacing: .04em;
   color: var(--ink-soft);
 }
 tr:last-child td { border-bottom: none; }
 td code { font-size: 12.5px; }
 
-/* pillar-divider rows inside a faculty table — a clean group header, not shouty caps */
-th.grp { background: var(--surface-alt); border-top: 2px solid var(--line-strong); padding: 13px 14px; }
-th.grp .g-name {
-  font-family: var(--sans);
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--clay-deep);
-}
-th.grp .g-desc {
-  display: block;
-  font-family: var(--serif);
-  text-transform: none;
-  letter-spacing: 0;
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--ink-soft);
-  margin-top: 3px;
-}
-
 /* unified capability → pitfall table: the merged (rowspan) capability cell.
-   Bold capability name, then an italic one-line description under it. A subtle
-   tint + right border visually anchors the group of pitfall rows it spans. */
+   A subtle tint + right border visually anchors the group of pitfall rows it spans. */
 td.cap { background: var(--surface-alt); border-right: 1px solid var(--line-strong); min-width: 150px; }
 td.cap strong { font-size: 14px; color: var(--ink); }
-td.cap .cap-desc { display: block; font-size: 12.5px; color: var(--ink-soft); margin-top: 5px; line-height: 1.4; font-style: italic; }
-
-/* ---------- collapsible pillar sections (the capability comparison) ----------
-   class is "pillar-fold", NOT "pillar" — the governance-engine cards own ".pillar"
-   (bg + border + shadow); colliding on it framed every section. */
-details.pillar-fold {
-  border-radius: var(--radius);
-  margin: 8px 0;
-  overflow: hidden;
-}
-details.pillar-fold > summary {
-  display: block;
-  list-style: none;
-  cursor: pointer;
-  position: relative;
-  padding: 10px 56px 10px 16px;
-  background: var(--surface-alt);
-}
-details.pillar-fold > summary::-webkit-details-marker { display: none; }
-details.pillar-fold > summary::after {
-  content: "\25B8";
-  position: absolute;
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--clay);
-  font-size: 40px;
-  line-height: 1;
-  transition: transform .15s ease;
-}
-details.pillar-fold[open] > summary::after { transform: translateY(-50%) rotate(90deg); }
-details.pillar-fold[open] > summary { border-bottom: 1px solid var(--line); }
-details.pillar-fold > summary:hover { background: #ebe4d6; }
-details.pillar-fold > summary:hover::after { color: var(--clay-deep); }
-details.pillar-fold > summary:focus-visible { outline: 2px solid var(--clay); outline-offset: -2px; }
-.pillar-fold .g-name { font-family: var(--sans); text-transform: uppercase; letter-spacing: .08em; font-size: 12px; font-weight: 700; color: var(--clay-deep); }
-.pillar-fold .g-desc { display: block; font-family: var(--serif); font-size: 14.5px; color: var(--ink-soft); margin-top: 3px; max-width: 70ch; }
-.pillar-fold > table { margin: 0; border: none; border-radius: 0; }
-.pillar-fold > table td code { overflow-wrap: anywhere; }
-.pillar-fold > .callout { margin: 16px; }
 
 /* inline muted qualifier — e.g. a parenthetical after a glossary term */
 .muted { color: var(--muted); font-weight: 400; font-size: 0.9em; }
@@ -505,23 +424,7 @@ pre {
 }
 pre code { background: none; border: none; padding: 0; color: inherit; font-size: inherit; }
 
-/* ---------- diagrams ---------- */
-.diagram {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 24px 18px;
-  margin: 24px 0;
-  text-align: center;
-  box-shadow: var(--shadow);
-}
-.diagram .mermaid { display: block; width: 100%; }
-/* Mermaid lives in a <pre>; strip the dark code-block styling so diagrams
-   render on the light card, not a dark frame. */
-pre.mermaid { background: none; color: inherit; border: none; padding: 0; box-shadow: none; overflow: visible; margin: 0; }
-/* Force diagrams to scale up to the full container width — Mermaid's intrinsic
-   size for small graphs is tiny; this makes them as large/legible as possible. */
-.diagram .mermaid svg { width: 100% !important; max-width: 100% !important; height: auto !important; }
+/* ---------- figure captions ---------- */
 .figcap { font-size: 13px; color: var(--muted); margin-top: 10px; font-style: italic; }
 
 /* ---------- command reference (Commands page) ---------- */
@@ -538,7 +441,7 @@ h2.toc-band { border-top: none; padding-top: 22px; }
 .toc-arch { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 22px 18px; margin: 16px 0 22px; }
 .toc-arch .toc-band { margin: 6px 0 4px; padding-top: 0; border-top: none; }
 /* per-section header */
-.toc h3 { font-family: var(--sans); font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--clay); margin: 22px 0 6px; }
+.toc h3 { color: var(--clay); margin: 22px 0 6px; }
 /* one-line "how to read this section" note */
 .toc-note { font-size: 13px; color: var(--muted); font-style: italic; margin: 0 0 8px; }
 /* indented page list under each section header */
@@ -572,7 +475,7 @@ h2.toc-band { border-top: none; padding-top: 22px; }
 /* the always-on row holds 5 items — flex-wrap so the last row fills the width (3+2), not an empty grid cell */
 .sysmap .band-orch .band-row { display: flex; flex-wrap: wrap; }
 .sysmap .band-orch .band-row .smnode { flex: 1 1 250px; }
-.sysmap .band-tag { font-family: var(--sans); font-size: 11.5px; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; margin-bottom: 10px; }
+.sysmap .band-tag { margin-bottom: 10px; }
 .sysmap .band-univ .band-tag { color: #6b4f86; }
 .sysmap .band-orch .band-tag { color: #3f516b; }
 .sysmap .band-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
@@ -587,13 +490,11 @@ h2.toc-band { border-top: none; padding-top: 22px; }
 .smnode small { display: block; font-size: 12px; color: var(--muted); margin-top: 3px; }
 .smnode code { font-size: 12px; }
 .smnode.load { background: #fbf6ee; }
-.smnode.dashed { border-style: dashed; background: #fbf6ee; }
 .smnode.cap { background: #f0ebe1; border-color: #c7b89b; }
 .smnode.univ { background: #e8ddf0; border-color: #b79fcf; }
 .smnode.orch { background: #dfe6ef; border-color: #aebed6; }
 .smnode.code { border-left: 4px solid #4a7c4e; }
 .smnode.work { border-left: 4px solid #b1532e; }
-.smnode .up { color: #6b4f86; font-weight: 600; }
 
 /* three-level elevation: universal / project / session + hub pointers + plan subcols */
 .sysmap .band-proj { background: #e6efec; border: 1px solid #b6cec6; }
@@ -619,7 +520,7 @@ h2.toc-band { border-top: none; padding-top: 22px; }
 .sysmap .phase.wide { flex: 2 1 0; }
 .sysmap .subcols { display: flex; gap: 10px; }
 .sysmap .subcol { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
-.sysmap .sub-h { font-family: var(--sans); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; font-weight: 700; color: var(--clay); }
+.sysmap .sub-h { color: var(--clay); }
 
 @media (max-width: 820px) {
   .sysmap .phases { flex-direction: column; }
@@ -671,7 +572,7 @@ h2.toc-band { border-top: none; padding-top: 22px; }
   background: #fffdf9; border: 1px solid var(--line); border-top: 3px solid var(--muted);
   border-radius: 10px; padding: 13px 14px;
 }
-.verdict .vh { font-family: var(--sans); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 5px; }
+.verdict .vh { margin-bottom: 5px; }
 .verdict p { font-size: 13px; margin: 0; color: var(--ink-soft); line-height: 1.42; }
 .verdict.ok     { border-top-color: var(--ok); }      .verdict.ok .vh     { color: #2f6b31; }
 .verdict.advise { border-top-color: var(--warn); }    .verdict.advise .vh { color: #8a5e12; }
@@ -690,17 +591,12 @@ h2.toc-band { border-top: none; padding-top: 22px; }
 .pillar h3 { margin: 0; font-size: 17px; }
 .pillar .keeps { font-size: 13.5px; color: var(--ink); margin: 0 0 9px; }       /* plain-language "what it keeps true" */
 .pillar .row { font-size: 12.5px; color: var(--ink-soft); margin: 0 0 7px; line-height: 1.4; }
-.pillar .row b { font-family: var(--sans); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); display: block; margin-bottom: 1px; font-weight: 700; }
+.pillar .row b { color: var(--muted); display: block; margin-bottom: 1px; }
 .pillar .vrow { margin-top: auto; padding-top: 8px; }
 
 /* ---------- pillar bands (the four-pillar skeleton) ---------- */
 /* one label per pillar group — used both in the card map and between body sections */
 .pillar-band {
-  font-family: var(--sans);
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  font-size: 12.5px;
-  font-weight: 700;
   color: var(--clay);
   margin: 0 0 12px;
 }
@@ -711,9 +607,6 @@ h2.lead { border-top: none; padding-top: 4px; margin-top: 8px; }
 
 /* the grouped card map at the top of the rationale */
 .pillar-map { margin: 22px 0 6px; }
-.pmap-group + .pmap-group { margin-top: 18px; }
-.pmap-group .pillar-band { margin: 0 0 10px; }
-.pmap-group .card-grid { margin: 0; }
 
 /* pillars grouped into families (governance engine) */
 .pillar-cat { margin-top: 30px; }
@@ -742,6 +635,12 @@ h2.lead { border-top: none; padding-top: 4px; margin-top: 8px; }
 /* A structural fact rather than a verdict — the bare .pill is identical to
    .pill.deny, so evidence tags need a register of their own. */
 .pill.ground { background: #e2e7f0; color: #3f516b; }
+/* .pill.caps sets the pill in the micro-label type (above) — for a status tag
+   that reads as a label: the capability badges, value-add's New / Enhanced.
+   The vault explorer's origin badges are pills coloured by .vx-b-<origin>. */
+/* A caps badge is a sentence, not a word — it wraps inside its card instead of
+   pushing the page wider than the viewport; every other pill stays one line. */
+.pill.caps { white-space: normal; }
 
 .quadrant td.hl { background: var(--clay-soft); }
 .quadrant td.hl strong { color: var(--clay-deep); }
@@ -764,7 +663,6 @@ h2.lead { border-top: none; padding-top: 4px; margin-top: 8px; }
 /* the register row a citation jumps to lights up briefly so it's findable */
 tr[id]:target td { background: var(--clay-soft); }
 tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
-.cite-back { font-size: 11px; color: var(--muted); }
 
 /* ---------- section jump (footer quick-links to every top-level section) ---------- */
 .section-jump {
@@ -775,11 +673,6 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
   border-radius: var(--radius);
 }
 .section-jump .sj-label {
-  font-family: var(--sans);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  font-weight: 700;
   color: var(--muted);
   margin: 0 0 10px;
 }
@@ -855,19 +748,12 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
 .vx-detail .vx-title { font-family: var(--mono); font-size: 21px; font-weight: 600; line-height: 1.2; margin: 0 0 6px; color: var(--ink); }
 .vx-detail .vx-oneliner { font-family: var(--serif); font-size: 18px; line-height: 1.45; color: var(--ink-soft); margin: 0 0 14px; }
 .vx-badges { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 6px; }
-.vx-kind {
-  font-family: var(--sans); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
-  color: var(--muted); border: 1px solid var(--line-strong); border-radius: 6px; padding: 1px 7px;
-}
-.vx-badge {
-  font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: .03em;
-  border-radius: 999px; padding: 2px 10px;
-}
+.vx-kind { color: var(--muted); border: 1px solid var(--line-strong); border-radius: 6px; padding: 1px 7px; }
+/* origin badge colours for .pill.vx-b-<origin>; the placement badge is .pill.ground */
 .vx-b-shipped     { background: #f3e7c8; color: #8a5e12; }
 .vx-b-generated   { background: var(--clay-soft); color: var(--clay-deep); }
 .vx-b-authored    { background: #e3efe1; color: #2f6b31; }
 .vx-b-passthrough { background: #e8e4db; color: #5c5449; }
-.vx-b-place       { background: #e2e7f0; color: #3f516b; }
 .vx-target {
   background: #eef1f6; border: 1px solid #cfd6e2; border-radius: 9px;
   padding: 9px 13px; margin: 14px 0 2px; font-size: 14px; color: var(--ink-soft);
@@ -875,10 +761,7 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
 .vx-target code { background: #fff; border-color: #cfd6e2; }
 .vx-target .vx-tnote { color: var(--muted); font-size: 13px; }
 .vx-field { margin: 16px 0; }
-.vx-field h4 {
-  font-family: var(--sans); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em;
-  color: var(--clay); margin: 0 0 4px;
-}
+.vx-field h4 { color: var(--clay); margin: 0 0 4px; }
 .vx-field p { margin: 0; font-size: 14.5px; }
 .vx-field ul { margin: 4px 0 0; }
 .vx-field li { font-size: 14.5px; color: var(--ink-soft); }
@@ -894,10 +777,7 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
 .vx-legend { margin: 14px 0 4px; font-size: 13px; }
 .vx-legend .lrow { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; padding: 9px 0; }
 .vx-legend .lrow + .lrow { border-top: 1px solid var(--line); }
-.vx-legend .lhead {
-  font-family: var(--sans); font-size: 11px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .1em; color: var(--muted); flex: 0 0 104px;
-}
+.vx-legend .lhead { color: var(--muted); flex: 0 0 104px; }
 .vx-legend .lchip { display: inline-flex; align-items: center; gap: 7px; color: var(--ink-soft); }
 .vx-legend .lsw { width: 11px; height: 11px; border-radius: 50%; flex: none; background: currentColor; }
 .vx-legend .lsw.ring { background: transparent; box-shadow: inset 0 0 0 2px currentColor; }
@@ -912,10 +792,7 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
   background: #fbf3ee; border-left: 3px solid var(--clay); border-radius: 0 9px 9px 0;
   padding: 11px 15px; margin: 4px 0 16px;
 }
-.vx-why h4 {
-  font-family: var(--sans); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em;
-  color: var(--clay-deep); margin: 0 0 4px;
-}
+.vx-why h4 { color: var(--clay-deep); margin: 0 0 4px; }
 .vx-why p { margin: 0; font-size: 15px; color: var(--ink); }
 
 /* "Common mix-ups" — clarifications, a lighter muted block before tips */
@@ -923,17 +800,9 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
   background: var(--surface-alt); border: 1px solid var(--line); border-radius: 9px;
   padding: 10px 15px 11px; margin: 16px 0;
 }
-.vx-mixups h4 {
-  font-family: var(--sans); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em;
-  color: var(--muted); margin: 0 0 4px;
-}
+.vx-mixups h4 { color: var(--muted); margin: 0 0 4px; }
 .vx-mixups ul { margin: 4px 0 0; padding-left: 18px; }
 .vx-mixups li { font-size: 13.5px; color: var(--ink-soft); margin: 5px 0; }
-
-/* page-level glossary — the "state once" terms so the click-ins stay lean */
-.vx-gloss { margin: 18px 0 26px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 8px 20px 16px; }
-.vx-gloss dt { font-family: var(--sans); font-weight: 700; font-size: 13.5px; color: var(--clay-deep); margin-top: 13px; }
-.vx-gloss dd { margin: 2px 0 0; font-size: 14.5px; color: var(--ink-soft); line-height: 1.5; }
 
 /* ---------- responsive / mobile ----------
    ≤820px the sidebar leaves the document flow. With JS (mobile.js stamps
@@ -971,9 +840,7 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
     display: inline-flex; align-items: center; gap: 9px;
     min-height: 44px; min-width: 44px; padding: 8px 14px;
     background: transparent; border: none; border-radius: 10px;
-    font-family: var(--sans); font-size: 12.5px; font-weight: 700;
-    letter-spacing: .08em; text-transform: uppercase; color: var(--clay-deep);
-    cursor: pointer;
+    color: var(--clay-deep); cursor: pointer;
   }
   .mnav-toggle:hover, .mnav-toggle:active { background: var(--clay-soft); }
   .mnav-icon { position: relative; display: block; width: 17px; height: 2px; border-radius: 2px; background: currentColor; }
@@ -1059,10 +926,7 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
   }
   .content table.decision td { border-bottom: 1px solid var(--line); min-width: 0; padding: 10px 13px 11px; }
   .content table.decision td:last-child { border-bottom: 0; }
-  .content table.decision td::before {
-    display: block; margin-bottom: 3px; color: var(--muted); font-family: var(--sans);
-    font-size: 10px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase;
-  }
+  .content table.decision td::before { display: block; margin-bottom: 3px; color: var(--muted); }
   .content table.decision td:nth-child(1)::before { content: "brain-stem chose"; color: var(--clay); }
   .content table.decision td:nth-child(2)::before { content: "over"; }
   .content table.decision td:nth-child(3)::before { content: "because"; }
@@ -1082,5 +946,93 @@ tr[id]:target td:first-child { box-shadow: inset 3px 0 0 var(--clay); }
 .brand-repo { display: block; font-size: 12.5px; color: var(--muted); margin: 2px 0 4px; letter-spacing: .3px; text-decoration: none; }
 .brand-repo:hover { color: var(--clay-deep); }
 
-/* getting-started — set the background paragraph (para 2) apart from the what-is lede (para 1) */
-.lede-context { font-size: 16px; color: var(--muted); border-left: 2px solid var(--line-strong); padding-left: 16px; margin-top: 18px; }
+/* ---------- value-add page: section map, truth strips, outcome cards ----------
+   Used only by value-add.html. The three accent colors are local additions to
+   the palette, scoped to the content column. */
+.content { --slate-soft: #e9edf3; --green: #356b5b; --green-soft: #e6efec; }
+
+.system-section {
+  border-top: 2px solid var(--line-strong);
+  margin-top: 58px;
+  padding-top: 22px;
+  scroll-margin-top: 22px;
+}
+/* Owner-first section headers: the section name is the h2 (primary); the
+   rhetorical descriptor rides the same line as a secondary italic after an
+   em dash. Overrides the global h2 top margin/border — the .system-section
+   wrapper already draws the divider. */
+.system-section h2 { border-top: none; margin: 0 0 12px; padding-top: 0; }
+.section-number {
+  color: var(--clay);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  margin-right: 7px;
+}
+.section-desc {
+  color: var(--muted);
+  font-size: 17px;
+  font-style: italic;
+  font-weight: 400;
+}
+.section-intro { color: var(--ink-soft); font-size: 16px; max-width: 75ch; }
+
+.truth-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  margin: 22px 0 26px;
+  overflow: hidden;
+}
+.truth {
+  background: var(--surface);
+  min-height: 100%;
+  padding: 15px 16px 16px;
+}
+.truth.start { background: var(--surface-alt); }
+.truth.boundary { background: var(--slate-soft); }
+.truth .micro-label { color: var(--muted); margin-bottom: 5px; }
+.truth.add .micro-label { color: var(--clay); }
+.truth.boundary .micro-label { color: var(--slate); }
+.truth p { color: var(--ink-soft); font-size: 13px; line-height: 1.45; margin: 0; }
+
+.outcomes {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin: 0;
+  overflow: hidden;
+}
+.outcome {
+  display: grid;
+  grid-template-columns: minmax(180px, .8fr) minmax(0, 1.8fr);
+  gap: 22px;
+  padding: 16px 18px;
+}
+.outcome + .outcome { border-top: 1px solid var(--line); }
+.outcome-title { font-size: 14px; font-weight: 700; line-height: 1.35; }
+.outcome p { color: var(--ink-soft); font-size: 14px; line-height: 1.5; margin: 0; }
+.outcome .pill { margin-top: 7px; }
+
+.section-note { color: var(--muted); font-size: 13px; margin: 13px 2px 0; }
+.source-note { color: var(--muted); font-size: 12.5px; margin: 12px 2px 0; }
+.source-note a { color: var(--slate); border-bottom-color: #cfd6e2; }
+.closing { margin-top: 60px; }
+.closing h2 { border-top: 1px solid var(--line); margin-top: 42px; padding-top: 18px; }
+.plain-list { padding-left: 21px; }
+.plain-list li { margin: 7px 0; }
+
+@media (max-width: 720px) {
+  .truth-strip { grid-template-columns: 1fr; gap: 0; }
+  .outcome { grid-template-columns: 1fr; gap: 8px; }
+  .truth + .truth { border-top: 1px solid var(--line); }
+  .section-desc { display: block; font-size: 15px; margin-top: 3px; }
+}
+@media print {
+  .outcomes { box-shadow: none; }
+}

@@ -5,111 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="A concise, qualified explanation of the six parts of Brain Stem and what each adds to Claude Code.">
 <title>Why Brain Stem · one system for durable AI work</title>
-<link rel="stylesheet" href="assets/style.css?v=47">
+<link rel="stylesheet" href="assets/style.css?v=48">
 <script src="assets/mobile.js?v=2"></script>
-<style>
-  /* Page-local components (section map, truth strips, outcome cards).
-     Scaffolding, tokens and callouts come from assets/style.css; the three
-     accent colors below are local additions to that palette. */
-  .content { --slate-soft: #e9edf3; --green: #356b5b; --green-soft: #e6efec; }
-
-  .system-section {
-    border-top: 2px solid var(--line-strong);
-    margin-top: 58px;
-    padding-top: 22px;
-    scroll-margin-top: 22px;
-  }
-  /* Owner-first section headers: the section name is the h2 (primary); the
-     rhetorical descriptor rides the same line as a secondary italic after an
-     em dash. Overrides the global h2 top margin/border — the .system-section
-     wrapper already draws the divider. */
-  .system-section h2 { border-top: none; margin: 0 0 12px; padding-top: 0; }
-  .section-number {
-    color: var(--clay);
-    font-family: var(--sans);
-    font-size: 13px;
-    font-weight: 800;
-    letter-spacing: .08em;
-    margin-right: 7px;
-  }
-  .section-desc {
-    color: var(--muted);
-    font-size: 17px;
-    font-style: italic;
-    font-weight: 400;
-  }
-  .section-intro { color: var(--ink-soft); font-size: 16px; max-width: 75ch; }
-
-  .truth-strip {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    margin: 22px 0 26px;
-    overflow: hidden;
-  }
-  .truth {
-    background: var(--surface);
-    min-height: 100%;
-    padding: 15px 16px 16px;
-  }
-  .truth.start { background: var(--surface-alt); }
-  .truth.boundary { background: var(--slate-soft); }
-  .truth-label { color: var(--muted); font-size: 10.5px; font-weight: 800; letter-spacing: .1em; margin-bottom: 5px; text-transform: uppercase; }
-  .truth.add .truth-label { color: var(--clay); }
-  .truth.boundary .truth-label { color: var(--slate); }
-  .truth p { color: var(--ink-soft); font-size: 13px; line-height: 1.45; margin: 0; }
-
-  .outcomes {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    margin: 0;
-    overflow: hidden;
-  }
-  .outcome {
-    display: grid;
-    grid-template-columns: minmax(180px, .8fr) minmax(0, 1.8fr);
-    gap: 22px;
-    padding: 16px 18px;
-  }
-  .outcome + .outcome { border-top: 1px solid var(--line); }
-  .outcome-title { font-size: 14px; font-weight: 700; line-height: 1.35; }
-  .outcome p { color: var(--ink-soft); font-size: 14px; line-height: 1.5; margin: 0; }
-  .badge {
-    border-radius: 999px;
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: .08em;
-    margin-top: 7px;
-    padding: 2px 8px;
-    text-transform: uppercase;
-  }
-  .badge.enhanced { background: #e3efe1; color: #2f6b31; }
-  .badge.new { background: var(--clay-soft); color: var(--clay-deep); }
-
-  .section-note { color: var(--muted); font-size: 13px; margin: 13px 2px 0; }
-  .source-note { color: var(--muted); font-size: 12.5px; margin: 12px 2px 0; }
-  .source-note a { color: var(--slate); border-bottom-color: #cfd6e2; }
-  .closing { margin-top: 60px; }
-  .closing h2 { border-top: 1px solid var(--line); margin-top: 42px; padding-top: 18px; }
-  .plain-list { padding-left: 21px; }
-  .plain-list li { margin: 7px 0; }
-
-  @media (max-width: 720px) {
-    .truth-strip { grid-template-columns: 1fr; gap: 0; }
-    .outcome { grid-template-columns: 1fr; gap: 8px; }
-    .truth + .truth { border-top: 1px solid var(--line); }
-    .section-desc { display: block; font-size: 15px; margin-top: 3px; }
-  }
-  @media print {
-    .outcomes { box-shadow: none; }
-  }
-</style>
 </head>
 <body>
 <div class="layout">
@@ -151,15 +48,15 @@
       <h2><span class="section-number">01</span>Context &amp; memory <span class="section-desc">— Build a self-maintaining project knowledge graph</span></h2>
       <p class="section-intro">Baseline persistence does not prevent memory bloat, contradiction, stale guidance, or project context from scattering across unrelated surfaces. Brain Stem keeps operational memory curated and bounded, organizes the larger body of plans, research, decisions, handoffs, and outputs as a project graph, and loads only a concise gateway up front.</p>
       <div class="truth-strip">
-        <div class="truth start"><div class="truth-label">The gap</div><p>Native memory, instructions, files, plans, and skills persist through different mechanisms. Persistence alone does not prevent memory bloat, duplication, contradiction, stale summaries, or disconnected project reference points.</p></div>
-        <div class="truth add"><div class="truth-label">What Brain Stem supplies</div><p>Typed and scoped memory with bounded loading and maintenance controls, plus a project binder that indexes plans, research, decisions, handoffs, and deliverables behind one generated situating card.</p></div>
-        <div class="truth boundary"><div class="truth-label">Honest boundary</div><p>This is a knowledge graph made from governed files, metadata, links, and generated indexes—not a graph database or a claim that every stored statement is true. Its value is reliable organization, routing, and upkeep.</p></div>
+        <div class="truth start"><div class="micro-label">The gap</div><p>Native memory, instructions, files, plans, and skills persist through different mechanisms. Persistence alone does not prevent memory bloat, duplication, contradiction, stale summaries, or disconnected project reference points.</p></div>
+        <div class="truth add"><div class="micro-label">What Brain Stem supplies</div><p>Typed and scoped memory with bounded loading and maintenance controls, plus a project binder that indexes plans, research, decisions, handoffs, and deliverables behind one generated situating card.</p></div>
+        <div class="truth boundary"><div class="micro-label">Honest boundary</div><p>This is a knowledge graph made from governed files, metadata, links, and generated indexes—not a graph database or a claim that every stored statement is true. Its value is reliable organization, routing, and upkeep.</p></div>
       </div>
       <div class="outcomes">
-        <div class="outcome"><div><div class="outcome-title">Orient every session from one small gateway</div><span class="badge new">Brain Stem specific</span></div><p>The generated <code>_situating.md</code> card carries the project’s plan roster, current status, active focus, and latest-handoff pointers. It loads at session start, so Claude can understand where it is before searching through project history.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Retrieve deeply without loading broadly</div><span class="badge new">Brain Stem specific</span></div><p>The card points into binder indexes for research, decisions, handoffs, and deliverables; folder indexes and metadata route from there. Large material stays on demand, producing a low-cost path through the graph instead of an ever-growing startup payload.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Keep memory distinct, bounded, and governable</div><span class="badge enhanced">Built on native</span></div><p>Typed entries, explicit scope, size checks, promotion rules, and recurring hygiene keep operational memory from becoming an indiscriminate dump. The binder separately records what the project is and where it stands; overlap, conflict, and judgment-sensitive cleanup remain visible for review.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Let useful work rise instead of being repeated</div><span class="badge new">Brain Stem specific</span></div><p>Finished project research can be scrubbed of project specifics and promoted to the universal Library; durable lessons can be proposed as global guidance. New research checks the Library first, closing the loop between prior work and the next project.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Orient every session from one small gateway</div><span class="pill caps">Brain Stem specific</span></div><p>The generated <code>_situating.md</code> card carries the project’s plan roster, current status, active focus, and latest-handoff pointers. It loads at session start, so Claude can understand where it is before searching through project history.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Retrieve deeply without loading broadly</div><span class="pill caps">Brain Stem specific</span></div><p>The card points into binder indexes for research, decisions, handoffs, and deliverables; folder indexes and metadata route from there. Large material stays on demand, producing a low-cost path through the graph instead of an ever-growing startup payload.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Keep memory distinct, bounded, and governable</div><span class="pill caps ok">Built on native</span></div><p>Typed entries, explicit scope, size checks, promotion rules, and recurring hygiene keep operational memory from becoming an indiscriminate dump. The binder separately records what the project is and where it stands; overlap, conflict, and judgment-sensitive cleanup remain visible for review.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Let useful work rise instead of being repeated</div><span class="pill caps">Brain Stem specific</span></div><p>Finished project research can be scrubbed of project specifics and promoted to the universal Library; durable lessons can be proposed as global guidance. New research checks the Library first, closing the loop between prior work and the next project.</p></div>
       </div>
       <p class="section-note"><strong>The payoff:</strong> the session receives only the orientation it needs up front, while a much richer body of governed project knowledge remains easy to locate. <strong>That leads directly to project management:</strong> the planning system is how ideas, research, decisions, and execution become new nodes in this graph instead of disappearing into transcripts.</p>
       <p class="source-note">Native baseline: <a href="https://code.claude.com/docs/en/memory">Memory</a>, <a href="https://code.claude.com/docs/en/context-window">Context window</a>, and <a href="https://code.claude.com/docs/en/features-overview">extension features</a>. Brain Stem detail: <a href="context-memory-rationale.html">context &amp; memory rationale</a>.</p>
@@ -169,15 +66,15 @@
       <h2><span class="section-number">02</span>Project management <span class="section-desc">— Carry an idea from capture to durable execution</span></h2>
       <p class="section-intro">Baseline plans, tasks, and agents do not form one durable lifecycle from raw idea through research, execution, verification, and reuse, so duplicate work and detached evidence can accumulate. Brain Stem turns the planning surface into an execution contract and the spine of project knowledge, then rolls results into the project binder and universal Library.</p>
       <div class="truth-strip">
-        <div class="truth start"><div class="truth-label">The gap</div><p>Claude Code can plan and execute, but its native artifacts do not provide a maintained project backlog, reconcile evolving ideas, preserve decisions as durable records, or roll each plan’s outputs into reusable project knowledge.</p></div>
-        <div class="truth add"><div class="truth-label">What Brain Stem supplies</div><p>A project-aware idea inbox; deduplication and conflict checks across the backlog; triage, research, merge, sequencing, settlement, and graduation paths; durable plan context; orchestration helpers; and automatic roll-up into the binder and universal Library.</p></div>
-        <div class="truth boundary"><div class="truth-label">Honest boundary</div><p>Brain Stem structures and preserves the planning lifecycle; it cannot guarantee that an idea is valuable, a decision is wise, or a plan is correct. Human gates remain where judgment or irreversible action matters.</p></div>
+        <div class="truth start"><div class="micro-label">The gap</div><p>Claude Code can plan and execute, but its native artifacts do not provide a maintained project backlog, reconcile evolving ideas, preserve decisions as durable records, or roll each plan’s outputs into reusable project knowledge.</p></div>
+        <div class="truth add"><div class="micro-label">What Brain Stem supplies</div><p>A project-aware idea inbox; deduplication and conflict checks across the backlog; triage, research, merge, sequencing, settlement, and graduation paths; durable plan context; orchestration helpers; and automatic roll-up into the binder and universal Library.</p></div>
+        <div class="truth boundary"><div class="micro-label">Honest boundary</div><p>Brain Stem structures and preserves the planning lifecycle; it cannot guarantee that an idea is valuable, a decision is wise, or a plan is correct. Human gates remain where judgment or irreversible action matters.</p></div>
       </div>
       <div class="outcomes">
-        <div class="outcome"><div><div class="outcome-title">Manage pre-plan work without creating a graveyard</div><span class="badge new">Brain Stem specific</span></div><p>Ideas land cheaply in a project-attributed inbox, remain visible in generated backlogs, and are compared with active ideas and plans. Triage can merge duplicates, record conflicts, sequence related work, settle an idea, or graduate it without premature plan ceremony.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Preserve why the work took its present shape</div><span class="badge new">Brain Stem specific</span></div><p>Research lives beside the plan that produced it, while immutable decision records preserve context, choice, consequences, and supersession. Later sessions can retrieve prior direction instead of re-litigating it or repeating a rejected approach.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Make plans ready for reliable orchestration</div><span class="badge new">Brain Stem specific</span></div><p>Machine-readable state, task dependencies, bounded worker assignments, independent verification, and gated dispatch let orchestration helpers execute plans while detecting false completion, conflicting work, lost context, and unsafe sequencing. Native agents remain the workers; Brain Stem supplies the execution contract and controls around them.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Make planning compound into future context</div><span class="badge new">Brain Stem specific</span></div><p>Every plan’s research, decisions, references, status, and handoff feed the project binder. Reusable findings can graduate to the universal Library, which is checked before new research begins. At the next project session, the generated situating card provides a route back to all of it.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Manage pre-plan work without creating a graveyard</div><span class="pill caps">Brain Stem specific</span></div><p>Ideas land cheaply in a project-attributed inbox, remain visible in generated backlogs, and are compared with active ideas and plans. Triage can merge duplicates, record conflicts, sequence related work, settle an idea, or graduate it without premature plan ceremony.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Preserve why the work took its present shape</div><span class="pill caps">Brain Stem specific</span></div><p>Research lives beside the plan that produced it, while immutable decision records preserve context, choice, consequences, and supersession. Later sessions can retrieve prior direction instead of re-litigating it or repeating a rejected approach.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Make plans ready for reliable orchestration</div><span class="pill caps">Brain Stem specific</span></div><p>Machine-readable state, task dependencies, bounded worker assignments, independent verification, and gated dispatch let orchestration helpers execute plans while detecting false completion, conflicting work, lost context, and unsafe sequencing. Native agents remain the workers; Brain Stem supplies the execution contract and controls around them.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Make planning compound into future context</div><span class="pill caps">Brain Stem specific</span></div><p>Every plan’s research, decisions, references, status, and handoff feed the project binder. Reusable findings can graduate to the universal Library, which is checked before new research begins. At the next project session, the generated situating card provides a route back to all of it.</p></div>
       </div>
       <p class="section-note"><strong>Why governance comes next:</strong> this lifecycle produces valuable files continuously. It only works if those artifacts are placed, described, linked, indexed, and reconciled without relying on every session to remember every convention.</p>
       <p class="source-note">Native baseline: <a href="https://code.claude.com/docs/en/claude-directory">plan and task storage</a>, <a href="https://code.claude.com/docs/en/interactive-mode">task lists</a>, and <a href="https://code.claude.com/docs/en/agents">agents, workflows, messaging, and worktrees</a>. Brain Stem detail: <a href="project-management-rationale.html">project management rationale</a>.</p>
@@ -187,15 +84,15 @@
       <h2><span class="section-number">03</span>Write-time governance <span class="section-desc">— Keep the knowledge graph organized without hand-tending it</span></h2>
       <p class="section-intro">Baseline instructions and hooks can influence writes, but they do not define or maintain a knowledge architecture; conventions therefore drift as people and agents create more artifacts. Brain Stem guides supported writes toward the right type, metadata, location, links, and reading shape, then uses generated navigation and audits for relationships no single write can evaluate.</p>
       <div class="truth-strip">
-        <div class="truth start"><div class="truth-label">The gap</div><p>Claude Code ships the instructions and hook points needed to build controls, not a comprehensive information-governance model for project and universal context. Without one, organization depends on repeated judgment and manual maintenance.</p></div>
-        <div class="truth add"><div class="truth-label">What Brain Stem supplies</div><p>A structural blueprint for files, folders, types, tags, identities, links, relationships, and efficient document shapes; allow/advise/deny checks at supported writes; generated indexes; session housekeeping; scheduled drift audits; and repair paths that preserve human edits.</p></div>
-        <div class="truth boundary"><div class="truth-label">Honest boundary</div><p>The immediate doorman covers Claude's Edit and Write tool calls in governed scope. Shell-mediated and external-application writes are found by later censuses and audits, so coverage is intentionally layered rather than universal at write time.</p></div>
+        <div class="truth start"><div class="micro-label">The gap</div><p>Claude Code ships the instructions and hook points needed to build controls, not a comprehensive information-governance model for project and universal context. Without one, organization depends on repeated judgment and manual maintenance.</p></div>
+        <div class="truth add"><div class="micro-label">What Brain Stem supplies</div><p>A structural blueprint for files, folders, types, tags, identities, links, relationships, and efficient document shapes; allow/advise/deny checks at supported writes; generated indexes; session housekeeping; scheduled drift audits; and repair paths that preserve human edits.</p></div>
+        <div class="truth boundary"><div class="micro-label">Honest boundary</div><p>The immediate doorman covers Claude's Edit and Write tool calls in governed scope. Shell-mediated and external-application writes are found by later censuses and audits, so coverage is intentionally layered rather than universal at write time.</p></div>
       </div>
       <div class="outcomes">
-        <div class="outcome"><div><div class="outcome-title">Give every durable artifact an address</div><span class="badge new">Brain Stem specific</span></div><p>Type contracts, stable identity, required descriptions, controlled tags, placement rules, and machine-followable links make material consistently classifiable and retrievable. The same blueprint tells Claude, the librarian, and external readers how the corpus is organized.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Derive navigation from the source of truth</div><span class="badge new">Brain Stem specific</span></div><p>Folder indexes, plan rosters, binder views, and other summary layers are regenerated from the files they describe. They are not another set of status pages someone must remember to update, which is how Brain Stem resists ordinary second-brain drift.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Correct softly; block only structural damage</div><span class="badge enhanced">Built on native</span></div><p>Brain Stem uses Claude Code’s hooks to apply a graduated verdict: allow, advise, or deny. Advice teaches and preserves flow; denial is reserved for registered structural corruption. Later audits catch classes of drift that no single write can evaluate.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Maintain relationships and preserve ownership</div><span class="badge new">Brain Stem specific</span></div><p>Cross-document checks surface coupled files that have diverged, reconciliation restores derived state, and content-hash safeguards protect human changes on system-maintained destinations. A sealed foundation and separate overlay keep shipped policy distinct from adopter choices.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Give every durable artifact an address</div><span class="pill caps">Brain Stem specific</span></div><p>Type contracts, stable identity, required descriptions, controlled tags, placement rules, and machine-followable links make material consistently classifiable and retrievable. The same blueprint tells Claude, the librarian, and external readers how the corpus is organized.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Derive navigation from the source of truth</div><span class="pill caps">Brain Stem specific</span></div><p>Folder indexes, plan rosters, binder views, and other summary layers are regenerated from the files they describe. They are not another set of status pages someone must remember to update, which is how Brain Stem resists ordinary second-brain drift.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Correct softly; block only structural damage</div><span class="pill caps ok">Built on native</span></div><p>Brain Stem uses Claude Code’s hooks to apply a graduated verdict: allow, advise, or deny. Advice teaches and preserves flow; denial is reserved for registered structural corruption. Later audits catch classes of drift that no single write can evaluate.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Maintain relationships and preserve ownership</div><span class="pill caps">Brain Stem specific</span></div><p>Cross-document checks surface coupled files that have diverged, reconciliation restores derived state, and content-hash safeguards protect human changes on system-maintained destinations. A sealed foundation and separate overlay keep shipped policy distinct from adopter choices.</p></div>
       </div>
       <p class="section-note"><strong>Why session management comes next:</strong> governance defines the invariants; the session lifecycle applies them at the moments that matter—when work starts, when contexts overlap, when compaction threatens continuity, and when a session hands the project forward.</p>
       <p class="source-note">Native baseline: <a href="https://code.claude.com/docs/en/hooks-guide">Hooks guide</a>, <a href="https://code.claude.com/docs/en/hooks">hooks reference</a>, and <a href="https://code.claude.com/docs/en/permissions">permissions</a>. Brain Stem detail: <a href="governance-rationale.html">governance rationale</a>.</p>
@@ -205,16 +102,16 @@
       <h2><span class="section-number">04</span>Session management <span class="section-desc">— Start situated, stay coherent, leave the next session ready</span></h2>
       <p class="section-intro">Baseline Claude Code provides resume, compaction, isolation, inspection, and messaging, but leaves project orientation, shared-work declarations, semantic checkpoints, and close-time reconciliation largely to the user. Brain Stem automates that ceremony so sessions begin situated, surface overlap, preserve state, and leave the graph ready for what follows.</p>
       <div class="truth-strip">
-        <div class="truth start"><div class="truth-label">The gap</div><p>Native resume, compaction, and concurrency tools preserve or coordinate sessions, but they do not automatically situate a new session in the project’s current knowledge graph or refresh that graph when work ends.</p></div>
-        <div class="truth add"><div class="truth-label">What Brain Stem supplies</div><p>Automatic project orientation; a context-pressure ladder and structured Continuity Block; a machine-local register with shared-file and sequencing warnings; and a scope-aware close chain that reconciles session work, audits the wider system when appropriate, and regenerates what the next session will see.</p></div>
-        <div class="truth boundary"><div class="truth-label">Honest boundary</div><p>The registry covers enrolled sessions on one machine and warns rather than providing universal file isolation. Worktrees remain the stronger choice when isolation is needed, and no checkpoint can preserve reasoning that was never made explicit.</p></div>
+        <div class="truth start"><div class="micro-label">The gap</div><p>Native resume, compaction, and concurrency tools preserve or coordinate sessions, but they do not automatically situate a new session in the project’s current knowledge graph or refresh that graph when work ends.</p></div>
+        <div class="truth add"><div class="micro-label">What Brain Stem supplies</div><p>Automatic project orientation; a context-pressure ladder and structured Continuity Block; a machine-local register with shared-file and sequencing warnings; and a scope-aware close chain that reconciles session work, audits the wider system when appropriate, and regenerates what the next session will see.</p></div>
+        <div class="truth boundary"><div class="micro-label">Honest boundary</div><p>The registry covers enrolled sessions on one machine and warns rather than providing universal file isolation. Worktrees remain the stronger choice when isolation is needed, and no checkpoint can preserve reasoning that was never made explicit.</p></div>
       </div>
       <div class="outcomes">
-        <div class="outcome"><div><div class="outcome-title">Self-orient before the first turn</div><span class="badge new">Brain Stem specific</span></div><p>The launch directory selects the project, its memory, and its generated situating card. Claude begins with the current plan roster, status, active focus, and latest handoff headline, plus pointers into the binder for anything deeper.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Use checkpoints as a context safety valve</div><span class="badge enhanced">Built on native</span></div><p>As context pressure rises, Brain Stem cues a structured save of the active plan, task, completed work, files, decisions, next steps, blockers, and acceptance state. The goal is not another transcript: it is a clean continuation record before compaction or a fresh session.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Coordinate shared projects without constant ceremony</div><span class="badge new">Brain Stem specific</span></div><p>Session-start registration and recurring activity views expose concurrent work and declared paths. Brain Stem can warn, cue a re-read, or help sequence overlapping work through shared state, reducing reliance on user-brokered coordination or direct session messaging. Worktrees remain available when true isolation is warranted.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Make session close the system housekeeper</div><span class="badge new">Brain Stem specific</span></div><p>On exit, the close chain deregisters the session, finishes its episodic summary, records new research, refreshes plans and backlogs, reconciles indexes and binders, checks relationships and drift, and rebuilds the situating card last. Scope-aware coordination prevents every closer from racing the same global sweep; the next launch sees the resulting state.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Research consequential choices before asking</div><span class="badge new">Brain Stem specific</span></div><p>For substantive option sets, the decision-quality protocol requires Claude to re-read project goals, check related plans and live files, and generate an option not yet on the table before presenting the choice. This is a Brain Stem reasoning policy built with native hook controls, not a native Claude Code guarantee.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Self-orient before the first turn</div><span class="pill caps">Brain Stem specific</span></div><p>The launch directory selects the project, its memory, and its generated situating card. Claude begins with the current plan roster, status, active focus, and latest handoff headline, plus pointers into the binder for anything deeper.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Use checkpoints as a context safety valve</div><span class="pill caps ok">Built on native</span></div><p>As context pressure rises, Brain Stem cues a structured save of the active plan, task, completed work, files, decisions, next steps, blockers, and acceptance state. The goal is not another transcript: it is a clean continuation record before compaction or a fresh session.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Coordinate shared projects without constant ceremony</div><span class="pill caps">Brain Stem specific</span></div><p>Session-start registration and recurring activity views expose concurrent work and declared paths. Brain Stem can warn, cue a re-read, or help sequence overlapping work through shared state, reducing reliance on user-brokered coordination or direct session messaging. Worktrees remain available when true isolation is warranted.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Make session close the system housekeeper</div><span class="pill caps">Brain Stem specific</span></div><p>On exit, the close chain deregisters the session, finishes its episodic summary, records new research, refreshes plans and backlogs, reconciles indexes and binders, checks relationships and drift, and rebuilds the situating card last. Scope-aware coordination prevents every closer from racing the same global sweep; the next launch sees the resulting state.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Research consequential choices before asking</div><span class="pill caps">Brain Stem specific</span></div><p>For substantive option sets, the decision-quality protocol requires Claude to re-read project goals, check related plans and live files, and generate an option not yet on the table before presenting the choice. This is a Brain Stem reasoning policy built with native hook controls, not a native Claude Code guarantee.</p></div>
       </div>
       <p class="section-note"><strong>Why automated capture comes next:</strong> once session-created knowledge has a governed route into the graph, connectors and scheduled processes need an equally safe and economical route for information created outside Claude Code.</p>
       <p class="source-note">Native baseline: <a href="https://code.claude.com/docs/en/sessions">sessions</a>, <a href="https://code.claude.com/docs/en/checkpointing">checkpointing</a>, <a href="https://code.claude.com/docs/en/context-window">compaction</a>, <a href="https://code.claude.com/docs/en/cross-session-messaging">cross-session messaging</a>, and <a href="https://code.claude.com/docs/en/agents">parallel agents and worktrees</a>. Brain Stem detail: <a href="session-management-rationale.html">session management rationale</a>.</p>
@@ -224,15 +121,15 @@
       <h2><span class="section-number">05</span>Automated capture <span class="section-desc">— Bring outside information in already organized</span></h2>
       <p class="section-intro">Baseline connectors, MCP servers, channels, scripts, and schedulers can move information, but they do not define shared destination rights, collision handling, provenance, or token-efficient processing. Brain Stem gives them one governed route into the graph: writers declare destinations, routine work stays deterministic, and contested writes use a reconciled path.</p>
       <div class="truth-strip">
-        <div class="truth start"><div class="truth-label">The gap</div><p>Transport, triggers, and schedulers can move information, but they do not supply the information architecture that classifies it, routes it, reconciles collisions, preserves provenance, and makes the result useful across sessions.</p></div>
-        <div class="truth add"><div class="truth-label">What Brain Stem supplies</div><p>A coordination layer for custom connectors and MCP-driven ingestion: governed writer registration, declared destination rights, deterministic low-token processing, content-addressed staging, one locked reconciler where needed, opt-in reasoning, multi-format fan-out, raw retention, and an append-only local manifest.</p></div>
-        <div class="truth boundary"><div class="truth-label">Honest boundary</div><p>Connector code, authentication, and scheduler choice remain yours. Direct writes are the default; the single-writer staged lane is opt-in for destinations that need it.</p></div>
+        <div class="truth start"><div class="micro-label">The gap</div><p>Transport, triggers, and schedulers can move information, but they do not supply the information architecture that classifies it, routes it, reconciles collisions, preserves provenance, and makes the result useful across sessions.</p></div>
+        <div class="truth add"><div class="micro-label">What Brain Stem supplies</div><p>A coordination layer for custom connectors and MCP-driven ingestion: governed writer registration, declared destination rights, deterministic low-token processing, content-addressed staging, one locked reconciler where needed, opt-in reasoning, multi-format fan-out, raw retention, and an append-only local manifest.</p></div>
+        <div class="truth boundary"><div class="micro-label">Honest boundary</div><p>Connector code, authentication, and scheduler choice remain yours. Direct writes are the default; the single-writer staged lane is opt-in for destinations that need it.</p></div>
       </div>
       <div class="outcomes">
-        <div class="outcome"><div><div class="outcome-title">Make capture participate in the same graph</div><span class="badge new">Brain Stem specific</span></div><p>Writer registration declares the source, destination rights, output shape, and schedule. Captured material therefore enters known structures that the rest of Brain Stem can index, govern, and retrieve instead of becoming a disconnected automation dump.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Keep repetitive processing cheap and predictable</div><span class="badge new">Brain Stem specific</span></div><p>Routine parsing and transforms use a mechanical path: identical input produces identical output without a model call. Judgment is opt-in, and the AI amender can propose a packet but cannot become the final writer.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Protect shared destinations</div><span class="badge new">Brain Stem specific</span></div><p>Where staging is enabled, content-addressed packets pass through one locked reconciler that de-duplicates, resolves the winner, writes atomically, and detects destination drift so a user edit is not silently clobbered.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Retain reusable outputs and provenance</div><span class="badge new">Brain Stem specific</span></div><p>One capture can fan out to Markdown, JSON, or SQLite while raw source, processed output, and the manifest remain local. The result can support human reference, later project context, structured queries, or a dashboard without repeating ingestion.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Make capture participate in the same graph</div><span class="pill caps">Brain Stem specific</span></div><p>Writer registration declares the source, destination rights, output shape, and schedule. Captured material therefore enters known structures that the rest of Brain Stem can index, govern, and retrieve instead of becoming a disconnected automation dump.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Keep repetitive processing cheap and predictable</div><span class="pill caps">Brain Stem specific</span></div><p>Routine parsing and transforms use a mechanical path: identical input produces identical output without a model call. Judgment is opt-in, and the AI amender can propose a packet but cannot become the final writer.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Protect shared destinations</div><span class="pill caps">Brain Stem specific</span></div><p>Where staging is enabled, content-addressed packets pass through one locked reconciler that de-duplicates, resolves the winner, writes atomically, and detects destination drift so a user edit is not silently clobbered.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Retain reusable outputs and provenance</div><span class="pill caps">Brain Stem specific</span></div><p>One capture can fan out to Markdown, JSON, or SQLite while raw source, processed output, and the manifest remain local. The result can support human reference, later project context, structured queries, or a dashboard without repeating ingestion.</p></div>
       </div>
       <p class="section-note"><strong>Why personalization closes the loop:</strong> the foundation must support sources, structures, and workflows Brain Stem did not anticipate—without forcing a fork or giving custom writers permission to bypass the controls that keep the graph useful.</p>
       <p class="source-note">Native baseline: <a href="https://code.claude.com/docs/en/mcp">MCP</a>, <a href="https://code.claude.com/docs/en/channels">channels</a>, <a href="https://code.claude.com/docs/en/hooks-guide">hooks</a>, <a href="https://code.claude.com/docs/en/scheduled-tasks">scheduled tasks</a>, and <a href="https://code.claude.com/docs/en/plugins">plugins</a>. Brain Stem detail: <a href="automated-capture-rationale.html">automated capture rationale</a>.</p>
@@ -242,15 +139,15 @@
       <h2><span class="section-number">06</span>System personalization <span class="section-desc">— Use the foundation without being boxed in</span></h2>
       <p class="section-intro">Baseline extension surfaces are flexible, but adopters must make them coherent, preserve local ownership through upgrades, and avoid tying knowledge to one tool. Brain Stem lets custom structures, writers, policies, and capabilities inherit its governance without modifying the sealed foundation, while the graph remains portable plain files.</p>
       <div class="truth-strip">
-        <div class="truth start"><div class="truth-label">The design goal</div><p>Adopters should gain the whole operating foundation without surrendering the ability to shape it around their work—or having to fork the package and manually merge every future update.</p></div>
-        <div class="truth add"><div class="truth-label">What Brain Stem supplies</div><p>Guided onboarding; a sealed foundation plus governed adopter overlay; registries for custom file and folder structures, policies, and writers; lifecycle safeguards; and a model-agnostic plain-file graph whose blueprint is documented for external readers and retrieval systems.</p></div>
-        <div class="truth boundary"><div class="truth-label">Honest boundary</div><p>The runtime currently targets macOS and Claude Code. The knowledge remains portable, but write-time governance lives in Claude Code hooks; an external tool should ordinarily receive read-only access unless it implements equivalent safeguards.</p></div>
+        <div class="truth start"><div class="micro-label">The design goal</div><p>Adopters should gain the whole operating foundation without surrendering the ability to shape it around their work—or having to fork the package and manually merge every future update.</p></div>
+        <div class="truth add"><div class="micro-label">What Brain Stem supplies</div><p>Guided onboarding; a sealed foundation plus governed adopter overlay; registries for custom file and folder structures, policies, and writers; lifecycle safeguards; and a model-agnostic plain-file graph whose blueprint is documented for external readers and retrieval systems.</p></div>
+        <div class="truth boundary"><div class="micro-label">Honest boundary</div><p>The runtime currently targets macOS and Claude Code. The knowledge remains portable, but write-time governance lives in Claude Code hooks; an external tool should ordinarily receive read-only access unless it implements equivalent safeguards.</p></div>
       </div>
       <div class="outcomes">
-        <div class="outcome"><div><div class="outcome-title">Build a personal operating foundation once</div><span class="badge new">Brain Stem specific</span></div><p>The onboarding interview confirms discovered facts, records how you work, and builds the connected context store. The payoff is cumulative: future additions start with project routing, governance, indexes, memory, plans, and lifecycle support already in place.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Let custom systems inherit Brain Stem’s machinery</div><span class="badge new">Brain Stem specific</span></div><p>Adopters can register their own folder types, document contracts, tags, and automated writers. Those extensions can be governed, indexed, reconciled, and surfaced through the same architecture instead of becoming separate bolt-ons.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Keep your layer distinct and upgrade-safe</div><span class="badge new">Brain Stem specific</span></div><p>A governed overlay sits above the sealed foundation; an override requires a reason on the record. Preview-first installation, receipts, release baselines, snapshots, drift checks, and bounded uninstall protect both package ownership and human changes.</p></div>
-        <div class="outcome"><div><div class="outcome-title">Use the graph beyond Claude Code</div><span class="badge new">Brain Stem specific</span></div><p>Plain Markdown, YAML, JSON, stable identities, relative links, generated indexes, and published schemas make the corpus directly readable by another harness or local model. They also provide clean input for an optional vector index, relationship graph, or server that an adopter chooses to add; Brain Stem ships the substrate and blueprint, not those services.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Build a personal operating foundation once</div><span class="pill caps">Brain Stem specific</span></div><p>The onboarding interview confirms discovered facts, records how you work, and builds the connected context store. The payoff is cumulative: future additions start with project routing, governance, indexes, memory, plans, and lifecycle support already in place.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Let custom systems inherit Brain Stem’s machinery</div><span class="pill caps">Brain Stem specific</span></div><p>Adopters can register their own folder types, document contracts, tags, and automated writers. Those extensions can be governed, indexed, reconciled, and surfaced through the same architecture instead of becoming separate bolt-ons.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Keep your layer distinct and upgrade-safe</div><span class="pill caps">Brain Stem specific</span></div><p>A governed overlay sits above the sealed foundation; an override requires a reason on the record. Preview-first installation, receipts, release baselines, snapshots, drift checks, and bounded uninstall protect both package ownership and human changes.</p></div>
+        <div class="outcome"><div><div class="outcome-title">Use the graph beyond Claude Code</div><span class="pill caps">Brain Stem specific</span></div><p>Plain Markdown, YAML, JSON, stable identities, relative links, generated indexes, and published schemas make the corpus directly readable by another harness or local model. They also provide clean input for an optional vector index, relationship graph, or server that an adopter chooses to add; Brain Stem ships the substrate and blueprint, not those services.</p></div>
       </div>
       <p class="section-note"><strong>The completed loop:</strong> personal extensions and outside readers operate on the same curated graph; new work returns through project management, governance, sessions, and capture, so the system can grow without dissolving into unrelated add-ons.</p>
       <p class="source-note">Native baseline: <a href="https://code.claude.com/docs/en/settings">configuration scopes</a>, <a href="https://code.claude.com/docs/en/features-overview">extension features</a>, and <a href="https://code.claude.com/docs/en/plugins">plugins</a>. Brain Stem detail: <a href="personalization-rationale.html">personalization rationale</a>.</p>
