@@ -72,6 +72,14 @@
         folder names. A <code>--master</code> mode scaffolds a larger multi-phase plan. Use it when you want a plan
         set up cleanly without the research-first route below.
       </p>
+      <p>
+        A stray entry at the plans root, which the placement banner at session start reports, is re-homed into the
+        plan that owns it with <code>rehome-stray.sh &lt;entry&gt; --into &lt;plan&gt;</code>, or, for an entry that
+        belongs to no plan yet, <code>rehome-stray.sh &lt;entry&gt; --mint &lt;slug&gt; --disposition &lt;value&gt; --body &lt;text&gt;</code>,
+        which captures and graduates the plan first. It then runs the derivations a close would have run and
+        sweeps again. <code>rehome-stray.sh</code> exits 0, 1 or 2: 0 done, 2 refused with every byte unchanged, 1 stopped after
+        a partial step with the resume command named.
+      </p>
     </div>
     <div class="cmd" id="backlog-triage">
       <h3><code>/backlog-triage</code></h3>
@@ -94,6 +102,16 @@
         that note with <code>--amend</code>, or declared distinct with <code>--distinct-from</code> and a
         <code>--distinct-scope</code> line.
       </p>
+      <p>
+        Classifying a captured note is one command too:
+        <code>triage-apply.sh &lt;slug&gt; --classification NOVEL|DUPLICATE|OVERLAP|DEFERRED --rationale &lt;line&gt;</code>,
+        with <code>--related</code> for an overlap or duplicate and <code>--reopen-gate</code> for a deferral. In one
+        atomic write it sets the note's status, disposition, related list and updated date and appends the rationale
+        to its Notes section. <code>triage-apply.sh</code> exits 0, 1 or 2: 0 done, 2 refused with the note
+        unchanged, 1 the write failed. A parked NO-BUILD note whose re-open gate is manual returns to the inbox as
+        an open note with <code>reopen-idea.sh &lt;slug&gt;</code>, which <code>reopen-idea.sh</code> exits 0, 1 or 2
+        on: 0 done or already open, 2 refused, 1 stopped with the resume command named.
+      </p>
     </div>
     <div class="cmd" id="backlog-research">
       <h3><code>/backlog-research</code></h3>
@@ -113,6 +131,11 @@
         repair — flagging the items that still need a call. It never archives or moves rows: tucking finished plans
         out of sight is a display-only filter in the rendered index, not something hygiene does to your data. Use it
         periodically to keep the backlog honest.
+      </p>
+      <p>
+        The audit is one command, <code>hygiene-audit.sh [--dry-run] [--fix]</code>: staleness and lifecycle
+        timeouts, disposition and integrity checks, the report, and the summary block. <code>--dry-run</code> writes
+        nothing. <code>hygiene-audit.sh</code> exits 0, 1 or 2: 0 done, 2 refused, 1 the report could not be written.
       </p>
     </div>
 

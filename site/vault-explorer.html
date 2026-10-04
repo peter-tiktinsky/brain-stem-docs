@@ -520,7 +520,7 @@
           one: 'One captured idea, named by a short slug, working its way through the funnel.',
           why: 'This is the unit that makes the funnel work — a self-contained record of one idea and what was decided about it. Without the verdict it carries you&rsquo;d re-judge the same idea every time, and could unknowingly start duplicate or overlapping projects.',
           what: 'A single idea saved as one note; its filename is a short hyphenated &ldquo;slug&rdquo; like <code>meeting-summarizer</code>, with no number. When you capture it, the system sorts it into one of four buckets and writes the verdict in: NOVEL (genuinely new), DUPLICATE (you already have this), OVERLAP (partly repeats an existing plan), or DEFERRED (worth doing, not now). If it becomes a plan, its text is copied word-for-word into that plan&rsquo;s brief and this note is deleted.',
-          from: 'You create it by asking Claude to jot the idea down (which runs <code>/backlog-triage</code>); sorting and promotion update it in place.',
+          from: 'You create it by asking Claude to jot the idea down (which runs <code>/backlog-triage</code>); sorting and promotion update it in place; <code>triage-apply.sh</code> writes the classification and <code>reopen-idea.sh</code> brings a parked note back.',
           clar: ['An idea note is a different thing from a plan — its own three labels (new / triaged / briefed), not the longer plan lifecycle.', 'When it graduates, this note is deleted — its content lives on inside the plan&rsquo;s brief.'],
           tips: []
         }]
