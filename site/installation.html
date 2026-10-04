@@ -71,10 +71,13 @@ bash install.sh --apply</pre>
       <code>--apply</code> is the explicit opt-in that turns the rehearsal into the real install. The design
       makes the safe thing (preview) the default and the consequential thing (writing files) something you ask
       for by name. <strong><code>--apply</code> requires you to set <code>CLAUDE_HOME</code> explicitly</strong> —
-      the installer refuses to guess where to write and hard-stops (exit code&nbsp;10) if it is unset. As it
+      the installer refuses to guess where to write and hard-stops (exit code&nbsp;10) if it is unset. On a fresh install it first checks that the shipped files
+      in the source tree match the install manifest, and refuses before any write (exit code&nbsp;56) when they
+      differ; the dry run lists the mismatch under <code>blocking_findings</code>. As it
       copies, it also writes a <strong>receipt</strong> of every file it laid down, with a tamper-evident
       fingerprint for each, to <code>~/.claude/governance/foundation-manifest.json</code>. That receipt is what
-      later lets the system detect tampering and lets an uninstall remove only its own files.
+      later lets the system detect tampering and lets an uninstall remove only its own files. The next-steps hint lines the run prints at the end carry
+      expanded, shell-quoted paths, so a <code>CLAUDE_HOME</code> that contains spaces copy-pastes correctly.
     </p>
 
     <h3 id="existing-files">Installing into a folder that already has files</h3>
