@@ -337,7 +337,9 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
 
     <div class="callout key">
       <div class="label">Confirm the migrations landed — the post-apply self-check</div>
-      <p>The version stamp records every migration that ran. After the apply, check that both ids are listed
+      <p>The version stamp records every migration that ran. If the delivery verifier itself cannot run, the
+      apply refuses to write the version stamp and prints the verifier's exit code and first error line, so a
+      stamped home never claims a delivery check that did not run. After the apply, check that both ids are listed
       (<code>CLAUDE_HOME</code> is your install home, <code>~/.claude</code> by convention):</p>
       <pre>jq -r '.migrations_applied[]' "$CLAUDE_HOME/governance/.installed-state.json"</pre>
       <p>If either <code>0009-task-status-vocabulary</code> or <code>0010-class-a-rules-refresh</code> is

@@ -404,7 +404,7 @@
       check runs; a shadow lacking a stated reason is <span class="pill deny">denied</span> with the offending entries
       enumerated. A per-write escape hatch (<code>--force-override</code>, or <code>R52_FORCE_OVERRIDE=1</code>
       for direct edits) exists for bootstrapping or bulk import, but neither persists — the next write goes
-      back through the gate. The discipline serves two ends: the reason travels with the divergence as a
+      back through the gate. Without the override, the write-time check fails closed: a pending write it cannot materialize, pending content that is not JSON, or a collision helper that exits with anything but 0 or 1 is denied, not waved through. The discipline serves two ends: the reason travels with the divergence as a
       permanent audit trail, and the explicit bypass keeps casual overrides from accumulating silently.</p>
     </div>
 
