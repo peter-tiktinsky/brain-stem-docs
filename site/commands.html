@@ -73,6 +73,17 @@
         set up cleanly without the research-first route below.
       </p>
       <p>
+        Two more modes keep a master plan consistent. <code>--rollup &lt;master&gt;</code> pulls the status of the
+        master&rsquo;s sub-plans from their own manifests and rewrites only the Sub-plan, Slug and Status rows of the
+        table in the master&rsquo;s task list, in one locked, atomic pass that writes nothing when the rows already
+        match. It exits 0 done, 1 aborted with the task list unchanged, 2 usage.
+        <code>--graduate &lt;flat-plan&gt; --sub &lt;sub-slug&gt;</code> turns a flat plan into a master whose first
+        sub-plan is the flat plan&rsquo;s own content. It refuses a plan that is already a master, a closed plan and
+        a plan that is currently armed, and with <code>--dry-run</code> it runs every check and writes nothing.
+        A failure part-way undoes every completed step, and the command ends by naming <code>/librarian backlog-index</code>
+        as the next step.
+      </p>
+      <p>
         A stray entry at the plans root, which the placement banner at session start reports, is re-homed into the
         plan that owns it with <code>rehome-stray.sh &lt;entry&gt; --into &lt;plan&gt;</code>, or, for an entry that
         belongs to no plan yet, <code>rehome-stray.sh &lt;entry&gt; --mint &lt;slug&gt; --disposition &lt;value&gt; --body &lt;text&gt;</code>,
