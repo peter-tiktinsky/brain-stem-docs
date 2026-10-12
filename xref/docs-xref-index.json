@@ -2171,6 +2171,9 @@
         "commands.html": [
           "mention"
         ],
+        "plans.html": [
+          "mention"
+        ],
         "session-close.html": [
           "mention"
         ]
@@ -2648,6 +2651,9 @@
       "pages": {
         "commands.html": [
           "mention"
+        ],
+        "plans.html": [
+          "mention"
         ]
       }
     },
@@ -2655,6 +2661,9 @@
       "class": "capability",
       "pages": {
         "commands.html": [
+          "mention"
+        ],
+        "plans.html": [
           "mention"
         ]
       }
@@ -3170,6 +3179,9 @@
           "mention"
         ],
         "multi-session.html": [
+          "mention"
+        ],
+        "plans.html": [
           "mention"
         ],
         "project-management-rationale.html": [
@@ -4535,6 +4547,9 @@
           "mention"
         ],
         "context-library.html": [
+          "mention"
+        ],
+        "plans.html": [
           "mention"
         ],
         "session-close.html": [

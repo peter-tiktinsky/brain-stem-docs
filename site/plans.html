@@ -189,8 +189,8 @@
       in <code>_research/</code>. A <code>finalized</code> finding is the stock the
       <a href="context-library.html">Library</a> promotes from, and every finding rolls into the binder's
       research index, canonical findings first and superseded ones after, each forward-linked to its replacement.
-      A replaced finding is marked with <code>plan-research-supersede</code> (a banner on the replaced file plus a
-      <code>superseded_by</code> link in the manifest), never deleted or renamed in place.</li>
+      A replaced finding is marked with <code>plan-research-supersede</code>, and nothing is deleted or renamed;
+      <a href="#research-walk">Research, start to finish</a> walks the whole path.</li>
       <li><strong>Decisions — the ADR ledger.</strong> A per-plan <code>decisions/</code> folder of
       immutable decision records (each <code>Context</code> · <code>Decision</code> ·
       <code>Consequences</code>), declared in <code>decision_records[]</code>. A decision never changes in
@@ -201,6 +201,53 @@
       <code>/librarian adr-supersede &lt;plan-dir&gt; &lt;old-ADR&gt; &lt;new-ADR&gt;</code>, which marks the replaced
       ADR superseded in its Status line, its frontmatter and the manifest's <code>decision_records[]</code>.</li>
     </ul>
+
+    <h2 id="research-walk">Research, start to finish</h2>
+    <p>
+      A finding travels one path, in a fixed order: staged, written, declared, finalized, replaced if a later
+      finding supersedes it, indexed and, when it earns it, promoted to the <a href="context-library.html">Library</a>.
+      Each step below says what runs, when, and what it writes.
+    </p>
+    <ol>
+      <li><strong>Stage it, if it is not ready for the plan.</strong> Precursor research can wait on a Workshop
+      bench, a scratch folder outside the plan: <code>/librarian workshop open &lt;key&gt;</code> creates it.
+      <code>workshop promote</code> then moves exactly one chosen file into the plan&rsquo;s <code>_research/</code>
+      under the next free <code>NN-</code> prefix and archives the rest of the bench. <code>workshop promote</code>
+      refuses a gate-named file and points at <code>_gates/</code>.</li>
+      <li><strong>Write it into the plan.</strong> A finding is a Markdown file in <code>_research/</code>. The write
+      guard acts at write time: it denies the write of a new file that is gate-named or whose <code>NN-</code> prefix
+      another file in the folder already carries, and its message names the <code>_gates/</code> path or the next
+      free prefix. Only the Write tool is guarded, and an existing file or an edit is never denied.</li>
+      <li><strong>Declare it at session close.</strong> <code>plan-research-declare</code> scans
+      <code>_research/</code>, <code>decisions/</code>, <code>target-state/</code> and <code>deliverables/</code>
+      for Markdown files the manifest does not yet list, and appends one <code>research_artifacts[]</code> entry for
+      each: an id of the form RA-NN, the file&rsquo;s first heading as the title, the status <code>active</code>
+      and the path. It never rewrites or removes an entry you curated. A gate-named or prefix-colliding file that
+      reached <code>_research/</code> by a shell write is not declared: the declare step skips it and warns. A plan
+      whose manifest carries <code>research_closed</code> stops declaring new files on its own. A new file draws a
+      warning for you to adjudicate, the manifest is left untouched, and the next session start shows the warning
+      again. The flag is set when a plan reaches a terminal status, and you can set it by hand on an active plan.</li>
+      <li><strong>Mark it settled, by hand.</strong> When a finding is settled, change its status to
+      <code>finalized</code> in the manifest yourself, because nothing sets it for you. Only finalized entries are
+      promotable; a <code>deferred</code> or <code>superseded</code> entry is passed over.</li>
+      <li><strong>Replace it, if a later finding supersedes it.</strong>
+      Run <code>plan-research-supersede</code> with the plan folder, the replaced id and the replacing id. It sets
+      the replaced entry to <code>superseded</code> with a <code>superseded_by</code> link to the new id, gives the new entry a
+      <code>supersedes</code> link back, and inserts a one-line banner naming the replacement into the replaced
+      file. Nothing is moved or deleted. The command refuses an id the manifest does not list, a finding replacing
+      itself, an entry that is already superseded and a loop, and a refusal writes nothing.</li>
+      <li><strong>Index it.</strong> <code>plan-research-index</code> rebuilds the binder&rsquo;s research index from
+      the manifests, one row per declared finding with a link that resolves to its file. Canonical findings come
+      first, then the superseded ones, each forward-linked to its replacement. The
+      <a href="project-binder.html">project binder</a> page shows where the index sits.</li>
+      <li><strong>Promote it, if it deserves a wider life.</strong> Promotion into the Library is a separate step
+      that proposes before it writes. <code>library-scrub</code> turns a finalized finding into a universal
+      article and writes only on <code>--apply</code>; <code>--census</code> lists the research of completed plans
+      that has not been promoted yet. A queue mode offers each newly completed plan&rsquo;s research for promotion,
+      switched by <code>library_promotion</code> in your user manifest: <code>prompt</code>, <code>auto</code> or
+      <code>off</code>, and off when unset. <a href="context-library.html">Dual context layers</a> covers promotion in
+      depth.</li>
+    </ol>
 
     <h2>From idea to done — the funnel</h2>
     <p>
