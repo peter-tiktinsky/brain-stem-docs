@@ -82,6 +82,11 @@
 ├── deliverables/  &larr; polished, audience-facing work   (gets an auto-maintained _index.md)
 └── reference/     &larr; raw notes and source material     (gets an auto-maintained _index.md)</code></pre>
     <p>
+      A note in <code>reference/</code> that declares <code>type: reference</code> is checked more lightly than a
+      Library article. If it lacks one of that type&rsquo;s required fields, the write warns, never blocks, because
+      those fields are enforced only for notes inside the Library&rsquo;s <code>_library/</code> folder.
+    </p>
+    <p>
       The <code>CLAUDE.md</code> carries a small machine-maintained block — a "what lives where" directory map
       the system keeps current as the folder grows — plus a pointer to the project's binder. It does
       <strong>not</strong> import a cover page; there is no cover file in your work

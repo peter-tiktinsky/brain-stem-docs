@@ -48,8 +48,11 @@
       <code>DENY</code>, the path and the reason). An edit to an accepted ADR above its first amendment heading is
       denied with <code>[ADR LOCK]</code>, naming an appended <code>## Amendment</code> section or
       <code>adr-supersede</code> as the routes. A reference note outside <code>_library/</code> that lacks a
-      required field is allowed with a <code>[REQUIRED FIELD OUTSIDE SCOPE]</code> advisory; the same note under
-      <code>_library/</code> is still denied.
+      required field is allowed with a <code>[REQUIRED FIELD OUTSIDE SCOPE]</code> advisory. The type requires
+      those fields only inside its expected_path patterns, so outside them the missing fields warn but do not
+      block, and the advisory asks you to add them if the note belongs to that scope. The same note under
+      <code>_library/</code> is still denied. The strict fields exist for Library articles, not for the reference
+      notes you keep in a work project.
     </p>
 
     <div class="flow">

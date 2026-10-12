@@ -126,6 +126,13 @@
       </tbody>
     </table>
     <p>
+      The <code>reference</code> type is scoped. It declares <code>required_scope</code> as
+      <code>expected_path</code>, which means its strict fields are enforced only inside _library/, the one path
+      pattern its <code>expected_path</code> lists. A reference note written anywhere else, such as under a work
+      project&rsquo;s <code>reference/</code> folder, is allowed when it lacks one of those fields, with an
+      advisory; the same omission inside <code>_library/</code> is denied.
+    </p>
+    <p>
       The registry is deliberately small — only types with a consumer. To validate a recurring document the
       foundation doesn't ship a type for, run <code>/govern register --kind file-type</code>; it writes the
       new type into your overlay under <code>frontmatter.types</code> with its required fields. To raise or
