@@ -340,7 +340,12 @@
       <li><strong>Tasks live in the manifest</strong> — you expand the structured task list there; the
       machine regenerates <code>tasks.md</code> from it between the sentinels (your edits outside the
       sentinels are preserved).</li>
-      <li><strong>Each session appends a handoff</strong> — newest-first, carrying the resume pointer.</li>
+      <li><strong>Each session appends a handoff</strong> — newest-first, carrying the resume pointer. A closing
+      session can also leave a <strong>launch prompt</strong>: a fenced block under a
+      <code>### Session &lt;N&gt; launch prompt</code> heading that the next session pastes to start. It should carry
+      only what a fresh session cannot read from disk, so Brain Stem counts its words. Over 300 words, the write
+      guard adds an advisory as you write the block, and the session-close handoff check reports it for the newest
+      entry. The target is 200 words or fewer, and the check warns and never blocks.</li>
       <li><strong>Research and decisions accrue beside the quartet</strong> — feasibility research lands in
       <code>_research/</code> and planning decisions in the ADR ledger, both declared in the manifest, both
       well before any code is written.</li>
