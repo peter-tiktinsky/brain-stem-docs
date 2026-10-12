@@ -44,8 +44,9 @@
     <h2 id="named-commands">How the named commands work</h2>
     <p>
       Several procedures that a session would otherwise carry out as a list of instructions are packaged as one
-      command with a name. A named command does the mechanical steps itself: it checks its input first, writes the result in one atomic
-      step, and refuses with nothing changed when a check fails. Claude supplies only the judgment, such as which
+      command with a name. A named command does the mechanical steps itself: it checks its input before its first write and refuses
+      with nothing changed when a check fails. A one-file write is atomic, and a command with several steps either undoes
+      its completed steps on failure or names where it stopped. Claude supplies only the judgment, such as which
       class a note belongs to or what a ruling said, and passes it in as arguments. Every one of them exits with a
       code listed beside it in its own section, so a script or a person can tell done from refused from failed. The
       nine commands in the table are the ones the rest of this page describes.
@@ -123,7 +124,7 @@
         <code>--graduate &lt;flat-plan&gt; --sub &lt;sub-slug&gt;</code> turns a flat plan into a master whose first
         sub-plan is the flat plan&rsquo;s own content. It refuses a plan that is already a master, a closed plan and
         a plan that is currently armed, and with <code>--dry-run</code> it runs every check and writes nothing.
-        A failure part-way undoes every completed step, and the command ends by naming <code>/librarian backlog-index</code>
+        It exits 0 done or a dry run, 1 aborted, 2 usage. A failure part-way undoes every completed step, and the command ends by naming <code>/librarian backlog-index</code>
         as the next step.
       </p>
       <p>
@@ -392,7 +393,8 @@
       <p>
         The flow is propose, then your per-field accept, edit or reject, then commit. When you have ruled on a proposal,
         <code>process.sh assemble &lt;kind&gt; --proposal &lt;file&gt; --rulings &lt;file&gt;</code> composes the validated
-        record from the two in one atomic write; a refusal is one line beginning <code>govern-assemble: refused:</code>.
+        record from the two in one atomic write; a refusal is one line beginning <code>govern-assemble: refused:</code>. It exits 0 done,
+        2 refused with nothing written, 3 when <code>jq</code> is missing and 6 when the write fails.
         The <code>project</code> kind has these sub-modes: <code>--retract-sub &lt;sub&gt;</code> removes the routing
         rule a sub-project leaves behind once it has been promoted; <code>--emit-moves &lt;mapping.json&gt;</code>
         prints the validated <code>git mv</code> lines for a mapping you write and moves nothing; and

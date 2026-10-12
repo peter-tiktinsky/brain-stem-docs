@@ -185,8 +185,9 @@
       <li><strong>Research — <code>_research/</code>.</strong> Durable findings, each declared in the
       manifest's <code>research_artifacts[]</code> (with a status of <code>active</code>,
       <code>finalized</code>, <code>deferred</code> or <code>superseded</code>). The folder holds the curated
-      canonical set: gate records and prefix-collision files live in the plan's <code>_gates/</code> folder, never
-      in <code>_research/</code>. A <code>finalized</code> finding is the stock the
+      canonical set: gate records live in the plan's <code>_gates/</code> folder, never in <code>_research/</code>,
+      and a file whose <code>NN-</code> prefix another research file already carries takes the next free prefix
+      inside <code>_research/</code>. A <code>finalized</code> finding is the stock the
       <a href="context-library.html">Library</a> promotes from, and every finding rolls into the binder's
       research index, canonical findings first and superseded ones after, each forward-linked to its replacement.
       A replaced finding is marked with <code>plan-research-supersede</code>, and nothing is deleted or renamed;
