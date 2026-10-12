@@ -329,6 +329,16 @@
       command, <code>triage-apply.sh</code>, and a parked NO-BUILD note whose gate is manual is re-opened with
       <code>reopen-idea.sh</code>.
     </p>
+    <p>
+      A re-open gate is an id from a closed registry in the plans governance file, and the note&rsquo;s frontmatter
+      only ever names the id. A <code>manual</code> gate means you re-open the note yourself; the backlog index never
+      evaluates it. A command gate lists a program and its arguments and a timeout in seconds. The first element is
+      an absolute path or a path relative to the foundation root with no <code>..</code> in it. The command runs
+      without a shell, and exit 0 means the gate is met, at which point the backlog index moves the note back into
+      the flat inbox, clears its disposition and resolution, and stamps when and by which gate it was re-opened. A
+      gate that cannot be evaluated, such as a malformed entry, a launch failure or a timeout, is reported and
+      the note stays parked. An overlay can register further gate ids beside the shipped ones.
+    </p>
 
     <h2>Stage two — preparing the plan</h2>
     <p>
