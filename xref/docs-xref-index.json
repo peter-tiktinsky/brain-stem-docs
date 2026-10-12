@@ -1048,6 +1048,9 @@
     "configuration": {
       "class": "page",
       "pages": {
+        "commands.html": [
+          "link"
+        ],
         "index.html": [
           "link"
         ],
@@ -1379,6 +1382,9 @@
     "field-set.sh": {
       "class": "file",
       "pages": {
+        "commands.html": [
+          "mention"
+        ],
         "configuration.html": [
           "mention"
         ]

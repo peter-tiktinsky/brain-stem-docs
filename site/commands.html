@@ -41,6 +41,49 @@
       </tbody>
     </table>
 
+    <h2 id="named-commands">How the named commands work</h2>
+    <p>
+      Several procedures that a session would otherwise carry out as a list of instructions are packaged as one
+      command with a name. A named command does the mechanical steps itself: it checks its input first, writes the result in one atomic
+      step, and refuses with nothing changed when a check fails. Claude supplies only the judgment, such as which
+      class a note belongs to or what a ruling said, and passes it in as arguments. Every one of them exits with a
+      code listed beside it in its own section, so a script or a person can tell done from refused from failed. The
+      nine commands in the table are the ones the rest of this page describes.
+    </p>
+    <table>
+      <thead><tr><th>Command</th><th>The mechanical steps it does</th><th>Where it is described</th></tr></thead>
+      <tbody>
+        <tr><td><code>field-set.sh</code></td><td>Sets one field in a JSON record you would otherwise edit by hand, validated against the record&rsquo;s schema</td><td><a href="configuration.html#field-set">Configuration</a></td></tr>
+        <tr><td><code>process.sh assemble</code></td><td>Composes a validated governance registration from a proposal and your rulings</td><td><a href="#govern-register"><code>/govern register</code></a></td></tr>
+        <tr><td><code>triage-apply.sh</code>, <code>reopen-idea.sh</code></td><td>Classify a captured idea in one write; return a parked idea to the inbox</td><td><a href="#backlog-triage"><code>/backlog-triage</code></a></td></tr>
+        <tr><td><code>rehome-stray.sh</code></td><td>Moves a stray plans-root entry into the plan that owns it, then re-sweeps</td><td><a href="#new-plan"><code>/new-plan</code></a></td></tr>
+        <tr><td><code>--rollup</code>, <code>--graduate</code></td><td>Refresh a master plan&rsquo;s sub-plan rows; turn a flat plan into a master</td><td><a href="#new-plan"><code>/new-plan</code></a></td></tr>
+        <tr><td><code>checkpoint-gather.sh</code></td><td>Finds, stamps, validates and writes a session&rsquo;s checkpoint</td><td><a href="#session-checkpoint"><code>/session-checkpoint</code></a></td></tr>
+        <tr><td><code>/librarian memory-spill</code></td><td>Moves the cold tail of the memory index into an archive, previewed first</td><td><a href="#librarian"><code>/librarian</code></a></td></tr>
+      </tbody>
+    </table>
+    <p>
+      Three judgment passes follow the same idea from the other side. Each can run in one subagent, a separate
+      Claude run with a fresh context whose final result alone returns to your session. It is one subagent with no
+      fan-out, because every extra subagent re-creates the full instruction block.
+    </p>
+    <ul>
+      <li><a href="#mem-promote"><code>/mem-promote</code></a> can run its reshape and conflict pass in the subagent. It
+      reads the gathered candidates, the memory index and the neighbouring memory files, and returns one proposal per
+      candidate. It has read-only tools. The main session buffers each proposal, and you clear each one in
+      <code>/librarian review</code>.</li>
+      <li>The <a href="#librarian">librarian</a>&rsquo;s promotion fan-out reads the <code>library-scrub --census</code> output
+      for one plan and the research it lists, and returns a promote or skip verdict per entry with a topic and a
+      reason. The main session runs <code>library-scrub</code> to propose, shows you the diff, and applies it only
+      on your yes.</li>
+      <li><a href="#backlog-research"><code>/backlog-research</code></a> runs its research reads, the vault context, the
+      infrastructure dependencies and the outside research, in the subagent. Judging the options and writing the
+      brief, the draft files and the manifest update stay in your session.</li>
+    </ul>
+    <p>
+      In the first two the subagent returns a list and writes nothing, and the change is made only on your yes.
+    </p>
+
     <h2>Getting started</h2>
     <div class="cmd" id="onboard">
       <h3><code>/onboard</code></h3>
