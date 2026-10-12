@@ -696,6 +696,9 @@
         "glossary.html": [
           "mention"
         ],
+        "plans.html": [
+          "mention"
+        ],
         "project-binder.html": [
           "mention"
         ],
@@ -2200,6 +2203,17 @@
         ]
       }
     },
+    "managed set": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "plans.html": [
+          "mention"
+        ]
+      }
+    },
     "managed surface": {
       "class": "glossary",
       "pages": {
@@ -2283,6 +2297,9 @@
       "class": "capability",
       "pages": {
         "commands.html": [
+          "mention"
+        ],
+        "plans.html": [
           "mention"
         ],
         "session-close.html": [
@@ -2541,6 +2558,14 @@
         ]
       }
     },
+    "plan asset": {
+      "class": "glossary",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ]
+      }
+    },
     "plan mode": {
       "class": "glossary",
       "pages": {
@@ -2556,6 +2581,12 @@
       "class": "capability",
       "pages": {
         "commands.html": [
+          "mention"
+        ],
+        "glossary.html": [
+          "mention"
+        ],
+        "plans.html": [
           "mention"
         ]
       }
@@ -2665,6 +2696,9 @@
           "link"
         ],
         "context-and-memory.html": [
+          "link"
+        ],
+        "glossary.html": [
           "link"
         ],
         "governance-engine.html": [
@@ -2938,6 +2972,9 @@
           "mention"
         ],
         "orchestration.html": [
+          "mention"
+        ],
+        "plans.html": [
           "mention"
         ],
         "project-management-rationale.html": [
@@ -4430,6 +4467,9 @@
           "link"
         ],
         "personalization-rationale.html": [
+          "link"
+        ],
+        "plans.html": [
           "link"
         ],
         "system-personalization.html": [

@@ -593,6 +593,51 @@
           from: 'Written as decisions are made, and listed in the manifest so they&rsquo;re tracked with the plan.',
           clar: ['Optional — small plans often have none.', 'Replacing a decision means adding a new note marking the old one &ldquo;superseded,&rdquo; not deleting it.'],
           tips: []
+        }, {
+          id: 'plan-gates', label: '_gates/', kind: 'folder', origin: 'authored',
+          one: 'Where a plan keeps the records of its reviews: the charge handed to a reviewer, each round&rsquo;s findings, the verdict.',
+          why: 'Review records are not research, and mixed into the research folder they get counted as findings, indexed in the binder and offered for promotion to the Library. One flat folder of their own keeps the research clean and gives every review record a predictable home.',
+          what: 'A flat folder of dated records named <code>NN-gate&lt;k&gt;-&lt;kind&gt;.md</code>: <code>NN</code> orders them, <code>k</code> is the gate number and <code>kind</code> names the record, for example a charge, a round record or a verdict. Optional, and absent from a new plan.',
+          from: 'You, or whatever review process you run. No Brain Stem command writes into it. The write guard denies a gate-named file in <code>_research/</code> and names this folder instead.',
+          clar: ['A folder convention, not a feature with a writer: the system only keeps the records out of the research.', 'A file here whose name misses the pattern is still allowed, with an advisory that states the pattern.'],
+          tips: [],
+          link: { href: 'plans.html#plan-folder-anatomy', label: 'Anatomy of a plan folder' }
+        }, {
+          id: 'plan-target-state', label: 'target-state/', kind: 'folder', origin: 'authored',
+          one: 'A second research home, for structured documents that describe where the plan is heading.',
+          why: 'Some plans produce a set of documents that define the target rather than a pile of findings. Giving them their own folder keeps the findings in <code>_research/</code> readable while the target documents still count as declared research.',
+          what: 'An optional folder of Markdown files, with an optional <code>canonical/</code> subfolder. The session-close step declares each file as a research artifact of the plan, and the binder&rsquo;s research index links to it.',
+          from: 'You and Claude write the files. The session-close declare step lists them in the manifest.',
+          clar: ['Optional: most plans never create it.', 'Only Markdown files are declared.'],
+          tips: [],
+          link: { href: 'plans.html#plan-folder-anatomy', label: 'Anatomy of a plan folder' }
+        }, {
+          id: 'plan-deliverables', label: 'deliverables/', kind: 'folder', origin: 'authored',
+          one: 'A third research home, for documents the plan itself produces.',
+          why: 'A plan sometimes produces documents of its own, such as a report or a design write-up. A folder for them keeps them apart from the findings that led there while they stay declared and indexed with the plan.',
+          what: 'An optional folder of Markdown files that the session-close step declares and the research index links, the same as <code>_research/</code>.',
+          from: 'You and Claude write the files. The session-close declare step lists them in the manifest.',
+          clar: ['This is the plan folder&rsquo;s own folder, not the Work-folder deliverables folder under <code>Work/&lt;project&gt;/</code>, which holds a project&rsquo;s finished work.', 'Optional: most plans never create it.'],
+          tips: [],
+          link: { href: 'plans.html#plan-folder-anatomy', label: 'Anatomy of a plan folder' }
+        }, {
+          id: 'plan-matrix', label: 'traceability-matrix.md', kind: 'file', origin: 'generated',
+          one: 'A table with one row per task, so you can set each task beside the evidence for it.',
+          why: 'A task list says what was planned. A matrix with a verdict column lets you record, row by row, what was built and whether it held up, without touching the manifest.',
+          what: 'A generated read-replica of the manifest&rsquo;s task list, rendered between sentinel markers. The columns you fill in, the build artifact and the verdict, are kept across every re-render, and so is anything you write outside the markers.',
+          from: 'Rendered by <code>matrix-render</code> from the manifest. Once the file carries its sentinel markers, a structural edit to the manifest re-renders it.',
+          clar: ['The task columns come from the manifest and are overwritten on each render. Change the manifest, not the matrix.', 'Optional: a plan has one only if you create it.'],
+          tips: [],
+          link: { href: 'plans.html#plan-folder-anatomy', label: 'Anatomy of a plan folder' }
+        }, {
+          id: 'plan-active-sp', label: '.active-sp', kind: 'file', origin: 'authored',
+          one: 'A one-line file in a master plan that names the sub-plan currently under build.',
+          why: 'A master plan holds several full plans. Sessions need to know which one is under build, and this pointer says so without anyone editing a spec.',
+          what: 'One line holding the folder name of the armed sub-plan. A single dot, an absent file or a name that matches no folder all mean the plan root.',
+          from: 'You write it. No Brain Stem command writes the pointer files on an installed system.',
+          clar: ['It lives inside the master plan folder, beside the quartet, and is a dotfile, so it is easy to miss.', 'The project-level pointer, <code>.active-plan</code>, lives in the project&rsquo;s binder directory instead.'],
+          tips: [],
+          link: { href: 'plans.html#plan-folder-anatomy', label: 'Anatomy of a plan folder' }
         }]
       }, {
         id: 'plan-master', label: '&lt;NN-master-plan&gt;/', kind: 'folder', origin: 'authored',
