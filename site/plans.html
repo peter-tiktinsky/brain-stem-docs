@@ -339,7 +339,10 @@
       <li><strong>You author the spec</strong> — the goal and constraints, fixed once set.</li>
       <li><strong>Tasks live in the manifest</strong> — you expand the structured task list there; the
       machine regenerates <code>tasks.md</code> from it between the sentinels (your edits outside the
-      sentinels are preserved).</li>
+      sentinels are preserved). A task can also carry <code>context_refs</code>, the plan text it needs: each
+      entry is <code>&lt;file&gt;#&lt;heading&gt;</code>, that section of a file in the plan folder, or
+      <code>ADR-NN</code>, a decision record. <code>plan-context</code> with a task id prints each entry resolved,
+      so a resuming session loads that slice instead of the whole plan.</li>
       <li><strong>Each session appends a handoff</strong> — newest-first, carrying the resume pointer. A closing
       session can also leave a <strong>launch prompt</strong>: a fenced block under a
       <code>### Session &lt;N&gt; launch prompt</code> heading that the next session pastes to start. It should carry
