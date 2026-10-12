@@ -129,6 +129,21 @@
       <li>A path flag given an empty value is refused.</li>
     </ul>
     <p>
+      A <strong>capture freeze</strong> marks the point after which a project&rsquo;s new idea captures must carry a
+      target. You record the freeze when you rule that the project&rsquo;s ideas are to be absorbed into plans, and from
+      then on a loose capture is a finding rather than a quiet addition to the pile. <code>capture-freeze open
+      &lt;spoke&gt;</code> writes <code>_projects/&lt;spoke&gt;/.capture-freeze</code> in the plans folder as one line,
+      <code>start_sha=</code> followed by the plans repository&rsquo;s current commit. It refuses when the plans folder is not a
+      git repository, when the spoke is not a plain key, when the spoke has no folder under <code>_projects/</code>,
+      and, with exit 3, when a freeze is already open. <code>capture-freeze lift</code> removes the record, and lifting
+      where none exists changes nothing and prints <code>no freeze in force</code>. While the record exists,
+      <code>backlog-index.sh --freeze-check</code> and every backlog index run report each open note of that spoke that
+      was added to the inbox after the recorded commit and carries no target, meaning no ABSORB into a plan whose
+      manifest exists. A record that is not exactly that one line, or that names a commit the plans repository does
+      not know, is reported as unevaluable. Nothing else is bound to the record: it blocks no write, and the report
+      is all it produces.
+    </p>
+    <p>
       Exit codes: 0 done or a documented no-op; 2 refused with nothing written, on a line that starts
       <code>field-set: refused:</code>; 3 refused by a governance gate (the close ordering gate, the claude-mem
       protection that keeps <code>settings hook off</code> from removing the memory-consolidation hook, or a

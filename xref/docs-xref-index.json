@@ -791,6 +791,9 @@
       "pages": {
         "commands.html": [
           "mention"
+        ],
+        "configuration.html": [
+          "mention"
         ]
       }
     },
