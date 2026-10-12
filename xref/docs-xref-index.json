@@ -816,6 +816,9 @@
         ],
         "plans.html": [
           "mention"
+        ],
+        "session-close.html": [
+          "mention"
         ]
       }
     },
