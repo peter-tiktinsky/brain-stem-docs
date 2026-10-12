@@ -103,6 +103,18 @@
         <code>--distinct-scope</code> line.
       </p>
       <p>
+        Resembles is a word overlap, scored before anything is written. The helper compares the new capture&rsquo;s
+        title and Idea section with each open note&rsquo;s and shortlists the notes that share enough words: an
+        overlap of 0.33 or more (the shared words divided by all the distinct words in the two texts), provided the
+        two share at least three words. A pair that also shares a <code>path:line</code> cite or opens with the same
+        two slug words is shortlisted from 0.30. A shared cite or slug start alone never shortlists a note. A note
+        that already carries a resolution is settled, so it is never compared. A new note is written only when every
+        shortlisted note is named by <code>--distinct-from</code> with a non-empty <code>--distinct-scope</code>, and
+        both values are stamped into the new note. <code>--amend</code> writes no new note: it appends the piped text
+        to the named note as one dated section. The thresholds sit in the
+        plans governance file, and an overlay can retune them by merging a value over the shipped one.
+      </p>
+      <p>
         Classifying a captured note is one command too:
         <code>triage-apply.sh &lt;slug&gt; --classification NOVEL|DUPLICATE|OVERLAP|DEFERRED --rationale &lt;line&gt;</code>,
         with <code>--related</code> for an overlap or duplicate and <code>--reopen-gate</code> for a deferral. In one
