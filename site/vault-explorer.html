@@ -548,7 +548,7 @@
           why: 'Drifting goals are the silent killer of long projects: the work wanders, scope creeps, and you end up somewhere nobody chose. A fixed spec means every later session aims at the same target, so &ldquo;are we finished?&rdquo; has an answer that doesn&rsquo;t move.',
           what: 'Your written statement of what the plan should achieve and what &ldquo;finished&rdquo; looks like. Once set, you treat it as fixed. It&rsquo;s one of the four core files, and the one you write yourself rather than the system generating.',
           from: 'You write it (with Claude&rsquo;s help) when the plan is created — human-authored, unusual here since most of these files are auto-built.',
-          clar: ['Holds the goal, not the steps — the task breakdown lives in the manifest and tasks list.', 'Fixed is a discipline, not a hard lock. If the goal genuinely must change, that&rsquo;s a real, logged decision, not a quiet edit.'],
+          clar: ['Holds the goal, not the steps — the task breakdown lives in the manifest and tasks list.', 'Fixed is a discipline, not a hard lock. If the goal genuinely must change, that&rsquo;s a real, logged decision, not a quiet edit.', 'The logging route is <code>plan-rule</code>: it records your ruling in the newest handoff entry and, for a change to the goal or constraints, writes a decision record and a pointer line at the end of the spec. Typing an Amendment heading into the spec by hand draws a <code>[SPEC AMENDMENT]</code> advisory that points to it.'],
           tips: []
         }, {
           id: 'manifest', label: 'manifest.json', kind: 'file', origin: 'authored',

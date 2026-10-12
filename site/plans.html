@@ -336,7 +336,15 @@
       and the file ownership stays strict the whole way:
     </p>
     <ul>
-      <li><strong>You author the spec</strong> — the goal and constraints, fixed once set.</li>
+      <li><strong>You author the spec</strong> — the goal and constraints, fixed once set. When a ruling genuinely
+      changes it, the change is recorded rather than typed into the spec&rsquo;s prose. <code>plan-rule</code>, run
+      with the plan folder, the fork, your choice and <code>--quote</code> with your own words, writes one ruling
+      line under Rulings, a heading in the newest handoff entry that it adds when absent. With <code>--spec-change</code> and a
+      <code>--title</code> it also writes a decision record under <code>decisions/</code>, adds that record to the
+      manifest&rsquo;s <code>decision_records[]</code> and appends one pointer line under an Amendment register heading
+      at the end of the spec. Every check runs before the first write, so a refusal writes nothing. Adding an
+      Amendment, Operator decision points or Rulings heading to the spec by hand draws a <code>[SPEC AMENDMENT]</code>
+      advisory that names this command. The advisory never blocks the write.</li>
       <li><strong>Tasks live in the manifest</strong> — you expand the structured task list there; the
       machine regenerates <code>tasks.md</code> from it between the sentinels (your edits outside the
       sentinels are preserved). A task can also carry <code>context_refs</code>, the plan text it needs: each
