@@ -2995,6 +2995,9 @@
         "faq.html": [
           "mention"
         ],
+        "index.html": [
+          "mention"
+        ],
         "orchestration.html": [
           "mention"
         ],
@@ -3002,6 +3005,9 @@
           "mention"
         ],
         "project-management-rationale.html": [
+          "mention"
+        ],
+        "project-management.html": [
           "mention"
         ],
         "research-rationale.html": [

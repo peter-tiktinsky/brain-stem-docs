@@ -20,7 +20,7 @@
       form a durable lifecycle from raw idea through research, decision, execution, verification, and reuse.
       Without one control model, duplicate ideas survive, evidence separates from the work, and status becomes
       difficult to trust across sessions. Brain Stem supplies <strong>a reconciled inbox-to-plan path, an executable
-      control file, independent verification, and a generated project binder</strong>.
+      control file, checks that catch records that disagree with each other, and a generated project binder</strong>.
     </p>
     <p class="page-meta">Decision rationale · citations resolve to the <a href="research-rationale.html#citations">central source register</a>.</p>
 
@@ -75,12 +75,12 @@
           <td><span class="pill ok">convergence</span></td>
         </tr>
         <tr>
-          <td>Treat "completed" as <strong>a claim to be checked</strong>: the manifest is the source of truth, and independent read-only verification passes audit it against the artifacts on disk</td>
+          <td>Treat "completed" as <strong>a claim to be checked</strong>: the manifest is the source of truth, and a review you run settles it against the artifacts on disk</td>
           <td>Letting a person mark a project done</td>
           <td>"Done" must be checkable: a status you can set without a check is a claim, and unchecked
           claims invite gaming
           <a class="cite" href="research-rationale.html#cite-specgaming">spec-gaming</a>.
-          The claim-versus-independent-check line is standard project management
+          The claim-versus-check line is standard project management
           <a class="cite" href="research-rationale.html#cite-pmbok">PMI/PMBOK</a>.</td>
           <td><span class="pill ok">convergence</span></td>
         </tr>
@@ -133,12 +133,12 @@
       </tbody>
     </table>
 
-    <p class="system-link"><strong>Deep dive:</strong> <a href="plans.html">plans</a> — the lifecycle from idea to done, with completion checked by independent passes rather than self-declared.</p>
+    <p class="system-link"><strong>Deep dive:</strong> <a href="plans.html">plans</a> — the lifecycle from idea to done, with completion settled by a review you run rather than self-declared.</p>
 
     <h2 id="orchestration">Orchestration &amp; scheduling</h2>
     <p>
       When a ready plan runs, orchestration keeps parallel work untangled and completion honest: the
-      manifest, dependencies, scoped worker briefs, circuit-breaker, and independent verification give
+      manifest, dependencies, scoped worker briefs, circuit-breaker, and your own review of the record give
       orchestration helpers explicit state and failure controls rather than asking autonomous workers to
       infer the plan from prose alone — and <strong>a human stays in the loop at every irreversible step</strong>.
     </p>

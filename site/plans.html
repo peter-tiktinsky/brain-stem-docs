@@ -17,7 +17,7 @@
     <h1>Plans</h1>
     <p class="lede">
       A plan is how a multi-step effort is stored on disk and shepherded from a raw idea to a finished,
-      <strong>independently checked</strong>, signed-off result. The whole tree lives in <code>~/.claude-plans</code>,
+      <strong>reviewed</strong>, signed-off result. The whole tree lives in <code>~/.claude-plans</code>,
       a deliberate parallel to Claude&nbsp;Code's own plans folder, with a structure chosen against
       researched best practices. That one relocation is what makes the funnel, the binder, and the
       orchestrator possible.
@@ -91,9 +91,9 @@
       <strong>forgeable-checkbox</strong> failure (an agent claiming it ticked a box it didn't) and the
       <strong>up-only reporting</strong> rule both track the documented failure modes of unsupervised
       multi-agent systems (a published <em>multi-agent failure taxonomy</em>). The
-      <strong>claim-versus-independent-check</strong> distinction is standard project-management practice (the
+      <strong>claim-versus-check</strong> distinction is standard project-management practice (the
       <em>PMI&nbsp;/&nbsp;PMBOK</em> separation of <em>verified</em> from <em>accepted</em> deliverables):
-      a plan&rsquo;s record is a claim until an independent read-only pass checks it against the artifacts.
+      a plan&rsquo;s record is a claim until a review you run checks it against the artifacts.
       And a <strong>structured source of truth rendered into a human list</strong> — not the reverse — is
       the lesson agentic-coding tools settled on independently (the <code>tasks.json</code>-style pattern).
       The design converges with those external answers rather than departing from them.</p>
@@ -280,7 +280,7 @@
         <div class="phase">
           <div class="phase-h">④ Earn done</div>
           <div class="smnode"><b>completed</b><small>the single terminal done-state, completion-timestamped</small></div>
-          <div class="smnode cap"><b>independent checks</b><small>read-only passes audit the record against the artifacts</small></div>
+          <div class="smnode cap"><b>your review</b><small>a review you run settles the record against the artifacts; its records live in <code>_gates/</code></small></div>
         </div>
       </div>
       <div class="uptag">▲ Throughout, each plan's research, decisions, and handoffs roll up into the project binder</div>
@@ -401,8 +401,10 @@
       A plan ends at <code>completed</code> (stamped with a completion timestamp on the record) or
       <code>superseded</code>. Done-integrity does not come from extra status words — it comes from the
       <strong>manifest being the source of truth</strong>, every human-readable list being generated from
-      it, and <strong>independent read-only verification passes</strong> that audit the record against the
-      artifacts on disk.
+      it, and <strong>shipped checks that catch records that disagree with each other</strong>, such as a
+      sub-plan that lags its terminal parent or a master&rsquo;s roll-up that drifts from its sub-plans. Whether the
+      record matches the artifacts on disk is settled by a review you run, whose records live in
+      <code>_gates/</code>.
     </p>
     <div class="flow">
       <div class="fstep"><b>researching</b></div>
@@ -420,7 +422,7 @@
     <div class="callout key">
       <div class="label">A claim, checked — not a stack of status words</div>
       <p><strong>Completed</strong> is a claim on the record — and the record is checkable, because the
-      manifest is the source of truth and independent read-only passes audit it against what is actually
+      manifest is the source of truth and a review you run can compare it with what is actually
       on disk. A status you could set without any machinery behind it would be theater, so the vocabulary is
       held to what the machinery can actually check. <em>Done is not something you get to declare twice.</em>
       (Archival is a display-only view filter in the rendered indexes — older completed plans are tucked
