@@ -319,6 +319,9 @@
         "README.md#quickstart--five-minutes-four-moves": [
           "mention"
         ],
+        "README.md#security": [
+          "mention"
+        ],
         "README.md#what-brain-stem-ships": [
           "mention"
         ],
@@ -2038,6 +2041,9 @@
     "launchd": {
       "class": "glossary",
       "pages": {
+        "README.md#security": [
+          "mention"
+        ],
         "automated-capture-rationale.html": [
           "mention"
         ],
@@ -4021,6 +4027,9 @@
     "the orchestrator": {
       "class": "glossary",
       "pages": {
+        "README.md#security": [
+          "mention"
+        ],
         "glossary.html": [
           "mention"
         ],

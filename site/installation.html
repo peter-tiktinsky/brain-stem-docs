@@ -371,7 +371,7 @@ cp ~/.claude/vault-init/Bases/*.base &lt;your-vault&gt;/Bases/</pre></li>
       <p>If either <code>0009-task-status-vocabulary</code> or <code>0010-class-a-rules-refresh</code> is
       missing, run <code>bash install.sh --upgrade --apply</code> once more — the runner selects any migration
       whose id is not yet in that list and heals the install. No manual step is ever needed. And if you had
-      edited a seeded rule entry, the rules refresh leaves your file alone and names it in an advisory; the <code>Check:</code> line of the rules migration's advisory
+      edited a seeded rule entry, migration 0011 leaves your file alone and names it in an advisory, and migration 0010 names an edited rule 25 or an edited rules README; the <code>Check:</code> line of the rules migration's advisory
       and <code>/librarian rules-hygiene --compare-retired</code>, described above, show what delivers that rule's guidance.</p>
     </div>
 
