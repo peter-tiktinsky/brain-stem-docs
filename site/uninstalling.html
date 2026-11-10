@@ -19,9 +19,9 @@
       Removing Brain Stem is one command. The important thing to understand first is what it will and will not
       touch — because the uninstaller is deliberately careful: inside the folders it installed it removes
       <strong>only the untouched files it originally laid down</strong>, it copies your install to a backup before
-      it starts, and it leaves your notes alone. The exception is the two top-level configuration files,
-      <code>settings.json</code> and <code>settings.local.json</code>: those are removed by name whether or not you
-      edited them, so your version of them lives in the backup.
+      it starts, and it leaves your notes alone. The two top-level configuration files follow their own rule:
+      <code>settings.local.json</code> is always kept, and <code>settings.json</code> is removed only if you have not
+      edited it since the install recorded it.
     </p>
     <p class="page-meta">For <em>why</em> uninstall behaves this way, see <a href="packaging-runtime.html">Packaging &amp; runtime</a>.</p>
 
@@ -55,7 +55,8 @@
       unexpected outcome is recoverable from that copy.</li>
       <li><strong>It stops Brain Stem's background jobs — and only those.</strong> Every scheduled job Brain Stem
       creates is named starting with <code>com.brain-stem</code>. The uninstaller stops and removes only jobs in
-      that reserved name-space. If it ever finds a job whose name merely <em>looks</em> similar but sits outside
+      that reserved name-space, and only the jobs and job files rendered for this install folder; a job that
+      belongs to another install folder is left alone. If it ever finds a job whose name merely <em>looks</em> similar but sits outside
       that prefix, it aborts rather than risk stopping something unrelated (your backup stays intact).</li>
       <li><strong>Inside the installed folders, it removes files one at a time, checking each.</strong> For every
       file the install originally laid down there, the uninstaller re-computes that file's <em>fingerprint</em> (a
@@ -67,9 +68,15 @@
           is <strong>kept</strong>, unless you pass <code>--force-rm-edited</code>.</li>
         </ul>
         So your personal edits inside those folders survive by default. Two things sit outside this per-file
-        check and are removed outright: the top-level <code>settings.json</code> and
-        <code>settings.local.json</code>, and Brain Stem's own bookkeeping under <code>governance/</code> — the
-        installed-file receipts, the governance action log, the install-state records and the project registry.</li>
+        check. The top-level settings files have their own rule: <code>settings.local.json</code> is always kept,
+        because it holds your permissions and may hold tokens, and <code>settings.json</code> is removed only when its
+        fingerprint still matches the one the installer recorded. If you edited it since, or the install predates
+        that record, it is kept and the uninstaller names it on screen; <code>--force-rm-edited</code> removes it
+        anyway. An edit you made before the last install or upgrade is part of the recorded fingerprint, so that
+        file reads as unedited and is removed, and the backup keeps a copy. A kept <code>settings.json</code> can
+        still list hooks whose scripts the uninstall removed. Brain Stem's own bookkeeping under
+        <code>governance/</code> — the installed-file receipts, the governance action log, the install-state
+        records and the project registry — is removed outright.</li>
     </ol>
 
     <h2>What is preserved</h2>
@@ -78,9 +85,10 @@
         <div class="kicker">Kept</div>
         <h3>Your vault &amp; your edits</h3>
         <p>Your notes folder is yours; uninstall does not delete it. And a shipped file you changed inside the
-        installed folders is left in place, named on screen as it is preserved. The top-level
-        <code>settings.json</code> and <code>settings.local.json</code> are the exception — they are removed by
-        name, so take your version back out of the backup.</p>
+        installed folders is left in place, named on screen as it is preserved. <code>settings.local.json</code>
+        is always kept, and <code>settings.json</code> is kept when you have edited it since the install recorded
+        it. The backup holds a copy of both, and its copy of <code>settings.local.json</code> masks token-shaped
+        <code>permissions.allow</code> entries, so the live file is the only unmasked copy.</p>
       </div>
       <div class="card">
         <div class="kicker">Kept</div>

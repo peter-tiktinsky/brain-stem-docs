@@ -145,9 +145,9 @@
           <td>Run it against the install home with <code>CLAUDE_HOME</code> set. <a href="packaging-runtime.html#uninstall">→ Packaging: uninstall</a></td>
         </tr>
         <tr>
-          <td>After uninstalling, <code>settings.json</code> / <code>settings.local.json</code> are gone.</td>
-          <td>The one named exception: those two files are not fingerprint-tracked, so they are removed by name. Your copies survive in the timestamped pre-uninstall backup.</td>
-          <td>Take your versions back out of the <code>.pre-uninstall-&lt;timestamp&gt;/</code> backup. <a href="uninstalling.html">→ Uninstalling</a></td>
+          <td>After uninstalling, <code>settings.json</code> is gone, or still lists hooks that no longer exist.</td>
+          <td><code>settings.local.json</code> is always kept. <code>settings.json</code> is removed only when it still matches the fingerprint recorded at install or upgrade; if you edited it since, it is kept and the uninstaller names it. A kept <code>settings.json</code> can still list hooks whose scripts the uninstall removed.</td>
+          <td>Take a removed file back out of the <code>.pre-uninstall-&lt;timestamp&gt;/</code> backup, or pass <code>--force-rm-edited</code> to remove an edited <code>settings.json</code> too. <a href="uninstalling.html">→ Uninstalling</a></td>
         </tr>
       </tbody>
     </table>
