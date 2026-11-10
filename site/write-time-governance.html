@@ -94,7 +94,7 @@
     <table>
       <thead><tr><th>Gap</th><th>Audit / repair layer</th><th>Posture</th></tr></thead>
       <tbody>
-        <tr><td>A file missing required or identity fields, however it got there</td><td>Frontmatter enforcement, with a backfill mode for the identity cohort</td><td>Check mode at close and by default; fix mode by hand or as an upgrade option</td></tr>
+        <tr><td>A file missing required or identity fields, however it got there</td><td>Frontmatter enforcement, with a backfill mode for the identity cohort. The identity stamp fires on a Markdown file Claude&nbsp;Code writes at its physical path under your work root as well as through the vault&rsquo;s <code>Work/</code> view, and skips <code>.claude/</code> paths and folders with a <code>.no-spoke</code> marker. Fields a declared writer leaves out of an index it owns are not reported. The backfill only inserts missing keys</td><td>Check mode at close and by default; fix mode by hand or as an upgrade option</td></tr>
         <tr><td>A folder index out of step with its folder</td><td>Index maintenance: mechanical drift (row set, line counts, types, timestamps) is auto-corrected inside the sentinels; semantic content (descriptions, ordering, the context paragraph) is flagged, never overwritten</td><td>Dry run at close; the sweep applies when you run it</td></tr>
         <tr><td>A link that no longer resolves, in either grammar</td><td>Cross-reference check, wikilink repair, and the rename cascade</td><td>Findings and proposals at close; repair and cascade apply by hand</td></tr>
         <tr><td>A file in the wrong place, or a stale one</td><td>Placement validation and stale detection</td><td>Findings</td></tr>
