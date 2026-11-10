@@ -38,7 +38,7 @@
       Out of the box, Claude&nbsp;Code's assistant is a blank slate — no rules, no automations, no reusable
       procedures. "The foundation" is the curated bundle that turns that blank slate into a disciplined workspace.
       It spans eight areas of your install — skills, hooks, governance registries, the installer's own machinery,
-      templates, schemas, the orchestrator and the vault starter kit, some 310 files in all — plus a set of
+      templates, schemas, the orchestrator and the vault starter kit, with one root file beside them, 332 files in all — plus a set of
       entries it merges into your configuration file. Four of those
       ingredients are the ones you meet first:
     </p>
@@ -253,8 +253,11 @@
     <p>
       Your personal edits inside the installed folders survive an uninstall <strong>by default</strong>. The two
       top-level configuration files, <code>settings.json</code> and <code>settings.local.json</code>, are the
-      exception: the manifest does not track them, so uninstall removes them by name with no fingerprint check and
-      your version of them survives only in the backup. That backup is the safety net, and it is
+      exception: the manifest does not track them, so each has its own rule. <code>settings.local.json</code> is always
+      kept, because it holds your permissions and may hold tokens. <code>settings.json</code> is removed only when its
+      sha256 matches the one the installer recorded in <code>governance/.installed-state.json</code>; if you edited it
+      since, or no record exists, it is kept and named on screen, and <code>--force-rm-edited</code> removes it anyway.
+      Your version of either also survives in the backup. That backup is the safety net, and it is
       <strong>mandatory, taken first</strong>: before removing anything, it copies the target folder into a
       timestamped <code>.pre-uninstall-&lt;timestamp&gt;/</code> — leaving out the source repository's
       <code>.git</code>, the <code>projects/</code> session transcripts and any earlier backup, and redacting
@@ -267,7 +270,8 @@
       system's service manager <strong>launchd</strong> and each identified by a <strong>label</strong>. The
       foundation reserves a private name-space: every one of its jobs is named starting with
       <code>com.brain-stem</code>. Uninstall stops and removes <strong>only</strong> jobs in that reserved
-      name-space — and actively <strong>refuses</strong> to touch any job whose name merely looks similar but sits
+      name-space, and only the jobs and job files rendered for this install folder: a job that belongs to another
+      install folder is left alone. It also actively <strong>refuses</strong> to touch any job whose name merely looks similar but sits
       outside the prefix, aborting rather than risk stopping something unrelated. This is why uninstall
       <em>fully</em> reverses the install: it pulls down the timers, not just the files.
     </p>
@@ -303,7 +307,10 @@
       <code>permissions.ask</code>, one for each top-level directory the installer manages and one for each skill it
       ships, so Claude&nbsp;Code asks before it edits a directory that every upgrade replaces. Each rule is offered
       once, and the install keeps a record of what it offered: a rule you remove is never added back, and a rule a
-      later release adds is offered on that upgrade. Your own allow, deny, ask and defaultMode entries are never
+      later release adds is offered on that upgrade. Hooks get the same guarantee: when you turn a foundation hook off
+      with <code>field-set.sh settings hook off</code>, its name is recorded in the <code>hooks.disabled</code> list of
+      your user manifest, and the installer leaves every hook on that list out of <code>settings.json</code> on each
+      upgrade until you turn it back on. Your own allow, deny, ask and defaultMode entries are never
       removed, rewritten or reordered; the seeded rules go after them.
     </p>
 

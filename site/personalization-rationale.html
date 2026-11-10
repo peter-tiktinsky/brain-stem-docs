@@ -268,7 +268,7 @@
           <td><strong>Merge Brain Stem settings with adopter values preserved</strong>, behind a deletion gate</td>
           <td>A wholesale overwrite, or per-hook hand-patches</td>
           <td>The merge refuses to proceed if it would silently drop any existing key; a reconciler adds
-          missing foundation hooks without reordering adopter hooks. Claude Code resolves settings across
+          missing foundation hooks, unless you listed one in <code>hooks.disabled</code>, without reordering adopter hooks. Claude Code resolves settings across
           managed, command-line, project-local, project, and user scopes by documented precedence, while
           list-valued keys generally combine
           <a class="cite" href="research-rationale.html#cite-cc-settings">CC settings</a>. Brain Stem's
@@ -290,7 +290,7 @@
         <tr>
           <td>Fence background jobs to the <strong><code>com.brain-stem.*</code> label namespace</strong></td>
           <td>A careless cleanup that stops unrelated jobs</td>
-          <td>On uninstall it stops only jobs in its reserved prefix and actively refuses to touch an impersonator, aborting rather than risk stopping something unrelated. Reverse-domain naming is the OS-level <a class="cite" href="research-rationale.html#cite-launchd">launchd</a> convention.</td>
+          <td>On uninstall it stops only jobs in its reserved prefix, and only those rendered for this install folder, and actively refuses to touch an impersonator, aborting rather than risk stopping something unrelated. Reverse-domain naming is the OS-level <a class="cite" href="research-rationale.html#cite-launchd">launchd</a> convention.</td>
           <td><span class="pill ok">convergence</span></td>
         </tr>
       </tbody>
