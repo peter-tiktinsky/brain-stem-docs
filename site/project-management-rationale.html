@@ -140,7 +140,7 @@
       When a ready plan runs, orchestration keeps parallel work untangled and completion honest: the
       manifest, dependencies, scoped worker briefs, circuit-breaker, and your own review of the record give
       orchestration helpers explicit state and failure controls rather than asking autonomous workers to
-      infer the plan from prose alone — and <strong>a human stays in the loop at every irreversible step</strong>.
+      infer the plan from prose alone — and <strong>a plan run through the orchestrator stops for a human at every irreversible step</strong>.
     </p>
     <table class="decision">
       <thead>
@@ -163,8 +163,8 @@
         <tr>
           <td>A <strong>human-gated runner that proposes and waits</strong></td>
           <td>A fully autonomous, unattended daemon</td>
-          <td>No task fires without a human reasoning or approval point — irreversible tasks halt for
-          approval (human-in-the-loop), reversible ones proceed under supervision. An unsupervised
+          <td>A plan run through <code>plan-runner.sh</code> fires no task without a human reasoning or approval point — irreversible tasks halt for
+          approval (human-in-the-loop), reversible ones proceed under supervision. Direct job and cron runs carry no such gate. An unsupervised
           runner inherits documented multi-agent failure rates
           <a class="cite" href="research-rationale.html#cite-mast">MAST</a>; it is built on the
           platform's headless mode

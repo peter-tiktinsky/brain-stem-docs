@@ -17,7 +17,7 @@
     <h1>Orchestration &amp; Scheduling</h1>
     <p class="lede">
       <a href="plans.html">Plans</a> describe the work. <strong>Orchestration</strong> runs it — dispatching
-      tasks to fresh AI sessions under human-gated supervision. <strong>Scheduling</strong> decides
+      tasks to fresh AI sessions, with human gates on a plan run. <strong>Scheduling</strong> decides
       <em>when</em>: from always-on capture to overnight runs you schedule yourself. This page covers how both are
       set up and governed, and is honest about what's turnkey versus what you assemble.
     </p>
@@ -26,7 +26,10 @@
     <h2>What orchestration is</h2>
     <p>
       The orchestrator is a <strong>propose-and-gate dispatcher</strong>, not a fully autonomous background
-      process. Nothing fires without a human reasoning or approval point. It reads a plan's machine-readable manifest as its
+      process. Its human gates exist on one path only: a plan run through <code>dispatch.sh --plan</code>, or a plan
+      entry of a <code>--batch</code> file, reaches <code>plan-runner.sh</code>, which stops at every task that needs
+      approval. Direct <code>--job</code> and <code>--cron</code> runs, the other <code>--batch</code> entries and
+      scheduled wrappers carry no human gate. It reads a plan's machine-readable manifest as its
       contract, walks the tasks, and dispatches each one to its own fresh AI session — but it never rewrites the
       plan's own files.
     </p>
@@ -43,9 +46,11 @@
       It keeps its own state outside your vault — an execution queue, a verdict log, and a circuit-breaker that
       halts new dispatches after two silent failures in a row. The plan's <code>spec</code>,
       <code>tasks</code>, <code>handoff</code>, research, and decisions are left untouched; status transitions
-      are driven by you, the hooks, and the harness, not by the dispatcher. A queued run can be paused and
-      resumed without losing its place: <code>--hold</code> makes the executor skip it and
-      <code>--unhold</code> returns it to the queue. Where <code>lockf</code> is installed, every change to the queue runs under a kernel-backed
+      are driven by you, the hooks, and the harness, not by the dispatcher. <code>--hold</code> and <code>--unhold</code>
+      act on queue entries that an earlier release wrote: <code>--hold</code> marks an entry so it is skipped and
+      <code>--unhold</code> returns it to the queue. Nothing new is queued, because <code>--overnight</code> is refused
+      with exit 2 before any side effect and points to <code>--delay</code>; a queue file an earlier release wrote is
+      kept, and <code>--hold</code>, <code>--unhold</code> and <code>--queue-status</code> still work over it. Where <code>lockf</code> is installed, every change to the queue runs under a kernel-backed
       lock (and runs unlocked where it is not), so two dispatches never overwrite each other; a change that cannot take the lock
       within two seconds fails with a visible lock-contention message rather than being skipped silently.
     </p>
@@ -53,15 +58,17 @@
     <h2>The two gates</h2>
     <p>
       Every task is sorted into one of two supervision modes before it runs. This is the safety valve that lets
-      a dispatcher run unattended work without it running <em>away</em>.
+      a dispatcher run unattended work without it running <em>away</em>. The two gates apply on the
+      <code>plan-runner.sh</code> path described above, a plan run through <code>dispatch.sh --plan</code> or as a plan
+      entry of a <code>--batch</code> file.
     </p>
     <div class="card-grid two">
       <div class="card work">
         <div class="kicker">HITL — human in the loop</div>
         <h3>Halts for approval</h3>
-        <p>Anything irreversible or flagged as a live mutation <strong>stops</strong> and waits for an explicit
-        approval signal. By design, a scheduled, unattended run of a live-mutation plan will simply halt rather
-        than proceed on its own.</p>
+        <p>In a plan run, a task marked irreversible, or any task of a sub-plan whose manifest enables a live-mutation
+        scope, <strong>stops</strong> and waits for an explicit approval signal. By design, an unattended plan run
+        will halt at such a task rather than proceed on its own.</p>
       </div>
       <div class="card code">
         <div class="kicker">HOTL — human on the loop</div>
@@ -141,7 +148,7 @@
       <div class="pillar">
         <div class="ph"><span class="pn">C</span><h3>Run a plan on a schedule</h3></div>
         <p class="keeps">Execute a particular plan automatically on a cadence, through the orchestrator's gates.</p>
-        <p class="row"><b>Reality</b>A one-off scheduled run is built in; a recurring cadence is a small launchd job calling the dispatcher. Remember the gates — a plan with irreversible steps will halt for approval rather than complete unattended.</p>
+        <p class="row"><b>Reality</b>A one-off scheduled run is built in; a recurring cadence is a small launchd job calling the dispatcher. Remember the gates — a plan run through <code>dispatch.sh --plan</code> with irreversible steps will halt for approval rather than complete unattended. A job or cron run you schedule directly carries no such gate.</p>
         <div class="vrow"><span class="pill ok">One-off shipped</span> <span class="pill advise">recurring you assemble</span></div>
       </div>
     </div>
