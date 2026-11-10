@@ -164,8 +164,10 @@
       directory (see <em>Arming a plan for build</em> below) and holds one line: the folder name of the armed plan.
       <code>.active-sp</code> sits inside a master plan and holds one line: the folder name of the armed sub-plan.
       Whitespace is ignored. For <code>.active-sp</code>, a single dot, an absent file or a name that matches no
-      folder all mean the plan root. On an installed system, no Brain Stem command writes the pointer files, so you
-      write both pointer files yourself.
+      folder all mean the plan root. On an installed system, <code>skills/new-plan/lib/active-plan.sh set &lt;plan&gt; [&lt;sub-plan&gt;|.] [--project &lt;spoke&gt;]</code>
+      writes them: it points the spoke at the plan, writes <code>.active-sp</code> when you name a sub-plan, and stamps a
+      planned or paused plan in-progress. It refuses a completed or superseded plan, and
+      <code>active-plan.sh clear</code> removes the pointer.
     </p>
 
     <h3>Two folders named <code>deliverables/</code></h3>
@@ -328,7 +330,16 @@
       size), ABSORB (into a named plan whose manifest exists) or NO-BUILD, a decided no-for-now that names a registered re-open gate and
       comes back into the inbox when the backlog index finds the gate met. Classifying a note at triage is one
       command, <code>triage-apply.sh</code>, and a parked NO-BUILD note whose gate is manual is re-opened with
-      <code>reopen-idea.sh</code>.
+      <code>reopen-idea.sh</code>; a note parked behind a command gate can be re-opened by hand with
+      <code>reopen-idea.sh --force</code>, which still requires the gate to be registered and does not evaluate it.
+    </p>
+    <p>
+      A note graduates only after it is triaged: <code>promote-from-inbox.sh</code> accepts a note at status
+      <code>triaged</code> or <code>briefed</code>, for the lead note and for every <code>--absorb</code> note, and an
+      untriaged note is refused with the triage command to run. The sequence is capture, triage, graduate. An ABSORB
+      target whose plan is closed is refused. To regroup a decided note under a lead plan, clear its decision with
+      <code>redecide-idea.sh &lt;slug&gt; --clear --rationale &lt;one line&gt;</code>; a cleared note is undecided, and
+      <code>promote-from-inbox.sh &lt;lead&gt; --absorb &lt;slug&gt;</code> can then take it.
     </p>
     <p>
       A re-open gate is an id from a closed registry in the plans governance file, and the note&rsquo;s frontmatter
@@ -390,7 +401,8 @@
       was launched from, and nothing else; and a session in a project with nothing armed receives none, so the
       payload loads only into sessions launched from an armed project. An older
       corpus-wide pointer at the plans root is still honoured as a read-only fallback so nothing breaks on the way
-      over, but nothing writes it any more.
+      over, but nothing writes it any more. On an installed system you set the per-project pointer with
+      <code>skills/new-plan/lib/active-plan.sh set</code>, as described under <em>The two pointer files</em>.
     </p>
 
     <p>How a plan is executed and scheduled &rarr; <a href="orchestration.html">Orchestration &amp; scheduling</a>.</p>

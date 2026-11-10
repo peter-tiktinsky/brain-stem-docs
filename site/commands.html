@@ -49,7 +49,7 @@
       its completed steps on failure or names where it stopped. Claude supplies only the judgment, such as which
       class a note belongs to or what a ruling said, and passes it in as arguments. Every one of them exits with a
       code listed beside it in its own section, so a script or a person can tell done from refused from failed. The
-      nine commands in the table are the ones the rest of this page describes.
+      ten commands in the table are the ones the rest of this page describes.
     </p>
     <table>
       <thead><tr><th>Command</th><th>The mechanical steps it does</th><th>Where it is described</th></tr></thead>
@@ -57,6 +57,7 @@
         <tr><td><code>field-set.sh</code></td><td>Sets one field in a JSON record you would otherwise edit by hand, validated against the record&rsquo;s schema</td><td><a href="configuration.html#field-set">Configuration</a></td></tr>
         <tr><td><code>process.sh assemble</code></td><td>Composes a validated governance registration from a proposal and your rulings</td><td><a href="#govern-register"><code>/govern register</code></a></td></tr>
         <tr><td><code>triage-apply.sh</code>, <code>reopen-idea.sh</code></td><td>Classify a captured idea in one write; return a parked idea to the inbox</td><td><a href="#backlog-triage"><code>/backlog-triage</code></a></td></tr>
+        <tr><td><code>redecide-idea.sh</code></td><td>Replaces, or clears, the decided disposition of one idea note, with a dated line recording why</td><td><a href="#backlog-triage"><code>/backlog-triage</code></a></td></tr>
         <tr><td><code>rehome-stray.sh</code></td><td>Moves a stray plans-root entry into the plan that owns it, then re-sweeps</td><td><a href="#new-plan"><code>/new-plan</code></a></td></tr>
         <tr><td><code>--rollup</code>, <code>--graduate</code></td><td>Refresh a master plan&rsquo;s sub-plan rows; turn a flat plan into a master</td><td><a href="#new-plan"><code>/new-plan</code></a></td></tr>
         <tr><td><code>checkpoint-gather.sh</code></td><td>Finds, stamps, validates and writes a session&rsquo;s checkpoint</td><td><a href="#session-checkpoint"><code>/session-checkpoint</code></a></td></tr>
@@ -117,6 +118,11 @@
         set up cleanly without the research-first route below.
       </p>
       <p>
+        Adding a sub-plan to an existing master with <code>--add-subplan &lt;master&gt; --sub &lt;sub-slug&gt;</code>
+        refreshes the master&rsquo;s sub-plan table in the same run; if the refresh fails the run still succeeds and
+        prints the one command that refreshes it.
+      </p>
+      <p>
         Two more modes keep a master plan consistent. <code>--rollup &lt;master&gt;</code> pulls the status of the
         master&rsquo;s sub-plans from their own manifests and rewrites only the Sub-plan, Slug and Status rows of the
         table in the master&rsquo;s task list, in one locked, atomic pass that writes nothing when the rows already
@@ -131,8 +137,11 @@
         A stray entry at the plans root, which the placement banner at session start reports, is re-homed into the
         plan that owns it with <code>rehome-stray.sh &lt;entry&gt; --into &lt;plan&gt;</code>, or, for an entry that
         belongs to no plan yet, <code>rehome-stray.sh &lt;entry&gt; --mint &lt;slug&gt; --disposition &lt;value&gt; --body &lt;text&gt;</code>,
-        which captures and graduates the plan first. It then runs the derivations a close would have run and
-        sweeps again. <code>rehome-stray.sh</code> exits 0, 1 or 2: 0 done, 2 refused with every byte unchanged, 1 stopped after
+        which captures, triages and graduates the plan first. It then runs the derivations a close would have run and
+        sweeps again. An entry that is not a durable artifact is set aside instead with
+        <code>rehome-stray.sh &lt;entry&gt; --discard --reason &lt;text&gt;</code>: nothing is deleted, the entry moves to the
+        <code>discarded-strays/</code> folder of the state root and the reason is logged beside it.
+        <code>rehome-stray.sh</code> exits 0, 1 or 2: 0 done, 2 refused with every byte unchanged, 1 stopped after
         a partial step with the resume command named.
       </p>
     </div>
@@ -177,7 +186,18 @@
         to its Notes section. <code>triage-apply.sh</code> exits 0, 1 or 2: 0 done, 2 refused with the note
         unchanged, 1 the write failed. A parked NO-BUILD note whose re-open gate is manual returns to the inbox as
         an open note with <code>reopen-idea.sh &lt;slug&gt;</code>, which <code>reopen-idea.sh</code> exits 0, 1 or 2
-        on: 0 done or already open, 2 refused, 1 stopped with the resume command named.
+        on: 0 done or already open, 2 refused, 1 stopped with the resume command named. A note parked behind a
+        command gate is refused unless you add <code>--force</code>: the gate must still be registered, and it is
+        not evaluated, so <code>--force</code> is your override for a gate that cannot be met.
+      </p>
+      <p>
+        Changing a decision already made on a flat idea note is one command as well:
+        <code>redecide-idea.sh &lt;slug&gt; (--disposition &lt;value&gt; [class flags] | --clear) --rationale &lt;one line&gt;</code>.
+        It replaces the note&rsquo;s disposition, or with <code>--clear</code> removes it, and appends a dated
+        <code>REDECIDE</code> line to the note&rsquo;s Notes section. A cleared note is undecided, so
+        <code>promote-from-inbox.sh &lt;lead&gt; --absorb &lt;slug&gt;</code> can take it into another plan. It refuses a
+        settled, graduated or already targeted note, and an ABSORB target whose plan is closed, with the note
+        unchanged. <code>redecide-idea.sh</code> exits 0 done, 2 refused with the note unchanged, 1 the write failed.
       </p>
     </div>
     <div class="cmd" id="backlog-research">
@@ -301,7 +321,7 @@
           <tr><td><code>index-maintain</code></td><td>Reconciles each folder's auto-generated index with what is actually on disk</td><td>maintain</td><td>full · daily</td></tr>
           <tr><td><code>library-index</code></td><td>Re-derives the Library's per-topic indexes</td><td>maintain</td><td>full · daily</td></tr>
           <tr><td><code>library-log-rotate</code></td><td>Rotates the Library's change log into per-year archives when it passes its size threshold</td><td>maintain</td><td>full · daily</td></tr>
-          <tr><td><code>library-scrub</code></td><td>The promotion scrub: workshop project research in, a clean universal Library article out. <code>--census</code> lists the unpromoted research of completed plans; the promotion host modes queue and triage promotions: <code>--candidates</code>, <code>--triage</code> and <code>--next</code> stay dormant (exit 0, no model call, no write) until the mode is set, <code>--answer</code> records a reply, and <code>--mode</code> reads or sets the mode</td><td>asks first</td><td>live</td></tr>
+          <tr><td><code>library-scrub</code></td><td>The promotion scrub: workshop project research in, a clean universal Library article out. <code>--census</code> lists the unpromoted research of completed plans; the promotion host modes queue and triage promotions: <code>--candidates</code>, <code>--enqueue &lt;plan&gt;</code> (queues one completed plan the census lists, with no model call), <code>--triage</code> and <code>--next</code> stay dormant (exit 0, no model call, no write) until the mode is set, <code>--answer</code> records a reply, and <code>--mode</code> reads or sets the mode</td><td>asks first</td><td>live</td></tr>
           <tr><td><code>link-grammar-convert</code></td><td>Converts a corpus of wiki-style links to the ruled plain-Markdown link grammar</td><td>asks first</td><td>by name</td></tr>
           <tr><td><code>log-subtype-canonical</code></td><td>Detects <code>#log/</code> and <code>#status/</code> subtypes that were never registered in the tag taxonomy. Four <code>#log/</code> subtypes are registered: <code>session-close</code>, <code>audit-report</code>, <code>backlog-hygiene</code> and <code>library-change</code></td><td>audit</td><td>full · weekly</td></tr>
           <tr><td><code>rename-cascade</code></td><td>After a detected rename, cascades the wikilink and Markdown-link updates across the vault — dry-run first, applied on review</td><td>maintain</td><td>full · close</td></tr>
@@ -327,7 +347,7 @@
           <tr><td><code>memory-spill</code></td><td>Moves the coldest non-episodic entries of the <code>MEMORY.md</code> index to <code>MEMORY-archive.md</code>, leaving one pointer line. It previews by default; <code>--apply</code> acts only at the YELLOW band or above, under the consolidation lock, and writes the archive first. Exit 0 done, 2 refused before anything was read, 3 refused by the plan or a failed write, exit 75 the lock is held</td><td>asks first</td><td>by name</td></tr>
           <tr><td><code>memory-staleness</code></td><td>Flags memory entries past their revalidation bounds</td><td>audit</td><td>weekly</td></tr>
           <tr><td><code>pointer-currency-scan</code></td><td>Checks that plain-path pointers in memory and rules still resolve on disk — propose-only, never rewrites</td><td>audit</td><td>full · close</td></tr>
-          <tr><td><code>review</code></td><td>Works the review queue — confirm or reject pending memory consolidations, one by one. Its steps are subcommands: <code>review list</code>, <code>review show</code>, <code>review confirm</code>, <code>review reject</code>, <code>review defer</code> and <code>review report</code>; a deferred item still counts as open. Exit codes: 0 done; 2 refused with the queue unchanged; 3 a write or a primitive failed</td><td>asks first</td><td>live</td></tr>
+          <tr><td><code>review</code></td><td>Works the review queue — confirm or reject pending memory consolidations, one by one. Its steps are subcommands: <code>review list</code>, <code>review show</code>, <code>review confirm</code>, <code>review reject</code>, <code>review defer</code> and <code>review report</code>; a deferred item still counts as open. A promotion item can carry the memory file it proposes: <code>review confirm</code> writes that file when you name no <code>--written</code> file, after checking its shape. Exit codes: 0 done; 2 refused with the queue unchanged; 3 a write or a primitive failed</td><td>asks first</td><td>live</td></tr>
         </tbody>
       </table>
 
