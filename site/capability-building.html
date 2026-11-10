@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build Your Own Capabilities · Brain Stem</title>
+<link rel="stylesheet" href="assets/style.css?v=49">
+<script src="assets/mobile.js?v=2"></script>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">System personalization · building your own</p>
+    <h1>Build Your Own Capabilities</h1>
+    <p class="lede">
+      Brain Stem ships a skill, <code>capability-building</code>, for adding a capability of your own the
+      deterministic way: pick the right kind of building block first, let a script write the files, and start from a
+      fixture that fails. Everything you add lives where an upgrade leaves it alone.
+    </p>
+    <p class="page-meta">Where your additions sit and why they survive an upgrade is on <a href="extension-points.html">Extension points</a>. The map of what your system runs is on <a href="system-map.html">The system map</a>.</p>
+
+    <h2>The idea: the model routes, scripts own the files</h2>
+    <p>
+      The skill is a route, not a template folder. Claude reads the one reference that fits the step you are on, and a
+      script writes every file, so the shape of a record, a name or a directory is never typed by hand. A mistyped
+      directory or a hand-numbered record is the kind of error a script cannot make.
+    </p>
+
+    <h2>Step one: choose the primitive</h2>
+    <p>
+      Claude&nbsp;Code offers several building blocks. The skill&rsquo;s primitive-choice reference sets out when each one
+      is right, and the rule that settles most choices is short: <strong>if a behavior must hold every time, it
+      belongs in a hook</strong>. An instruction in a skill or in your project notes is a request, and the model can
+      skip it under pressure. A hook runs whether or not the model cooperates.
+    </p>
+    <table>
+      <thead><tr><th>Building block</th><th>Choose it when</th></tr></thead>
+      <tbody>
+        <tr><td>Hook</td><td>The action must happen the same way every time and needs no judgment from the model</td></tr>
+        <tr><td>Skill with scripts</td><td>The model needs on-demand knowledge or a repeatable workflow, and a script can own the deterministic part. The default for everything else</td></tr>
+        <tr><td>Subagent</td><td>You want an isolated context, parallel work, specialized instructions kept out of your always-loaded notes, or a narrower set of permissions</td></tr>
+        <tr><td>Workflow</td><td>A script holds the order of several steps or agents, so the model does not re-decide it</td></tr>
+        <tr><td>Command</td><td>You want to start a prompt on purpose, by name, every time</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Add to a skill you already have before you create a new one. An idle skill costs only its name and description at
+      the start of each session, and a split pays for itself only when it spares every use of the parent from loading
+      material it did not need.
+    </p>
+
+    <h2>Step two: let scripts write the files</h2>
+    <p>The scaffold writes the skill folder, the capability or the hook stub, and a failing fixture stub to start from.</p>
+    <table>
+      <thead><tr><th>Command</th><th>What it writes</th></tr></thead>
+      <tbody>
+        <tr><td><code>scaffold.sh skill &lt;name&gt;</code></td><td>The skill folder with a <code>SKILL.md</code> that uses only recognized keys, the empty <code>scripts/</code> and <code>references/</code> folders, and a failing fixture stub</td></tr>
+        <tr><td><code>scaffold.sh capability &lt;skill&gt; &lt;cap&gt;</code></td><td>The capability script, its <code>## Capability:</code> heading in the skill and its registry row, which move together, plus a failing fixture stub</td></tr>
+        <tr><td><code>scaffold.sh hook &lt;name&gt; --event &lt;E&gt; --matcher &lt;M&gt;</code></td><td>The hook script, with a deny function and a silent allow path, and a failing fixture stub. It prints the registration entry and never edits <code>settings.json</code>; you register the entry yourself</td></tr>
+      </tbody>
+    </table>
+    <p>
+      The scaffold never overwrites anything, and a failed write leaves no half-made tree. A refusal exits 2 and the last
+      line it prints starts <code>capability-scaffold: refused:</code>.
+    </p>
+
+    <h2>Step three: start from the failing fixture</h2>
+    <p>
+      The fixture the scaffold leaves prints <code>FAIL: STUB</code> and exits 1. Make it pass. Run each fixture red
+      before the change and green after it, then break the change on purpose and watch it go red again. A refusal or a
+      hook deny is worded as one line with the fix in it, and a fixture compares that line byte for byte. A
+      script or hook you wrote is checked against a fail-loud list before it ships: nothing is swallowed, and a failure
+      is impossible to miss.
+    </p>
+
+    <h2>Step four: validate, count the cost, register</h2>
+    <ul>
+      <li><strong>Validate and evaluate.</strong> <code>claude plugin validate --json</code> reports a skill whose
+      frontmatter does not parse, and <code>claude plugin eval</code> runs each case with and without your skill, so a
+      capability that does not beat the baseline is not earning its context. Deterministic graders come first.</li>
+      <li><strong>Count the always-on cost.</strong> The name, description and when-to-use text of every skill are paid at
+      each session start, so keep them short and put the main use first.</li>
+      <li><strong>Lint the frontmatter.</strong> <code>skill-parity</code> reports a key Claude&nbsp;Code does not recognize
+      (it would be ignored without an error) and a skill whose description plus when-to-use text passes the 1,536-character
+      listing limit. See <a href="extension-points.html">Extension points</a>.</li>
+      <li><strong>Put it on the map.</strong> Run <code>/librarian system-map --render</code> and confirm your capability has a
+      page. See <a href="system-map.html">The system map</a>.</li>
+    </ul>
+
+    <h2>Plan gates that follow the shape the write guard expects</h2>
+    <p>
+      If you review your own plans, two commands handle the records and the reviewers. A gate record is a numbered
+      review record in the plan&rsquo;s gate-record folder, and the name pattern comes from the <code>gate_records</code> key
+      of the plans rules.
+    </p>
+    <pre>gate-record.sh write &lt;plan-dir&gt; --gate &lt;1|2&gt; --kind &lt;kind&gt; --body-file &lt;path|-&gt;
+gate-record.sh install-reviewer &lt;project-dir&gt; [--only plan-reviewer|build-checker]</pre>
+    <ul>
+      <li><code>write</code> numbers the file, composes its name, writes the frontmatter, prints the path and never overwrites an
+      existing record.</li>
+      <li><code>install-reviewer</code> writes two reviewer templates, <code>plan-reviewer.md</code> and
+      <code>build-checker.md</code>, into that project&rsquo;s <code>.claude/agents/</code>. Each is limited to the Read, Glob and Grep
+      tools, so a reviewer reads and reports and cannot edit. A file you already have is never overwritten. No agent joins the
+      shipped roster: the copies are files of your own project, and they set no model, so pin one that differs from the
+      author&rsquo;s when you dispatch.</li>
+    </ul>
+    <p>
+      A review is worth having only when the reviewer is independent: a fresh context, a different model and read-only
+      tools. A verdict from a reviewer whose tools failed mid-run is marked degraded and does not close a gate. A refusal
+      from <code>gate-record.sh</code> prints <code>gate-record: refused:</code> as its last line and changes nothing.
+    </p>
+
+    <div class="callout note">
+      <div class="label">Seeded permission</div>
+      <p>Install and upgrade offer one more <code>permissions.ask</code> rule, for edits under the skill&rsquo;s folder, under the usual
+      rule that each seeded rule is offered once. See <a href="packaging-runtime.html">Packaging &amp; runtime</a>.</p>
+    </div>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">Brain Stem · documentation · Build Your Own Capabilities.</div>
+  </main>
+</div>
+
+<script src="assets/nav.js?v=27"></script>
+<script src="assets/nav-foot.js"></script>
+<script src="assets/toc.js?v=4"></script>
+</body>
+</html>

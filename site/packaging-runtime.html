@@ -255,7 +255,7 @@
       top-level configuration files, <code>settings.json</code> and <code>settings.local.json</code>, are the
       exception: the manifest does not track them, so each has its own rule. <code>settings.local.json</code> is always
       kept, because it holds your permissions and may hold tokens. <code>settings.json</code> is removed only when its
-      sha256 matches the one the installer recorded in <code>governance/.installed-state.json</code>; if you edited it
+      sha256 matches the one the installer recorded in its install-state record; if you edited it
       since, or no record exists, it is kept and named on screen, and <code>--force-rm-edited</code> removes it anyway.
       Your version of either also survives in the backup. That backup is the safety net, and it is
       <strong>mandatory, taken first</strong>: before removing anything, it copies the target folder into a
@@ -350,7 +350,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=26"></script>
+<script src="assets/nav.js?v=27"></script>
 <script src="assets/nav-foot.js"></script>
 <script src="assets/toc.js?v=4"></script>
 </body>

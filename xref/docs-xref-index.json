@@ -118,6 +118,9 @@
         "automated-capture.html": [
           "mention"
         ],
+        "capability-building.html": [
+          "mention"
+        ],
         "checkpoints.html": [
           "mention"
         ],
@@ -137,6 +140,9 @@
           "mention"
         ],
         "decision-quality.html": [
+          "mention"
+        ],
+        "extension-points.html": [
           "mention"
         ],
         "faq.html": [
@@ -212,6 +218,9 @@
           "mention"
         ],
         "single-document.html": [
+          "mention"
+        ],
+        "system-map.html": [
           "mention"
         ],
         "system-personalization.html": [
@@ -334,6 +343,9 @@
         "automated-capture.html": [
           "mention"
         ],
+        "capability-building.html": [
+          "mention"
+        ],
         "commands.html": [
           "mention"
         ],
@@ -344,6 +356,9 @@
           "mention"
         ],
         "context-memory-rationale.html": [
+          "mention"
+        ],
+        "extension-points.html": [
           "mention"
         ],
         "faq.html": [
@@ -501,6 +516,9 @@
           "mention"
         ],
         "work-surface.html": [
+          "mention"
+        ],
+        "write-time-governance.html": [
           "mention"
         ]
       }
@@ -877,10 +895,27 @@
         ]
       }
     },
+    "capability-building": {
+      "class": "skill",
+      "pages": {
+        "capability-building.html": [
+          "mention"
+        ],
+        "extension-points.html": [
+          "link"
+        ],
+        "system-map.html": [
+          "link"
+        ]
+      }
+    },
     "capability-registry-parity": {
       "class": "capability",
       "pages": {
         "commands.html": [
+          "mention"
+        ],
+        "extension-points.html": [
           "mention"
         ]
       }
@@ -1052,6 +1087,9 @@
       "class": "page",
       "pages": {
         "commands.html": [
+          "link"
+        ],
+        "extension-points.html": [
           "link"
         ],
         "index.html": [
@@ -1280,6 +1318,9 @@
       "pages": {
         "automated-capture.html": [
           "mention"
+        ],
+        "orchestration.html": [
+          "mention"
         ]
       }
     },
@@ -1343,6 +1384,14 @@
         ]
       }
     },
+    "extension-points": {
+      "class": "page",
+      "pages": {
+        "capability-building.html": [
+          "link"
+        ]
+      }
+    },
     "fail-open": {
       "class": "glossary",
       "pages": {
@@ -1389,6 +1438,12 @@
           "mention"
         ],
         "configuration.html": [
+          "mention"
+        ],
+        "extension-points.html": [
+          "mention"
+        ],
+        "packaging-runtime.html": [
           "mention"
         ]
       }
@@ -1450,10 +1505,16 @@
         "README.md#what-brain-stem-ships": [
           "mention"
         ],
+        "capability-building.html": [
+          "mention"
+        ],
         "commands.html": [
           "mention"
         ],
         "configuration.html": [
+          "mention"
+        ],
+        "extension-points.html": [
           "mention"
         ],
         "glossary.html": [
@@ -1788,6 +1849,9 @@
         "across-documents.html": [
           "mention"
         ],
+        "capability-building.html": [
+          "mention"
+        ],
         "checkpoints.html": [
           "mention"
         ],
@@ -1801,6 +1865,9 @@
           "mention"
         ],
         "decision-quality.html": [
+          "mention"
+        ],
+        "extension-points.html": [
           "mention"
         ],
         "glossary.html": [
@@ -1827,6 +1894,9 @@
         "onboarding.html": [
           "mention"
         ],
+        "packaging-runtime.html": [
+          "mention"
+        ],
         "personalization-rationale.html": [
           "mention"
         ],
@@ -1846,6 +1916,9 @@
           "mention"
         ],
         "single-document.html": [
+          "mention"
+        ],
+        "system-map.html": [
           "mention"
         ],
         "value-add.html": [
@@ -2082,10 +2155,16 @@
         "across-documents.html": [
           "mention"
         ],
+        "capability-building.html": [
+          "mention"
+        ],
         "commands.html": [
           "mention"
         ],
         "context-library.html": [
+          "mention"
+        ],
+        "extension-points.html": [
           "mention"
         ],
         "faq.html": [
@@ -2137,6 +2216,9 @@
           "mention"
         ],
         "single-document.html": [
+          "mention"
+        ],
+        "system-map.html": [
           "mention"
         ],
         "troubleshooting.html": [
@@ -2453,6 +2535,14 @@
         ]
       }
     },
+    "onboarder": {
+      "class": "skill",
+      "pages": {
+        "README.md#optional-the-claude-mem-plugin": [
+          "mention"
+        ]
+      }
+    },
     "onboarding": {
       "class": "page",
       "pages": {
@@ -2522,6 +2612,9 @@
     "packaging-runtime": {
       "class": "page",
       "pages": {
+        "capability-building.html": [
+          "link"
+        ],
         "commands.html": [
           "link"
         ],
@@ -2707,6 +2800,20 @@
           "mention"
         ],
         "plans.html": [
+          "mention"
+        ]
+      }
+    },
+    "plan-runner.sh": {
+      "class": "file",
+      "pages": {
+        "glossary.html": [
+          "mention"
+        ],
+        "orchestration.html": [
+          "mention"
+        ],
+        "project-management-rationale.html": [
           "mention"
         ]
       }
@@ -2990,6 +3097,9 @@
       "class": "capability",
       "pages": {
         "across-documents.html": [
+          "mention"
+        ],
+        "capability-building.html": [
           "mention"
         ],
         "commands.html": [
@@ -3427,7 +3537,13 @@
         "README.md#optional-the-claude-mem-plugin": [
           "mention"
         ],
+        "capability-building.html": [
+          "mention"
+        ],
         "configuration.html": [
+          "mention"
+        ],
+        "extension-points.html": [
           "mention"
         ],
         "faq.html": [
@@ -3440,6 +3556,9 @@
           "mention"
         ],
         "research-rationale.html": [
+          "mention"
+        ],
+        "system-map.html": [
           "mention"
         ],
         "troubleshooting.html": [
@@ -3562,7 +3681,13 @@
     "skill-parity": {
       "class": "capability",
       "pages": {
+        "capability-building.html": [
+          "mention"
+        ],
         "commands.html": [
+          "mention"
+        ],
+        "extension-points.html": [
           "mention"
         ]
       }
@@ -3679,6 +3804,18 @@
           "mention"
         ],
         "vault-explorer.html": [
+          "mention"
+        ]
+      }
+    },
+    "system-map": {
+      "class": "capability",
+      "pages": {
+        "capability-building.html": [
+          "link",
+          "mention"
+        ],
+        "system-map.html": [
           "mention"
         ]
       }
@@ -4050,6 +4187,9 @@
         ],
         "project-management.html": [
           "mention"
+        ],
+        "value-add.html": [
+          "mention"
         ]
       }
     },
@@ -4249,6 +4389,9 @@
           "mention"
         ],
         "work-surface.html": [
+          "mention"
+        ],
+        "write-time-governance.html": [
           "mention"
         ]
       }

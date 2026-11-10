@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The System Map · Brain Stem</title>
+<link rel="stylesheet" href="assets/style.css?v=49">
+<script src="assets/mobile.js?v=2"></script>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">System personalization · what your system runs</p>
+    <h1>The System Map</h1>
+    <p class="lede">
+      A system built on Brain Stem grows hooks, librarian capabilities, skills and scheduled jobs, and nothing shows them
+      together. <code>/librarian system-map</code> reads your installed home and writes one short page for each, plus an
+      index, so &ldquo;what does my system run?&rdquo; becomes a folder you can open.
+    </p>
+    <p class="page-meta">A capability, skill or hook of your own appears on the next render. To build one, see <a href="capability-building.html">Build your own capabilities</a>.</p>
+
+    <h2>What it maps</h2>
+    <table>
+      <thead><tr><th>Member</th><th>Read from</th></tr></thead>
+      <tbody>
+        <tr><td>Hook</td><td>Each distinct event, matcher and command in the <code>hooks</code> section of <code>settings.json</code></td></tr>
+        <tr><td>Capability</td><td>Each entry of the capability registry of every skill, the shipped librarian&rsquo;s and every capability root of your own</td></tr>
+        <tr><td>Skill</td><td>Each skill folder that holds a <code>SKILL.md</code></td></tr>
+        <tr><td>Job</td><td>Each scheduled job, whether it is still a template or already rendered. A template and its rendered file count as one job</td></tr>
+      </tbody>
+    </table>
+
+    <h2>What a page holds</h2>
+    <p>
+      Each page is six lines, with no date, host or user name: a title, the trigger, what it reads or writes, its lane,
+      its script and its source. The pages sit in four folders, <code>hook/</code>, <code>capability/</code>, <code>skill/</code> and
+      <code>job/</code>, beside an index page that counts each kind.
+    </p>
+
+    <h2>The command</h2>
+    <pre>system-map.sh [--render | --check | --dry-run] [--out DIR]</pre>
+    <table>
+      <thead><tr><th>Mode</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td><code>--render</code></td><td>Writes the pages, the index and a marker file under the output root, and removes the pages of members you have since deleted</td></tr>
+        <tr><td><code>--check</code> (the default)</td><td>Writes nothing. Exits 0 with <code>system-map: ok</code> when every page is current, or exits 1 and names the first page that has gone stale</td></tr>
+        <tr><td><code>--dry-run</code></td><td>Writes nothing and prints how many pages and members there are</td></tr>
+      </tbody>
+    </table>
+    <p>
+      The output root is <code>--out</code>, else the <code>SYSTEM_MAP_OUT</code> setting, else a <code>system-map</code> folder in your
+      state directory. The command rewrites a root only when it carries its own marker file; it refuses a non-empty folder that
+      does not, and never touches it. A refusal exits 2 with one line and changes nothing.
+    </p>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">Brain Stem · documentation · The System Map.</div>
+  </main>
+</div>
+
+<script src="assets/nav.js?v=27"></script>
+<script src="assets/nav-foot.js"></script>
+<script src="assets/toc.js?v=4"></script>
+</body>
+</html>

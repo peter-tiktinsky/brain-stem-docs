@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Extension Points · Brain Stem</title>
+<link rel="stylesheet" href="assets/style.css?v=49">
+<script src="assets/mobile.js?v=2"></script>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="site-nav"></aside>
+
+  <main class="content">
+    <p class="eyebrow">System personalization · where your additions go</p>
+    <h1>Extension Points</h1>
+    <p class="lede">
+      Everything you add to Brain Stem lives in a place an upgrade leaves alone. This page names that place, shows how
+      to audit it, and explains the three mechanisms that keep it safe.
+    </p>
+    <p class="page-meta">How to build what goes here is on <a href="capability-building.html">Build your own capabilities</a>.</p>
+
+    <h2>Your capability root</h2>
+    <p>
+      A capability root is a skill folder of your own, outside the shipped list of skills, holding three things that move
+      together:
+    </p>
+    <ul>
+      <li><code>capability-registry.json</code>, with a <code>schema_version</code> and a <code>capabilities</code> map;</li>
+      <li><code>SKILL.md</code>, with one <code>## Capability: &lt;name&gt;</code> heading for each registered capability;</li>
+      <li><code>capabilities/&lt;name&gt;.sh</code>, one executable script for each capability.</li>
+    </ul>
+    <p>
+      Build it with the scaffold rather than by hand: <code>scaffold.sh skill &lt;name&gt;</code> creates the folder, and
+      <code>scaffold.sh capability &lt;name&gt; &lt;cap&gt;</code> adds a capability to it.
+    </p>
+
+    <h2>Audit it with <code>--root</code></h2>
+    <p>
+      The registry parity check audits the shipped librarian by default. Point it at your own root instead:
+    </p>
+    <pre>bash ~/.claude/skills/librarian/capabilities/capability-registry-parity.sh --root &lt;your-skill-folder&gt;</pre>
+    <ul>
+      <li>A root written by the scaffold reports no findings. Findings go to standard output, or to the file named by
+      <code>FINDINGS_OUTPUT</code>.</li>
+      <li><code>--root</code> takes an existing directory. A missing directory or no value stops with exit 2.</li>
+      <li>Under <code>--root</code> the checks that look at the shipped home skip, because the folders beside your root belong to
+      the shipped home and not to you.</li>
+      <li>Without <code>--root</code> the run is the shipped-librarian audit, and your root never appears in it.</li>
+    </ul>
+
+    <h2>Lint your frontmatter with <code>skill-parity</code></h2>
+    <pre>bash ~/.claude/skills/librarian/capabilities/skill-parity.sh --scope &lt;your-skill-folder&gt;</pre>
+    <table>
+      <thead><tr><th>Finding</th><th>What it means</th></tr></thead>
+      <tbody>
+        <tr><td><code>skill-parity-unknown-frontmatter-key</code></td><td>A top-level key Claude&nbsp;Code does not recognize. The platform ignores it without an error, so a mistyped <code>descripton:</code> does nothing and says nothing. Keep your own data under the <code>metadata</code> map, whose nested keys are not read</td></tr>
+        <tr><td><code>skill-parity-listing-length</code></td><td>The skill&rsquo;s <code>description</code> plus <code>when_to_use</code> is longer than the skill listing keeps (1,536 characters combined), so the end of it would be cut</td></tr>
+      </tbody>
+    </table>
+
+    <h2>What survives an upgrade, and why</h2>
+    <p>An upgrade replaces what Brain Stem ships and leaves what is yours. Three mechanisms hold that line.</p>
+    <table>
+      <thead><tr><th>Mechanism</th><th>Why your additions are safe</th></tr></thead>
+      <tbody>
+        <tr><td>The skill list</td><td>The installer copies skills from a named list, one folder at a time. A skill folder outside that list is never copied over. Keep yours under its own name, never under the name of a shipped skill</td></tr>
+        <tr><td>The <code>settings.json</code> merge</td><td>The installer compares every path in your <code>settings.json</code> before and after the merge and stops with an error if any would vanish, so your hooks, permissions and other keys stay</td></tr>
+        <tr><td>The hook reconciler</td><td>It appends a missing shipped hook to the right matcher and never removes or reorders a hook of yours. A shipped hook you turned off with <code>field-set.sh settings hook off</code> is left out, as <a href="configuration.html">Configuration</a> describes</td></tr>
+      </tbody>
+    </table>
+    <div class="callout note">
+      <div class="label">A shipped skill folder is not yours</div>
+      <p>A shipped skill folder belongs to the installer, and edits inside it are not protected. Put additions in your own folder.</p>
+    </div>
+
+    <div id="site-foot-nav"></div>
+    <div class="foot">Brain Stem · documentation · Extension Points.</div>
+  </main>
+</div>
+
+<script src="assets/nav.js?v=27"></script>
+<script src="assets/nav-foot.js"></script>
+<script src="assets/toc.js?v=4"></script>
+</body>
+</html>

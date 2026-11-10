@@ -121,7 +121,7 @@
       (one scalar in your user manifest), <code>settings hook off</code> and <code>on</code> (turn a hook off or back
       on), <code>settings env set</code> (an environment entry in settings), <code>plan set</code> (a plan's status,
       paused reason or disposition) and <code>capture-freeze open</code> or <code>lift</code> (a spoke's capture freeze).
-      Turning off a hook the foundation requires records its name in the <code>hooks.disabled</code> list of your user
+      Turning off a hook the foundation requires records its name in the <code>disabled</code> list under <code>hooks</code> in your user
       manifest, and the installer leaves every listed hook out of <code>settings.json</code> on each upgrade, so the
       hook stays off across upgrades until <code>hook on</code> removes it from the list. Without a user manifest, the
       hook stays off only until the next upgrade, and the command says so.
@@ -187,7 +187,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=26"></script>
+<script src="assets/nav.js?v=27"></script>
 <script src="assets/nav-foot.js"></script>
 <script src="assets/toc.js?v=4"></script>
 </body>
