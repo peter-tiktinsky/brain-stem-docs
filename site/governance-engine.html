@@ -33,8 +33,8 @@
     <table>
       <thead><tr><th>Verdict</th><th>What happens</th><th>Used for</th></tr></thead>
       <tbody>
-        <tr><td><strong>Allow</strong></td><td>The write proceeds, silently.</td><td>A well-formed write that needs no comment.</td></tr>
-        <tr><td><strong>Advise</strong></td><td>The write <em>proceeds</em>, and a reminder is injected back to the assistant.</td><td>The workhorse — most policy is taught, not blocked (a missing tag, a doc whose paired doc should update too).</td></tr>
+        <tr><td><strong>Allow</strong></td><td>The guard does not block the write and says nothing; Claude&nbsp;Code&rsquo;s own permission flow still decides, so a prompt can appear.</td><td>A well-formed write that needs no comment.</td></tr>
+        <tr><td><strong>Advise</strong></td><td>The guard does <em>not block</em> the write and injects a reminder back to the assistant; it does not approve the write, so Claude&nbsp;Code&rsquo;s own permission flow still decides and a prompt can appear.</td><td>The workhorse — most policy is taught, not blocked (a missing tag, a doc whose paired doc should update too).</td></tr>
         <tr><td><strong>Deny</strong></td><td>The write is blocked, with a reason.</td><td>Reserved for structural corruption — an unknown document type, a malformed required field, a broken plan status.</td></tr>
       </tbody>
     </table>
@@ -66,8 +66,8 @@
       <div class="fb"><b>Outside the vault →</b> allowed untouched — a code repo is not checked here; an unregistered folder under your work root is swept at session close instead. A <strong>registered Work project</strong> is the exception: remapped onto the vault view and governed at the write.</div>
     </div>
     <div class="verdicts">
-      <div class="verdict ok"><div class="vh">Allow</div><p>The write proceeds, silently — a well-formed write that needs no comment.</p></div>
-      <div class="verdict advise"><div class="vh">Advise</div><p>The write proceeds <em>and</em> a reminder is injected back. The workhorse — most policy is taught, not blocked.</p></div>
+      <div class="verdict ok"><div class="vh">Allow</div><p>The guard does not block the write and says nothing — a well-formed write that needs no comment. Your permission settings still decide it.</p></div>
+      <div class="verdict advise"><div class="vh">Advise</div><p>The guard does not block the write <em>and</em> a reminder is injected back; your permission settings still decide the write. The workhorse — most policy is taught, not blocked.</p></div>
       <div class="verdict deny"><div class="vh">Deny</div><p>The write is blocked, with a reason. Reserved for writes that would actually corrupt the structure.</p></div>
     </div>
     <p class="figcap">The doorman runs on every edit the assistant makes — but only acts inside the vault, and mostly advises rather than blocks.</p>
