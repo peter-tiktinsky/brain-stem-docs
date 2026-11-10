@@ -311,7 +311,7 @@
       with <code>field-set.sh settings hook off</code>, its name is recorded in the <code>hooks.disabled</code> list of
       your user manifest, and the installer leaves every hook on that list out of <code>settings.json</code> on each
       upgrade until you turn it back on. Your own allow, deny, ask and defaultMode entries are never
-      removed, rewritten or reordered; the seeded rules go after them.
+      removed, rewritten or reordered; the seeded rules go after them. The installer copies skills from a named list, one folder at a time: a skill folder of your own under another name is never copied over, and a folder under a shipped skill&rsquo;s name is replaced. The hook reconciler appends a missing shipped hook to its matcher and never removes or reorders a hook of yours.
     </p>
 
     <h2 id="failures">The failure modes this packaging design defends against</h2>
@@ -350,7 +350,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=27"></script>
+<script src="assets/nav.js?v=28"></script>
 <script src="assets/nav-foot.js"></script>
 <script src="assets/toc.js?v=4"></script>
 </body>

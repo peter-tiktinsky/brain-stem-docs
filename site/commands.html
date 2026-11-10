@@ -256,7 +256,7 @@
         a working session.
       </p>
       <p>
-        It is one skill with a catalog of <strong>67 named capabilities</strong> beneath it. Any one can be run
+        It is one skill with a catalog of <strong>68 named capabilities</strong> beneath it. Any one can be run
         directly — <code>/librarian inbox-settle</code> — and <code>/librarian full</code> sweeps the whole
         audit set. Much of the catalog also runs itself: a fixed chain reconciles at every session close, and
         a scheduled subset re-fires on its own cadence. The catalog, broken down by focus area:
@@ -269,7 +269,7 @@
       <table>
         <thead><tr><th>Capability</th><th>What it does</th><th>Mode</th><th>When</th></tr></thead>
         <tbody>
-          <tr><td><code>capability-registry-parity</code></td><td>Audits the librarian's own registry against its documented catalog and its scripts on disk, so the three cannot drift apart</td><td>audit</td><td>full · close</td></tr>
+          <tr><td><code>capability-registry-parity</code></td><td>Audits the librarian's own registry against its documented catalog and its scripts on disk, so the three cannot drift apart. <code>--root &lt;your-skill-folder&gt;</code> audits a capability root of your own: a skill folder under a name no shipped skill uses, holding <code>capability-registry.json</code>, a <code>SKILL.md</code> with one <code>## Capability: &lt;name&gt;</code> heading per capability, and <code>capabilities/&lt;name&gt;.sh</code>. The checks that look at the shipped home are skipped; a missing directory or no value exits 2</td><td>audit</td><td>full · close</td></tr>
           <tr><td><code>frontmatter-enforce</code></td><td>Validates the typed header of every vault file against the schemas — and with <code>--fix</code> repairs what it finds</td><td>audit + fix</td><td>full · close</td></tr>
           <tr><td><code>governance-parity-audit</code></td><td>Cross-checks the two surfaces that declare the governance rules, so a rule changed on one cannot silently diverge on the other</td><td>audit</td><td>full · close</td></tr>
           <tr><td><code>librarian-manifest-validate</code></td><td>Validates a staged librarian run manifest before anything is applied — a malformed sweep stops before it writes</td><td>audit</td><td>full · close</td></tr>
@@ -277,8 +277,9 @@
           <tr><td><code>rules-hygiene</code></td><td>Audits your rules folder for lifecycle problems — dead references, staleness, drift — and proposes the cleanup. <code>--check-load &lt;rule&gt;</code> answers from the instructions-loaded log whether a path-scoped rule loaded (exit 0 loaded, 1 not loaded, 2 refused, 3 no log). <code>--compare-retired &lt;rule&gt;</code> prints a rule the installer retires beside the shipped hook that now delivers it (exit 0 done, 2 refused, 3 the carrier is missing)</td><td>asks first</td><td>weekly</td></tr>
           <tr><td><code>rules-index</code></td><td>Regenerates the governance rules index from the rule files themselves</td><td>maintain</td><td>full · weekly</td></tr>
           <tr><td><code>sanctioned-schema-drift-detect</code></td><td>Compares the shipped schemas against their distribution source — a build guard that is inert on a normal install</td><td>audit</td><td>full · weekly</td></tr>
-          <tr><td><code>skill-parity</code></td><td>Audits the skill registry against the shipped skill bodies, so a renamed or removed skill cannot leave the registry stale. <code>skill-parity --fix</code> edits no skill file: it prints the file and the <code>name:</code> line to add in your brain-stem clone</td><td>audit</td><td>full · weekly</td></tr>
+          <tr><td><code>skill-parity</code></td><td>Audits the skill registry against the shipped skill bodies, so a renamed or removed skill cannot leave the registry stale. <code>skill-parity --fix</code> edits no skill file: it prints the file and the <code>name:</code> line to add in your brain-stem clone. Two findings cover a skill folder of your own, selected with <code>--scope &lt;your-skill-folder&gt;</code>: <code>skill-parity-unknown-frontmatter-key</code> (a top-level key Claude&nbsp;Code does not recognize, which it ignores without an error) and <code>skill-parity-listing-length</code> (<code>description</code> plus <code>when_to_use</code> over 1,536 characters)</td><td>audit</td><td>full · weekly</td></tr>
           <tr><td><code>skill-referrers</code></td><td>Lists every file that references a skill by name, so the check after a skill changes is one command. It writes nothing; zero referrers prints the header alone with exit 0, and a refusal exits 2</td><td>audit</td><td>by name</td></tr>
+          <tr><td><code>system-map</code></td><td>Reads your installed home and writes one six-line page per hook, librarian capability, skill and scheduled job, plus an index. <code>--check</code> (the default) writes nothing and exits 1 naming the first stale page; <code>--render</code> writes the pages; <code>--dry-run</code> counts them. An output folder that is not empty and lacks the marker file is refused with exit 2</td><td>maintain</td><td>by name</td></tr>
           <tr><td><code>tag-coverage-audit</code></td><td>Audits vault tag usage against the declared taxonomy — unregistered tags, unused dimensions</td><td>audit</td><td>full · weekly</td></tr>
           <tr><td><code>waiver-audit</code></td><td>Read-only audit of the governance waiver registry — the record of sanctioned exceptions</td><td>audit</td><td>full · weekly</td></tr>
         </tbody>
@@ -468,7 +469,7 @@
   </main>
 </div>
 
-<script src="assets/nav.js?v=27"></script>
+<script src="assets/nav.js?v=28"></script>
 <script src="assets/nav-foot.js"></script>
 <script src="assets/toc.js?v=4"></script>
 </body>

@@ -59,9 +59,6 @@
       ['governance-personalization.html', 'Governance Personalization'],
       ['work-folder-guidebook.html', 'The Work-Folder Guidebook'],
       ['knowledge-graph.html', 'Knowledge-Graph Extendability'],
-      ['capability-building.html', 'Build Your Own Capabilities'],
-      ['extension-points.html', 'Extension Points'],
-      ['system-map.html', 'The System Map'],
       ['personalization-rationale.html', 'Why: System Personalization'],
     ]},
     { title: 'Reference', band: 'Reference', links: [

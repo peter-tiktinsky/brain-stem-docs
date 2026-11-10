@@ -118,9 +118,6 @@
         "automated-capture.html": [
           "mention"
         ],
-        "capability-building.html": [
-          "mention"
-        ],
         "checkpoints.html": [
           "mention"
         ],
@@ -140,9 +137,6 @@
           "mention"
         ],
         "decision-quality.html": [
-          "mention"
-        ],
-        "extension-points.html": [
           "mention"
         ],
         "faq.html": [
@@ -218,9 +212,6 @@
           "mention"
         ],
         "single-document.html": [
-          "mention"
-        ],
-        "system-map.html": [
           "mention"
         ],
         "system-personalization.html": [
@@ -343,9 +334,6 @@
         "automated-capture.html": [
           "mention"
         ],
-        "capability-building.html": [
-          "mention"
-        ],
         "commands.html": [
           "mention"
         ],
@@ -356,9 +344,6 @@
           "mention"
         ],
         "context-memory-rationale.html": [
-          "mention"
-        ],
-        "extension-points.html": [
           "mention"
         ],
         "faq.html": [
@@ -895,27 +880,10 @@
         ]
       }
     },
-    "capability-building": {
-      "class": "skill",
-      "pages": {
-        "capability-building.html": [
-          "mention"
-        ],
-        "extension-points.html": [
-          "link"
-        ],
-        "system-map.html": [
-          "link"
-        ]
-      }
-    },
     "capability-registry-parity": {
       "class": "capability",
       "pages": {
         "commands.html": [
-          "mention"
-        ],
-        "extension-points.html": [
           "mention"
         ]
       }
@@ -1087,9 +1055,6 @@
       "class": "page",
       "pages": {
         "commands.html": [
-          "link"
-        ],
-        "extension-points.html": [
           "link"
         ],
         "index.html": [
@@ -1384,14 +1349,6 @@
         ]
       }
     },
-    "extension-points": {
-      "class": "page",
-      "pages": {
-        "capability-building.html": [
-          "link"
-        ]
-      }
-    },
     "fail-open": {
       "class": "glossary",
       "pages": {
@@ -1438,9 +1395,6 @@
           "mention"
         ],
         "configuration.html": [
-          "mention"
-        ],
-        "extension-points.html": [
           "mention"
         ],
         "packaging-runtime.html": [
@@ -1505,16 +1459,10 @@
         "README.md#what-brain-stem-ships": [
           "mention"
         ],
-        "capability-building.html": [
-          "mention"
-        ],
         "commands.html": [
           "mention"
         ],
         "configuration.html": [
-          "mention"
-        ],
-        "extension-points.html": [
           "mention"
         ],
         "glossary.html": [
@@ -1849,9 +1797,6 @@
         "across-documents.html": [
           "mention"
         ],
-        "capability-building.html": [
-          "mention"
-        ],
         "checkpoints.html": [
           "mention"
         ],
@@ -1865,9 +1810,6 @@
           "mention"
         ],
         "decision-quality.html": [
-          "mention"
-        ],
-        "extension-points.html": [
           "mention"
         ],
         "glossary.html": [
@@ -1916,9 +1858,6 @@
           "mention"
         ],
         "single-document.html": [
-          "mention"
-        ],
-        "system-map.html": [
           "mention"
         ],
         "value-add.html": [
@@ -2155,16 +2094,10 @@
         "across-documents.html": [
           "mention"
         ],
-        "capability-building.html": [
-          "mention"
-        ],
         "commands.html": [
           "mention"
         ],
         "context-library.html": [
-          "mention"
-        ],
-        "extension-points.html": [
           "mention"
         ],
         "faq.html": [
@@ -2216,9 +2149,6 @@
           "mention"
         ],
         "single-document.html": [
-          "mention"
-        ],
-        "system-map.html": [
           "mention"
         ],
         "troubleshooting.html": [
@@ -2612,9 +2542,6 @@
     "packaging-runtime": {
       "class": "page",
       "pages": {
-        "capability-building.html": [
-          "link"
-        ],
         "commands.html": [
           "link"
         ],
@@ -2622,6 +2549,9 @@
           "link"
         ],
         "faq.html": [
+          "link"
+        ],
+        "governance-personalization.html": [
           "link"
         ],
         "index.html": [
@@ -3099,9 +3029,6 @@
         "across-documents.html": [
           "mention"
         ],
-        "capability-building.html": [
-          "mention"
-        ],
         "commands.html": [
           "mention"
         ],
@@ -3537,13 +3464,7 @@
         "README.md#optional-the-claude-mem-plugin": [
           "mention"
         ],
-        "capability-building.html": [
-          "mention"
-        ],
         "configuration.html": [
-          "mention"
-        ],
-        "extension-points.html": [
           "mention"
         ],
         "faq.html": [
@@ -3556,9 +3477,6 @@
           "mention"
         ],
         "research-rationale.html": [
-          "mention"
-        ],
-        "system-map.html": [
           "mention"
         ],
         "troubleshooting.html": [
@@ -3681,13 +3599,7 @@
     "skill-parity": {
       "class": "capability",
       "pages": {
-        "capability-building.html": [
-          "mention"
-        ],
         "commands.html": [
-          "mention"
-        ],
-        "extension-points.html": [
           "mention"
         ]
       }
@@ -3811,11 +3723,10 @@
     "system-map": {
       "class": "capability",
       "pages": {
-        "capability-building.html": [
-          "link",
+        "commands.html": [
           "mention"
         ],
-        "system-map.html": [
+        "configuration.html": [
           "mention"
         ]
       }
