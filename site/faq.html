@@ -71,7 +71,7 @@
     <div class="faq">
       <h3>I edited a shipped file, then a new version came out. Will my edit be lost?</h3>
       <p>No. On an upgrade, each file you edited is updated to the new version with <strong>your</strong> copy
-      preserved alongside it as <code>&lt;file&gt;.foundation-local</code>. Your change is never silently overwritten.</p>
+      preserved alongside it as <code>&lt;file&gt;.foundation-local</code>. Your change is never silently overwritten, with one exception: the files under <code>migrations/</code> can be replaced on an upgrade without a sidecar.</p>
       <p class="faq-link"><a href="installation.html">→ Version migrations</a></p>
     </div>
 

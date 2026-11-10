@@ -213,7 +213,8 @@ git reset --hard origin/main</pre>
       The apply delivers <strong>every</strong> changed managed file to the new version — including whole shipped
       directories (the skills, the orchestrator, the installer support files, the vault seed). Files you edited
       yourself are never lost: each is updated with your copy saved alongside as
-      <code>&lt;file&gt;.foundation-local</code>, so your changes are preserved and clearly flagged. And once the
+      <code>&lt;file&gt;.foundation-local</code>, so your changes are preserved and clearly flagged. The one exception is the
+      files under <code>migrations/</code>, which an upgrade can replace without a sidecar. And once the
       install is live, editing one of its managed files is stopped by the write guard, and a census you run — by
       hand or in a full librarian pass — reports the divergence, whatever caused it — see <a href="packaging-runtime.html#managed">Managed surfaces</a>.
     </p>
