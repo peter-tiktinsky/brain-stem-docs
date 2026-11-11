@@ -56,7 +56,7 @@
         <tr><td><code>--force-install</code></td><td>Acknowledges you are installing over content Brain Stem did not put there.</td><td>Installing into a home that already has a Claude setup.</td></tr>
         <tr><td><code>--i-understand-overwrite-risk</code></td><td>The typed confirmation that pairs with <code>--force-install</code>; without it, an apply that would overwrite foreign content stops instead.</td><td>Same moment as <code>--force-install</code>.</td></tr>
         <tr><td><code>--backup-dir &lt;path&gt;</code></td><td>Names the folder where anything about to be overwritten is copied first, so nothing is lost.</td><td>Whenever you are overwriting anything you care about; upgrades derive one for you.</td></tr>
-        <tr><td><code>--retrofit-existing</code></td><td>Acknowledges that a plan tree already exists under <code>~/.claude-plans</code>. The installer never touches your plans; the flag only confirms you have seen them.</td><td>First install onto a machine that already has plans.</td></tr>
+        <tr><td><code>--retrofit-existing</code></td><td>Acknowledges that a plan tree already exists under <code>~/.claude-plans</code>. On a first install the flag only confirms you have seen them. An upgrade does change plan files, in a narrow way, and never deletes one: see <a href="https://github.com/peter-tiktinsky/brain-stem/blob/main/SECURITY.md#scope-of-trust">Security: Scope of trust</a>.</td><td>First install onto a machine that already has plans.</td></tr>
         <tr><td><code>--migrate-major</code></td><td>The explicit acknowledgement required to cross a major version boundary.</td><td>Rare — only when a release notes say a major-version step needs it.</td></tr>
         <tr><td><code>--frontmatter-fix</code></td><td>Opt-in backfill that repairs missing typed frontmatter on existing notes during an upgrade apply. Default off; nothing auto-forces it.</td><td>Bringing an older vault up to the typed-fields cohort.</td></tr>
         <tr><td><code>--no-preserve-config</code></td><td>Opts the install out of preserving an existing claude-mem plugin's configuration entries in settings. Refused up front (exit code 11) unless paired with <code>--force-install</code>.</td><td>Rare — deliberately replacing a claude-mem setup.</td></tr>
@@ -165,7 +165,7 @@
       <thead><tr><th>What</th><th>Where</th><th>Changes with</th></tr></thead>
       <tbody>
         <tr><td><strong>The program</strong> — scripts, skills, settings, rules</td><td><code>~/.claude</code> (or your <code>CLAUDE_HOME</code>)</td><td>Install and upgrade</td></tr>
-        <tr><td><strong>Your plans</strong> — project planning trees</td><td><code>~/.claude-plans/</code></td><td>Never touched by install, upgrade, or uninstall</td></tr>
+        <tr><td><strong>Your plans</strong> — project planning trees</td><td><code>~/.claude-plans/</code></td><td>Never deleted by install, upgrade, or uninstall. An upgrade rewrites named status fields and keeps the original beside each rewritten file (<a href="https://github.com/peter-tiktinsky/brain-stem/blob/main/SECURITY.md#scope-of-trust">Scope of trust</a>)</td></tr>
         <tr><td><strong>Runtime state</strong> — working data the scripts produce</td><td>Outside the program folder: durable <code>~/.local/share/brain-stem/</code>, ephemeral <code>~/.local/state/brain-stem/</code></td><td>Lives on across reinstalls</td></tr>
       </tbody>
     </table>

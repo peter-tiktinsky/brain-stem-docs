@@ -99,8 +99,10 @@ bash install.sh --apply --force-install --i-understand-overwrite-risk --backup-d
       <code>--i-understand-overwrite-risk</code> confirms you accept the overwrite; <code>--backup-dir&nbsp;&lt;path&gt;</code>
       names a folder where the installer first copies anything it is about to overwrite, so nothing is lost. If
       your plan directory (<code>~/.claude-plans</code>) already contains plans, the plan will also ask for
-      <code>--retrofit-existing</code> — a one-word acknowledgement that you know those plans are there. <strong>The
-      installer never touches your plans;</strong> the flag just confirms you have seen them. These overrides
+      <code>--retrofit-existing</code> — a one-word acknowledgement that you know those plans are there. <strong>On a
+      first install the flag just confirms you have seen them;</strong> an upgrade does change plan files in a narrow
+      way, and nothing ever deletes a plan (see
+      <a href="https://github.com/peter-tiktinsky/brain-stem/blob/main/SECURITY.md#scope-of-trust">Security: Scope of trust</a>). These overrides
       apply only to a real <code>--apply</code> install — the dry run never needs them, it just reports them.
     </p>
 
@@ -192,8 +194,9 @@ git reset --hard origin/main</pre>
       did not ship is your own runtime exhaust; the upgrade writes only the paths its manifest enumerates and
       leaves everything else untouched, so it warns instead of demanding the overwrite acknowledgement.</li>
       <li><strong>The plan-directory guard waives itself.</strong> A plan tree already under
-      <code>~/.claude-plans</code> was minted by the product; the upgrade never modifies it, so
-      the lane proceeds without the <code>--retrofit-existing</code> acknowledgement.</li>
+      <code>~/.claude-plans</code> was minted by the product, so the lane proceeds without the <code>--retrofit-existing</code>
+      acknowledgement. The upgrade's migrations still rewrite named status fields in it and keep the original beside each
+      rewritten file (<a href="https://github.com/peter-tiktinsky/brain-stem/blob/main/SECURITY.md#scope-of-trust">Scope of trust</a>).</li>
       <li><strong>The backup directory is derived.</strong> Because an upgrade replaces your merged
       <code>settings.json</code>, a backup is still taken first — into a timestamped folder under
       <code>~/.claude-backups/</code> that the installer names for you (pass <code>--backup-dir</code> only to
